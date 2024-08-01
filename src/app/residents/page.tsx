@@ -13,8 +13,8 @@ import ExportModal from "@/components/modals/exportModal";
 import AddModal from "@/components/modals/AddModal";
 
 const Residents = () => {
-  const [exportModal, setExportModal]: any = useState(false)
-  const [addModal, setAddModal]: any = useState(true)
+  const [exportModal, setExportModal]:any = useState(false)
+  const [addModal, setAddModal]:any = useState(false)
   const toggleExportModal = () => {
     if (exportModal == true) {
       setExportModal(false)

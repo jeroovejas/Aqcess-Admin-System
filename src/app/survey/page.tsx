@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import ResidentTable from "@/components/Tables/residentsTable";
+import SurveyTable from "@/components/Tables/surveyTable";
 import TableThree from "@/components/Tables/TableThree";
 import TableTwo from "@/components/Tables/TableTwo";
 import { IoFilterSharp } from "react-icons/io5";
@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
 import ExportModal from "@/components/modals/exportModal";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Next.js Tables | TailAdmin - Next.js Dashboard Template",
@@ -20,10 +21,22 @@ const Surveys = () => {
   return (
     <>
       <DefaultLayout>
-        <Breadcrumb pageName="Resident manager" />
+        {/* <Breadcrumb pageName="Sur manager" /> */}
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-title-md2 font-bold text-black dark:text-white">
+            Survey Manager
+          </h2>
+          <nav>
+            <div className="">
+              <button type="button" className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-6 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
+                <IoIosAdd className="mr-2 text-white text-xl" />Create new
+              </button>
+            </div>
+          </nav>
+        </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
 
-          <CardDataStats title="Total residents" total="47" rate="">
+          <CardDataStats title="Total surveys" total="47" rate="">
             <svg
               className="fill-primary dark:fill-white"
               width="22"
@@ -42,7 +55,7 @@ const Surveys = () => {
               />
             </svg>
           </CardDataStats>
-          <CardDataStats title="Active residents" total="40" rate="">
+          <CardDataStats title="Open surveys" total="2" rate="">
             <svg
               className="fill-primary dark:fill-white"
               width="20"
@@ -65,7 +78,7 @@ const Surveys = () => {
               />
             </svg>
           </CardDataStats>
-          <CardDataStats title="Residents with overdue" total="3" rate="">
+          <CardDataStats title="Average response rate" total="78%" rate="">
             <svg
               className="fill-primary dark:fill-white"
               width="22"
@@ -84,7 +97,6 @@ const Surveys = () => {
               />
             </svg>
           </CardDataStats>
-
         </div>
         <div className="mb-4 flex justify-between">
           <div className="flex">
@@ -94,7 +106,7 @@ const Surveys = () => {
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                 </svg>
               </div>
-              <input type="search" id="default-search" className="block w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg  dark:placeholder-gray-400 dark:text-white" placeholder="Search by resident name or ID" required />
+              <input type="search" id="default-search" className="block w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg  dark:placeholder-gray-400 dark:text-white" placeholder="Search for survey" required />
             </div>
             <div className="flex items-center">
               <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-3 ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center">
@@ -102,24 +114,13 @@ const Surveys = () => {
               </button>
             </div>
           </div>
-          <div className="flex">
-            <div className="">
-              <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-3 ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                <TfiExport className="mr-2 text-base" />Export list
-              </button>
-            </div>
-            <div className="">
-              <button type="button" className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
-                <IoIosAdd className="mr-2 text-white text-2xl" />Add resident
-              </button>
-            </div>
-          </div>
         </div>
         <div className="flex flex-col gap-10">
-          <ResidentTable />
+          <SurveyTable />
           {/* <TableTwo />
           <TableThree /> */}
         </div>
+
       </DefaultLayout>
     </>
   );

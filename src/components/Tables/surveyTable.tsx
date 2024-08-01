@@ -1,111 +1,113 @@
+
 import Image from "next/image";
 import { GoDotFill } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowDown } from "react-icons/fa6";
+import { FaChevronRight } from "react-icons/fa";
 
 
-const residentData: any[] = [
+
+
+const SurveyData: any[] = [
   {
-    logo: "/images/brand/brand-01.svg",
-    name: "John Smith",
-    ID: 1569,
-    Email: "john.smith@example.com",
-    Address: "123 Maple street, 9",
-    Status: "Active",
+    name: "Cleanliness satisfaction",
+    Opened: "14.06.2024 17:48",
+    Status: "Open",
+    Deadline: "21.06.2024 17:48",
+    Response: "5",
   },
   {
-    logo: "/images/brand/brand-02.svg",
-    name: "Michael Brown",
-    ID: 1567,
-    Email: "michael.brown@example.com",
-    Address: "123 Maple Street, 15",
-    Status: "Active",
+    name: "Responsiveness of the building",
+    Opened: "14.06.2024 17:48",
+    Status: "Open",
+    Deadline: "21.06.2024 17:48",
+    Response: "37",
   },
   {
-    logo: "/images/brand/brand-03.svg",
-    name: "Emma Johnson",
-    ID: 3479,
-    Email: "emma.johnson@example.com",
-    Address: "123 Maple Street, 11",
-    Status: "Active",
+    name: "Security Feeling",
+    Opened: "14.06.2024 17:48",
+    Status: "Closed",
+    Deadline: "21.06.2024 17:48",
+    Response: "40",
   },
   {
-    logo: "/images/brand/brand-04.svg",
-    name: "William Taylor",
-    ID: 4986,
-    Email: "william.taylor@exmple.com",
-    Address: "123 Maple Street, 7",
-    Status: "Active",
+    name: "Landscaping Statisfaction",
+    Opened: "14.06.2024 17:48",
+    Status: "Closed",
+    Deadline: "21.06.2024 17:48",
+    Response: "47",
   },
   {
-    logo: "/images/brand/brand-05.svg",
-    name: "Sophia Davis",
-    ID: 1153,
-    Email: "sophia.davis@example.com",
-    Address: "123 Maple Street, 20",
-    Status: "Deactivated",
+    name: "Notification Preference",
+    Opened: "14.06.2024 17:48",
+    Status: "Closed",
+    Deadline: "21.06.2024 17:48",
+    Response: "41",
   },
 ];
 
-const ResidentTable = () => {
+const SurveyTable = () => {
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
-      <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-        Your residents
+      <h4 className="mb-6 pl-6 text-xl font-semibold   text-black dark:text-white">
+        Your Surveys
       </h4>
       <div className="relative overflow-x-auto text-black">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                Resident Name
+                Survey name
               </th>
               <th scope="col" className="px-6 py-3">
-                ID
+                Survey opened
               </th>
-              <th scope="col" className="px-6 py-3">
-                Email
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Address
-              </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 flex items-center space-x-2">
                 Status
+                <FaArrowDown className="ml-2 mt-1" />
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Deadline
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Responses
               </th>
               <th>
-                
+              </th>
+              <th>
               </th>
             </tr>
           </thead>
           <tbody>
-            {residentData.map((resident, key) => (
+            {SurveyData.map((survey, key) => (
               <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" className="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  <div className="flex-shrink-0">
-                    <Image src={resident.logo} alt="Brand" width={35} height={35} />
-                  </div>
-                  <p className="hidden text-black font-bold dark:text-white sm:block mt-2 ml-2">
-                    {resident.name}
+                  <p className="hidden text-black font-bold dark:text-white sm:block mt-2">
+                    {survey.name}
                   </p>
                 </th>
                 <td className="px-6 py-4">
-                  {resident.ID}
+                  {survey.Opened}
                 </td>
-                <td className="px-6 py-4 font-bold">
-                  {resident.Email}
+                <td className={`px-6 py-4 flex items-center  ${survey.Status == 'Open' ? 'text-meta-3' : 'text-meta-1'}`}>
+                  <div className="flex items-center">
+                    {survey.Status}
+                  </div>
                 </td>
                 <td className="px-6 py-4">
-                  {resident.Address}
+                  {survey.Deadline}
                 </td>
-                <td className={`px-6 py-4 flex items-center  ${resident.Status == 'Active' ? 'text-meta-3' : 'text-meta-1'}`}>
-                  <div className="flex items-center">
-                    <GoDotFill className="mt-1 mr-2" />
-                    {resident.Status}
-                  </div>
+                <td className="px-6 py-4">
+                  {survey.Response}
                 </td>
                 <td>
                   <BsThreeDotsVertical className="text-black" />
+                </td>
+                <td>
+                  <FaChevronRight
+                    className="text-black mx-4" />
                 </td>
               </tr>
             )
@@ -150,4 +152,4 @@ const ResidentTable = () => {
   );
 };
 
-export default ResidentTable;
+export default SurveyTable;

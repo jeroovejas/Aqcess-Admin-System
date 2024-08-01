@@ -12,8 +12,8 @@ const AddModal: React.FC<ComponentProps> = ({ addModal, toggleAddModal }) => {
         <>
             {addModal ? (
                 <>
-                    <div className="flex justify-center  items-center overflow-x-hidden overflow-y-auto  inset-0 z-50 outline-none focus:outline-none">
-                        <div className="absolute top-0 right-0 w-2/5  max-w-3xl min-h-[100vh] ">
+                    {/* <div className="flex justify-center  items-center overflow-x-hidden overflow-y-auto  inset-0 z-50 outline-none focus:outline-none"> */}
+                        <div className="absolute top-0 right-0 w-full md:w-2/5 h-[100vh] my-0 ">
                             <div className="border-0 shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
                                 <div className="flex justify-between items-center mt-8">
 
@@ -41,13 +41,13 @@ const AddModal: React.FC<ComponentProps> = ({ addModal, toggleAddModal }) => {
                                             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                                         </div>
                                     </div>
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 mt-4">
 
                                         <div className="w-1/2 ">
                                             <label className="block uppercase tracking-wide   text-[14px] font-bold mb-2" htmlFor="grid-first-name">
                                                 First Name
                                             </label>
-                                            <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane" />
+                                            <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  type="text" placeholder="First Name" />
 
                                         </div>
 
@@ -56,33 +56,62 @@ const AddModal: React.FC<ComponentProps> = ({ addModal, toggleAddModal }) => {
                                             <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-first-name">
                                                 First Name
                                             </label>
-                                            <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane" />
+                                            <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Last Name" />
 
                                         </div>
+
+                                    </div>
+                                    <div className="w-full  ">
+                                        <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-first-name">
+                                            Adress
+                                        </label>
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  type="text" placeholder="Address" />
+
+                                    </div>
+                                    <div className="w-full   ">
+                                        <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-first-name">
+                                            Email
+                                        </label>
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  type="email" placeholder="Email" />
+
+                                    </div>
+                                    <div className="w-full   ">
+                                        <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-first-name">
+                                            Password
+                                        </label>
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  type="password" placeholder="Password" />
+
+                                    </div>
+                                    <div className="w-full   ">
+                                        <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-first-name">
+                                            Internal Notes
+                                        </label>
+                                        <textarea className=" block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  placeholder="Add notes about residents" rows={5} />
 
                                     </div>
                                 </div>
 
 
                                 <div className="flex gap-3 items-center">
+                                <button
+                                        className="text-white  rounded-xl bg-slate-900 font-bold uppercase text-sm px-6 py-3  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                        type="button"
+                                        onClick={() => toggleAddModal()}
+                                    >
+                                        Add Resident
+                                    </button>
                                     <button
-                                        className="text-red-500 border rounded-xl border-[#DDDDDD] w-1/2 background-transparent font-bold uppercase px-6 py-3 text-sm outline-none focus:outline-none mr-1 mb-1"
+                                        className="text-red-500 border rounded-xl border-[#DDDDDD]  background-transparent font-bold uppercase px-6 py-3 text-sm outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
                                         onClick={() => toggleAddModal()}
                                     >
                                         Cancel
                                     </button>
-                                    <button
-                                        className="text-white w-1/2 rounded-xl bg-slate-900 font-bold uppercase text-sm px-6 py-3  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                        type="button"
-                                        onClick={() => toggleAddModal()}
-                                    >
-                                        Export
-                                    </button>
+                                  
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {/* </div> */}
                 </>
             ) : null}
         </>
