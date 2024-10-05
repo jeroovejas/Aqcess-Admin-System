@@ -1,147 +1,212 @@
-import Image from "next/image";
+"use client"
+import { useState, useEffect } from "react";
 import { GoDotFill } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
+import { toggleEditModal, setResidentData, toggleViewModal, toggleStatusModal, setResidentDetails } from "@/store/Slices/ResidentSlice"
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { getAllResidents } from "@/lib/api/resident";
+import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import Loader from "../common/Loader";
+
+const ResidentTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
+  const limit = 10;
+  const PAGE_RANGE = 5;
+  const dispatch = useAppDispatch()
+  const [currentPage, setCurrentPage] = useState(1);
+  const token = useAppSelector((state) => state.auth.token)
+  const isUpdated = useAppSelector((state) => state.resident.isUpdated)
+  const [totalPages, setTotalPages] = useState(1);
+  const [residents, setResidents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const handleEditResident = (resident: any) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // For a smooth scrolling effect
+    });
+    dispatch(setResidentData(resident))
+    dispatch(toggleEditModal())
+  }
+  const handleViewResident = (resident: any) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // For a smooth scrolling effect
+    });
+    dispatch(setResidentData(resident))
+    dispatch(toggleViewModal())
+  }
+  const handleClick = (resident: any) => {
+    dispatch(setResidentData(resident))
+    dispatch(toggleStatusModal())
+  }
+
+  console.log("Search Term", searchTerm)
 
 
-const residentData: any[] = [
-  {
-    logo: "/images/brand/brand-01.svg",
-    name: "John Smith",
-    ID: 1569,
-    Email: "john.smith@example.com",
-    Address: "123 Maple street, 9",
-    Status: "Active",
-  },
-  {
-    logo: "/images/brand/brand-02.svg",
-    name: "Michael Brown",
-    ID: 1567,
-    Email: "michael.brown@example.com",
-    Address: "123 Maple Street, 15",
-    Status: "Active",
-  },
-  {
-    logo: "/images/brand/brand-03.svg",
-    name: "Emma Johnson",
-    ID: 3479,
-    Email: "emma.johnson@example.com",
-    Address: "123 Maple Street, 11",
-    Status: "Active",
-  },
-  {
-    logo: "/images/brand/brand-04.svg",
-    name: "William Taylor",
-    ID: 4986,
-    Email: "william.taylor@exmple.com",
-    Address: "123 Maple Street, 7",
-    Status: "Active",
-  },
-  {
-    logo: "/images/brand/brand-05.svg",
-    name: "Sophia Davis",
-    ID: 1153,
-    Email: "sophia.davis@example.com",
-    Address: "123 Maple Street, 20",
-    Status: "Deactivated",
-  },
-];
+  const getPageNumbers = () => {
+    const pages = [];
+    const startPage = Math.max(1, currentPage - PAGE_RANGE);
+    const endPage = Math.min(totalPages, currentPage + PAGE_RANGE);
 
-const ResidentTable = () => {
+    if (startPage > 1) {
+      pages.push(1);
+      if (startPage > 2) pages.push("...");
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) pages.push("...");
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  useEffect(() => {
+    setLoading(true);
+    fetchResidents().finally(() => {
+      setLoading(false);
+    });
+  }, [currentPage, isUpdated, searchTerm, filterTerm])
+
+
+  const fetchResidents = async () => {
+    try {
+      let params = { page: currentPage, token: token, limit: limit, searchTerm: searchTerm, filterTerm: filterTerm }
+      const response = await getAllResidents(params);
+
+      // Check the success property to determine if the request was successful
+      if (response.success) {
+        console.log(response.data.data.allResidents)
+        setResidents(response.data.data.allResidents);
+        setTotalPages(response.data.data.pagination.totalPages)
+        dispatch(setResidentDetails({
+          activeResidents: response.data.data.activeResidents,
+          totalResidents: response.data.data.totalResidents,
+          overdueResidents: response.data.data.overdueResidents
+        }))
+      } else {
+        showErrorToast(response.data.message)
+      }
+    } catch (err: any) {
+      console.error('Unexpected error during Residents Fetch:', err.message);
+    }
+  }
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
         Your residents
       </h4>
-      <div className="relative overflow-x-auto text-black">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Resident Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                ID
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Email
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Address
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th>
-                
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {residentData.map((resident, key) => (
-              <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" className="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  <div className="flex-shrink-0">
-                    <Image src={resident.logo} alt="Brand" width={35} height={35} />
-                  </div>
-                  <p className="hidden text-black font-bold dark:text-white sm:block mt-2 ml-2">
-                    {resident.name}
-                  </p>
-                </th>
-                <td className="px-6 py-4">
-                  {resident.ID}
-                </td>
-                <td className="px-6 py-4 font-bold">
-                  {resident.Email}
-                </td>
-                <td className="px-6 py-4">
-                  {resident.Address}
-                </td>
-                <td className={`px-6 py-4 flex items-center  ${resident.Status == 'Active' ? 'text-meta-3' : 'text-meta-1'}`}>
-                  <div className="flex items-center">
-                    <GoDotFill className="mt-1 mr-2" />
-                    {resident.Status}
-                  </div>
-                </td>
-                <td>
-                  <BsThreeDotsVertical className="text-black" />
-                </td>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="relative overflow-x-auto  text-black">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-3">Resident Name</th>
+                <th scope="col" className="px-6 py-3">ID</th>
+                <th scope="col" className="px-6 py-3">Email</th>
+                <th scope="col" className="px-6 py-3">Address</th>
+                <th scope="col" className="px-6 py-3">Status</th>
+                <th></th>
               </tr>
-            )
-            )}
+            </thead>
+            <tbody>
+              {residents.length === 0 ? (
+                <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
+                  <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
+                    No Data Found
+                  </td>
+                </tr>
+              ) : (
+                residents.map((resident, key) => (
+                  <tr key={key} className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
+                    <th className="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                      {resident.profileImage !== null ?
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                          <img src={resident.profileImage} alt="Profile Image" className="w-full h-full object-cover" />
+                        </div> : <div className="flex-shrink-0">
+                          <img src="/images/user/dummy.png" alt="Profile Image" width={35} height={35} />
+                        </div>}
+                      <p className="text-black font-bold dark:text-white mt-2 ml-2">
+                        {resident.firstName} {resident.lastName}
+                      </p>
+                    </th>
+                    <td className="px-6 py-4 whitespace-nowrap">{resident.resident.residentCode}</td>
+                    <td className="px-6 py-4 font-bold whitespace-nowrap">{resident.email}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{resident.resident.address}</td>
+                    <td className={`px-6 py-4  ${resident.status === 'active' ? 'text-meta-3' : 'text-meta-1'} whitespace-nowrap`}>
+                      <div className="flex items-center">
+                        <GoDotFill className="mt-1 mr-2" />
+                        {resident.status}
+                      </div>
+                    </td>
+                    <td className="relative group whitespace-nowrap overflow-visible">
+                      <BsThreeDotsVertical className="text-black" />
+                      <ul className="absolute hover:z-20 top-5 w-[150px] right-2 my-4 text-[14px] bg-white hidden group-hover:block text-black border border-gray">
+                        <li onClick={() => handleViewResident(resident)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">View</li>
+                        <li onClick={() => handleEditResident(resident)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">Edit</li>
+                        <li onClick={() => handleClick(resident)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                          {resident.status === 'active' ? 'Deactivate' : 'Activate'}
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
 
-          </tbody>
-        </table>
-      </div>
-      <div className="flex justify-center mt-3 mb-5">
+        </div>)}
+      <div className="mb-4 mt-5 flex justify-center">
         <nav aria-label="Page navigation example">
           <ul className="inline-flex -space-x-px text-lg">
             <li>
-              <a href="#" className="flex items-center justify-center text-black font-bold px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 ms-0 flex h-8 items-center justify-center rounded-s-lg border border-e-0 bg-white px-3 font-bold leading-tight text-black dark:hover:text-white"
+              >
                 <FaArrowLeft className="mr-1" />
-                Previous</a>
+                Previous
+              </button>
             </li>
+            {getPageNumbers().map((page, index) => (
+              <li key={index}>
+                {page === "..." ? (
+                  <span className="text-gray-500 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 flex h-8 items-center justify-center border bg-white px-3 leading-tight text-black dark:hover:text-white">
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => handlePageChange(page as number)}
+                    className={`text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 flex h-8 items-center justify-center border bg-white px-3 leading-tight text-black dark:hover:text-white ${page === currentPage ? "dark:bg-gray-700 border-blue-500 bg-blue-50 text-blue-700 dark:text-white" : ""}`}
+                  >
+                    {page}
+                  </button>
+                )}
+              </li>
+            ))}
             <li>
-              <a href="#" className="flex items-center justify-center text-black px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-            </li>
-            <li>
-              <a href="#" className="flex items-center justify-center text-black  px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-            </li>
-            <li>
-              <a href="#" aria-current="page" className="flex items-center text-black  justify-center px-3 h-8 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-            </li>
-            <li>
-              <a href="#" className="flex items-center justify-center text-black  px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
-            </li>
-            <li>
-              <a href="#" className="flex items-center justify-center text-black  px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
-            </li>
-            <li>
-              <a href="#" className="flex items-center justify-center text-black font-bold px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 flex h-8 items-center justify-center rounded-e-lg border bg-white px-3 font-bold leading-tight text-black dark:hover:text-white"
+              >
                 Next
                 <FaArrowRight className="ml-1" />
-              </a>
+              </button>
             </li>
           </ul>
         </nav>

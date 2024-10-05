@@ -1,16 +1,58 @@
-import React from "react";
+"use client"
+import React, { useState, ChangeEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FaCheck } from "react-icons/fa6";
-import { Metadata } from "next";
+import { resetPassword } from "@/lib/api/auth";
+import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { useRouter } from 'next/navigation';
+import { TfiEmail } from "react-icons/tfi";
+import { IoMdEye } from "react-icons/io";
+import { IoMdEyeOff } from "react-icons/io";
 
-export const metadata: Metadata = {
-  title: "Closed Gate Communities | Reset Password",
-  description: "Closed Gate Communities Reset Password Page",
-  // other metadata
-};
+interface newPasswordFormState {
 
-const SignUp: React.FC = () => {
+  email: string;
+  new_password: string;
+  confirm_password: string;
+
+}
+
+
+
+const ResetPassword: React.FC = () => {
+  const router = useRouter();
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [formState, setFormState] = useState<newPasswordFormState>({
+    email: '',
+    new_password: '',
+    confirm_password: '',
+
+  });
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormState(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent default form submission
+    try {
+      const response = await resetPassword(formState);
+      if (response.success) {
+        router.push("/auth/signin")
+        setTimeout(() => {
+          showSuccessToast(response.data.message);
+        }, 2000);
+      } else {
+        showErrorToast(response.data.message)
+      }
+
+    } catch (err: any) {
+      console.error('Unexpected error during Password reset:', err.message);
+    }
+  };
   return (
 
     <div className="rounded-sm h-[100vh] bg-[url('/images/Authentication/background.jpg')] bg-center bg-no-repeat ">
@@ -33,43 +75,76 @@ const SignUp: React.FC = () => {
 
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <h2 className="mt-10 mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Restore password
+                Set up new password
               </h2>
               <div className="mt-4 mb-6">
-                <p>Enter your email address below. and we'll send you a link to reset your password.</p>
+                <p>Welcome back! Let secure your account by setting up a new password.</p>
               </div>
-              <div className="mb-6">
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
                   <div className="relative">
                     <input
+                      name="email"
+                      value={formState.email}
+                      onChange={handleInputChange}
                       type="email"
                       placeholder=" Your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
                     />
 
                     <span className="absolute right-4 top-3">
-                      <svg
-                        className="fill-current"
-                        width="22"
-                        height="22"
-                        viewBox="0 0 22 22"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g opacity="0.5">
-                          <path
-                            d="M19.2516 3.30005H2.75156C1.58281 3.30005 0.585938 4.26255 0.585938 5.46567V16.6032C0.585938 17.7719 1.54844 18.7688 2.75156 18.7688H19.2516C20.4203 18.7688 21.4172 17.8063 21.4172 16.6032V5.4313C21.4172 4.26255 20.4203 3.30005 19.2516 3.30005ZM19.2516 4.84692C19.2859 4.84692 19.3203 4.84692 19.3547 4.84692L11.0016 10.2094L2.64844 4.84692C2.68281 4.84692 2.71719 4.84692 2.75156 4.84692H19.2516ZM19.2516 17.1532H2.75156C2.40781 17.1532 2.13281 16.8782 2.13281 16.5344V6.35942L10.1766 11.5157C10.4172 11.6875 10.6922 11.7563 10.9672 11.7563C11.2422 11.7563 11.5172 11.6875 11.7578 11.5157L19.8016 6.35942V16.5688C19.8703 16.9125 19.5953 17.1532 19.2516 17.1532Z"
-                            fill=""
-                          />
-                        </g>
-                      </svg>
+                      <TfiEmail size={24} className="text-[#C4CBD4]" />
                     </span>
                   </div>
                 </div>
-              <form>
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      type={show1 === false ? 'password' : 'text'}
+                      name="new_password"
+                      value={formState.new_password}
+                      onChange={handleInputChange}
+                      placeholder="New Password"
+                      className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
+                    />
+
+                    <span className="absolute right-4 top-3 cursor-pointer">
+                      {show1 === true
+                        ? <IoMdEyeOff size={24} className="text-[#C4CBD4]" onClick={() => { setShow1(!show1) }} /> :
+                        <IoMdEye size={24} className="text-[#C4CBD4]" onClick={() => { setShow1(!show1) }} />}
+                    </span>
+                  </div>
+                </div>
+
+                {/* <div className="mb-4">
+                <p>Password must be at least 8 characters long</p>
+              </div> */}
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      type={show2 === false ? 'password' : 'text'}
+                      name="confirm_password"
+                      value={formState.confirm_password}
+                      onChange={handleInputChange}
+                      placeholder="Confirm new Password"
+                      className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
+                    />
+
+                    <span className="absolute right-4 top-3 cursor-pointer">
+                      {show2 === true
+                        ? <IoMdEyeOff size={24} className="text-[#C4CBD4]" onClick={() => { setShow2(!show2) }} /> :
+                        <IoMdEye size={24} className="text-[#C4CBD4]" onClick={() => { setShow2(!show2) }} />}
+                    </span>
+                  </div>
+                </div>
+
                 <div className="mb-16">
                   <input
                     type="submit"
-                    value="Sent reset link"
+                    value="Create new password"
                     className="w-full cursor-pointer rounded-lg font-bold  bg-[#1D2C3E] px-4 py-2.5 text-white transition hover:bg-opacity-90"
                   />
                 </div>
@@ -82,4 +157,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default ResetPassword;

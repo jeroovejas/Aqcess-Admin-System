@@ -3,7 +3,7 @@
 import React from "react"
 import { DateRange, DateRangePicker } from "./dataPicker"
 
-export const DateRangePickerExample = () => {
+export const DateRangePickerElement = () => {
     const [dateRange, setDateRange] = React.useState<DateRange | undefined>(
         undefined,
     )
@@ -59,12 +59,12 @@ export const DateRangePickerExample = () => {
         },
     ]
     return (
-    <div className="flex flex-col items-center gap-y-4">
+    <div className="flex flex-col items-center gap-y-4 ">
       <DateRangePicker
         presets={presets}
         value={dateRange}
         onChange={setDateRange}
-        className="w-60"
+        className="w-60 py-2.5 md:py-3"
       />
 
       {/* <p className="flex items-center rounded-md bg-gray-100 p-2 text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-300">

@@ -240,3 +240,20 @@ input[type="search"]::-webkit-search-cancel-button {
 [x-cloak] {
     display: none !important;
 }
+
+.text-danger{
+    @apply text-[#D92D20]
+}
+.bg-danger{
+    @apply bg-[#D92D20]
+}
+.bg-danger-light{
+    @apply bg-[#FEE4E2]
+}
+.bg-primary-blue{
+    @apply bg-[#24292F]
+}
+.text-primary-blue{
+    @apply text-[#24292F]
+}
+

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,9 +13,14 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
 import { MdDeck } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
-import { FaComments } from "react-icons/fa";
+import { MdManageAccounts } from "react-icons/md";
+import { MdSubscriptions } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
+import { LiaFileInvoiceSolid } from "react-icons/lia";
+import { clearToken, clearUser, toggleIsTokenValid } from "@/store/Slices/AuthSlice";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { useRouter } from 'next/navigation';
 
 
 interface SidebarProps {
@@ -72,7 +77,28 @@ const menuGroups = [
         ),
         label: "Access History",
         route: "/access-history",
-      }, 
+      },
+      {
+        icon: (
+          MdManageAccounts
+        ),
+        label: "User Management",
+        route: "/user-management",
+      },
+      {
+        icon: (
+          MdSubscriptions
+        ),
+        label: "Subscriptions",
+        route: "/subscriptions",
+      },
+      {
+        icon: (
+          LiaFileInvoiceSolid
+        ),
+        label: "Invoices",
+        route: "/invoices",
+      },
     ],
   },
 
@@ -80,14 +106,38 @@ const menuGroups = [
 
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const router = useRouter();
+  const user = useAppSelector((state) => state.auth.userData);
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+  const dispatch = useAppDispatch()
+
+  const logout = () => {
+    router.push('/auth/signin');
+    setTimeout(() => {
+      dispatch(clearToken())
+      dispatch(clearUser())
+      dispatch(toggleIsTokenValid())
+    }, 3000)
+  }
+
+  const getFilteredMenuItems = () => {
+    if (user.role === 1) {
+      return menuGroups[0].menuItems.filter(item => ["User Management", "Subscriptions", "Invoices"].includes(item.label));
+    } else if (user.role === 2) {
+      // Return only the "Super Six" items
+      return menuGroups[0].menuItems.filter(item => ["Dashboard", "Residents", "Survey", "Payments", "Common Areas", "Access History"].includes(item.label));
+    }
+    return []; // Default case
+  };
+
+  const filteredMenuItems = getFilteredMenuItems();
 
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
-        className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed left-0 top-0 z-9999 flex h-screen w-72.5 flex-col bg-black duration-300 ease-linear dark:bg-boxdark  lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
       >
         <div className="flex flex-col justify-between h-[100vh]">
@@ -135,7 +185,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   <div key={groupIndex}>
 
                     <ul className="mb-0 flex flex-col gap-1.5">
-                      {group.menuItems.map((menuItem, menuIndex) => (
+                      {filteredMenuItems.map((menuItem, menuIndex) => (
                         <SidebarItem
                           key={menuIndex}
                           item={menuItem}
@@ -151,33 +201,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </div>
           </div>
           <div className="">
-            <li className="border-b py-6 border-[#344054]">
+            <li className="border-b pb-6 border-[#344054]">
               <Link
-                href="/setting"
+                href="/settings"
                 className={` group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 mx-3`}
               >
                 <IoSettingsOutline className={``} />
                 Settings
-      
-              </Link>  
+
+              </Link>
             </li>
 
             <div className="flex items-center mx-3 my-2 py-2">
-              <Link className=" inline-block" href="/profile">
-                <Image
-                  className=""
-                  src={"/images/Sidebar/profile.png"}
-                  alt="User"
-                  height={40}
-                  width={40}
-                />
+              <Link className=" inline-block" href="/settings">
+                {user.profileImage !== null ?
+                  <div className="flex-shrink-0">
+                    <img src={user.profileImage} alt="Profile Image" width={35} height={35} />
+                  </div> : <div className="flex-shrink-0">
+                    <img src="/images/user/dummy.png" alt="Profile Image" width={35} height={35} />
+                  </div>}
               </Link>
               <div className="ms-5 me-8">
-                <p className="text-[14px] font-[600] text-white leading-4">John Silverhand</p>
-                <p className="text-[14px] font-[400] leading-4">John@example.com</p>
+                <p className="text-[14px] font-[600] text-white leading-4">{user.firstName} {user.lastName}</p>
+                <p className="text-[14px] font-[400] leading-4">{user.email}</p>
               </div>
               <div>
-                <MdLogout />
+                <MdLogout className="cursor-pointer" onClick={logout} />
               </div>
             </div>
           </div>

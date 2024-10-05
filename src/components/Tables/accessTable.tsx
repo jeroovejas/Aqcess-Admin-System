@@ -72,27 +72,26 @@ const AccessTable = () => {
           <tbody>
             {AccessData.map((access, key) => (
               <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" className="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  <div className="flex-shrink-0">
+                <th scope="row" className="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white  ">
+                  <div className="flex-shrink-0 whitespace-nowrap">
                     <Image src={access.logo} alt="Brand" width={35} height={35} />
                   </div>
                   <p className="hidden text-black font-bold dark:text-white sm:block mt-2 ml-2">
                     {access.name}
                   </p>
                 </th>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 whitespace-nowrap">
                   {access.ID}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 whitespace-nowrap">
                   {access.Datetime}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 font-bold whitespace-nowrap">
                   {access.Type}
                 </td>
               </tr>
             )
             )}
-
           </tbody>
         </table>
       </div>
