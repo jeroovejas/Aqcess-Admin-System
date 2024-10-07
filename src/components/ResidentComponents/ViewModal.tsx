@@ -44,8 +44,8 @@ const ViewModal: React.FC<any> = () => {
         <>
             {viewModal ? (
                 <>
-                    <div ref={modalRef} className={`absolute top-0 right-0 w-full z-999 md:w-2/5 h-screen`}>
-                        <div className="border-0  relative text-black w-full h-full bg-white outline-none focus:outline-none  px-8 py-8">
+                    <div ref={modalRef} className={`absolute top-0 right-0 w-full z-999 md:w-2/5 bg-white  h-screen overflow-y-scroll my-scrollbar`}>
+                        <div className="border-0  relative text-black w-full h-full outline-none focus:outline-none  px-8 py-8">
                             <div className="flex justify-between items-center mt-8">
 
 

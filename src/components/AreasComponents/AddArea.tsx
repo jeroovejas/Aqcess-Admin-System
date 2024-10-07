@@ -118,7 +118,7 @@ const AddArea: React.FC = () => {
     return (
         <>
             {addModal && (
-                <div className="absolute top-0 right-0 w-full md:w-3/5 lg:w-2/5 min-h-[100vh] h-full bg-white my-0">
+                <div className="absolute top-0 right-0 w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar bg-white my-0">
                     <div ref={modalRef} className="border-0 relative text-black w-full h-full outline-none focus:outline-none px-8 py-8">
                         <div className="flex justify-between items-center mt-8">
                             <h3 className="text-3xl font-semibold">Create Common Area</h3>
