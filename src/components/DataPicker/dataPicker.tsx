@@ -25,6 +25,8 @@ import { cx, focusInput, focusRing, hasErrorInput } from "@/lib/utils"
 
 import { Button } from "./Button"
 import { Calendar as CalendarPrimitive, type Matcher } from "./Calender"
+import setIsFilter, { toggleIsFilter } from "@/store/Slices/AuthSlice"
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 //#region TimeInput
 // ============================================================================
@@ -46,6 +48,7 @@ type TimeSegmentProps = {
 }
 
 const TimeSegment = ({ segment, state }: TimeSegmentProps) => {
+  
   const ref = React.useRef<HTMLDivElement>(null)
 
   const { segmentProps } = useDateSegment(segment, state, ref)

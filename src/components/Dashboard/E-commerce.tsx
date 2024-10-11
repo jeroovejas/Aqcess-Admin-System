@@ -28,7 +28,8 @@ const ECommerce: React.FC = () => {
   const [survey, setSurvey] = useState<any>({});
   const [currentDate, setCurrentDate] = useState('');
   const [currentDay, setCurrentDay] = useState('');
-  const [initialMount, setInitialMount] = useState<boolean>(true);
+  const [fromDate, setFromDate] = useState<string>('');
+  const [toDate, setToDate] = useState<string>('');
 
   useEffect(() => {
     const checkUser = async () => {
@@ -76,12 +77,16 @@ const ECommerce: React.FC = () => {
         setLoading(false);
       });
     }
-  }, [])
+  }, [verified,toDate, fromDate, router])
 
   const fetchDashboardData = async () => {
     try {
 
-      let params = { token: token }
+      let params = {
+        token: token,
+        toDate: toDate,
+        fromDate: fromDate
+      }
       const response = await getDashboardData(params);
 
       // Check the success property to determine if the request was successful
@@ -111,8 +116,8 @@ const ECommerce: React.FC = () => {
                 <p className="text-black">{currentDay}, {currentDate}</p>
               </div>
               <div className="text-black">
-                <DateRangePickerElement />
-
+                <DateRangePickerElement setFromDate={setFromDate} setToDate={setToDate} />
+                {/* <p>{fromDate} and{toDate} </p> */}
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">

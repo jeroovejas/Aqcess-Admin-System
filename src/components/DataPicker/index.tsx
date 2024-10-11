@@ -3,7 +3,7 @@
 import React from "react"
 import { DateRange, DateRangePicker } from "./dataPicker"
 
-export const DateRangePickerElement = () => {
+export const DateRangePickerElement: React.FC<any> = ({ setToDate, setFromDate }) => {
     const [dateRange, setDateRange] = React.useState<DateRange | undefined>(
         undefined,
     )
@@ -58,23 +58,33 @@ export const DateRangePickerElement = () => {
             },
         },
     ]
+
+    React.useEffect(() => {
+        if (dateRange) {
+            let fromDate = dateRange.from?.toLocaleDateString()
+            let toDate = dateRange.to?.toLocaleDateString()
+            setFromDate(fromDate?.replace(/\//g, '-'))
+            setToDate(toDate?.replace(/\//g, '-'))
+        }
+    }, [dateRange, setFromDate, setToDate])
     return (
-    <div className="flex flex-col items-center gap-y-4 ">
-      <DateRangePicker
-        presets={presets}
-        value={dateRange}
-        onChange={setDateRange}
-        className="w-60 py-2.5 md:py-3"
-      />
+        <div className="flex flex-col items-center gap-y-4 ">
+            <DateRangePicker
+                presets={presets}
+                value={dateRange}
+                onChange={setDateRange}
+                className="w-60 py-2.5 md:py-3"
+            />
 
-      {/* <p className="flex items-center rounded-md bg-gray-100 p-2 text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-300">
-        Selected Range:{" "}
-        {dateRange
-          ? `${dateRange.from?.toLocaleDateString()} – ${dateRange.to?.toLocaleDateString() ?? ""}`
-          : "None"}
-      </p> */}
-    </div> 
+            {/* <p className="flex items-center rounded-md bg-gray-100 p-2 text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-300">
+                Selected Range:{" "}
+               
+                {dateRange
+                    ? `${dateRange.from?.toLocaleDateString()} – ${dateRange.to?.toLocaleDateString() ?? ""}`
+                    : "None"}
+            </p> */}
+        </div>
 
-  
-  )
+
+    )
 }

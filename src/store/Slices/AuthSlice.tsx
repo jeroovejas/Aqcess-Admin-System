@@ -3,12 +3,14 @@ interface AuthState {
     token: string;
     userData: any;
     isTokenValid: boolean,
+    isFilter: boolean
 }
 // Define the initial state
 const initialState: AuthState = {
     token: '',
     userData: {},
     isTokenValid: false,
+    isFilter: false
 };
 
 export const authSlice = createSlice({
@@ -29,8 +31,12 @@ export const authSlice = createSlice({
         },
         toggleIsTokenValid: (state) => {
             state.isTokenValid = !state.isTokenValid
+        },
+        toggleIsFilter: (state) => {
+            state.isFilter = !state.isFilter
         }
+        
     },
 });
-export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid } = authSlice.actions;
+export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid,toggleIsFilter } = authSlice.actions;
 export default authSlice.reducer;
