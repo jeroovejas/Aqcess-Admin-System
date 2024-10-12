@@ -113,7 +113,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const dispatch = useAppDispatch()
 
   const logout = () => {
-    router.push('/auth/signin');
+    router.push('/auth/login');
     setTimeout(() => {
       dispatch(clearToken())
       dispatch(clearUser())

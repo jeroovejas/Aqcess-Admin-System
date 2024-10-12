@@ -2,30 +2,25 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { forgotPassword } from "@/lib/api/auth";
+import { verifyEmail } from "@/lib/api/auth";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { useRouter } from 'next/navigation';
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-
-const ForgotPassword: React.FC = () => {
+const VerifyEmail: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+    setEmail(event.target.value); // Update state with the email input value
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
-    setLoading(true)
     try {
       let body = { email: email }
-      const response = await forgotPassword(body);
+      const response = await verifyEmail(body);
       if (response.success) {
-        let bufferedEmail = Buffer.from(email).toString('base64')
-        router.push(`/auth/reset-password-link/${bufferedEmail}`)
+        router.push("/auth/verify-email-otp")
         setTimeout(() => {
           showSuccessToast(response.data.message);
         }, 2000);
@@ -34,9 +29,7 @@ const ForgotPassword: React.FC = () => {
       }
 
     } catch (err: any) {
-      console.error('Unexpected error during Forgot Password:', err.message);
-    } finally {
-      setLoading(false)
+      console.error('Unexpected error during Email Verify:', err.message);
     }
   };
   return (
@@ -56,15 +49,15 @@ const ForgotPassword: React.FC = () => {
             </Link>
           </div>
         </div>
-        <div className="w-full xl:w-1/2 ">
-          <div className="bg-white sm:mx-20 mx-28 2xsm:mx-10 3xsm:mx-4 4xsm:mx-6 mt-16 rounded-md">
+        <div className="w-full  xl:w-1/2 ">
+          <div className="bg-white mx-16 md:mx-28 2xsm:mx-10 3xsm:mx-4 4xsm:mx-6 mt-16 rounded-md">
 
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <h2 className="mt-10 mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Restore password
+                Verify Email
               </h2>
               <div className="mt-4 mb-6">
-                <p>Enter your email address below and we will send you a link to reset your password.</p>
+                <p>Enter your email address below and we will send you OTP code to veridy your email</p>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="mb-6">
@@ -98,21 +91,12 @@ const ForgotPassword: React.FC = () => {
                   </div>
                 </div>
 
-                {/* <div className="mb-16">
+                <div className="mb-16">
                   <input
                     type="submit"
-                    value="Send reset password OTP"
+                    value="Send verify email OTP"
                     className="w-full cursor-pointer rounded-lg font-bold  bg-[#1D2C3E] px-4 py-2.5 text-white transition hover:bg-opacity-90"
                   />
-                </div> */}
-                <div className="mb-5">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full flex items-center justify-center cursor-pointer rounded-lg font-bold bg-[#1D2C3E] px-4 py-2.5 text-white transition hover:bg-opacity-90"
-                  >
-                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Send reset link"}
-                  </button>
                 </div>
               </form>
             </div>
@@ -123,4 +107,4 @@ const ForgotPassword: React.FC = () => {
   );
 };
 
-export default ForgotPassword;
+export default VerifyEmail;

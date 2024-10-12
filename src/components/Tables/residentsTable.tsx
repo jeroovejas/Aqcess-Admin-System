@@ -146,22 +146,29 @@ const ResidentTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                     <td className="px-6 py-4 whitespace-nowrap">{resident.resident.residentCode}</td>
                     <td className="px-6 py-4 font-bold whitespace-nowrap">{resident.email}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{resident.resident.address}</td>
-                    <td className={`px-6 py-4  ${resident.status === 'active' ? 'text-meta-3' : 'text-meta-1'} whitespace-nowrap`}>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <GoDotFill className="mt-1 mr-2" />
-                        {resident.status}
+                        <span className={`${resident.status === 'active' ? 'text-meta-3 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2]'} flex items-center px-2 py-1 rounded-full`}>
+                          <GoDotFill className="mr-1" style={{ color: resident.status === 'active' ? '#22C55E' : '#EF4444' }} /> {/* Adjusted dot color */}
+                          {resident.status.charAt(0).toUpperCase() + resident.status.slice(1)}
+                        </span>
                       </div>
                     </td>
                     <td className="relative group whitespace-nowrap overflow-visible">
                       <BsThreeDotsVertical className="text-black" />
-                      <ul className="absolute hover:z-20 top-5 w-[150px] right-2 my-4 text-[14px] bg-white hidden group-hover:block text-black border border-gray">
-                        <li onClick={() => handleViewResident(resident)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">View</li>
-                        <li onClick={() => handleEditResident(resident)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">Edit</li>
+                      <ul className="absolute z-50 bottom-0 mb-0 w-[150px] right-2 text-[14px] bg-white hidden group-hover:block text-black border border-gray shadow-lg">
+                        <li onClick={() => handleViewResident(resident)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                          View
+                        </li>
+                        <li onClick={() => handleEditResident(resident)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                          Edit
+                        </li>
                         <li onClick={() => handleClick(resident)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
                           {resident.status === 'active' ? 'Deactivate' : 'Activate'}
                         </li>
                       </ul>
                     </td>
+
                   </tr>
                 ))
               )}

@@ -1,19 +1,22 @@
 "use cient"
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { FaUserCheck } from "react-icons/fa";
 import { FaUserLargeSlash } from "react-icons/fa6";
 import { toggleStatusModal, toggleIsUpdated } from "@/store/Slices/ResidentSlice"
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { changeResidentStatus } from "@/lib/api/resident";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const StatusModal: React.FC<any> = () => {
     const statusModal = useAppSelector((state) => state.resident.statusModal)
     const resident = useAppSelector((state) => state.resident.residentData)
     const token = useAppSelector((state) => state.auth.token);
     const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
+    const [loading, setLoading] = useState(false);
 
     const handleChangeStatus = async () => {
+        setLoading(true)
         try {
             const body = {
                 resident_id: resident.id,
@@ -31,6 +34,8 @@ const StatusModal: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during Forgot Password:', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -60,7 +65,7 @@ const StatusModal: React.FC<any> = () => {
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 {resident.status == 'active' ? <FaUserLargeSlash size={30} className="mb-6 text-danger" /> : <FaUserCheck size={30} className="mb-6 " />}
-                                <h3 className="text-3xl font-semibold mt-8">Do you want to {resident.status == 'active' ? 'Deactivate' : 'Activate'}  Resident</h3>
+                                <h3 className="text-xl font-semibold mt-8">{resident.status == 'active' ? 'Deactivate' : 'Activate'}  resident</h3>
                                 <p className="font-[500] my-4">Select Carefully as this will affect residents activity. </p>
 
 
@@ -68,18 +73,20 @@ const StatusModal: React.FC<any> = () => {
 
                                 <div className="flex gap-3 items-center">
                                     <button
-                                        className="text-red-500 border rounded-lg border-[#DDDDDD] w-1/2 background-transparent font-bold px-6 py-3 text-sm outline-none mr-1 mb-1"
+                                        className="text-red-500 border rounded-lg border-[#DDDDDD] w-1/2 background-transparent font-bold px-6 py-3 text-base outline-none mr-1 mb-1"
                                         type="button"
                                         onClick={() => dispatch(toggleStatusModal())}
                                     >
                                         No
                                     </button>
                                     <button
-                                        className={`text-white w-1/2 rounded-lg ${resident.status == 'active' ? 'bg-danger' : 'bg-primary-blue'}  font-bold  text-sm px-6 py-3    outline-none  mr-1 mb-1`}
+                                        className={`text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg ${resident.status == 'active' ? 'bg-danger' : 'bg-primary-blue'}  font-bold  text-base px-6 py-3    outline-none  mr-1 mb-1`}
                                         type="button"
                                         onClick={handleChangeStatus}
+                                        disabled={loading}
                                     >
-                                        Yes
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Yes"}
+
                                     </button>
                                 </div>
                             </div>

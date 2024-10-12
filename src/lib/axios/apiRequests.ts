@@ -15,6 +15,24 @@ export const createGetRequest = <T>(path: string, params?: Record<string, any>, 
     };
 };
 
+export const createExportRequest = (
+    path: string,
+    params?: Record<string, any>,
+    config?: AxiosRequestConfig
+): AxiosRequestConfig => {
+    // Create the request configuration for the export
+    const requestConfig: AxiosRequestConfig = {
+        url: path,
+        method: 'get', // Assuming the export is a GET request
+        params,
+        responseType: 'blob', // Important for file downloads
+        ...config,
+    };
+
+    // Return the configuration
+    return requestConfig;
+};
+
 // Utility function for POST requests
 export const createPostRequest = <T>(path: string, data: any, config?: AxiosRequestConfig): (() => AxiosRequestConfig) => {
     return () => {

@@ -44,17 +44,17 @@ const ViewModal: React.FC<any> = () => {
         <>
             {viewModal ? (
                 <>
-                <div ref={modalRef} className={`absolute top-0 right-0 w-full z-999 md:w-2/5 bg-white  h-screen overflow-y-scroll my-scrollbar`}>
-                <div className="border-0  relative text-black w-full h-full outline-none focus:outline-none  px-8 py-8">
+                    <div ref={modalRef} className={`absolute top-0 right-0 w-full z-999 md:w-2/5 bg-white  h-screen overflow-y-scroll my-scrollbar`}>
+                        <div className="border-0  relative text-black w-full h-full outline-none focus:outline-none  px-8 py-8">
                             <div className="flex justify-between items-center mt-8">
 
 
                                 <div className="flex items-center">
-                                    <h3 className="text-3xl font-semibold ">{resident.firstName} {resident.lastName} </h3>
-                                    <span className={`${resident.status == 'active' ? 'text-meta-3 p-1 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2] p-2'} ms-4 font-semibold text-[16px]  rounded-2xl `}>{resident.status}</span>
+                                    <h3 className="text-3xl font-semibold ">{resident.firstName} {resident.lastName}</h3>
+                                    <span className={`${resident.status === 'active' ? 'text-meta-3 p-1 px-2 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2] p-2'} ms-4 font-semibold text-[16px] rounded-2xl`}>
+                                        {resident.status.charAt(0).toUpperCase() + resident.status.slice(1)}
+                                    </span>
                                 </div>
-
-
 
                                 <button className="bg-transparent border-0 text-[20px] font-bold text-black "
                                     onClick={() => dispatch(toggleViewModal())}

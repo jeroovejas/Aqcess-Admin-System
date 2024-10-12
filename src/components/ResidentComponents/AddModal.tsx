@@ -4,6 +4,7 @@ import { toggleAddModal, toggleIsUpdated } from "@/store/Slices/ResidentSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { createResident } from "@/lib/api/resident";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const initialFormData = {
     status: "active",
@@ -21,6 +22,7 @@ const AddModal: React.FC<any> = () => {
     const addModal = useAppSelector((state) => state.resident.addModal);
     const token = useAppSelector((state) => state.auth.token);
     const modalRef = useRef<HTMLDivElement>(null);
+    const [loading, setLoading] = useState(false);
 
     // State to hold form data
     const [formData, setFormData] = useState(initialFormData);
@@ -41,6 +43,7 @@ const AddModal: React.FC<any> = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent default form submission
+        setLoading(true)
         try {
             const body = {
                 ...formData,
@@ -57,6 +60,8 @@ const AddModal: React.FC<any> = () => {
             }
         } catch (err: any) {
             console.error('Unexpected error during creating resident:', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -82,7 +87,7 @@ const AddModal: React.FC<any> = () => {
             {addModal ? (
                 <div ref={modalRef} className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
                     <div className="flex justify-between items-center mt-8">
-                        <h3 className="text-3xl font-semibold">Add New Resident</h3>
+                        <h3 className="text-3xl font-semibold">Add new resident</h3>
                         <button className="bg-transparent border-0 text-[20px] font-bold text-black"
                             onClick={() => dispatch(toggleAddModal())}
                         >
@@ -205,10 +210,12 @@ const AddModal: React.FC<any> = () => {
                         </div>
                         <div className="flex gap-3 items-center">
                             <button
-                                className="text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3 shadow hover:shadow-lg outline-none  mr-1 mb-1"
+                                className="text-white flex justify-center items-center rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3 shadow hover:shadow-lg outline-none  mr-1 mb-1"
                                 type="submit"
+                                disabled={loading}
                             >
-                                Add Resident
+                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Add Resident"}
+
                             </button>
                             <button
                                 className="text-red-500 border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1"

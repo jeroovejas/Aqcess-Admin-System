@@ -21,7 +21,7 @@ const VerifyEmailOTP: React.FC = () => {
       let params = { otp: otp }
       const response = await verifyEmailOTP(params);
       if (response.success) {
-        router.push("/auth/signup")
+        router.push("/auth/register")
         setTimeout(() => {
           showSuccessToast(response.data.message);
         }, 2000);
@@ -58,7 +58,7 @@ const VerifyEmailOTP: React.FC = () => {
                 Verify OTP Code
               </h2>
               <div className="mt-4 mb-6">
-                <p>Enter your OTP code to veridy your email</p>
+                <p>Enter your OTP code to verify your email</p>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="mb-6">
@@ -81,7 +81,7 @@ const VerifyEmailOTP: React.FC = () => {
                 <div className="mb-16">
                   <input
                     type="submit"
-                    value="verify  OTP"
+                    value="Verify  OTP"
                     className="w-full cursor-pointer rounded-lg font-bold  bg-[#1D2C3E] px-4 py-2.5 text-white transition hover:bg-opacity-90"
                   />
                 </div>

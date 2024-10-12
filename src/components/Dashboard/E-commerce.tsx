@@ -36,7 +36,7 @@ const ECommerce: React.FC = () => {
       const response = await verifyToken({ token: token });
       if (response.success) {
         if (response.data.data.role === 3) {
-          router.push('/auth/signin');
+          router.push('/auth/login');
           setTimeout(() => {
             showErrorToast("Permission denied!");
           }, 2000);
@@ -49,7 +49,7 @@ const ECommerce: React.FC = () => {
           }
         }
       } else {
-        router.push('/auth/signin');
+        router.push('/auth/login');
         setTimeout(() => {
           showErrorToast("Plz Login First");
         }, 2000);
@@ -77,7 +77,7 @@ const ECommerce: React.FC = () => {
         setLoading(false);
       });
     }
-  }, [verified,toDate, fromDate, router])
+  }, [verified, toDate, fromDate, router])
 
   const fetchDashboardData = async () => {
     try {

@@ -56,7 +56,7 @@ const UserManagement = () => {
             const response = await verifyToken({ token: token });
             if (response.success) {
                 if (response.data.data.role ===3) {
-                    router.push('/auth/signin');
+                    router.push('/auth/login');
                     setTimeout(() => {
                         showErrorToast("Permission denied!");
                     }, 2000);
@@ -69,7 +69,7 @@ const UserManagement = () => {
                     }
                 }
             } else {
-                router.push('/auth/signin');
+                router.push('/auth/login');
                 setTimeout(() => {
                     showErrorToast("Plz Login First");
                 }, 2000);

@@ -3,17 +3,42 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaRegArrowAltCircleUp } from "react-icons/fa";
 import { toggleExportModal } from "@/store/Slices/ResidentSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { exportResidents } from "@/lib/api/resident";
+import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const ExportModal: React.FC<any> = () => {
     const [selectedOption, setSelectedOption] = useState<string>("");
     const exportModal = useAppSelector((state) => state.resident.exportModal);
+    const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
     const modalRef = useRef<HTMLDivElement>(null);
+    const [loading, setLoading] = useState(false);
 
     const handleClickOutside = (event: MouseEvent) => {
         if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleExportModal()); 
+            dispatch(toggleExportModal());
         }
+    };
+
+    const handleExport = async () => {
+        setLoading(true)
+        try {
+            let params = { token: token }
+            const response = await exportResidents(params);
+            if (response.success) {
+                dispatch(toggleExportModal())
+                showSuccessToast(response.message);
+            } else {
+                showErrorToast(response.message)
+            }
+
+        } catch (err: any) {
+            console.error('Unexpected error during deleting resident:', err.message);
+        } finally {
+            setLoading(false)
+        }
+
     };
 
     useEffect(() => {
@@ -42,7 +67,7 @@ const ExportModal: React.FC<any> = () => {
                                         className="block appearance-none w-full rounded-xl border border-[#DDDDDD] text-black py-3 px-4 pr-8 focus:outline-none focus:bg-white focus:border-gray-500"
                                         id="grid-state"
                                     >
-                                        <option value="PDF">PDF</option>
+                                        {/* <option value="PDF">PDF</option> */}
                                         <option value="CSV">Excel</option>
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -66,11 +91,12 @@ const ExportModal: React.FC<any> = () => {
                                     Cancel
                                 </button>
                                 <button
-                                    className="text-white w-1/2 rounded-lg bg-primary-blue font-bold text-sm px-6 py-3  outline-none  mr-1 mb-1"
+                                    className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-bold text-sm px-6 py-3  outline-none  mr-1 mb-1"
                                     type="button"
-                                    onClick={() => dispatch(toggleExportModal())}
+                                    disabled={loading}
+                                    onClick={handleExport}
                                 >
-                                    Export
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Export"}
                                 </button>
                             </div>
                         </div>

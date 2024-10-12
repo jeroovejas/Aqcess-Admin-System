@@ -23,7 +23,7 @@ const ViewAdmin = () => {
         if (isTokenValid) {
             setVerified(true);
         } else {
-            router.push('/auth/signin');
+            router.push('/auth/login');
             setTimeout(() => {
                 showErrorToast("Plz Login First");
             }, 2000);
