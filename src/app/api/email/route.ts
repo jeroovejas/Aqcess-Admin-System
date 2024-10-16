@@ -14,7 +14,7 @@ export async function GET(req: Request) {
             const sentFrom = new Sender("jeovejas@gmail.com", "Muhammad Faiz Rasool");
 
             const recipients = [
-                new Recipient("emp.metasolutionspk@gmail.com", "Meta Solutions")
+                new Recipient("rasoolf796@gmail.com", "Meta Solutions")
             ];
 
             // Create email parameters
