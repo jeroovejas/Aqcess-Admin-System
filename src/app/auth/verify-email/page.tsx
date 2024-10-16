@@ -29,8 +29,9 @@ const VerifyEmail: React.FC = () => {
           'Content-Type': 'application/json',
         },
       });
-
+      
       const data = await res.json();
+      console.log(data,res)
 
       if (res.ok) {
         showSuccessToast(data.message);
