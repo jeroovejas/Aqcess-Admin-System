@@ -33,7 +33,7 @@ const VerifyEmail: React.FC = () => {
       const data = await res.json();
 
       if (res.ok) {
-        showSuccessToast('Email sent successfully!');
+        showSuccessToast(data.message);
       } else {
         showErrorToast(`Failed to send email: ${data.message}`);
       }
