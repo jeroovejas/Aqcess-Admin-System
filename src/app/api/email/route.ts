@@ -9,7 +9,7 @@ export async function GET(req: Request) {
             const mailerSend = new MailerSend({
                 apiKey: process.env.MAIL_SENDER_API_KEY as string, // Ensure your API key is set in the .env file
             });
-
+            console.log(process.env.MAIL_SENDER_API_KEY)
             // Sender information
             const sentFrom = new Sender("jeovejas@gmail.com", "Muhammad Faiz Rasool");
 
