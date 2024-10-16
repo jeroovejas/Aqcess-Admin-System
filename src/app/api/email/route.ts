@@ -26,10 +26,10 @@ export async function GET(req: Request) {
                 .setHtml("<strong>This is the HTML content</strong>")
                 .setText("This is the text content");
             // Send the email
-            await mailerSend.email.send(emailParams);
-
-            // Send a success response
-            return NextResponse.json({ message: 'Email sent successfully' });
+            const success = await mailerSend.email.send(emailParams);
+            if(success){
+                return NextResponse.json({ message: 'Email sent successfully' });
+            }
         } catch (error) {
             console.error('Error sending email:', error);
             return NextResponse.json({ message: 'Failed to send email', error });
