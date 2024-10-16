@@ -14,7 +14,7 @@ export async function GET(req: Request) {
             const sentFrom = new Sender("jeovejas@gmail.com", "Jeovejas");
 
             const recipients = [
-                new Recipient("emp.metasolutionspk@gmail.com", "Meta Solutions")
+                new Recipient("adeel98amir@gmail.com", "Adeel Amir")
             ];
 
             // Create email parameters
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
                 .setText("This is the text content");
             // Send the email
             const success = await mailerSend.email.send(emailParams);
-            if(success){
+            if (success) {
                 return NextResponse.json({ message: 'Email sent successfully' });
             }
         } catch (error) {
