@@ -11,10 +11,10 @@ export async function GET(req: Request) {
             });
             console.log(process.env.MAIL_SENDER_API_KEY)
             // Sender information
-            const sentFrom = new Sender("jeovejas@gmail.com", "Muhammad Faiz Rasool");
+            const sentFrom = new Sender("jeovejas@gmail.com", "Jeovejas");
 
             const recipients = [
-                new Recipient("rasoolf796@gmail.com", "Meta Solutions")
+                new Recipient("emp.metasolutionspk@gmail.com", "Meta Solutions")
             ];
 
             // Create email parameters
