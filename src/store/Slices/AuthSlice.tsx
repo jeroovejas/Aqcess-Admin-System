@@ -3,14 +3,16 @@ interface AuthState {
     token: string;
     userData: any;
     isTokenValid: boolean,
-    isFilter: boolean
+    isFilter: boolean,
+    emailModal:boolean
 }
 // Define the initial state
 const initialState: AuthState = {
     token: '',
     userData: {},
     isTokenValid: false,
-    isFilter: false
+    isFilter: false,
+    emailModal:false
 };
 
 export const authSlice = createSlice({
@@ -34,9 +36,12 @@ export const authSlice = createSlice({
         },
         toggleIsFilter: (state) => {
             state.isFilter = !state.isFilter
+        },
+        toggleEmailModal: (state) => {
+            state.emailModal = !state.emailModal
         }
         
     },
 });
-export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid,toggleIsFilter } = authSlice.actions;
+export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid,toggleIsFilter,toggleEmailModal } = authSlice.actions;
 export default authSlice.reducer;

@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaCheck } from "react-icons/fa6";
-import { signUp } from "@/lib/api/auth";
+import { sendEmail, signUp } from "@/lib/api/auth";
 import { useRouter } from 'next/navigation';
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { useAppDispatch } from "@/store/hooks";
@@ -66,6 +66,10 @@ const Register: React.FC = () => {
       return "Password must contain at least one uppercase letter.";
 
     }
+    if (!/[a-z]/.test(password)) {
+      return "Password must contain at least one lowercase letter.";
+
+    }
     // Check for at least one special character
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
       return "Password must contain at least one special character.";
@@ -77,7 +81,7 @@ const Register: React.FC = () => {
 
     }
     setPasswordError("")
-    return"" ;
+    return "";
   };
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
@@ -99,10 +103,14 @@ const Register: React.FC = () => {
       const response = await signUp(formState);
       // Check the success property to determine if the request was successful
       if (response.success) {
-        // let token = "Bearer " + response.data.accessToken;
-        // dispatch(setToken(token))
-        dispatch(setUserData(response.data.data))
-        router.push('/auth/verify-email');
+        const emailResponse = await sendEmail({ email: formState.email });
+        if (emailResponse.success) {
+          dispatch(setUserData(response.data.data))
+          router.push('/auth/verify-email');
+        } else {
+          showErrorToast(emailResponse.data.message)
+        }
+
         // setTimeout(() => {
         //   showSuccessToast("Welcome ! Successfully Signed Up")
         // }, 2000);

@@ -5,46 +5,17 @@ import Image from "next/image";
 import { FaCheck } from "react-icons/fa6";
 import { useAppSelector } from "@/store/hooks";
 import { useRouter } from 'next/navigation';
-import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 
 
 const VerifyEmail: React.FC = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
   const user = useAppSelector((state) => state.auth.userData);
   const [redirect, setRedirect] = useState(false);
 
-  // const handleRedirect = () => {
-  //   setRedirect(true)
-  //   router.push('/auth/login')
-  // }
-
-  const handleSendEmail = async () => {
-    setLoading(true);
-
-    try {
-      const res = await fetch('/api/email', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      const data = await res.json();
-      console.log(data,res)
-
-      if (res.ok) {
-        showSuccessToast(data.message);
-      } else {
-        showErrorToast(`Failed to send email: ${data.message}`);
-      }
-    } catch (error) {
-      console.error('Error sending email:', error);
-      showErrorToast('An error occurred while sending the email.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleRedirect = () => {
+    setRedirect(true)
+    router.push('/auth/login')
+  }
 
   return (
 
@@ -107,9 +78,8 @@ const VerifyEmail: React.FC = () => {
                 <p>We have sent a verification email to <span className="font-bold text-black">{user.email}</span> Please check your email for further instructions.</p>
               </div>
               <button
-                onClick={handleSendEmail}
-                disabled={loading}
-                // disabled={redirect}
+                onClick={handleRedirect}
+                disabled={redirect}
                 className="text-center w-full block cursor-pointer rounded-lg font-bold bg-[#1D2C3E] px-4 py-2.5 text-white transition hover:bg-opacity-90"
               >
                 Back

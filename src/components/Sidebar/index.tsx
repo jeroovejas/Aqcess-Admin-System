@@ -212,7 +212,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </Link>
             </li>
 
-            <div className="flex items-center mx-3 my-2 py-2">
+            <div className="flex items-center  mx-3 my-2 py-2">
               <Link className=" inline-block" href="/settings">
                 {user.profileImage !== null ?
                   <div className="flex-shrink-0">

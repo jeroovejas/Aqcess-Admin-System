@@ -78,6 +78,24 @@ export const verifyEmail = async (body: any): Promise<ApiResponse<any>> => {
     }
 };
 
+export const sendEmail = async (body: any): Promise<ApiResponse<any>> => {
+    const postDataConfig = createPostRequest<any>('/auth/send-email', body);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(postDataConfig());
+        return {
+            success: true,
+            data: response.data,  //response.data contains our backend API response
+        };
+    } catch (error: any) {
+        const errorResponse = error.response || {};
+        return {
+            success: false,
+            data: errorResponse.data,
+        };
+    }
+};
+
 export const verifyEmailOTP = async (params: any): Promise<ApiResponse<any>> => {
     const getDataConfig = createGetRequest<any>('/auth/verify-email-otp', params);
     try {
@@ -114,11 +132,11 @@ export const forgotPassword = async (body: any): Promise<ApiResponse<any>> => {
     }
 };
 
-export const verifyPasswordOTP = async (params: any): Promise<ApiResponse<any>> => {
-    const getDataConfig = createGetRequest<any>('/auth/verify-password-otp', params);
+export const verifyPasswordLink = async (body: any): Promise<ApiResponse<any>> => {
+    const postDataConfig = createPostRequest<any>('/auth/verify-password-link', body);
     try {
         // Perform the API request
-        const response = await axiosInstance(getDataConfig());
+        const response = await axiosInstance(postDataConfig());
         return {
             success: true,
             data: response.data,  //response.data contains our backend API response

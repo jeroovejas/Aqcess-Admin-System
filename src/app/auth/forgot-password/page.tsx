@@ -24,7 +24,7 @@ const ForgotPassword: React.FC = () => {
       let body = { email: email }
       const response = await forgotPassword(body);
       if (response.success) {
-        let bufferedEmail = Buffer.from(email).toString('base64')
+        let bufferedEmail = Buffer.from(email).toString('base64').replace(/=+$/, '')
         router.push(`/auth/reset-password-link/${bufferedEmail}`)
         setTimeout(() => {
           showSuccessToast(response.data.message);

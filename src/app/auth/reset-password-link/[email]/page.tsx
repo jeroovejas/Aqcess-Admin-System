@@ -7,7 +7,8 @@ import { useParams } from 'next/navigation';
 
 
 const ResetPasswordLink: React.FC = () => {
-  const { email } = useParams()
+  const { email }: any = useParams()
+  const userEmail = Buffer.from(email, 'base64').toString('ascii')
   return (
 
     <div className="rounded-sm h-[100vh] bg-[url('/images/Authentication/background.jpg')] bg-center bg-no-repeat ">
@@ -33,12 +34,12 @@ const ResetPasswordLink: React.FC = () => {
                 Password reset link sent
               </h2>
               <div className="mt-4 mb-6">
-                <p>We have just sent a password reset link to the email address associated. Check Your inbox for further instructions.</p>
+                <p>We have just sent a password reset link to the email address {userEmail}. Check Your inbox for further instructions.</p>
               </div>
 
               <div className="mb-16">
                 <Link
-                  href={`/auth/reset-password/${email}`}
+                  href={`/auth/forgot-password`}
                   className="w-full flex items-center justify-center cursor-pointer rounded-lg font-bold bg-[#1D2C3E] px-4 py-2.5 text-white transition hover:bg-opacity-90"
                 >
                   Back

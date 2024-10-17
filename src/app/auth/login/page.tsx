@@ -5,12 +5,13 @@ import Image from "next/image";
 import { signIn } from "@/lib/api/auth";
 import { useRouter } from 'next/navigation';
 import { showErrorToast } from "@/lib/toastUtil";
-import { useAppDispatch } from "@/store/hooks";
-import { setToken } from "@/store/Slices/AuthSlice";
+import { useAppDispatch ,useAppSelector} from "@/store/hooks";
+import { setToken, toggleEmailModal } from "@/store/Slices/AuthSlice";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { TfiEmail } from "react-icons/tfi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import SendEmailModal from "@/components/AuthComponents/sendEmailModal";
 
 interface signInFormState {
   email: string;
@@ -21,6 +22,7 @@ interface signInFormState {
 const Login: React.FC = () => {
   const router = useRouter();
   const [show, setShow] = useState(false);
+  const emailModal = useAppSelector((state) => state.auth.emailModal)
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch()
   const [formState, setFormState] = useState<signInFormState>({
@@ -54,7 +56,12 @@ const Login: React.FC = () => {
         //   showSuccessToast("Success ! Welcome back")
         // }, 2000);
       } else {
-        showErrorToast(response.data.message)
+        if (response.data.message === 'Verify you email') {
+          dispatch(toggleEmailModal())
+          showErrorToast(response.data.message)
+        } else {
+          showErrorToast(response.data.message)
+        }
       }
     } catch (err: any) {
       console.error('Unexpected error during sign in:', err.message);
@@ -197,6 +204,9 @@ const Login: React.FC = () => {
           </div>
         </div>
       </div>
+      {(emailModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
+      </div>}
+      <SendEmailModal email={formState.email} />
     </div>
   );
 };
