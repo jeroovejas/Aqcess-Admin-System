@@ -44,21 +44,7 @@ const AccessHistory = () => {
     };
   }, [exportModal]);
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
-      setIsFilterOpen(false);
-      setIsTypeOpen(false);
-    }
-  };
 
-  useEffect(() => {
-    if (isFilterOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isFilterOpen]);
   useEffect(() => {
     dispatch(resetState())
   }, [router])

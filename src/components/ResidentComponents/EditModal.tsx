@@ -8,7 +8,6 @@ const EditModal: React.FC<any> = () => {
     const editModal = useAppSelector((state) => state.resident.editModal);
     const resident = useAppSelector((state) => state.resident.residentData);
     const dispatch = useAppDispatch();
-    const modalRef = useRef<HTMLDivElement>(null);
     const [formData, setFormData] = useState({
         resident_id: 0,
         status: "",
@@ -36,7 +35,7 @@ const EditModal: React.FC<any> = () => {
     };
 
     const deleteResident = () => {
-        dispatch(toggleEditModal());
+        // dispatch(toggleEditModal());
         dispatch(toggleDeleteModal());
     };
 
@@ -55,23 +54,6 @@ const EditModal: React.FC<any> = () => {
         }
     }, [resident]);
 
-
-
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleEditModal());
-        }
-    };
-
-    useEffect(() => {
-        if (editModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [editModal]);
-
     function capitalizeFirstLetter(str: any) {
         if (typeof str !== 'string' || str.length === 0) return str; // Check for valid string input
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -81,7 +63,7 @@ const EditModal: React.FC<any> = () => {
         <>
             {editModal ? (
                 <>
-                    <div ref={modalRef} className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
+                    <div className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
                         <div className="flex justify-between items-center mt-8">
                             <h3 className="text-3xl font-semibold">Edit Resident</h3>
                             <button className="bg-transparent border-0 text-[20px] font-bold text-black" onClick={() => dispatch(toggleEditModal())}>x</button>

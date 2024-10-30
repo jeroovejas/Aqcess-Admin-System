@@ -8,7 +8,6 @@ const AddProduct: React.FC<any> = () => {
     const formRef = useRef<HTMLFormElement>(null);
     const addProduct = useAppSelector((state) => state.payment.addProduct);
     const token = useAppSelector((state) => state.auth.token);
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch();
 
     // State for all form inputs in a single object
@@ -82,26 +81,11 @@ const AddProduct: React.FC<any> = () => {
         }
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleAddProduct());
-        }
-    };
-
-    useEffect(() => {
-        if (addProduct) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [addProduct]);
-
     return (
         <>
             {addProduct ? (
                 <div className="absolute top-0 right-0 w-full md:w-3/5 lg:w-2/5 h-screen">
-                    <div ref={modalRef} className="border-0 shadow-lg relative text-black w-full h-full bg-white outline-none focus:outline-none px-8 py-8">
+                    <div className="border-0 shadow-lg relative text-black w-full h-full bg-white outline-none focus:outline-none px-8 py-8">
                         <div className="flex justify-between items-center mt-8">
                             <h3 className="text-3xl font-semibold">Add New Product</h3>
                             <button

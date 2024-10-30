@@ -6,30 +6,15 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 const ExportModal: React.FC<any> = () => {
     const [selectedOption, setSelectedOption] = useState<string>("");
     const exportModal = useAppSelector((state) => state.payment.exportModal)
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleExportModal());
-        }
-    };
-
-    useEffect(() => {
-        if (exportModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [exportModal]);
 
     return (
         <>
             {exportModal ? (
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div ref={modalRef} className="relative w-[calc(100vw-20px)] md:w-auto my-6">
+                        <div className="relative w-[calc(100vw-20px)] md:w-auto my-6">
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 <FaRegArrowAltCircleUp size={30} className="mb-6 " />

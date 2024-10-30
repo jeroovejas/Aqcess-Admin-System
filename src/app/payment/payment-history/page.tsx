@@ -8,7 +8,7 @@ import CardDataStats from "@/components/CardDataStats";
 import ExportModal from "@/components/PaymentComponents/ExportModal";
 import { FaChevronRight } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { toggleExportModal, } from "@/store/Slices/PaymentSlice";
+import { toggleExportModal, resetPaymentState } from "@/store/Slices/PaymentSlice";
 import Link from "next/link";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "@/components/common/Loader";
@@ -20,7 +20,6 @@ import { IoSearchOutline } from "react-icons/io5";
 const PaymentManager = () => {
   const exportModal = useAppSelector((state) => state.payment.exportModal)
   const paymentDetails = useAppSelector((state) => state.payment.paymentDetails)
-  console.log(paymentDetails)
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
@@ -87,6 +86,10 @@ const PaymentManager = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isFilterOpen]);
+
+  useEffect(() => {
+    dispatch(resetPaymentState())
+  }, [router])
 
 
   if (verified === null) {

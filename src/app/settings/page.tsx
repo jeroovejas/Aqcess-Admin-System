@@ -14,7 +14,7 @@ import Loader from "@/components/common/Loader";
 interface SettingsFormState {
   first_name: string;
   last_name: string;
-  email: string;
+  // email: string;
   profile_image: File | null;
   imagePreview?: string | null;
 }
@@ -39,7 +39,7 @@ const Settings: React.FC = () => {
   const [formState, setFormState] = useState<SettingsFormState>({
     first_name: '',
     last_name: '',
-    email: '',
+    // email: '',
     profile_image: null,
     imagePreview: null,
   });
@@ -122,7 +122,7 @@ const Settings: React.FC = () => {
       const formData = new FormData();
       formData.append('first_name', formState.first_name);
       formData.append('last_name', formState.last_name);
-      formData.append('email', formState.email);
+      // formData.append('email', formState.email);
 
       if (formState.profile_image) {
         formData.append('profile_image', formState.profile_image);
@@ -149,7 +149,7 @@ const Settings: React.FC = () => {
       ...prevValues,
       first_name: user.firstName,
       last_name: user.lastName,
-      email: user.email,
+      // email: user.email,
       profile_image: null,
       imagePreview: user.profileImage ? user.profileImage : null // Set the image preview URL
     }));
@@ -259,12 +259,11 @@ const Settings: React.FC = () => {
                       </label>
                       <input
                         name="email"
-                        value={formState.email}
-                        onChange={handleInputChange}
+                        value={user.email}
                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         type="email"
                         placeholder="Enter Email"
-                        required
+                        readOnly
                       />
                     </div>
                     <div className="w-full mb-8">

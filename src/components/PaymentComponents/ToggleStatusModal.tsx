@@ -10,7 +10,6 @@ const ToggleStatusModal: React.FC<any> = () => {
     const statusModal = useAppSelector((state) => state.payment.statusModal)
     const productData = useAppSelector((state) => state.payment.productData)
     const token = useAppSelector((state) => state.auth.token);
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
 
     const handleStatusChange = async () => {
@@ -33,27 +32,13 @@ const ToggleStatusModal: React.FC<any> = () => {
             console.error('Unexpected error during duplicating product :', err.message);
         }
     };
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleStatusModal());
-        }
-    };
-
-    useEffect(() => {
-        if (statusModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [statusModal]);
 
     return (
         <>
             {statusModal ? (
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div ref={modalRef} className="relative w-[500px] my-6 max-w-3xl ">
+                        <div className="relative w-[500px] my-6 max-w-3xl ">
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 {productData.status == 'active' ? <FaUserLargeSlash size={30} className="mb-6 text-danger" /> : <FaUserCheck size={30} className="mb-6 " />}

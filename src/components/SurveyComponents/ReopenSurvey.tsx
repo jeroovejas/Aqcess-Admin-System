@@ -6,12 +6,14 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import DatePickerOne from "../DataPicker/DatePickerOne/DatePickerOne";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { reOpenSurvey } from "@/lib/api/survey";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 const ReOpenSurvey: React.FC<any> = () => {
     const [deadline, setDeadline] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const reOpenModal = useAppSelector((state) => state.survey.reOpenModal)
     const surveyData = useAppSelector((state) => state.survey.surveyData)
     const token = useAppSelector((state) => state.auth.token);
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
 
     const handleDateChange = (date: string) => {
@@ -19,6 +21,7 @@ const ReOpenSurvey: React.FC<any> = () => {
     };
 
     const handleReopenSurvey = async () => {
+        setLoading(true)
         try {
             const body = {
                 deadline: deadline,
@@ -36,30 +39,30 @@ const ReOpenSurvey: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during duplicating survey :', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleReOpenModal());
+    const handleDraftReopen = () => {
+        if (surveyData.status === 'draft') {
+            const userConfirmed = confirm("Are you sure you want to reopen as this survey will not be available for editing in future ?");
+            if (userConfirmed) {
+                handleReopenSurvey();
+            } else {
+                dispatch(toggleReOpenModal())
+            }
+        } else {
+            handleReopenSurvey()
         }
-    };
-
-    useEffect(() => {
-        if (reOpenModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [reOpenModal]);
+    }
 
     return (
         <>
             {reOpenModal ? (
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div ref={modalRef} className="relative w-[500px] my-6 max-w-3xl ">
+                        <div className="relative w-[500px] my-6 max-w-3xl ">
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 <RxQuestionMarkCircled size={30} className="mb-6 " />
@@ -80,11 +83,13 @@ const ReOpenSurvey: React.FC<any> = () => {
                                         Cancel
                                     </button>
                                     <button
-                                        className="text-white w-1/2 rounded-lg bg-primary-blue font-bold text-sm px-6 py-3  outline-none  mr-1 mb-1"
+                                        className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-bold text-sm px-6 py-3  outline-none  mr-1 mb-1"
                                         type="button"
-                                        onClick={handleReopenSurvey}
+                                        disabled={loading}
+                                        onClick={handleDraftReopen}
                                     >
-                                        Reopen Survey
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Reopen Survey"}
+
                                     </button>
                                 </div>
                             </div>

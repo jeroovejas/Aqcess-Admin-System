@@ -23,6 +23,23 @@ export const getAllSurveys = async (params: any): Promise<ApiResponse<any>> => {
         };
     }
 };
+export const getSurvey = async (params: any): Promise<ApiResponse<any>> => {
+    const getDataConfig = createGetRequest<any>('/survey/detail', params);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(getDataConfig());
+        return {
+            success: true,
+            data: response.data,  //response.data contains our backend API response
+        };
+    } catch (error: any) {
+        const errorResponse = error.response || {};
+        return {
+            success: false,
+            data: errorResponse.data,
+        };
+    }
+};
 
 export const createSurvey = async (body: any): Promise<ApiResponse<any>> => {
     const postDataConfig = createPostRequest<any>('/survey/create', body);

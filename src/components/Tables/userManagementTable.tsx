@@ -3,14 +3,13 @@ import { useState, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
-import { FaArrowDown } from "react-icons/fa6";
-import { FaChevronRight } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleStatusModal, setAdminData, toggleDeleteModal } from "@/store/Slices/UserManagementSlice";
-import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { showErrorToast } from "@/lib/toastUtil";
 import { getAllSocietyAdmins } from "@/lib/api/userManagement";
 import Loader from "../common/Loader";
 import { useRouter } from 'next/navigation';
+import { toTitleCase } from "@/lib/common.modules";
 
 const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
   const limit = 10;
@@ -135,10 +134,10 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                   <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
                     <th className="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {admin.profileImage !== null ?
-                        <div className="flex-shrink-0">
-                          <img src={admin.profileImage} alt="Profile Image" width={35} height={35} />
-                        </div> : <div className="flex-shrink-0">
-                          <img src="/images/user/dummy.png" alt="Profile Image" width={35} height={35} />
+                        <div className="h-10 w-10 rounded-full overflow-hidden">
+                          <img src={admin.profileImage} alt="Profile Image" className="w-full h-full object-cover" />
+                        </div> : <div className="h-10 w-10 rounded-full overflow-hidden">
+                          <img src="/images/user/dummy.png" alt="Profile Image" className="w-full h-full object-cover" />
                         </div>}
                       <p className="text-black font-bold dark:text-white mt-2 ml-2">
                         {admin.firstName} {admin.lastName}
@@ -149,7 +148,7 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                     </td>
                     <td className={`px-6 py-4 ${admin.status == 'active' ? 'text-meta-3' : 'text-meta-1'} whitespace-nowrap`}>
                       <div className="flex items-center">
-                        {admin.status}
+                        {toTitleCase(admin.status)}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -158,11 +157,11 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {admin.loginType}
                     </td>
-                    <td className=" relative group whitespace-nowrap">
-                      <BsThreeDotsVertical className="text-black" />
-                      <ul className="absolute z-20 top-5 right-2 w-[150px] my-4 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
+                    <td className=" relative px-6 group whitespace-nowrap">
+                      <BsThreeDotsVertical className="text-black " />
+                      <ul className="absolute z-500 bottom-0 mb-0 w-[150px] right-2 text-[14px]  bg-white hidden group-hover:block  text-black border border-gray ">
                         <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleView(admin)}>View </li>
-                        <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleDelete(admin)}>Delete</li>
+                        {/* <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleDelete(admin)}>Delete</li> */}
                         <li onClick={() => handleStatusChange(admin)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
                           {admin.status === 'active' ? 'Deactivate' : 'Activate'}
                         </li>

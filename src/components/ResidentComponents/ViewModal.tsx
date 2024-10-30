@@ -7,22 +7,7 @@ const ViewModal: React.FC<any> = () => {
     const viewModal = useAppSelector((state) => state.resident.viewModal)
     const resident = useAppSelector((state) => state.resident.residentData)
     const dispatch = useAppDispatch()
-    const modalRef = useRef<HTMLDivElement>(null);
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleViewModal());
-        }
-    };
-
-    useEffect(() => {
-        if (viewModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [viewModal]);
 
 
     const viewEdit = () => {
@@ -44,7 +29,7 @@ const ViewModal: React.FC<any> = () => {
         <>
             {viewModal ? (
                 <>
-                    <div ref={modalRef} className={`absolute top-0 right-0 w-full z-999 md:w-2/5 bg-white  h-screen overflow-y-scroll my-scrollbar`}>
+                    <div className={`absolute top-0 right-0 w-full z-999 md:w-2/5 bg-white  h-screen overflow-y-scroll my-scrollbar`}>
                         <div className="border-0  relative text-black w-full h-full outline-none focus:outline-none  px-8 py-8">
                             <div className="flex justify-between items-center mt-8">
 

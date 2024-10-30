@@ -1,6 +1,5 @@
 "use client"
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
@@ -10,7 +9,7 @@ import { toggleDeleteModal, toggleEditModal, setAreaData, toggleStatusModal, tog
 import { getAllAreas } from "@/lib/api/commonArea";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
-
+import { toTitleCase } from "@/lib/common.modules";
 
 const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
     const dispatch = useAppDispatch();
@@ -101,6 +100,10 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
             console.error('Unexpected error during areas Fetch:', err.message);
         }
     }
+    function toUpperCase(status: any): import("react").ReactNode {
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
             <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
@@ -117,24 +120,19 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
                                     Area Name
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Active Booking
+                                    Date And Time
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     Occupacy
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Date And Time
-                                </th>
+                                    Active Booking
+                                </th>                                
                                 <th scope="col" className="px-6 py-3">
                                     Status
                                 </th>
-
-                                <th>
-
-                                </th>
-                                <th>
-
-                                </th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,39 +145,34 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
                             ) : (
                                 areas.map((area, key) => (
                                     <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
-
                                         <td className="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-
                                             <div className="w-10 h-10 rounded-full overflow-hidden">
                                                 <img src={area.imageUrl} alt="Profile Image" className="w-full h-full object-cover" />
                                             </div>
-
-                                            <p className=" text-black font-bold dark:text-white  mt-2 ml-2">
+                                            <p className=" text-black font-bold dark:text-white ml-2">
                                                 {area.title}
                                             </p>
-                                        </td>
+                                        </td>                                        
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {area.areaStats.totalActiveBookings}
+                                            {area.createdAt}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {area.occupancy}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {area.createdAt}
+                                            {area.areaStats.totalActiveBookings}
                                         </td>
                                         <td className="px-6 py-4  font-bold whitespace-nowrap">
                                             <span className={` p-2 rounded-2xl ${area.status == 'available' ? 'text-meta-3 bg-[#ECFDED]' : area.status == 'booked' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
-                                                {area.status}
+                                                {toTitleCase(area.status)}
                                             </span>
                                         </td>
                                         <td className=" relative group">
                                             <BsThreeDotsVertical className="text-black" />
-                                            <ul className="absolute  z-20 top-5 right-2 w-[150px] my-4 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
+                                            <ul className="absolute z-500 bottom-0 mb-0 w-[150px] right-2 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
                                                 <li className="px-8 py-2  font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleEdit(area)}   >Edit</li>
                                                 <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleStatusChange(area)} >{area.status === "hidden" ? "Available" : "Hide"}</li>
                                                 <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleDelete(area)} >Delete</li>
-
-
                                             </ul>
                                         </td>
                                         <td>

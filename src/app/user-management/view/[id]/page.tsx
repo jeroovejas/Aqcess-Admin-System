@@ -2,12 +2,11 @@
 import { useState, useEffect } from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useAppSelector } from "@/store/hooks";
-import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { showErrorToast } from "@/lib/toastUtil";
 import { useParams } from 'next/navigation';
 import Link from "next/link";
 import Loader from "@/components/common/Loader";
 import { useRouter } from 'next/navigation';
-import { FaArrowLeft } from "react-icons/fa6";
 import { getSocietyAdminDetails } from "@/lib/api/userManagement";
 
 const ViewAdmin = () => {
@@ -69,8 +68,10 @@ const ViewAdmin = () => {
                             </h2>
 
                             <div className="">
-                                <Link href="/user-management" type="button" className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                                    <FaArrowLeft className="mr-2 mt-0.5" /> Back
+                                <Link
+                                    href="/user-management" type="button"
+                                    className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
+                                    Back
                                 </Link>
                             </div>
                         </div>

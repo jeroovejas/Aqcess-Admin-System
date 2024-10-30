@@ -36,7 +36,6 @@ const initialFormState = {
 const EditMethodModal: React.FC<any> = () => {
     const editMethod = useAppSelector((state) => state.setting.editMethod);
     const cardData = useAppSelector((state) => state.setting.cardData);
-    const modalRef = useRef<HTMLDivElement>(null);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
 
@@ -74,20 +73,6 @@ const EditMethodModal: React.FC<any> = () => {
         }
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleEditMethodModal());
-        }
-    };
-
-    useEffect(() => {
-        if (editMethod) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [editMethod]);
 
 
     useEffect(() => {
@@ -121,7 +106,7 @@ const EditMethodModal: React.FC<any> = () => {
         <>
             {editMethod ? (
                 <>
-                    <div ref={modalRef} className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
+                    <div className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
                         <div className="flex justify-between items-center mt-8">
                             <h3 className="text-3xl font-semibold">Edit Payment Method</h3>
                             <button

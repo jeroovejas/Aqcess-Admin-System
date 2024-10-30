@@ -1,18 +1,20 @@
 "use client"
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import { toggleCloseModal, toggleIsUpdated } from "@/store/Slices/SurveySlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { closeSurveyApi } from "@/lib/api/survey";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const CloseSurvey: React.FC<any> = () => {
     const closeSurvey = useAppSelector((state) => state.survey.closeSurvey)
+    const [loading, setLoading] = useState<boolean>(false);
     const surveyData = useAppSelector((state) => state.survey.surveyData)
     const token = useAppSelector((state) => state.auth.token);
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
 
     const handleCloseSurvey = async () => {
+        setLoading(true)
         try {
             const body = {
                 survey_id: surveyData.id,
@@ -29,23 +31,11 @@ const CloseSurvey: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during duplicating survey :', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleCloseModal());
-        }
-    };
-
-    useEffect(() => {
-        if (closeSurvey) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [closeSurvey]);
 
     return (
         <>
@@ -53,7 +43,7 @@ const CloseSurvey: React.FC<any> = () => {
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                         <div className="relative w-[500px] my-6 max-w-3xl ">
-                            <div ref={modalRef} className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
+                            <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
 
                                 <IoMdCloseCircle size={45} className="mb-6 text-danger bg-danger-light rounded-full p-2" />
@@ -71,11 +61,12 @@ const CloseSurvey: React.FC<any> = () => {
                                         Cancel
                                     </button>
                                     <button
-                                        className="text-white w-1/2 rounded-lg bg-danger font-bold  text-sm px-6 py-3  outline-none  mr-1 mb-1"
+                                        className="text-white w-1/2 flex items-center justify-center cursor-pointer  rounded-lg bg-danger font-bold  text-sm px-6 py-3  outline-none  mr-1 mb-1"
                                         type="button"
+                                        disabled={loading}
                                         onClick={handleCloseSurvey}
                                     >
-                                        Close
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Close"}
                                     </button>
                                 </div>
                             </div>

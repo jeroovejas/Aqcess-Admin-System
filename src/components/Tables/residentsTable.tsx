@@ -139,7 +139,7 @@ const ResidentTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         </div> : <div className="flex-shrink-0">
                           <img src="/images/user/dummy.png" alt="Profile Image" width={35} height={35} />
                         </div>}
-                      <p className="text-black font-bold dark:text-white mt-2 ml-2">
+                      <p className="text-black font-bold dark:text-white ml-2">
                         {resident.firstName} {resident.lastName}
                       </p>
                     </th>

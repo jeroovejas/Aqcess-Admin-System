@@ -1,9 +1,7 @@
 "use client"
 import { useState, useEffect, useRef } from "react";
 import { IoFilterSharp } from "react-icons/io5";
-import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import CardDataStats from "@/components/CardDataStats";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FaChevronRight } from "react-icons/fa";
 import UserManagementTable from "@/components/Tables/userManagementTable";
@@ -17,7 +15,6 @@ import Loader from "@/components/common/Loader";
 import { toggleIsTokenValid, setUserData } from "@/store/Slices/AuthSlice";
 import { verifyToken } from "@/lib/api/auth";
 import { showSuccessToast } from "@/lib/toastUtil";
-
 
 const UserManagement = () => {
     const router = useRouter();
@@ -55,7 +52,7 @@ const UserManagement = () => {
         const checkUser = async () => {
             const response = await verifyToken({ token: token });
             if (response.success) {
-                if (response.data.data.role ===3) {
+                if (response.data.data.role === 3) {
                     router.push('/auth/login');
                     setTimeout(() => {
                         showErrorToast("Permission denied!");
@@ -124,23 +121,7 @@ const UserManagement = () => {
                             <h2 className="text-title-md2 font-bold text-black dark:text-white">
                                 User Management
                             </h2>
-
-                            {/* <div className="">
-                                <button type="button" className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                                    <IoIosAdd className="mr-2 text-white text-xl" />Create new
-                                </button>
-                            </div> */}
-
                         </div>
-                        {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-
-                            <CardDataStats title="Total surveys" total="47" rate="">
-                            </CardDataStats>
-                            <CardDataStats title="Open surveys" total="2" rate="">
-                            </CardDataStats>
-                            <CardDataStats title="Average response rate" total="78%" rate="">
-                            </CardDataStats>
-                        </div> */}
                         <div className="mb-4 flex flex-wrap justify-between">
                             <div className="flex flex-wrap w-full md:w-auto">
                                 <div className="relative mb-4 w-full md:w-auto">
@@ -154,7 +135,7 @@ const UserManagement = () => {
                                         value={searchTerm}
                                         id="default-search"
                                         className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none"
-                                        placeholder="Search by resident name or ID"
+                                        placeholder="Search by society admin name"
                                         required
                                     />
                                 </div>
@@ -167,7 +148,6 @@ const UserManagement = () => {
                                         <IoFilterSharp className="mr-2" />
                                         Filters
                                     </button>
-
                                     <div className="w-full">
                                         <div className="relative inline-block">
                                             {isFilterOpen && (
@@ -206,6 +186,15 @@ const UserManagement = () => {
                                                             <button
                                                                 type="button"
                                                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
+                                                                onClick={() => closeDropdown("")}
+                                                            >
+                                                                All
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button
+                                                                type="button"
+                                                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                                                 onClick={() => closeDropdown("active")}
                                                             >
                                                                 Active
@@ -218,24 +207,6 @@ const UserManagement = () => {
                                                                 onClick={() => closeDropdown("deactivated")}
                                                             >
                                                                 Deactivated
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button
-                                                                type="button"
-                                                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                                                onClick={() => closeDropdown("pending")}
-                                                            >
-                                                                Pending
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button
-                                                                type="button"
-                                                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                                                onClick={() => closeDropdown("")}
-                                                            >
-                                                                Reset
                                                             </button>
                                                         </li>
                                                     </ul>

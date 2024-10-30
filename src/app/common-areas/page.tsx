@@ -16,8 +16,6 @@ import Loader from "@/components/common/Loader";
 import { useRouter } from 'next/navigation';
 import { IoSearchOutline } from "react-icons/io5";
 
-
-
 const CommonAreas = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [verified, setVerified] = useState<boolean | null>(null);

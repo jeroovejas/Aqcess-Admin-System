@@ -35,7 +35,6 @@ const initialFormState = {
 
 const AddMethodModal: React.FC<any> = () => {
   const addMethod = useAppSelector((state) => state.setting.addMethod);
-  const modalRef = useRef<HTMLDivElement>(null);
   const token = useAppSelector((state) => state.auth.token);
   const dispatch = useAppDispatch();
 
@@ -70,26 +69,12 @@ const AddMethodModal: React.FC<any> = () => {
       console.error('Unexpected error during creating new card:', err.message);
     }
   };
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      dispatch(toggleAddMethodModal());
-    }
-  };
-
-  useEffect(() => {
-    if (addMethod) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [addMethod]);
 
   return (
     <>
       {addMethod ? (
         <>
-          <div ref={modalRef} className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
+          <div className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
             <div className="flex justify-between items-center mt-8">
               <h3 className="text-3xl font-semibold">Add Payment Method</h3>
               <button

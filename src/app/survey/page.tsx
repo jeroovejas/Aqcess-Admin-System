@@ -20,7 +20,6 @@ import { showErrorToast } from "@/lib/toastUtil";
 import { IoSearchOutline } from "react-icons/io5";
 
 const Surveys = () => {
-
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
@@ -128,7 +127,6 @@ const Surveys = () => {
               </nav>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-
               <CardDataStats title="Total surveys" total={`${surveysDetails.totalSurveys}`} rate="">
               </CardDataStats>
               <CardDataStats title="Open surveys" total={`${surveysDetails.openedSurveys}`} rate="">
@@ -178,6 +176,15 @@ const Surveys = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
+                                onClick={() => closeDropdown("")}
+                              >
+                                All
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("open")}
                               >
                                 Open
@@ -190,15 +197,6 @@ const Surveys = () => {
                                 onClick={() => closeDropdown("closed")}
                               >
                                 Closed
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                type="button"
-                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown("")}
-                              >
-                                Reset
                               </button>
                             </li>
                           </ul>

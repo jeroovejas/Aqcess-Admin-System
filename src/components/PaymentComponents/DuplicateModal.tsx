@@ -9,7 +9,6 @@ const DuplicateModal: React.FC<any> = () => {
     const duplicateModal = useAppSelector((state) => state.payment.duplicateModal)
     const productData = useAppSelector((state) => state.payment.productData)
     const token = useAppSelector((state) => state.auth.token);
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
 
     const handleDuplication = async () => {
@@ -31,26 +30,12 @@ const DuplicateModal: React.FC<any> = () => {
             console.error('Unexpected error during duplicating product :', err.message);
         }
     };
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleDuplicateModal());
-        }
-    };
-
-    useEffect(() => {
-        if (duplicateModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [duplicateModal]);
     return (
         <>
             {duplicateModal ? (
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div ref={modalRef} className="relative w-auto my-6 max-w-3xl ">
+                        <div className="relative w-auto my-6 max-w-3xl ">
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 <IoDuplicate size={30} className="mb-6 " />

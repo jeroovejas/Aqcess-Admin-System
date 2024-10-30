@@ -67,20 +67,20 @@ const AddModal: React.FC<any> = () => {
 
 
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleAddModal());
-        }
-    };
+    // const handleClickOutside = (event: MouseEvent) => {
+    //     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+    //         dispatch(toggleAddModal());
+    //     }
+    // };
 
-    useEffect(() => {
-        if (addModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [addModal]);
+    // useEffect(() => {
+    //     if (addModal) {
+    //         document.addEventListener("mousedown", handleClickOutside);
+    //     }
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, [addModal]);
 
     return (
         <>

@@ -17,7 +17,6 @@ const EditArea: React.FC = () => {
     const editModal = useAppSelector((state) => state.area.editModal);
     const areaData = useAppSelector((state) => state.area.areaData);
     const token = useAppSelector((state) => state.auth.token);
-    const modalRef = useRef<HTMLDivElement>(null);
     const [isDisabled, setIsDisabled] = useState<boolean>(false)
     const dispatch = useAppDispatch();
 
@@ -107,21 +106,6 @@ const EditArea: React.FC = () => {
         }
         //upper ...prevState functional form of setState of updating state when you want to update some fields of your state
     }, [areaData]);
-
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleEditModal());
-        }
-    };
-
-    useEffect(() => {
-        if (editModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [editModal]);
     return (
         <>
             {editModal && (

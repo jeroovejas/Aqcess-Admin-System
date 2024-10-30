@@ -10,7 +10,6 @@ const DeleteBooking: React.FC<any> = () => {
     const bookingId = useAppSelector((state) => state.area.bookingId)
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch()
-    const modalRef = useRef<HTMLDivElement>(null);
 
     const handleBookingCancel = async () => {
         try {
@@ -32,27 +31,12 @@ const DeleteBooking: React.FC<any> = () => {
         }
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleBookingModal());
-        }
-    };
-
-    useEffect(() => {
-        if (bookingModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [bookingModal]);
-
     return (
         <>
             {bookingModal ? (
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div ref={modalRef} className="relative w-[500px] my-6 max-w-3xl ">
+                        <div className="relative w-[500px] my-6 max-w-3xl ">
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
                                 <MdErrorOutline size={45} className="mb-6 text-danger bg-[#FEE4E2] rounded-full p-2" />
                                 <h3 className="text-3xl font-semibold mt-8">Cancel Booking</h3>

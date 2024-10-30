@@ -5,6 +5,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { createCommonArea } from "@/lib/api/commonArea";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface FormValues {
     title: string;
@@ -14,8 +15,7 @@ interface FormValues {
 }
 
 const AddArea: React.FC = () => {
-    const modalRef = useRef<HTMLDivElement>(null);
-    const [isDisabled, setIsDisabled] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const addModal = useAppSelector((state) => state.area.addModal);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
@@ -54,6 +54,7 @@ const AddArea: React.FC = () => {
             }));
         }
     }
+    
     const deleteImage = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -65,7 +66,7 @@ const AddArea: React.FC = () => {
     }
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setIsDisabled(true)
+        setLoading(true)
         try {
             const formData = new FormData();
             formData.append('title', formValues.title);
@@ -88,38 +89,23 @@ const AddArea: React.FC = () => {
                     file: null,
                     imagePreview: null
                 });
-                setIsDisabled(false)
             } else {
-                setIsDisabled(false)
                 showErrorToast(response.data.message)
             }
 
         } catch (err: any) {
             console.error('Unexpected error during creating common area :', err.message);
+        } finally {
+            setLoading(false)
         }
     };
-
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleAddModal());
-        }
-    };
-
-    useEffect(() => {
-        if (addModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [addModal]);
 
     // console.log(formValues);
     return (
         <>
             {addModal && (
                 <div className="absolute top-0 right-0 w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar bg-white my-0">
-                    <div ref={modalRef} className="border-0 relative text-black w-full h-full outline-none focus:outline-none px-8 py-8">
+                    <div className="border-0 relative text-black w-full h-full outline-none focus:outline-none px-8 py-8">
                         <div className="flex justify-between items-center mt-8">
                             <h3 className="text-3xl font-semibold">Create Common Area</h3>
                             <button
@@ -217,12 +203,12 @@ const AddArea: React.FC = () => {
                             </div>
                             <div className="flex gap-3 items-center">
                                 <button
-                                    disabled={isDisabled}
-                                    className={`text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none  mr-1 mb-1 ${isDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+                                    disabled={loading}
+                                    className={`text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none  mr-1 mb-1 ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
                                     type="submit"
 
                                 >
-                                    Create common area
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Create common area"}
                                 </button>
                                 <button
                                     className=" border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1"

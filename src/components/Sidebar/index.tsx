@@ -215,10 +215,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <div className="flex items-center  mx-3 my-2 py-2">
               <Link className=" inline-block" href="/settings">
                 {user.profileImage !== null ?
-                  <div className="flex-shrink-0">
-                    <img src={user.profileImage} alt="Profile Image" width={35} height={35} />
-                  </div> : <div className="flex-shrink-0">
-                    <img src="/images/user/dummy.png" alt="Profile Image" width={35} height={35} />
+                  <div className="h-10 w-10 rounded-full overflow-hidden">
+                    <img src={user.profileImage} alt="Profile Image" className="w-full h-full object-cover" />
+                  </div> : <div className="h-10 w-10 rounded-full overflow-hidden">
+                    <img src="/images/user/dummy.png" alt="Profile Image" className="w-full h-full object-cover" />
                   </div>}
               </Link>
               <div className="ms-5 me-8">

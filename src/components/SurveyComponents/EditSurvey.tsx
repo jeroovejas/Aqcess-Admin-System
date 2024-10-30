@@ -7,6 +7,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
 import { editSurvey } from "@/lib/api/survey";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { parseDefaultDate } from "@/lib/common.modules";
 
 // Define types for survey form state
 interface SurveyFormState {
@@ -22,9 +24,11 @@ interface SurveyFormState {
 
 const EditSurvey: React.FC = () => {
     const editModal = useAppSelector((state) => state.survey.editModal);
+    const [loading, setLoading] = useState(false);
     const surveyData = useAppSelector((state) => state.survey.surveyData);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
+
 
 
     // Initialize state with default values
@@ -123,11 +127,7 @@ const EditSurvey: React.FC = () => {
     const handleEdit = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault();
-            // const body = {
-            //     ...formState,
-            //     token: token,
-            //     survey_id: surveyData.id
-            // };
+            setLoading(true)
             const body = {
                 ...formState,
                 questions: JSON.stringify(formState.questions),
@@ -145,6 +145,8 @@ const EditSurvey: React.FC = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during creating survey :', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -154,7 +156,7 @@ const EditSurvey: React.FC = () => {
                 ...prevState,
                 title: surveyData.title,
                 description: surveyData.description,
-                deadline: surveyData.deadline,
+                deadline: parseDefaultDate(surveyData.deadline),
                 questions: surveyData.questions.map((question: any) => ({
                     question_title: question.questionTitle,
                     question_choice: question.questionChoice,
@@ -178,20 +180,19 @@ const EditSurvey: React.FC = () => {
                                     {surveyData.title}
                                 </h2>
                             </div>
-
                             <div className="flex gap-3">
                                 <button
                                     type="button"
-                                    onClick={() => dispatch(toggleEditModal())}
-                                    className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2"
-                                >
-                                    Cancel
+                                    className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2"
+                                    onClick={() => dispatch(toggleEditModal())}>
+                                    Back
                                 </button>
                                 <button
                                     type="submit"
+                                    disabled={loading}
                                     className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2"
                                 >
-                                    Save Changes
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save Changes"}
                                 </button>
                             </div>
                         </div>
@@ -253,7 +254,7 @@ const EditSurvey: React.FC = () => {
                                         </label>
                                         <DatePickerOne defaultDate={formState.deadline} onChange={handleDateChange} />
                                     </div>
-                               
+
                                 </div>
                             </div>
                         </div>

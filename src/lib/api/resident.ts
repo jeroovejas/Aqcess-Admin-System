@@ -51,7 +51,6 @@ export const exportResidents = async (params: any): Promise<any> => {
         }
     } catch (error: any) {
         console.error('Error exporting residents:', error);
-
         // Return error message
         return {
             success: false,

@@ -9,7 +9,6 @@ const DeleteArea: React.FC<any> = () => {
     const deleteModal = useAppSelector((state) => state.area.deleteModal)
     const areaData = useAppSelector((state) => state.area.areaData)
     const token = useAppSelector((state) => state.auth.token)
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
 
     const handleDelete = async () => {
@@ -29,27 +28,12 @@ const DeleteArea: React.FC<any> = () => {
         }
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleDeleteModal());
-        }
-    };
-
-    useEffect(() => {
-        if (deleteModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [deleteModal]);
-
     return (
         <>
             {deleteModal ? (
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div ref={modalRef} className="relative w-[500px] my-6 max-w-3xl ">
+                        <div className="relative w-[500px] my-6 max-w-3xl ">
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
 

@@ -10,7 +10,6 @@ const SaveChangesModal: React.FC<any> = () => {
     const saveModal = useAppSelector((state) => state.resident.saveModal)
     const resident = useAppSelector((state) => state.resident.residentData);
     const token = useAppSelector((state) => state.auth.token);
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false);
 
@@ -41,27 +40,13 @@ const SaveChangesModal: React.FC<any> = () => {
 
 
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleSaveModal());
-        }
-    };
-
-    useEffect(() => {
-        if (saveModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [saveModal]);
     return (
         <>
             {saveModal ? (
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                         <div className="relative w-[400px] my-6 max-w-3xl">
-                            <div ref={modalRef} className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
+                            <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
 
                                 <CiWarning size={45} className="mb-6 text-[#DC6803] bg-[#FEF0C7] rounded-full p-2" />

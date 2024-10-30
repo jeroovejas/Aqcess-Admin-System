@@ -11,7 +11,6 @@ const DeleteModal: React.FC<any> = () => {
     const deleteModal = useAppSelector((state) => state.resident.deleteModal)
     const resident = useAppSelector((state) => state.resident.residentData)
     const token = useAppSelector((state) => state.auth.token)
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false);
 
@@ -37,29 +36,13 @@ const DeleteModal: React.FC<any> = () => {
     };
 
 
-
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleDeleteModal());
-        }
-    };
-
-    useEffect(() => {
-        if (deleteModal) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [deleteModal]);
-
     return (
         <>
             {deleteModal ? (
                 <>
-                    <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-999 outline-none focus:outline-none">
                         <div className="relative w-[500px] my-6 max-w-3xl ">
-                            <div ref={modalRef} className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
+                            <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
 
                                 <MdErrorOutline size={45} className="mb-6 text-danger bg-danger-light rounded-full p-2" />

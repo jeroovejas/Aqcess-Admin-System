@@ -9,7 +9,6 @@ const EditProduct: React.FC<any> = () => {
     const editProduct = useAppSelector((state) => state.payment.editProduct)
     const productData = useAppSelector((state) => state.payment.productData)
     const token = useAppSelector((state) => state.auth.token);
-    const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
 
 
@@ -83,27 +82,12 @@ const EditProduct: React.FC<any> = () => {
         });
     }, [productData])
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            dispatch(toggleEditProduct());
-        }
-    };
-
-    useEffect(() => {
-        if (editProduct) {
-            document.addEventListener("mousedown", handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [editProduct]);
-
     return (
         <>
             {editProduct ? (
                 <>
                     <div className="absolute top-0 right-0 w-full md:w-2/5 h-screen my-0">
-                        <div ref={modalRef} className="border-0 shadow-lg relative text-black w-full h-full bg-white outline-none focus:outline-none  px-8 py-8">
+                        <div className="border-0 shadow-lg relative text-black w-full h-full bg-white outline-none focus:outline-none  px-8 py-8">
                             <div className="flex justify-between items-center mt-8">
 
 

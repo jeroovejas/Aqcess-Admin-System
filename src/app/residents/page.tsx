@@ -127,14 +127,12 @@ const Residents = () => {
           <DefaultLayout >
             <Breadcrumb pageName="Resident manager" />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-
               <CardDataStats title="Total residents" total={`${residentDetails.totalResidents}`} rate="">
               </CardDataStats>
               <CardDataStats title="Active residents" total={`${residentDetails.activeResidents}`} rate="">
               </CardDataStats>
               <CardDataStats title="Residents with overdue" total={`${residentDetails.overdueResidents}`} rate="">
               </CardDataStats>
-
             </div>
             <div className="mb-4 flex flex-wrap justify-between">
               <div className="flex flex-wrap w-full md:w-auto">
@@ -162,7 +160,6 @@ const Residents = () => {
                     <IoFilterSharp className="mr-2" />
                     Filters
                   </button>
-
                   <div className="w-full">
                     <div className="relative inline-block">
                       {isFilterOpen && (
@@ -201,6 +198,15 @@ const Residents = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
+                                onClick={() => closeDropdown("")}
+                              >
+                                All
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("active")}
                               >
                                 Active
@@ -213,15 +219,6 @@ const Residents = () => {
                                 onClick={() => closeDropdown("deactivated")}
                               >
                                 Deactivated
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                type="button"
-                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown("")}
-                              >
-                                Reset
                               </button>
                             </li>
                           </ul>
@@ -248,7 +245,6 @@ const Residents = () => {
                     onClick={handleAddResident}
                     className="w-full md:w-auto text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center justify-center md:justify-start "
                   >
-
                     <IoIosAdd className="mr-2 text-white text-2xl" />
                     Add resident
                   </button>
@@ -265,9 +261,9 @@ const Residents = () => {
             <SaveChangesModal />
             <AddModal />
             <EditModal />
-            <DeleteModal />
             <ViewModal />
             <StatusModal />
+            <DeleteModal />
           </DefaultLayout>
         </>
       ) : null}

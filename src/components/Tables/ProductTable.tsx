@@ -8,7 +8,7 @@ import Loader from "../common/Loader";
 import { toggleEditProduct, setProductData, toggleStatusModal, toggleDuplicateModal } from "@/store/Slices/PaymentSlice";
 import { getAllProducts } from "@/lib/api/product";
 import { showErrorToast } from "@/lib/toastUtil";
-
+import { toTitleCase } from "@/lib/common.modules";
 
 const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
     const limit = 10;
@@ -142,12 +142,12 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                                         </td>
                                         <td className={`px-4 py-6 flex items-center font-bold  whitespace-nowrap`}>
                                             <div className={`flex items-center p-2 rounded-2xl ${product.status === 'active' ? 'text-meta-3 bg-[#ECFDED]' : product.status === 'inactive' ? 'text-meta-1 bg-[#FEF3F2]' : 'text-meta-4 bg-[#F2F4F7]'}`}>
-                                                {product.status}
+                                                {toTitleCase(product.status)}
                                             </div>
                                         </td>
                                         <td className="relative py-6  group whitespace-nowrap">
                                             <BsThreeDotsVertical className="text-black mt-4 text-xl" />
-                                            <ul className="absolute z-50 top-5 w-[150px] right-2 my-4 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
+                                            <ul className="absolute z-500 bottom-0 mb-0 w-[150px] right-2 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
                                                 <li
                                                     onClick={() => handleEditProduct(product)}
                                                     className="px-8 py-2 font-semibold  cursor-pointer hover:bg-[#f0efef]">Edit</li>

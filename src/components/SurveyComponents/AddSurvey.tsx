@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useRef } from "react";
 import { toggleAddModal, toggleIsUpdated } from "@/store/Slices/SurveySlice";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -8,6 +8,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
 import { createSurvey } from "@/lib/api/survey";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 // Define types for survey form state
 interface SurveyFormState {
@@ -33,6 +34,8 @@ const initialFormState: SurveyFormState = {
 }
 
 const AddSurvey: React.FC = () => {
+    const formRef = useRef<HTMLFormElement>(null);
+    const [loading, setLoading] = useState(false);
     const addModal = useAppSelector((state) => state.survey.addModal);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
@@ -124,8 +127,10 @@ const AddSurvey: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault();
+            setLoading(true)
             const body = {
                 ...formState,
+                status: "open",
                 questions: JSON.stringify(formState.questions),
                 token: token
             };
@@ -141,13 +146,41 @@ const AddSurvey: React.FC = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during creating survey :', err.message);
+        } finally {
+            setLoading(false)
+        }
+    };
+    const handleDraft = async () => {
+        if (!formRef.current?.reportValidity()) return;
+        setLoading(true)
+        try {
+            const body = {
+                ...formState,
+                status: "draft",
+                questions: JSON.stringify(formState.questions),
+                token: token
+            };
+            const response = await createSurvey(body);
+            if (response.success) {
+                dispatch(toggleAddModal());
+                dispatch(toggleIsUpdated());
+                showSuccessToast(response.data.message);
+                setFormState(initialFormState)
+            } else {
+                showErrorToast(response.data.message)
+            }
+
+        } catch (err: any) {
+            console.error('Unexpected error during creating survey :', err.message);
+        } finally {
+            setLoading(false)
         }
     };
     return (
         <>
             {addModal ? (
                 <DefaultLayout>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} ref={formRef}>
                         <div className="mb-6 flex flex-col gap-3 sm:flex-row items-start md:items-center justify-between">
                             <div>
                                 <p className="text-black font-bold">Surveys / <span className="text-slate-400">Create new</span></p>
@@ -157,10 +190,13 @@ const AddSurvey: React.FC = () => {
                             </div>
                             <div className="flex gap-3">
                                 <button onClick={() => dispatch(toggleAddModal())} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
-                                    Save as Draft
+                                    Back
                                 </button>
-                                <button type="submit" className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
-                                    Publish
+                                <button onClick={handleDraft} disabled={loading} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save as Draft"}
+                                </button>
+                                <button type="submit" disabled={loading} className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Publish"}
                                 </button>
                             </div>
                         </div>
@@ -201,6 +237,20 @@ const AddSurvey: React.FC = () => {
                                             required
                                         />
                                     </div>
+                                    {/* <div className="w-full mb-8">
+                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="title">
+                                            Survey Title
+                                        </label>
+                                        <input
+                                            name="title"
+                                            value={formState.title}
+                                            onChange={handleInputChange}
+                                            className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            type="datetime-local"
+                                            placeholder="Enter survey title"
+                                            required
+                                        />
+                                    </div> */}
                                     <div className="w-1/2 mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2">
                                             Deadline

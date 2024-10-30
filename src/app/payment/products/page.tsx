@@ -17,10 +17,6 @@ import Loader from "@/components/common/Loader";
 import { useRouter } from 'next/navigation';
 import { IoSearchOutline } from "react-icons/io5";
 
-
-
-
-
 const Products = () => {
   const addProduct = useAppSelector((state) => state.payment.addProduct)
   const editProduct = useAppSelector((state) => state.payment.editProduct)
@@ -113,8 +109,6 @@ const Products = () => {
       {verified ? (
         <>
           <DefaultLayout >
-
-
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-semibold text-black dark:text-white">
                 Payment Manager
@@ -128,7 +122,6 @@ const Products = () => {
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
                   Products
                 </button>
-
               </div>
             </div>
             <div className="mb-4 flex flex-wrap justify-between">
@@ -145,8 +138,6 @@ const Products = () => {
                   </button>
                   <div className='w-full'>
                     <div className="relative inline-block">
-
-
                       {isFilterOpen && (
                         <div className=" absolute font-bold top-0 right-0 left-[-110px] mt-4 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                           <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -154,7 +145,6 @@ const Products = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-
                               >
                                 Status
                               </button>
@@ -162,23 +152,34 @@ const Products = () => {
                                 <FaChevronRight size={15} />
                               </span>
                             </li>
-
                           </ul>
-
                         </div>
                       )}
-
-
                     </div>
-
                   </div>
                   <div className='w-full'>
                     <div className="relative inline-block">
-
-
                       {isStatusOpen && (
                         <div className=" absolute top-0 font-bold z-10  left-[70px] mt-4 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                           <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                          <li>
+                              <button
+                                type="button"
+                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
+                                onClick={() => closeDropdown('')}
+                              >
+                                All
+                              </button>
+                            </li>
+                          <li>
+                              <button
+                                type="button"
+                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
+                                onClick={() => closeDropdown('draft')}
+                              >
+                                Draft
+                              </button>
+                            </li>
                             <li>
                               <button
                                 type="button"
@@ -197,31 +198,10 @@ const Products = () => {
                                 Inactive
                               </button>
                             </li>
-                            <li>
-                              <button
-                                type="button"
-                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown('draft')}
-                              >
-                                Draft
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                type="button"
-                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown('')}
-                              >
-                                Reset
-                              </button>
-                            </li>
-
                           </ul>
-
                         </div>
                       )}
                     </div>
-
                   </div>
                 </div>
               </div>

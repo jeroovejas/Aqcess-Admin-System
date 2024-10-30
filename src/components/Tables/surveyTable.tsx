@@ -10,10 +10,9 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { getAllSurveys } from "@/lib/api/survey";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
-
+import { toTitleCase } from "@/lib/common.modules";
 
 const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
-
   const limit = 10;
   const PAGE_RANGE = 5;
   const dispatch = useAppDispatch()
@@ -128,15 +127,15 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                 <th scope="col" className="px-6 py-3">
                   Survey opened
                 </th>
-                <th scope="col" className="px-6 py-3 flex items-center space-x-2">
-                  Status
-                  <FaArrowDown className="ml-2 mt-1" />
-                </th>
                 <th scope="col" className="px-6 py-3">
                   Deadline
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Responses
+                </th>
+                <th scope="col" className="px-6 py-3 flex items-center space-x-2">
+                  Status
+                  <FaArrowDown className="ml-2 mt-1" />
                 </th>
                 <th>
                 </th>
@@ -162,27 +161,28 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {survey.surveyOpened}
                     </td>
-                    <td className={`px-6 py-4 flex items-center  ${survey.status == 'open' ? 'text-meta-3' : 'text-meta-1'} whitespace-nowrap`}>
-                      <div className="flex items-center">
-                        {survey.status}
-                      </div>
-                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {survey.deadline}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {survey.surveyResponses}
                     </td>
+                    <td className={`px-6 py-4 flex items-center whitespace-nowrap`}>
+                      <div className={`flex items-center px-2 py-1 rounded-full text-sm font-medium 
+                        ${survey.status === 'open' ? 'bg-green-100 text-green-700' :
+                          survey.status === 'closed' ? 'bg-danger-light text-danger' : 'bg-yellow-100 text-yellow-700'}`}>
+                        {toTitleCase(survey.status)}
+                      </div>
+                    </td>
                     <td className=" relative group whitespace-nowrap">
                       <BsThreeDotsVertical className="text-black" />
-                      <ul className="absolute z-20 top-5 right-2 w-[200px] my-4 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
-                        <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleView(survey)}>View Results</li>
-                        <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleEidt(survey)}>Edit</li>
+                      <ul className="absolute z-500 bottom-0 mb-0 w-[150px] right-2 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
+                        {/* <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleView(survey)}>View Results</li> */}
+                        {survey.status === 'draft' && <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleEidt(survey)}>Edit</li>}
                         <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleDuplicateSurvey(survey)}>Duplicate</li>
                         {survey.status === 'open' ?
                           <li onClick={() => handleCloseSurvey(survey)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">Close Survey</li>
                           : <li onClick={() => handleReOpenSurvey(survey)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">Reopen Survey</li>}
-
                       </ul>
                     </td>
                     <td>
@@ -193,7 +193,6 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                 )
                 )
               )}
-
             </tbody>
           </table>
         </div>)}
