@@ -33,7 +33,7 @@ const EditProduct: React.FC<any> = () => {
             const body = {
                 ...formState,
                 token: token,
-                status: productData.status,
+                status: "active",
                 product_id: productData.id
             };
             const response = await editProductData(body);
@@ -75,12 +75,14 @@ const EditProduct: React.FC<any> = () => {
         }
     };
     useEffect(() => {
-        setFormState({
-            title: productData.title,
-            description: productData.description,
-            price: productData.price,
-        });
-    }, [productData])
+        if (productData) {
+            setFormState({
+                title: productData.title || "",
+                description: productData.description || "",
+                price: productData.price || 10,
+            });
+        }
+    }, [productData]);
 
     return (
         <>
@@ -114,7 +116,7 @@ const EditProduct: React.FC<any> = () => {
                                         <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-first-name">
                                             Description
                                         </label>
-                                        <textarea value={formState.description} name='description' className=" block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" placeholder="Add notes about residents" onChange={handleChange} rows={5}
+                                        <textarea value={formState.description} name='description' className="block w-full h-48 bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 overflow-auto resize-none mb-3 leading-tight focus:outline-none focus:bg-white" placeholder="Add notes about residents" onChange={handleChange}
                                             required
                                         />
 
@@ -156,9 +158,8 @@ const EditProduct: React.FC<any> = () => {
                                         type="button"
                                         onClick={handleDraft}
                                     >
-                                        save as Draft
+                                        Save as Draft
                                     </button>
-
                                 </div>
                             </form>
                         </div>

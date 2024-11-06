@@ -7,6 +7,7 @@ import DatePickerOne from "../DataPicker/DatePickerOne/DatePickerOne";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { reOpenSurvey } from "@/lib/api/survey";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { parseDefaultDate } from "@/lib/common.modules";
 
 const ReOpenSurvey: React.FC<any> = () => {
     const [deadline, setDeadline] = useState<string>("");
@@ -19,6 +20,12 @@ const ReOpenSurvey: React.FC<any> = () => {
     const handleDateChange = (date: string) => {
         setDeadline(date)
     };
+
+    useEffect(() => {
+        if (surveyData.deadline) {
+            setDeadline(parseDefaultDate(surveyData.deadline));
+        }
+    }, [surveyData]);
 
     const handleReopenSurvey = async () => {
         setLoading(true)
@@ -57,6 +64,7 @@ const ReOpenSurvey: React.FC<any> = () => {
         }
     }
 
+    console.log("surveyData",surveyData)
     return (
         <>
             {reOpenModal ? (
@@ -66,8 +74,8 @@ const ReOpenSurvey: React.FC<any> = () => {
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 <RxQuestionMarkCircled size={30} className="mb-6 " />
-                                <h3 className="text-3xl font-semibold mt-8">Reopen Survey</h3>
-                                <p className="font-[500] mt-2">Your resident will be able to leave new responses. Please select new deadline.</p>
+                                <h3 className="text-3xl font-semibold mt-8">{surveyData.status === "draft" ?"Open":"Reopen"} Survey</h3>
+                                <p className="font-[500] mt-2">Your resident will be able to leave {surveyData.status === "draft" ?"":"new"} responses. Please select {surveyData.status === "draft" ?"":"new"} deadline.</p>
                                 <div className="w-full my-6">
                                     <DatePickerOne onChange={handleDateChange} defaultDate={deadline} />
                                 </div>

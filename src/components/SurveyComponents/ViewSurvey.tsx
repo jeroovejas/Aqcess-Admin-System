@@ -28,7 +28,6 @@ const ViewSurvey: React.FC<any> = () => {
 
     const fetchSurveyDetails = async () => {
         try {
-
             let params = { id: surveyData.id, token: token, searchTerm: searchTerm }
             const response = await getSurvey(params);
 
@@ -47,6 +46,8 @@ const ViewSurvey: React.FC<any> = () => {
         }
     }
 
+    // console.log("survey",survey)
+    // console.log("surveyData",surveyData)
     return (
         <>
             {viewModal ? (

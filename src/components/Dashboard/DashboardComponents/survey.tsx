@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa";
 const Survey: React.FC<any> = ({ survey }) => {
   const [isDisabled, setIsDisabled] = useState(false);
 
-  console.log("survey",survey)
+  // console.log("survey",survey)
 
   if (!survey || Object.keys(survey).length === 0) {
     return (

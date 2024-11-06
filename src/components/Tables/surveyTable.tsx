@@ -182,7 +182,7 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleDuplicateSurvey(survey)}>Duplicate</li>
                         {survey.status === 'open' ?
                           <li onClick={() => handleCloseSurvey(survey)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">Close Survey</li>
-                          : <li onClick={() => handleReOpenSurvey(survey)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">Reopen Survey</li>}
+                          : <li onClick={() => handleReOpenSurvey(survey)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">{survey.status === "draft" ? "Open Survey" : "Reopen Survey"}</li>}
                       </ul>
                     </td>
                     <td>

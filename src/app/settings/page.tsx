@@ -166,9 +166,9 @@ const Settings: React.FC = () => {
       setVerified(true);
     } else {
       router.push('/auth/login');
-      setTimeout(() => {
-        showErrorToast("Plz Login First");
-      }, 2000);
+      // setTimeout(() => {
+      //   showErrorToast("Plz Login First");
+      // }, 2000);
     }
   }, [isTokenValid, router])
 

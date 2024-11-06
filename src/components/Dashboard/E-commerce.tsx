@@ -8,7 +8,7 @@ import { DateRangePickerElement } from "../DataPicker/index";
 import DefaultLayout from "../Layouts/DefaultLayout";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { useRouter } from 'next/navigation';
-import { setUserData, toggleIsTokenValid } from "@/store/Slices/AuthSlice";
+import { setUserData, toggleIsTokenValid, clearToken, clearUser } from "@/store/Slices/AuthSlice";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { verifyToken } from "@/lib/api/auth";
 import Loader from "@/components/common/Loader";
@@ -50,9 +50,15 @@ const ECommerce: React.FC = () => {
         }
       } else {
         router.push('/auth/login');
-        setTimeout(() => {
-          showErrorToast("Plz Login First");
-        }, 2000);
+        if (isTokenValid) {
+          dispatch(toggleIsTokenValid())
+        }
+        dispatch(clearToken())
+        dispatch(clearToken())
+
+        // setTimeout(() => {
+        //   showErrorToast("Plz Login First");
+        // }, 2000);
       }
     };
     checkUser()

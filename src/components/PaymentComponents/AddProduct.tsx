@@ -119,9 +119,8 @@ const AddProduct: React.FC<any> = () => {
                                 <textarea
                                     id="description"
                                     name="description"
-                                    className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    className="block w-full h-48 bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 overflow-auto resize-none mb-3 leading-tight focus:outline-none focus:bg-white"
                                     placeholder="Add description about product"
-                                    rows={8}
                                     value={formState.description}
                                     onChange={handleChange}
                                     required

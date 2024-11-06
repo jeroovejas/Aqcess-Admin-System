@@ -101,7 +101,7 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                 <Loader />
             ) : (
                 <div className="relative overflow-x-auto text-black">
-                    <table className="w-full text-[16px] text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
@@ -130,22 +130,22 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                                 </tr>
                             ) : (
                                 products.map((product, key) => (
-                                    <tr key={key} className="bg-white border-b py-6 border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
-                                        <td className="px-6 py-6 font-bold whitespace-nowrap">
+                                    <tr key={key} className="bg-white border-b font-medium border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
+                                        <td className="px-6 py-4 font-bold whitespace-nowrap">
                                             {product.title}
                                         </td>
-                                        <td className="px-6 py-6 whitespace-nowrap">
+                                        <td className="px-6 py-4 whitespace-nowrap">
                                             {product.description}
                                         </td>
-                                        <td className="px-6 py-6 whitespace-nowrap">
+                                        <td className="px-6 py-4 whitespace-nowrap">
                                             ${product.price}
                                         </td>
-                                        <td className={`px-4 py-6 flex items-center font-bold  whitespace-nowrap`}>
-                                            <div className={`flex items-center p-2 rounded-2xl ${product.status === 'active' ? 'text-meta-3 bg-[#ECFDED]' : product.status === 'inactive' ? 'text-meta-1 bg-[#FEF3F2]' : 'text-meta-4 bg-[#F2F4F7]'}`}>
+                                        <td className={`px-4 py-4 flex items-center font-bold  whitespace-nowrap`}>
+                                            <div className={`flex items-center p-2 rounded-2xl ${product.status === 'active' ? 'text-meta-3 bg-[#ECFDED]' : product.status === 'inactive' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-yellow-100 text-yellow-700'}`}>
                                                 {toTitleCase(product.status)}
                                             </div>
                                         </td>
-                                        <td className="relative py-6  group whitespace-nowrap">
+                                        <td className="relative py-4  group whitespace-nowrap">
                                             <BsThreeDotsVertical className="text-black mt-4 text-xl" />
                                             <ul className="absolute z-500 bottom-0 mb-0 w-[150px] right-2 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
                                                 <li

@@ -139,7 +139,7 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         </div> : <div className="h-10 w-10 rounded-full overflow-hidden">
                           <img src="/images/user/dummy.png" alt="Profile Image" className="w-full h-full object-cover" />
                         </div>}
-                      <p className="text-black font-bold dark:text-white mt-2 ml-2">
+                      <p className="text-black font-bold dark:text-white ml-2">
                         {admin.firstName} {admin.lastName}
                       </p>
                     </th>
@@ -165,13 +165,11 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         <li onClick={() => handleStatusChange(admin)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
                           {admin.status === 'active' ? 'Deactivate' : 'Activate'}
                         </li>
-
                       </ul>
                     </td>
                   </tr>
                 ))
               )}
-
             </tbody>
           </table>
         </div>)}
