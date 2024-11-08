@@ -94,6 +94,7 @@ const ECommerce: React.FC = () => {
         fromDate: fromDate
       }
       const response = await getDashboardData(params);
+      console.log(response)
 
       // Check the success property to determine if the request was successful
       if (response.success) {
@@ -111,6 +112,9 @@ const ECommerce: React.FC = () => {
   if (verified === null || loading === true) {
     return <Loader />
   }
+
+  console.log("toDate",toDate)
+  console.log("fromDate",fromDate)
   return (
     <>
       {(verified && !loading) ? (

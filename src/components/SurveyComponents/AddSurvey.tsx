@@ -35,7 +35,8 @@ const initialFormState: SurveyFormState = {
 
 const AddSurvey: React.FC = () => {
     const formRef = useRef<HTMLFormElement>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading1, setLoading1] = useState(false);
+    const [loading2, setLoading2] = useState(false);
     const addModal = useAppSelector((state) => state.survey.addModal);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
@@ -127,7 +128,7 @@ const AddSurvey: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault();
-            setLoading(true)
+            setLoading1(true)
             const body = {
                 ...formState,
                 status: "open",
@@ -147,12 +148,12 @@ const AddSurvey: React.FC = () => {
         } catch (err: any) {
             console.error('Unexpected error during creating survey :', err.message);
         } finally {
-            setLoading(false)
+            setLoading1(false)
         }
     };
     const handleDraft = async () => {
         if (!formRef.current?.reportValidity()) return;
-        setLoading(true)
+        setLoading2(true)
         try {
             const body = {
                 ...formState,
@@ -173,7 +174,7 @@ const AddSurvey: React.FC = () => {
         } catch (err: any) {
             console.error('Unexpected error during creating survey :', err.message);
         } finally {
-            setLoading(false)
+            setLoading2(false)
         }
     };
     return (
@@ -192,11 +193,11 @@ const AddSurvey: React.FC = () => {
                                 <button onClick={() => dispatch(toggleAddModal())} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
                                     Back
                                 </button>
-                                <button onClick={handleDraft} disabled={loading} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
-                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save as Draft"}
+                                <button onClick={handleDraft} disabled={loading2} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
+                                    {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save as Draft"}
                                 </button>
-                                <button type="submit" disabled={loading} className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
-                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Publish"}
+                                <button type="submit" disabled={loading1} className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
+                                    {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Publish"}
                                 </button>
                             </div>
                         </div>

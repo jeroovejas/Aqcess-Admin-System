@@ -29,24 +29,9 @@ export const exportResidents = async (params: any): Promise<any> => {
     try {
         // Perform the API request
         const response = await axiosInstance(getDataConfig);
-
-        // Create a blob URL for the downloaded file
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'residents.csv'); // Specify the file name
-
-        // Append to the body to make it work in Firefox
-        document.body.appendChild(link);
-        link.click();
-
-        // Clean up and remove the link
-        if (link.parentNode) {
-            link.parentNode.removeChild(link); // Safely remove the link
-        }
-
         return {
             success: true,
+            data: response.data.data,
             message: 'File downloaded successfully!'
         }
     } catch (error: any) {

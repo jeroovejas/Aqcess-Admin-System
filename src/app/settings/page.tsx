@@ -10,7 +10,7 @@ import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { setUserData } from "@/store/Slices/AuthSlice";
 import { useRouter } from 'next/navigation';
 import Loader from "@/components/common/Loader";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface SettingsFormState {
   first_name: string;
   last_name: string;
@@ -29,7 +29,8 @@ const Settings: React.FC = () => {
   const billingModal = useAppSelector((state) => state.setting.billingModal);
   const token = useAppSelector((state) => state.auth.token);
   const user = useAppSelector((state) => state.auth.userData);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false)
+  const [loading1, setLoading1] = useState<boolean>(false)
+  const [loading2, setLoading2] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const [verified, setVerified] = useState<boolean | null>(null);
@@ -92,6 +93,7 @@ const Settings: React.FC = () => {
   };
 
   const handleUpdatePassword = async (event: React.FormEvent<HTMLFormElement>) => {
+    setLoading2(true)
     event.preventDefault();
     try {
       const body = {
@@ -113,11 +115,13 @@ const Settings: React.FC = () => {
 
     } catch (err: any) {
       console.error('Unexpected error during change password :', err.message);
+    }finally{
+      setLoading2(false)
     }
   };
   const handleUpdateProfile = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsDisabled(true)
+    setLoading1(true)
     try {
       const formData = new FormData();
       formData.append('first_name', formState.first_name);
@@ -133,14 +137,14 @@ const Settings: React.FC = () => {
       if (response.success) {
         showSuccessToast(response.data.message);
         dispatch(setUserData(response.data.data))
-        setIsDisabled(false)
       } else {
         showErrorToast(response.data.message)
-        setIsDisabled(false)
       }
 
     } catch (err: any) {
       console.error('Unexpected error during profile update :', err.message);
+    }finally{
+      setLoading1(false)
     }
   };
 
@@ -337,8 +341,8 @@ const Settings: React.FC = () => {
                       <button type="button" className=" text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
                         Cancel
                       </button>
-                      <button disabled={isDisabled} type="submit" className={` text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2 ${isDisabled ? 'cursor-not-allowed opacity-50' : ''}`}>
-                        Save
+                      <button disabled={loading1} type="submit" className={` text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2`}>
+                         {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save"}
                       </button>
                     </div>
                   </div>
@@ -401,8 +405,8 @@ const Settings: React.FC = () => {
                     <button type="button" className=" text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
                       Cancel
                     </button>
-                    <button type="submit" className=" text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                      Update Password
+                    <button type="submit" disabled={loading2} className=" text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
+                      {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Update Password"}
                     </button>
                   </div>
 

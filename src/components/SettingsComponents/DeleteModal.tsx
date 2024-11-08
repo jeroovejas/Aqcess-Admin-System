@@ -5,13 +5,16 @@ import { toggleDeleteModal, toggleIsUpdated } from "@/store/Slices/SettingSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { deleteCard } from "@/lib/api/payment";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const DeleteModal: React.FC<any> = () => {
     const deleteModal = useAppSelector((state) => state.setting.deleteModal)
     const cardData = useAppSelector((state) => state.setting.cardData)
     const token = useAppSelector((state) => state.auth.token);
+    const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
     const handleDelete = async () => {
+        setLoading(true)
         try {
             const params = { id: cardData.id, token: token }
             const response = await deleteCard(params);
@@ -25,6 +28,8 @@ const DeleteModal: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during deleting card:', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -53,11 +58,12 @@ const DeleteModal: React.FC<any> = () => {
                                         Cancel
                                     </button>
                                     <button
-                                        className="text-white w-1/2 rounded-lg bg-danger font-bold  text-sm px-6 py-3  outline-none  mr-1 mb-1"
+                                        className="text-white w-1/2 flex items-center justify-center cursor-pointer  rounded-lg bg-danger font-bold  text-sm px-6 py-3  outline-none  mr-1 mb-1"
                                         type="button"
+                                        disabled={loading}
                                         onClick={handleDelete}
                                     >
-                                        Delete
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Delete"}
                                     </button>
                                 </div>
                             </div>

@@ -1,17 +1,20 @@
 "use client"
-import { useRef, useEffect } from "react";
+import { useState } from "react";
 import { IoDuplicate } from "react-icons/io5";
 import { toggleDuplicateModal, toggleIsUpdated } from "@/store/Slices/PaymentSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { duplicateProduct } from "@/lib/api/product";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const DuplicateModal: React.FC<any> = () => {
     const duplicateModal = useAppSelector((state) => state.payment.duplicateModal)
     const productData = useAppSelector((state) => state.payment.productData)
     const token = useAppSelector((state) => state.auth.token);
+    const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch()
 
     const handleDuplication = async () => {
+        setLoading(true)
         try {
             const body = {
                 product_id: productData.id,
@@ -28,6 +31,8 @@ const DuplicateModal: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during duplicating product :', err.message);
+        } finally {
+            setLoading(false)
         }
     };
     return (
@@ -54,11 +59,12 @@ const DuplicateModal: React.FC<any> = () => {
                                         No
                                     </button>
                                     <button
-                                        className={`text-white w-1/2 rounded-lg bg-primary-blue  font-bold  text-sm px-6 py-3   outline-none  mr-1 mb-1`}
+                                        className={`text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue  font-bold  text-sm px-6 py-3   outline-none  mr-1 mb-1`}
                                         type="button"
                                         onClick={handleDuplication}
+                                        disabled={loading}
                                     >
-                                        Yes
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Yes"}
                                     </button>
                                 </div>
                             </div>

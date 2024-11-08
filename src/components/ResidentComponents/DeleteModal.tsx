@@ -1,7 +1,7 @@
 "use client"
 import React, { useRef, useEffect, useState } from "react";
 import { MdErrorOutline } from "react-icons/md";
-import { toggleDeleteModal } from "@/store/Slices/ResidentSlice"
+import { toggleDeleteModal, toggleEditModal } from "@/store/Slices/ResidentSlice"
 import { toggleIsUpdated } from "@/store/Slices/ResidentSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { deleteResident } from "@/lib/api/resident";
@@ -9,6 +9,7 @@ import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const DeleteModal: React.FC<any> = () => {
     const deleteModal = useAppSelector((state) => state.resident.deleteModal)
+    const editModal = useAppSelector((state) => state.resident.editModal)
     const resident = useAppSelector((state) => state.resident.residentData)
     const token = useAppSelector((state) => state.auth.token)
     const dispatch = useAppDispatch()
@@ -22,6 +23,9 @@ const DeleteModal: React.FC<any> = () => {
             if (response.success) {
                 dispatch(toggleIsUpdated())
                 dispatch(toggleDeleteModal())
+                if (editModal) {
+                    dispatch(toggleEditModal())
+                }
                 showSuccessToast(response.data.message);
             } else {
                 showErrorToast(response.data.message)

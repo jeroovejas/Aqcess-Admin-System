@@ -5,13 +5,16 @@ import { toggleBookingModal, toggleIsUpdated } from "@/store/Slices/AreaSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { cancelAreaBooking } from "@/lib/api/commonArea";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const DeleteBooking: React.FC<any> = () => {
     const bookingModal = useAppSelector((state) => state.area.bookingModal)
     const bookingId = useAppSelector((state) => state.area.bookingId)
     const token = useAppSelector((state) => state.auth.token);
+    const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
     const handleBookingCancel = async () => {
+        setLoading(true)
         try {
             const body = {
                 booking_id: bookingId,
@@ -28,6 +31,8 @@ const DeleteBooking: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during cancel booking :', err.message);
+        }finally{
+            setLoading(false)
         }
     };
 
@@ -50,11 +55,12 @@ const DeleteBooking: React.FC<any> = () => {
                                         Back
                                     </button>
                                     <button
-                                        className="text-white w-1/2 rounded-lg bg-danger font-bold  text-sm px-6 py-3  outline-none  mr-1 mb-1"
+                                        className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-danger font-bold  text-sm px-6 py-3  outline-none  mr-1 mb-1"
                                         type="button"
+                                        disabled={loading}
                                         onClick={handleBookingCancel}
                                     >
-                                        Cancel Booking
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Cancel Booking"}
                                     </button>
                                 </div>
                             </div>

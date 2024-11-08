@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { GrHide } from "react-icons/gr";
 import { BiSolidShow } from "react-icons/bi";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { toggleStatusModal, toggleIsUpdated } from "@/store/Slices/AreaSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { changeCommonAreaStatus } from "@/lib/api/commonArea";
@@ -11,9 +11,11 @@ const StatusModal: React.FC<any> = () => {
     const statusModal = useAppSelector((state) => state.area.statusModal)
     const areaData = useAppSelector((state) => state.area.areaData)
     const token = useAppSelector((state) => state.auth.token);
+    const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
     const handleChangeStatus = async () => {
+        setLoading(true)
         try {
             const body = {
                 area_id: areaData.id,
@@ -31,6 +33,8 @@ const StatusModal: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during hiding area :', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -60,11 +64,16 @@ const StatusModal: React.FC<any> = () => {
                                         Cancel
                                     </button>
                                     <button
-                                        className="text-white w-1/2 rounded-lg bg-primary-blue font-bold  text-sm px-6 py-3   outline-none  mr-1 mb-1"
+                                        className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-bold  text-sm px-6 py-3   outline-none  mr-1 mb-1"
                                         type="button"
                                         onClick={handleChangeStatus}
+                                        disabled={loading}
                                     >
-                                        {areaData.status === 'hidden' ? 'Make Available' : 'Hide'}
+                                        {loading ? (
+                                            <AiOutlineLoading3Quarters className="animate-spin mr-2" />
+                                        ) : (
+                                            areaData.status === 'hidden' ? 'Make Available' : 'Hide'
+                                        )}
                                     </button>
                                 </div>
                             </div>

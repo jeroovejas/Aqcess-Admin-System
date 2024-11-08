@@ -1,18 +1,21 @@
 "use client"
-import { useRef, useEffect } from "react";
+import { useState } from "react";
 import { FaUserCheck } from "react-icons/fa";
 import { FaUserLargeSlash } from "react-icons/fa6";
 import { toggleStatusModal, toggleIsUpdated } from "@/store/Slices/PaymentSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ChangeProductStatus } from "@/lib/api/product";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const ToggleStatusModal: React.FC<any> = () => {
     const statusModal = useAppSelector((state) => state.payment.statusModal)
     const productData = useAppSelector((state) => state.payment.productData)
     const token = useAppSelector((state) => state.auth.token);
+    const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch()
 
     const handleStatusChange = async () => {
+        setLoading(true)
         try {
             const body = {
                 product_id: productData.id,
@@ -30,6 +33,8 @@ const ToggleStatusModal: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during duplicating product :', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -57,11 +62,12 @@ const ToggleStatusModal: React.FC<any> = () => {
                                         No
                                     </button>
                                     <button
-                                        className={`text-white w-1/2 rounded-lg ${productData.status == 'active' ? 'bg-danger' : 'bg-primary-blue'}  font-bold  text-sm px-6 py-3   outline-none  mr-1 mb-1`}
+                                        className={`text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg ${productData.status == 'active' ? 'bg-danger' : 'bg-primary-blue'}  font-bold  text-sm px-6 py-3   outline-none  mr-1 mb-1`}
                                         type="button"
                                         onClick={handleStatusChange}
+                                        disabled={loading}
                                     >
-                                        Yes
+                                          {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Yes"}
                                     </button>
                                 </div>
                             </div>

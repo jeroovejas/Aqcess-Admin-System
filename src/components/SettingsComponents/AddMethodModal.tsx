@@ -4,7 +4,7 @@ import { toggleAddMethodModal, toggleIsUpdated } from "@/store/Slices/SettingSli
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { addAdminCard } from "@/lib/api/payment";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface FormState {
   card_holder_name: string;
   expiry_month: string;
@@ -36,6 +36,7 @@ const initialFormState = {
 const AddMethodModal: React.FC<any> = () => {
   const addMethod = useAppSelector((state) => state.setting.addMethod);
   const token = useAppSelector((state) => state.auth.token);
+  const [loading, setLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch();
 
   // Initial form state
@@ -50,6 +51,7 @@ const AddMethodModal: React.FC<any> = () => {
     }));
   };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true)
     event.preventDefault(); // Prevent default form submission
     try {
       const body = {
@@ -67,6 +69,8 @@ const AddMethodModal: React.FC<any> = () => {
       }
     } catch (err: any) {
       console.error('Unexpected error during creating new card:', err.message);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -296,9 +300,11 @@ const AddMethodModal: React.FC<any> = () => {
                 <button
                   className="text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none  mr-1 mb-1"
                   type="submit"
+                  disabled={loading}
 
                 >
-                  Add Payment Method
+                  {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Add Payment Method"}
+
                 </button>
                 <button
                   className="text-red-500 border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1"

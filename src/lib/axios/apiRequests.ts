@@ -25,7 +25,7 @@ export const createExportRequest = (
         url: path,
         method: 'get', // Assuming the export is a GET request
         params,
-        responseType: 'blob', // Important for file downloads
+        responseType: 'json', // Important for file downloads
         ...config,
     };
 

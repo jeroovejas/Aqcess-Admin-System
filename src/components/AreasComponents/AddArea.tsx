@@ -204,7 +204,7 @@ const AddArea: React.FC = () => {
                             <div className="flex gap-3 items-center">
                                 <button
                                     disabled={loading}
-                                    className={`text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none  mr-1 mb-1 ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
+                                    className={`text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none  mr-1 mb-1`}
                                     type="submit"
 
                                 >

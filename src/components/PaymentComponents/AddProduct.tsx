@@ -3,9 +3,11 @@ import { toggleAddProduct, toggleIsUpdated } from "@/store/Slices/PaymentSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { createProduct } from "@/lib/api/product";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const AddProduct: React.FC<any> = () => {
     const formRef = useRef<HTMLFormElement>(null);
+    const [loading1, setLoading1] = useState(false);
+    const [loading2, setLoading2] = useState(false);
     const addProduct = useAppSelector((state) => state.payment.addProduct);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
@@ -28,6 +30,7 @@ const AddProduct: React.FC<any> = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading1(true)
         try {
             const body = {
                 ...formState,
@@ -51,10 +54,13 @@ const AddProduct: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during creating product :', err.message);
+        } finally {
+            setLoading1(false)
         }
     };
     const handleDraft = async () => {
         if (!formRef.current?.reportValidity()) return;
+        setLoading2(true)
         try {
             const body = {
                 ...formState,
@@ -78,6 +84,8 @@ const AddProduct: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during creating product :', err.message);
+        } finally {
+            setLoading2(false)
         }
     };
 
@@ -150,15 +158,17 @@ const AddProduct: React.FC<any> = () => {
                                 <button
                                     className="text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none mr-1 mb-1"
                                     type="submit"
+                                    disabled={loading1}
                                 >
-                                    Publish
+                                  {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Publish"}
                                 </button>
                                 <button
                                     className=" border rounded-lg border-[#DDDDDD] background-transparent font-medium px-6 py-3 text-sm outline-none mr-1 mb-1"
                                     type="button"
+                                    disabled={loading2}
                                     onClick={handleDraft}
                                 >
-                                    Save as Draft
+                                        {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save as Draft"}
                                 </button>
                             </div>
                         </form>

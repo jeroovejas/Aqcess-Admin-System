@@ -4,7 +4,7 @@ import { toggleEditMethodModal, toggleIsUpdated } from "@/store/Slices/SettingSl
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { editAdminCard, getCardDetail } from "@/lib/api/payment";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface FormState {
     card_holder_name: string;
     expiry_month: string;
@@ -37,6 +37,7 @@ const EditMethodModal: React.FC<any> = () => {
     const editMethod = useAppSelector((state) => state.setting.editMethod);
     const cardData = useAppSelector((state) => state.setting.cardData);
     const token = useAppSelector((state) => state.auth.token);
+    const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch();
 
     // Initial form state
@@ -52,6 +53,7 @@ const EditMethodModal: React.FC<any> = () => {
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        setLoading(true)
         event.preventDefault(); // Prevent default form submission
         try {
             const body = {
@@ -70,6 +72,8 @@ const EditMethodModal: React.FC<any> = () => {
             }
         } catch (err: any) {
             console.error('Unexpected error during editing card:', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -327,9 +331,10 @@ const EditMethodModal: React.FC<any> = () => {
                                 <button
                                     className="text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none mr-1 mb-1"
                                     type="submit"
-
+                                    disabled={loading}
                                 >
-                                    Save
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save"}
+
                                 </button>
                                 <button
                                     className=" border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none mr-1 mb-1"

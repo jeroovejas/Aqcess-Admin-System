@@ -5,13 +5,16 @@ import { toggleDeleteModal, toggleIsUpdated } from "@/store/Slices/AreaSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { deleteCommonArea } from "@/lib/api/commonArea";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const DeleteArea: React.FC<any> = () => {
     const deleteModal = useAppSelector((state) => state.area.deleteModal)
     const areaData = useAppSelector((state) => state.area.areaData)
     const token = useAppSelector((state) => state.auth.token)
+    const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
     const handleDelete = async () => {
+        setLoading(true)
         try {
             let params = { id: areaData.id, token: token }
             const response = await deleteCommonArea(params);
@@ -25,6 +28,8 @@ const DeleteArea: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during deleting common area', err.message);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -52,11 +57,12 @@ const DeleteArea: React.FC<any> = () => {
                                         Back
                                     </button>
                                     <button
-                                        className="text-white w-1/2 rounded-lg bg-danger font-medium  text-sm px-6 py-3   outline-none  mr-1 mb-1"
+                                        className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-danger font-medium  text-sm px-6 py-3   outline-none  mr-1 mb-1"
                                         type="button"
+                                        disabled={loading}
                                         onClick={handleDelete}
                                     >
-                                        Delete
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Delete"}
                                     </button>
                                 </div>
                             </div>

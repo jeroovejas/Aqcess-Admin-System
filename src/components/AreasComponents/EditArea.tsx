@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { editCommonArea } from "@/lib/api/commonArea";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface FormValues {
     title: string;
@@ -17,7 +18,7 @@ const EditArea: React.FC = () => {
     const editModal = useAppSelector((state) => state.area.editModal);
     const areaData = useAppSelector((state) => state.area.areaData);
     const token = useAppSelector((state) => state.auth.token);
-    const [isDisabled, setIsDisabled] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch();
 
     const [formValues, setFormValues] = useState<FormValues>({
@@ -68,7 +69,7 @@ const EditArea: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setIsDisabled(true)
+        setLoading(true)
         try {
             const formData = new FormData();
             formData.append('area_id', areaData.id);
@@ -83,16 +84,16 @@ const EditArea: React.FC = () => {
             console.log(response)
             if (response.success) {
                 dispatch(toggleEditModal());
-                setIsDisabled(false)
                 dispatch(toggleIsUpdated());
                 showSuccessToast(response.data.message);
             } else {
                 showErrorToast(response.data.message)
-                setIsDisabled(false)
             }
 
         } catch (err: any) {
             console.error('Unexpected error during editing common area :', err.message);
+        }finally{
+            setLoading(false)
         }
     };
     useEffect(() => {
@@ -109,7 +110,7 @@ const EditArea: React.FC = () => {
     return (
         <>
             {editModal && (
-              <div className="absolute top-0 right-0 w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar bg-white my-0">
+                <div className="absolute top-0 right-0 w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar bg-white my-0">
                     <div className="border-0 relative text-black w-full h-full outline-none focus:outline-none px-8 py-8">
                         <div className="flex justify-between items-center mt-8">
                             <h3 className="text-3xl font-semibold">{areaData.title}</h3>
@@ -209,12 +210,13 @@ const EditArea: React.FC = () => {
                             </div>
                             <div className="flex gap-3 items-center">
                                 <button
-                                    disabled={isDisabled}
-                                    className={`text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none  mr-1 mb-1  ${isDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+                                    disabled={loading}
+                                    className={`text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none  mr-1 mb-1`}
                                     type="submit"
 
                                 >
-                                    Save Changes
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save Changes"}
+                                    
                                 </button>
                                 <button
                                     className="text-red-500 border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none mr-1 mb-1"

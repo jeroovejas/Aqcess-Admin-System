@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { exportResidents } from "@/lib/api/resident";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { saveAs } from 'file-saver';
 
 const ExportModal: React.FC<any> = () => {
     const [selectedOption, setSelectedOption] = useState<string>("");
@@ -20,20 +21,54 @@ const ExportModal: React.FC<any> = () => {
         try {
             let params = { token: token }
             const response = await exportResidents(params);
-            if (response.success) {
+            if(response.success) {
+                const csvData = convertToCSV(response.data);
+                const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+                const fileName = 'residents.csv';
+                saveAs(blob, fileName);
                 dispatch(toggleExportModal())
                 showSuccessToast(response.message);
             } else {
-                showErrorToast(response.message)
+                showSuccessToast('Failed to download the file. Please try again.');
             }
-
         } catch (err: any) {
             console.error('Unexpected error during deleting resident:', err.message);
         } finally {
             setLoading(false)
         }
-
     };
+
+    const convertToCSV = (data: any[]): string => {
+        const csvRows: string[] = [];
+        // Function to escape and wrap values
+        const escapeValue = (value: string): string => {
+            if (typeof value === 'string') {
+                // Escape double quotes by doubling them and wrap the value in double quotes
+                return `"${value.replace(/"/g, '""')}"`;
+            }
+            return value;
+        };
+        const headers = [
+            'First Name', 'Last Name', 'Email', 'Resident Code', 'Address',
+            'Phone Number', 'Payments Overdue', 'Internal Notes', 'Status'
+        ];
+        csvRows.push(headers.join(','));
+        data.forEach((resident: any) => {
+            const row = [
+                escapeValue(resident.firstName),
+                escapeValue(resident.lastName),
+                escapeValue(resident.email),
+                escapeValue(resident.residentCode),
+                escapeValue(resident.address),
+                escapeValue(resident.phoneNumber),
+                escapeValue(resident.overduePayments),
+                escapeValue(resident.internalNotes),
+                escapeValue(resident.status),
+            ].map(value => ((value !== undefined && value !== null) ? `${value}` : ``)).join(',');
+            csvRows.push(row);
+        });
+        return csvRows.join('\n');
+    }
 
     return (
         <>
