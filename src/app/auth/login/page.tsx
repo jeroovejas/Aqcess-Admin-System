@@ -50,7 +50,7 @@ const Login: React.FC = () => {
         if (response.data.data.role === 1) {
           router.push('/user-management');
         } else {
-          router.push('/');
+          router.push('/dashboard');
         }
         // setTimeout(() => {
         //   showSuccessToast("Success ! Welcome back")

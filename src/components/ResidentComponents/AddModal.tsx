@@ -5,6 +5,9 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { createResident } from "@/lib/api/resident";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+
 
 const initialFormData = {
     status: "active",
@@ -23,9 +26,16 @@ const AddModal: React.FC<any> = () => {
     const token = useAppSelector((state) => state.auth.token);
     const modalRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState(false);
+    const [pinError, setPinError] = useState('');
 
     // State to hold form data
     const [formData, setFormData] = useState(initialFormData);
+    const [error, setError] = useState('');
+    const [number, setNumber] = useState<string | undefined>('');
+
+    const handleNumberChange = (value: string | undefined) => {
+        setNumber(value); // Update value, which can be undefined or a valid phone number
+    };
 
     // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -36,18 +46,48 @@ const AddModal: React.FC<any> = () => {
         }));
     };
 
+
+    const validatePin = (password: any) => {
+        // Check if password contains only digits
+        const digitRegex = /^\d+$/; // This checks for only digits (no letters or special characters)
+
+        if (!digitRegex.test(password)) {
+            return "Pin must contain only digits.";
+        }
+
+        // Check if password has exactly 4 digits
+        if (password.length !== 4) {
+            return "Pin must be exactly 4 digits long.";
+        }
+        setPinError("");
+        return "";
+    };
+
     const handleCancel = async () => {
         dispatch(toggleAddModal());
         setFormData(initialFormData);
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
+        if (!(number && isValidPhoneNumber(number))) {
+            setError('Plz enter a valid phone number')
+            return
+        } else {
+            setError('')
+        }
+        const errorMessage = validatePin(formData.password)
+        if (errorMessage || errorMessage !== '') {
+            setPinError(errorMessage)
+            return
+        }
         setLoading(true)
         try {
+            setError('');
             const body = {
                 ...formData,
-                token: token // Add the token here
+                phone_number: number,
+                token: token
             };
             const response = await createResident(body);
             if (response.success) {
@@ -55,6 +95,7 @@ const AddModal: React.FC<any> = () => {
                 dispatch(toggleIsUpdated());
                 showSuccessToast(response.data.message);
                 setFormData(initialFormData);
+                setNumber('')
             } else {
                 showErrorToast(response.data.message);
             }
@@ -63,6 +104,7 @@ const AddModal: React.FC<any> = () => {
         } finally {
             setLoading(false)
         }
+
     };
 
 
@@ -164,6 +206,20 @@ const AddModal: React.FC<any> = () => {
                                 />
                             </div>
                             <div className="w-full">
+                                <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="address">
+                                    Phone Number
+                                </label>
+                                <PhoneInput
+                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:ring-0 focus:shadow-none focus:bg-white focus:border-none"
+                                    international
+                                    defaultCountry="PK"  // You can set the default country
+                                    value={number}
+                                    onChange={handleNumberChange}
+                                    placeholder="Enter phone number"
+                                />
+                            </div>
+                            {error && <p className="text-red text-sm font-semibold mb-2">{error}</p>}
+                            <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="email">
                                     Email
                                 </label>
@@ -180,7 +236,7 @@ const AddModal: React.FC<any> = () => {
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="password">
-                                    Password
+                                    Pin
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -189,10 +245,11 @@ const AddModal: React.FC<any> = () => {
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
-                                    placeholder="Password"
+                                    placeholder="Pin"
                                     required
                                 />
                             </div>
+                            {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>}
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="internal_notes">
                                     Internal Notes

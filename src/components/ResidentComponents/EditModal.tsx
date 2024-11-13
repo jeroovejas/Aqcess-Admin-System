@@ -8,6 +8,7 @@ const EditModal: React.FC<any> = () => {
     const editModal = useAppSelector((state) => state.resident.editModal);
     const resident = useAppSelector((state) => state.resident.residentData);
     const dispatch = useAppDispatch();
+    const [pinError, setPinError] = useState('');
     const [formData, setFormData] = useState({
         resident_id: 0,
         status: "",
@@ -27,8 +28,36 @@ const EditModal: React.FC<any> = () => {
         }));
     };
 
+    const validatePin = (password: any) => {
+        // If the password is empty, return early without running any checks
+        if (password === "") {
+            setPinError(""); // Optionally reset any existing error if the password is empty
+            return "";
+        }
+
+        // Check if password contains only digits
+        const digitRegex = /^\d+$/; // This checks for only digits (no letters or special characters)
+        if (!digitRegex.test(password)) {
+            return "Pin must contain only digits.";
+        }
+
+        // Check if password has exactly 4 digits
+        if (password.length !== 4) {
+            return "Pin must be exactly 4 digits long.";
+        }
+
+        // If all checks pass, clear any error and return an empty string
+        setPinError("");
+        return "";
+    };
+
     const saveChanges = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const errorMessage = validatePin(formData.password)
+        if (errorMessage || errorMessage !== '') {
+            setPinError(errorMessage)
+            return
+        }
         dispatch(setResidentData(formData));
         dispatch(toggleEditModal());
         dispatch(toggleSaveModal());
@@ -38,7 +67,6 @@ const EditModal: React.FC<any> = () => {
         // dispatch(toggleEditModal());
         dispatch(toggleDeleteModal());
     };
-
     useEffect(() => {
         if (resident) {
             setFormData({
@@ -96,13 +124,18 @@ const EditModal: React.FC<any> = () => {
                                     <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
                                 </div>
                                 <div className="w-full">
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-address">Phone Number</label>
+                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder="Phone Number" value={resident.resident.phoneNumber} readOnly />
+                                </div>
+                                <div className="w-full">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-email">Email</label>
                                     <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
                                 </div>
                                 <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-password">Password</label>
-                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="password" type="password" placeholder="Password" value={formData.password} onChange={handleChange} />
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-password">Pin</label>
+                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="password" type="password" placeholder="Pin" value={formData.password} onChange={handleChange} />
                                 </div>
+                                {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>}
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-notes">Internal Notes</label>
                                     <textarea className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="internal_notes" placeholder="Add notes about resident" value={formData.internal_notes} onChange={handleChange} rows={5} />
