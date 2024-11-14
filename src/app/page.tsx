@@ -53,17 +53,23 @@ const TestimonialsSection = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: false,
+    autoplay: true,           // Slider automatically chalega
+    autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 1024, // For tablet
         settings: {
           slidesToShow: 2,
+          autoplay: true,           // Slider automatically chalega
+          autoplaySpeed: 3000,
         },
       },
       {
         breakpoint: 640, // For mobile
         settings: {
           slidesToShow: 1,
+          autoplay: true,           // Slider automatically chalega
+          autoplaySpeed: 3000,
         },
       },
     ],
@@ -90,6 +96,13 @@ const TestimonialsSection = () => {
   };
 
 
+  const [isMonthly, setIsMonthly] = useState(true); // Track if the monthly option is selected
+
+  const handlePricingToggle = (isMonthlySelected: any) => {
+    setIsMonthly(isMonthlySelected);
+  };
+
+
 
   return (
     <div>
@@ -98,7 +111,7 @@ const TestimonialsSection = () => {
       <header>
         <nav className="bg-[#E9EEF4] border-gray-200 px-4 lg:px-20 py-4 dark:bg-gray-800">
           <div className="flex flex-wrap justify-between items-center mx-auto">
-            <a href="" className="flex items-center">
+            <a href="#inicio" className="flex items-center">
               <img className="h-8 md:h-10" src="/images/header-icon.png" alt="Header Icon" />
             </a>
             <div className="flex items-center lg:order-2">
@@ -153,7 +166,7 @@ const TestimonialsSection = () => {
               <ul className="flex flex-col mt-4 font-semibold lg:flex-row lg:space-x-8 lg:mt-0">
                 <li>
                   <a
-                    href="#"
+                    href="#inicio"
                     className="block py-2 pr-4 pl-3 text-slate-500 lg:bg-transparent lg:p-0 dark:text-white"
                     aria-current="page"
                   >
@@ -162,7 +175,7 @@ const TestimonialsSection = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#nosotros"
                     className="block py-2 pr-4 pl-3 text-slate-500  hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                   >
                     Nosotros
@@ -170,7 +183,7 @@ const TestimonialsSection = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#soluciones"
                     className="flex items-center justify-between py-2 pr-4 pl-3 text-slate-500  hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                   >
                     Soluciones
@@ -181,7 +194,7 @@ const TestimonialsSection = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#funciones"
                     className="block py-2 pr-4 pl-3 text-slate-500  hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                   >
                     Funciones
@@ -189,7 +202,7 @@ const TestimonialsSection = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="#contacto"
                     className="block py-2 pr-4 pl-3 text-slate-500  hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                   >
                     Contacto
@@ -214,7 +227,8 @@ const TestimonialsSection = () => {
 
       {/* HomePage Section-1 Start */}
       <div
-        className="pt-2 h-[750px] md:h-[500px] lg:h-[800px] md:pt-8 lg:pt-20 grid grid-cols-1 md:grid-cols-2 pl-4 lg:pl-20 bg-cover bg-center bg-no-repeat"
+      id='inicio'
+        className="pt-2 h-[650px] md:h-[500px] lg:h-[800px] md:pt-8 lg:pt-20 grid grid-cols-1 md:grid-cols-2 pl-4 lg:pl-20 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('/images/bg-img.png')",
           backgroundPosition: 'bottom center', // Adjust the background image position
@@ -238,25 +252,25 @@ const TestimonialsSection = () => {
               </button>
             </div>
           </div>
-          <div className='flex space-x-10 pt-6 lg:pt-10'>
-            <div>
+          <div className='flex flex-wrap justify-between md:justify-start space-x-0 md:space-x-10 pt-6 lg:pt-10 pr-4'>
+            <div className='mt-2 md:mt-0'>
               <h2 className='text-2xl md:text-3xl lg:text-4xl text-black font-bold'>1.5k+</h2>
               <p className='pt-3 text-xs lg:text-base text-black font-medium leading-none'>Residentes</p>
               <p className='text-xs lg:text-base leading-none text-black font-medium'>satisfechos</p>
             </div>
-            <div>
+            <div className='mt-2 md:mt-0'>
               <h2 className='text-2xl md:text-3xl lg:text-4xl text-black font-bold'>130k+</h2>
               <p className='pt-3 text-xs lg:text-base text-black font-medium leading-none'>Reservaciones sin</p>
               <p className='leading-none text-xs lg:text-base text-black font-medium'>conflictos</p>
             </div>
-            <div>
+            <div className='mt-2 md:mt-0'>
               <h2 className='text-2xl md:text-3xl lg:text-4xl text-black font-bold'>33%</h2>
               <p className='pt-3 text-xs lg:text-base text-black font-medium leading-none'>De incremento en</p>
               <p className='leading-none text-xs lg:text-base text-black font-medium'>recaudación de pagos</p>
             </div>
           </div>
         </div>
-        <div className='pt-6 md:pt-0'>
+        <div className='pt-0 md:pt-0'>
           <div>
             <img className="" src="/images/Macbook.png" alt="HomePage Img" />
           </div>
@@ -266,7 +280,7 @@ const TestimonialsSection = () => {
 
 
       {/* HomePage Section-2 Start */}
-      <div className='pt-6 md:pt-8 lg:pt-10 px-4 lg:px-20'>
+      <div id='nosotros' className='pt-6 md:pt-8 lg:pt-10 px-4 lg:px-20'>
         <div className='flex justify-center'>
           <h2 className='text-lg md:text-xl lg:text-2xl font-medium text-black'>Con la confianza de más de 200 residenciales en México y España</h2>
         </div>
@@ -290,9 +304,8 @@ const TestimonialsSection = () => {
       </div>
       {/* HomePage Section-2 End */}
 
-
       {/* HomePage Section-3 Start */}
-      <div className="pt-20 px-4 lg:px-20">
+      <div id='' className="pt-20 px-4 lg:px-20">
         <div className='flex justify-between'>
           <div>
             <h2 className='text-sm md:text-3xl lg:text-4xl text-black font-bold'>Explora nuestras funciones y </h2>
@@ -300,12 +313,25 @@ const TestimonialsSection = () => {
           </div>
           <div>
             <div className='flex space-x-2 md:space-x-4 border border-slate-300 p-1 rounded-full'>
-              <button className='bg-black text-sm md:text-base text-white rounded-full p-2 font-medium px-2 md:px-3'>Mensual</button>
-              <button className='text-black text-sm md:text-base rounded-full p-2 font-medium px-2 md:px-3'>Anual</button>
+              <button
+                onClick={() => handlePricingToggle(true)}
+                className={`text-sm md:text-base rounded-full p-2 font-medium px-2 md:px-3 ${isMonthly ? 'bg-black text-white' : 'bg-white text-black'
+                  }`}
+              >
+                Mensual
+              </button>
+              <button
+                onClick={() => handlePricingToggle(false)}
+                className={`text-sm md:text-base rounded-full p-2 font-medium px-2 md:px-3 ${!isMonthly ? 'bg-black text-white' : 'bg-white text-black'
+                  }`}
+              >
+                Anual
+              </button>
             </div>
           </div>
         </div>
         <div className='flex flex-wrap pt-8 pb-5'>
+          {/* Monthly or Annual Plans based on the selection */}
           <div className='w-full md:w-1/2'>
             <div className=''>
               <div className='px-6 pt-6 pb-4 border border-slate-300 rounded-xl'>
@@ -314,8 +340,8 @@ const TestimonialsSection = () => {
                     <img className="h-10" src="/images/card-icon.png" alt="card Img" />
                   </div>
                   <div>
-                    <h2 className='text-3xl text-black font-bold'>$4,500</h2>
-                    <p className='text-slate-500 pt-2 text-end'>MXN/month</p>
+                    <h2 className='text-3xl text-black font-bold'>{isMonthly ? '$4,500' : '$45,000'}</h2>
+                    <p className='text-slate-500 pt-2 text-end'>{isMonthly ? 'MXN/month' : 'MXN/year'}</p>
                   </div>
                 </div>
                 <div>
@@ -330,8 +356,8 @@ const TestimonialsSection = () => {
                     <img className="h-10" src="/images/card-icon-2.png" alt="card Img" />
                   </div>
                   <div>
-                    <h2 className='text-3xl text-white font-bold'>$6,500</h2>
-                    <p className='text-slate-400 pt-2 text-end'>MXN/month</p>
+                    <h2 className='text-3xl text-white font-bold'>{isMonthly ? '$6,500' : '$65,000'}</h2>
+                    <p className='text-slate-400 pt-2 text-end'>{isMonthly ? 'MXN/month' : 'MXN/year'}</p>
                   </div>
                 </div>
                 <div>
@@ -406,7 +432,7 @@ const TestimonialsSection = () => {
 
 
       {/* HomePage Section-4 Start */}
-      <div className='px-4 lg:px-20 pt-10 lg:pt-20'>
+      <div id='' className='px-4 lg:px-20 pt-10 lg:pt-20'>
         <div className='bg-[#E9EEF4] rounded-xl'>
           <div className='w-full flex flex-col md:flex-row'>
             <div className='w-full md:w-2/3'>
@@ -447,16 +473,16 @@ const TestimonialsSection = () => {
 
 
       {/* HomePage Section-5 Start */}
-      <div className='px-4 lg:px-20 pt-10 md:pt-20'>
-        <div className='flex justify-between'>
+      <div id='funciones' className='px-4 lg:px-20 pt-10 md:pt-20'>
+        <div className='flex flex-wrap justify-between'>
           <div>
-            <h2 className='text-sm md:text-3xl lg:text-4xl text-black font-bold'>Funciones esenciales de</h2>
-            <h2 className='text-sm md:text-3xl lg:text-4xl text-black font-bold leading-none'>nuesto sistema.</h2>
+            <h2 className='text-xl md:text-3xl lg:text-4xl text-black font-bold'>Funciones esenciales de nuesto sistema.</h2>
+            {/* <h2 className='text-3xl md:text-3xl lg:text-4xl text-black font-bold leading-none'></h2> */}
           </div>
-          <div className='flex items-center'>
+          <div className='flex items-center mt-4 md:mt-0'>
             <a
               href="#"
-              className="flex items-center text-white dark:text-white bg-black hover:bg-slate-700 font-medium rounded-full text-sm md:text-base px-2 md:px-4 lg:px-5 py-2 lg:py-3 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+              className="flex items-center text-white dark:text-white bg-black hover:bg-slate-700 font-medium rounded-full text-base md:text-base px-2 md:px-4 lg:px-5 py-2 lg:py-3 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
             >
               Solicita una Demo
               <span className="flex items-center justify-center bg-white text-xs text-black rounded-full p-1 ml-2">
@@ -538,13 +564,13 @@ const TestimonialsSection = () => {
           <div className="flex space-x-2 md:space-x-4">
             <button
               onClick={() => sliderRef.current.slickPrev()}
-              className="bg-slate-300 hover:bg-[#41A4FF] text-black hover:text-white p-3 rounded-full"
+              className="bg-slate-300 hover:bg-[#41A4FF] text-black hover:text-white p-4 md:p-3 rounded-full"
             >
               <FaArrowLeft />
             </button>
             <button
               onClick={() => sliderRef.current.slickNext()}
-              className="bg-slate-300 hover:bg-[#41A4FF] text-black hover:text-white p-3 rounded-full"
+              className="bg-slate-300 hover:bg-[#41A4FF] text-black hover:text-white p-4 md:p-3 rounded-full"
             >
               <FaArrowRight />
             </button>
@@ -555,7 +581,7 @@ const TestimonialsSection = () => {
           <Slider ref={sliderRef} {...settings} className="">
             {[1, 2, 3].map((_, index) => (
               <div className='P-2' key={index} >
-                <div className="bg-white mt-8 mx-2 rounded-xl p-4 relative">
+                <div className="bg-white mt-8 md:mx-2 rounded-xl p-4 relative">
                   <div className="absolute top-[-25px] md:top-[-30px]">
                     <img className="h-12 md:h-14" src={`/images/Ellipse2.png`} alt="Card Icon" />
                   </div>
@@ -586,8 +612,8 @@ const TestimonialsSection = () => {
 
 
       {/* Footer Section Start */}
-      <div className="bg-black">
-        <div className="pt-10 md:pt-16 pb-8 pl-4 pr-4 lg:pl-20 lg:pr-32 grid grid-cols-1 md:grid-cols-4 mx-auto">
+      <div id='contacto' className="bg-black">
+        <div className="pt-10 md:pt-16 pb-8 pl-4 pr-4 lg:pl-20 lg:pr-40 grid grid-cols-1 md:grid-cols-4 mx-auto">
           <div className="pb-6">
             <a href="" className="flex items-center">
               <img className="h-8 lg:h-10" src="/images/footer-logo.png" alt="Header Icon" />
@@ -666,7 +692,7 @@ const TestimonialsSection = () => {
       </div>
       {/* Footer Section End */}
 
-    </div >
+    </div>
 
   )
 };
