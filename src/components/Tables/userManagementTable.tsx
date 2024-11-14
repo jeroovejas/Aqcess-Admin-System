@@ -146,11 +146,16 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {admin.email}
                     </td>
-                    <td className={`px-6 py-4 ${admin.status == 'active' ? 'text-meta-3' : 'text-meta-1'} whitespace-nowrap`}>
-                      <div className="flex items-center">
+                    <td className='px-6 py-4  font-bold whitespace-nowrap'>
+                      <span className={`p-2 rounded-2xl ${admin.status == 'active' ? 'text-meta-3 bg-[#ECFDED]' : 'text-meta-1 bg-[#FEF3F2]'} `}>
                         {toTitleCase(admin.status)}
-                      </div>
+                      </span>
                     </td>
+                    {/* <td className="">
+                      <span className={`  ${area.status == 'available' ? 'text-meta-3 bg-[#ECFDED]' : area.status == 'booked' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
+                        {toTitleCase(area.status)}
+                      </span>
+                    </td> */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       {admin.lastLoggedIn}
                     </td>

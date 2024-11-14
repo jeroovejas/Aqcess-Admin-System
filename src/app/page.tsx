@@ -692,7 +692,7 @@ const TestimonialsSection = () => {
       </div>
       {/* Footer Section End */}
 
-    </div>
+    </div >
 
   )
 };

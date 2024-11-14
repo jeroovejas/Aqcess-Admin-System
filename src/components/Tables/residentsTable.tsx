@@ -147,9 +147,9 @@ const ResidentTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                     <td className="px-6 py-4 font-bold whitespace-nowrap">{resident.email}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{resident.resident.address}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <span className={`${resident.status === 'active' ? 'text-meta-3 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2]'} flex items-center px-2 py-1 rounded-full`}>
-                          <GoDotFill className="mr-1" style={{ color: resident.status === 'active' ? '#22C55E' : '#EF4444' }} /> {/* Adjusted dot color */}
+                      <div className="flex items-center font-bold">
+                        <span className={`${resident.status === 'active' ? 'text-meta-3 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2]'} flex items-center p-2 rounded-full`}>
+                          {/* <GoDotFill className="mr-1" style={{ color: resident.status === 'active' ? '#22C55E' : '#EF4444' }} />  */}
                           {resident.status.charAt(0).toUpperCase() + resident.status.slice(1)}
                         </span>
                       </div>

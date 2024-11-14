@@ -168,8 +168,8 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                       {survey.surveyResponses}
                     </td>
                     <td className={`px-6 py-4 flex items-center whitespace-nowrap`}>
-                      <div className={`flex items-center px-2 py-1 rounded-full text-sm font-medium 
-                        ${survey.status === 'open' ? 'bg-green-100 text-green-700' :
+                      <div className={`flex items-center p-2 rounded-full text-sm font-bold 
+                        ${survey.status === 'open' ? 'bg-green-100 text-meta-3' :
                           survey.status === 'closed' ? 'bg-danger-light text-danger' : 'bg-yellow-100 text-yellow-700'}`}>
                         {toTitleCase(survey.status)}
                       </div>
