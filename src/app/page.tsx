@@ -208,15 +208,15 @@ const TestimonialsSection = () => {
                     Contacto
                   </a>
                 </li>
-                <a
-                  href="#"
+                <Link
+                  href="/auth/login"
                   className="flex lg:hidden items-center text-white dark:text-white bg-black hover:bg-slate-700 font-medium rounded-full text-base px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
                 >
                   Administrator Login
                   <span className="flex items-center justify-center bg-white text-xs text-black rounded-full p-1 ml-2">
                     <FaArrowRight />
                   </span>
-                </a>
+                </Link>
               </ul>
             </div>
           </div>
@@ -227,7 +227,7 @@ const TestimonialsSection = () => {
 
       {/* HomePage Section-1 Start */}
       <div
-      id='inicio'
+        id='inicio'
         className="pt-2 h-[650px] md:h-[500px] lg:h-[800px] md:pt-8 lg:pt-20 grid grid-cols-1 md:grid-cols-2 pl-4 lg:pl-20 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('/images/bg-img.png')",
@@ -439,10 +439,10 @@ const TestimonialsSection = () => {
               <div className='py-8 lg:py-16 pl-6'>
                 <h2 className='text-3xl md:text-3xl lg:text-4xl text-black font-bold'>¡Descarga la app para residentes hoy!</h2>
                 <p className='pt-5 text-sm md:text-base font-medium text-black'>Crea y comparte invitaciones QR, reserva amenidades, paga servicios y mantenimiento, encuentra negocios cercanos y más.</p>
-                <div className='flex space-x-3 pt-10'>
+                <div className='flex flex-wrap gap-3 pt-10'>
                   <a
                     href="#"
-                    className="flex items-center bg-black text-white font-medium rounded-full px-2 md:px-4 py-2 space-x-1 hover:bg-gray-800 transition"
+                    className="flex items-center mt-3 md:mt-0 bg-black text-white font-medium rounded-full px-2 md:px-4 py-2 space-x-1 hover:bg-gray-800 transition"
                   >
                     <img src="/images/playstore.png" alt="Play Store" className="h-6 w-6" />
                     <div className="flex flex-col items-start leading-none">
@@ -452,7 +452,7 @@ const TestimonialsSection = () => {
                   </a>
                   <a
                     href="#"
-                    className="flex items-center bg-black text-white font-medium rounded-full px-2 md:px-4 py-2 space-x-1 hover:bg-gray-800 transition"
+                    className="flex items-center mt-3 md:mt-0 bg-black text-white font-medium rounded-full px-2 md:px-4 py-2 space-x-1 hover:bg-gray-800 transition"
                   >
                     <img src="/images/apple.png" alt="Play Store" className="h-8 w-8 filter invert" />
                     <div className="flex flex-col items-start leading-none">

@@ -3,6 +3,7 @@ import residentReducer from "./Slices/ResidentSlice"
 import paymentReducer from "./Slices/PaymentSlice"
 import accessReducer from "./Slices/AccessSlice"
 import surveyReducer from "./Slices/SurveySlice"
+import placeReducer from "./Slices/PlaceSlice"
 import areaReducer from "./Slices/AreaSlice"
 import settingReducer from "./Slices/SettingSlice"
 import userManagementReducer from "./Slices/UserManagementSlice"
@@ -21,6 +22,7 @@ export const store = configureStore({
     payment: paymentReducer,
     access: accessReducer,
     survey: surveyReducer,
+    place: placeReducer,
     area: areaReducer,
     setting: settingReducer,
     userManagement: userManagementReducer,

@@ -13,7 +13,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
 import { MdDeck } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
-import { MdManageAccounts } from "react-icons/md";
+import { MdManageAccounts, MdPlace } from "react-icons/md";
 import { MdSubscriptions } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
@@ -99,6 +99,13 @@ const menuGroups = [
         label: "Invoices",
         route: "/invoices",
       },
+      {
+        icon: (
+          MdPlace
+        ),
+        label: "Places",
+        route: "/places",
+      },
     ],
   },
 
@@ -123,7 +130,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const getFilteredMenuItems = () => {
     if (user.role === 1) {
-      return menuGroups[0].menuItems.filter(item => ["User Management", "Subscriptions", "Invoices"].includes(item.label));
+      return menuGroups[0].menuItems.filter(item => ["User Management", "Subscriptions", "Invoices", "Places"].includes(item.label));
     } else if (user.role === 2) {
       // Return only the "Super Six" items
       return menuGroups[0].menuItems.filter(item => ["Dashboard", "Residents", "Survey", "Payments", "Common Areas", "Access History"].includes(item.label));
