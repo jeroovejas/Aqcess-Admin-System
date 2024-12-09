@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react'
-import { toggleEditModal, toggleViewModal } from "@/store/Slices/ResidentSlice"
+import { toggleEditModal, toggleViewModal } from "@/store/Slices/SecurityGuardSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FaRegCopy } from "react-icons/fa6";
 import { PiGreaterThan } from "react-icons/pi";
 const ViewModal: React.FC<any> = () => {
-    const viewModal = useAppSelector((state) => state.resident.viewModal)
-    const resident = useAppSelector((state) => state.resident.residentData)
+    const viewModal = useAppSelector((state) => state.securityGuard.viewModal)
+    const securityGuard = useAppSelector((state) => state.securityGuard.securityGuardData)
     const dispatch = useAppDispatch()
 
 
@@ -35,9 +35,9 @@ const ViewModal: React.FC<any> = () => {
 
 
                                 <div className="flex items-center">
-                                    <h3 className="text-3xl font-semibold ">{resident.firstName} {resident.lastName}</h3>
-                                    <span className={`${resident.status === 'active' ? 'text-meta-3 p-1 px-2 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2] p-2'} ms-4 font-semibold text-[16px] rounded-2xl`}>
-                                        {resident.status.charAt(0).toUpperCase() + resident.status.slice(1)}
+                                    <h3 className="text-3xl font-semibold ">{securityGuard.firstName} {securityGuard.lastName}</h3>
+                                    <span className={`${securityGuard.status === 'active' ? 'text-meta-3 p-1 px-2 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2] p-2'} ms-4 font-semibold text-[16px] rounded-2xl`}>
+                                        {securityGuard.status.charAt(0).toUpperCase() + securityGuard.status.slice(1)}
                                     </span>
                                 </div>
 
@@ -51,48 +51,34 @@ const ViewModal: React.FC<any> = () => {
 
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                     <p className='font-bold w-1/3'>Name</p>
-                                    <p className='font-medium w-2/3'>{resident.firstName} {resident.lastName}</p>
+                                    <p className='font-medium w-2/3'>{securityGuard.firstName} {securityGuard.lastName}</p>
 
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                     <p className='font-bold w-1/3'>Adress</p>
-                                    <p className='font-medium w-2/3'>{resident.resident.address}</p>
+                                    <p className='font-medium w-2/3'>{securityGuard.securityGuard.address}</p>
 
                                 </div>
                                 <div className="flex py-6 border-b-[3px] border-slate-100 ">
                                     <p className='font-bold w-1/3'>Email</p>
                                     <div className="flex justify-between w-2/3  pe-4">
-                                        <p className='font-medium'>{resident.email}</p>
-                                        <p className='cursor-pointer'><FaRegCopy onClick={() => handleCopy(resident.email)} size={25} /></p>
+                                        <p className='font-medium'>{securityGuard.email}</p>
+                                        <p className='cursor-pointer'><FaRegCopy onClick={() => handleCopy(securityGuard.email)} size={25} /></p>
                                     </div>
                                 </div>
-                                {/* <div className="flex py-6 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Password</p>
-                                    <div className="flex justify-between w-2/3  pe-4 ">
-                                        <p className='font-medium'>12345678</p>
-                                        <p className='cursor-pointer'><FaRegCopy onClick={() => handleCopy(12345678)} size={25} /></p>
-                                    </div>
-                                </div> */}
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                     <p className='font-bold w-1/3'>Phone</p>
-                                    <p className='font-medium w-2/3'>{resident.phoneNumber}</p>
+                                    <p className='font-medium w-2/3'>{securityGuard.phoneNumber}</p>
 
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                     <p className='font-bold w-1/3'>Last Visit</p>
-                                    <p className='font-medium w-2/3'>{resident.lastLoggedIn}</p>
+                                    <p className='font-medium w-2/3'>{securityGuard.lastLoggedIn}</p>
 
-                                </div>
-                                <div className="flex py-6 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Overdue Payments</p>
-                                    <div className="flex justify-between w-2/3  pe-4">
-                                        <p className='font-medium'>{resident.resident.overduePayments}</p>
-                                        <p className=''><PiGreaterThan size={15} /></p>
-                                    </div>
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                     <div className='font-bold w-1/3'>Internal Notes</div>
-                                    <div className='font-medium w-2/3 '>{truncateText(resident.resident.internalNotes, 100)}</div>
+                                    <div className='font-medium w-2/3 '>{truncateText(securityGuard.securityGuard.internalNotes, 100)}</div>
 
                                 </div>
                             </div>

@@ -8,6 +8,7 @@ import areaReducer from "./Slices/AreaSlice"
 import settingReducer from "./Slices/SettingSlice"
 import userManagementReducer from "./Slices/UserManagementSlice"
 import authReducer from "./Slices/AuthSlice"
+import securityGuardReducer from "./Slices/SecurityGuardSlice"
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from './storage'
 
@@ -23,6 +24,7 @@ export const store = configureStore({
     access: accessReducer,
     survey: surveyReducer,
     place: placeReducer,
+    securityGuard: securityGuardReducer,
     area: areaReducer,
     setting: settingReducer,
     userManagement: userManagementReducer,

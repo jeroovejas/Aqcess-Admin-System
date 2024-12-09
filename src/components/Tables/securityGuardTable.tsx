@@ -1,50 +1,48 @@
 "use client"
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { GoDotFill } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
+import { toggleEditModal, setSecurityGuardData, toggleViewModal, toggleStatusModal, setSecurityGuardDetails } from "@/store/Slices/SecurityGuardSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { getAllSecurityGuards } from "@/lib/api/securityGuard";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
-import { getAccessHistoryData } from "@/lib/api/accessHistory";
 import Loader from "../common/Loader";
 
-const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }) => {
-
+const SecurityGuardTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
   const limit = 10;
   const PAGE_RANGE = 5;
   const dispatch = useAppDispatch()
   const [currentPage, setCurrentPage] = useState(1);
   const token = useAppSelector((state) => state.auth.token)
+  const isUpdated = useAppSelector((state) => state.securityGuard.isUpdated)
   const [totalPages, setTotalPages] = useState(1);
-  const [records, setRecords] = useState<any[]>([]);
+  const [securityGuards, setSecurityGuards] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
-    fetchAccessHistoryData().finally(() => {
-      setLoading(false);
+  const handleEditSecurityGuard = (guard: any) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // For a smooth scrolling effect
     });
-  }, [currentPage, searchTerm, filterTerm, fromDate, toDate])
-
-
-  const fetchAccessHistoryData = async () => {
-    try {
-      let params = { page: currentPage, token: token, limit: limit, searchTerm: searchTerm, filterTerm: filterTerm, fromDate: fromDate, toDate: toDate }
-      const response = await getAccessHistoryData(params);
-
-      // Check the success property to determine if the request was successful
-      if (response.success) {
-        setRecords(response.data.data.allRecords);
-        setTotalPages(response.data.data.pagination.totalPages)
-      } else {
-        showErrorToast(response.data.message)
-      }
-    } catch (err: any) {
-      console.error('Unexpected error during security guards Fetch:', err.message);
-    }
+    dispatch(setSecurityGuardData(guard))
+    dispatch(toggleEditModal())
   }
+  const handleViewSecurityGuard = (guard: any) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // For a smooth scrolling effect
+    });
+    dispatch(setSecurityGuardData(guard))
+    dispatch(toggleViewModal())
+  }
+  const handleClick = (guard: any) => {
+    dispatch(setSecurityGuardData(guard))
+    dispatch(toggleStatusModal())
+  }
+
+
 
   const getPageNumbers = () => {
     const pages = [];
@@ -73,7 +71,34 @@ const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }
       setCurrentPage(page);
     }
   };
+  useEffect(() => {
+    setLoading(true);
+    fetchSecurityGuards().finally(() => {
+      setLoading(false);
+    });
+  }, [currentPage, isUpdated, searchTerm, filterTerm])
 
+
+  const fetchSecurityGuards = async () => {
+    try {
+      let params = { page: currentPage, token: token, limit: limit, searchTerm: searchTerm, filterTerm: filterTerm }
+      const response = await getAllSecurityGuards(params);
+
+      // Check the success property to determine if the request was successful
+      if (response.success) {
+        setSecurityGuards(response.data.data.allSecurityGuards);
+        setTotalPages(response.data.data.pagination.totalPages)
+        dispatch(setSecurityGuardDetails({
+          totalSecurityGuards: response.data.data.totalSecurityGuards,
+          activeSecurityGuards: response.data.data.activeSecurityGuards,
+        }))
+      } else {
+        showErrorToast(response.data.message)
+      }
+    } catch (err: any) {
+      console.error('Unexpected error during security guards Fetch:', err.message);
+    }
+  }
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
@@ -86,43 +111,65 @@ const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50">
               <tr>
-                <th scope="col" className="px-6 py-3">Visitor Name</th>
-                <th scope="col" className="px-6 py-3">Resident Name</th>
-                <th scope="col" className="px-6 py-3">visit Reason</th>
-                <th scope="col" className="px-6 py-3">Duration</th>
-                <th scope="col" className="px-6 py-3">Date and Time</th>
-                <th scope="col" className="px-6 py-3">Type</th>
+                <th scope="col" className="px-6 py-3">Security Guard Name</th>
+                <th scope="col" className="px-6 py-3">ID</th>
+                <th scope="col" className="px-6 py-3">Email</th>
+                <th scope="col" className="px-6 py-3">Address</th>
+                <th scope="col" className="px-6 py-3">Status</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {records.length === 0 ? (
+              {securityGuards.length === 0 ? (
                 <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
                   <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
                     No Data Found
                   </td>
                 </tr>
               ) : (
-                records.map((record, key) => (
+                securityGuards.map((guard, key) => (
                   <tr key={key} className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
                     <th className="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                      {guard.profileImage !== null ?
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                          <img src={guard.profileImage} alt="Profile Image" className="w-full h-full object-cover" />
+                        </div> : <div className="flex-shrink-0">
+                          <img src="/images/user/dummy.png" alt="Profile Image" width={35} height={35} />
+                        </div>}
                       <p className="text-black font-bold dark:text-white ml-2">
-                        {record.visitorName}
+                        {guard.firstName} {guard.lastName}
                       </p>
                     </th>
-                    <td className="px-6 py-4 whitespace-nowrap">{record.residentName}</td>
-                    <td className="px-6 py-4 whitespace-nowrap md:whitespace-normal md:max-w-xs">
-                      {record.visitReason}
+                    <td className="px-6 py-4 whitespace-nowrap">{guard.securityGuard.securityGuardCode}</td>
+                    <td className="px-6 py-4 font-bold whitespace-nowrap">{guard.email}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{guard.securityGuard.address}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center font-bold">
+                        <span className={`${guard.status === 'active' ? 'text-meta-3 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2]'} flex items-center p-2 rounded-full`}>
+                          {/* <GoDotFill className="mr-1" style={{ color: resident.status === 'active' ? '#22C55E' : '#EF4444' }} />  */}
+                          {guard.status.charAt(0).toUpperCase() + guard.status.slice(1)}
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{record.duration}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{record.createdAt}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{record.type}</td>
+                    <td className="relative group whitespace-nowrap overflow-visible">
+                      <BsThreeDotsVertical className="text-black" />
+                      <ul className="absolute z-50 bottom-0 mb-0 w-[150px] right-2 text-[14px] bg-white hidden group-hover:block text-black border border-gray shadow-lg">
+                        <li onClick={() => handleViewSecurityGuard(guard)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                          View
+                        </li>
+                        <li onClick={() => handleEditSecurityGuard(guard)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                          Edit
+                        </li>
+                        <li onClick={() => handleClick(guard)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                          {guard.status === 'active' ? 'Deactivate' : 'Activate'}
+                        </li>
+                      </ul>
+                    </td>
 
                   </tr>
                 ))
               )}
             </tbody>
-
           </table>
 
         </div>)}
@@ -172,4 +219,4 @@ const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }
   );
 };
 
-export default AccessTable;
+export default SecurityGuardTable;

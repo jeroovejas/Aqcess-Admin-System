@@ -10,6 +10,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface FormValues {
     title: string;
     description: string;
+    occupancy: number;
     file: File | null;
     imagePreview?: string | null;
 }
@@ -24,6 +25,7 @@ const EditArea: React.FC = () => {
     const [formValues, setFormValues] = useState<FormValues>({
         title: '',
         description: '',
+        occupancy: 1,
         file: null,
         imagePreview: null
     });
@@ -71,10 +73,12 @@ const EditArea: React.FC = () => {
         event.preventDefault();
         setLoading(true)
         try {
+            console.log("occupancy", formValues.occupancy)
             const formData = new FormData();
             formData.append('area_id', areaData.id);
             formData.append('title', formValues.title);
             formData.append('description', formValues.description);
+            formData.append("occupancy", String(formValues.occupancy));
 
             if (formValues.file) {
                 formData.append('image', formValues.file);
@@ -92,7 +96,7 @@ const EditArea: React.FC = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during editing common area :', err.message);
-        }finally{
+        } finally {
             setLoading(false)
         }
     };
@@ -101,6 +105,7 @@ const EditArea: React.FC = () => {
             setFormValues({
                 title: areaData.title || '',
                 description: areaData.description || '',
+                occupancy: areaData.occupancy || '',
                 file: null,
                 imagePreview: areaData.imageUrl
             });
@@ -150,6 +155,22 @@ const EditArea: React.FC = () => {
                                         id="description"
                                         value={formValues.description}
                                         onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="w-full">
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="occupancy">
+                                        Occupancy
+                                    </label>
+                                    <input
+                                        className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                        name="occupancy"
+                                        type="number"
+                                        id="occupancy"
+                                        placeholder="Enter occupancy"
+                                        value={formValues.occupancy}
+                                        onChange={handleChange}
+                                        min={1}
                                         required
                                     />
                                 </div>
@@ -216,7 +237,7 @@ const EditArea: React.FC = () => {
 
                                 >
                                     {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save Changes"}
-                                    
+
                                 </button>
                                 <button
                                     className="text-red-500 border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none mr-1 mb-1"

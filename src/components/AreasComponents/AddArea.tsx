@@ -10,6 +10,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface FormValues {
     title: string;
     description: string;
+    occupancy: number;
     file: File | null;
     imagePreview?: string | null;
 }
@@ -23,6 +24,7 @@ const AddArea: React.FC = () => {
     const [formValues, setFormValues] = useState<FormValues>({
         title: '',
         description: '',
+        occupancy: 1,
         file: null,
         imagePreview: null
     });
@@ -54,7 +56,7 @@ const AddArea: React.FC = () => {
             }));
         }
     }
-    
+
     const deleteImage = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -71,6 +73,7 @@ const AddArea: React.FC = () => {
             const formData = new FormData();
             formData.append('title', formValues.title);
             formData.append('description', formValues.description);
+            formData.append("occupancy", String(formValues.occupancy));
 
             if (formValues.file) {
                 formData.append('image', formValues.file);
@@ -86,6 +89,7 @@ const AddArea: React.FC = () => {
                 setFormValues({
                     title: '',
                     description: '',
+                    occupancy: 0,
                     file: null,
                     imagePreview: null
                 });
@@ -144,6 +148,22 @@ const AddArea: React.FC = () => {
                                         id="description"
                                         value={formValues.description}
                                         onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="w-full">
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="occupancy">
+                                        Occupancy
+                                    </label>
+                                    <input
+                                        className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                        name="occupancy"
+                                        type="number"
+                                        id="occupancy"
+                                        placeholder="Enter occupancy"
+                                        value={formValues.occupancy}
+                                        onChange={handleChange}
+                                        min={1}
                                         required
                                     />
                                 </div>

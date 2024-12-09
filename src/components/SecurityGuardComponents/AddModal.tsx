@@ -1,34 +1,15 @@
 "use client";
-import React, { useState, ChangeEvent, useRef } from "react";
-import { toggleAddModal, toggleIsUpdated } from "@/store/Slices/ResidentSlice";
+import React, { useEffect, useState, useRef } from "react";
+import { toggleAddModal, toggleIsUpdated } from "@/store/Slices/SecurityGuardSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
-import { createResident } from "@/lib/api/resident";
+import { createSecurityGuard } from "@/lib/api/securityGuard";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { IoMdAdd } from "react-icons/io";
 import 'react-phone-number-input/style.css';
 
-interface FormData {
-    status: "active" | "inactive";
-    first_name: string;
-    last_name: string;
-    address: string;
-    email: string;
-    password: string;
-    internal_notes: string;
-    pets: string[];
-    vehicles: {
-        make: string;
-        color: string;
-        plates: string;
-    }[];
-    token: string;
-}
 
-
-const initialFormData: FormData = {
+const initialFormData = {
     status: "active",
     first_name: "",
     last_name: "",
@@ -36,21 +17,19 @@ const initialFormData: FormData = {
     email: "",
     password: "",
     internal_notes: "",
-    pets: [],
-    vehicles: [],
     token: ""
 };
 
 const AddModal: React.FC<any> = () => {
     const dispatch = useAppDispatch();
-    const addModal = useAppSelector((state) => state.resident.addModal);
+    const addModal = useAppSelector((state) => state.securityGuard.addModal);
     const token = useAppSelector((state) => state.auth.token);
     const modalRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState(false);
     const [pinError, setPinError] = useState('');
 
     // State to hold form data
-    const [formData, setFormData] = useState<FormData>(initialFormData);
+    const [formData, setFormData] = useState(initialFormData);
     const [error, setError] = useState('');
     const [number, setNumber] = useState<string | undefined>('');
 
@@ -65,58 +44,6 @@ const AddModal: React.FC<any> = () => {
             ...prevData,
             [name]: value
         }));
-    };
-    const handleVehicleChange = (index: number, e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData(prevState => {
-            const updatedVehicles = [...prevState.vehicles];
-            updatedVehicles[index] = {
-                ...updatedVehicles[index],
-                [name]: value
-            };
-            return { ...prevState, vehicles: updatedVehicles };
-        });
-    };
-    const handleAddVehicle = () => {
-        setFormData(prevState => ({
-            ...prevState,
-            vehicles: [
-                ...prevState.vehicles,
-                { make: '', color: '', plates: '' }
-            ]
-        }));
-    };
-
-    // Remove a question
-    const handleRemoveVehicle = (index: number) => {
-        setFormData(prevState => {
-            const updatedVehicles = [...prevState.vehicles];
-            updatedVehicles.splice(index, 1);
-            return { ...prevState, vehicles: updatedVehicles };   //updating questions with updatedQuestions
-        });
-    };
-
-    const addPet = (): void => {
-        setFormData((prevState) => ({
-            ...prevState,
-            pets: [...prevState.pets, ""]
-        }));
-    };
-
-    const removePet = (petIndex: number): void => {
-        setFormData((prevState) => ({
-            ...prevState,
-            pets: prevState.pets.filter((_, index) => index !== petIndex) // Filter out the pet at the specified index
-        }));
-    };
-
-    const handlePetChange = (petIndex: number, e: ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
-        setFormData(prevState => {
-            const updatedPets = [...prevState.pets];
-            updatedPets[petIndex] = value;
-            return { ...prevState, pets: updatedPets };
-        });
     };
 
 
@@ -160,11 +87,9 @@ const AddModal: React.FC<any> = () => {
             const body = {
                 ...formData,
                 phone_number: number,
-                pets: formData.pets.length > 0 ? JSON.stringify(formData.pets) : null,
-                vehicles: formData.vehicles.length > 0 ? JSON.stringify(formData.vehicles) : null,
                 token: token
             };
-            const response = await createResident(body);
+            const response = await createSecurityGuard(body);
             if (response.success) {
                 dispatch(toggleAddModal());
                 dispatch(toggleIsUpdated());
@@ -175,7 +100,7 @@ const AddModal: React.FC<any> = () => {
                 showErrorToast(response.data.message);
             }
         } catch (err: any) {
-            console.error('Unexpected error during creating resident:', err.message);
+            console.error('Unexpected error during creating security guard:', err.message);
         } finally {
             setLoading(false)
         }
@@ -183,30 +108,12 @@ const AddModal: React.FC<any> = () => {
     };
 
 
-
-    // const handleClickOutside = (event: MouseEvent) => {
-    //     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-    //         dispatch(toggleAddModal());
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     if (addModal) {
-    //         document.addEventListener("mousedown", handleClickOutside);
-    //     }
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    // }, [addModal]);
-
-    console.log(formData)
-
     return (
         <>
             {addModal ? (
                 <div ref={modalRef} className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
                     <div className="flex justify-between items-center mt-8">
-                        <h3 className="text-3xl font-semibold">Add new resident</h3>
+                        <h3 className="text-3xl font-semibold">Add new security guard</h3>
                         <button className="bg-transparent border-0 text-[20px] font-bold text-black"
                             onClick={() => dispatch(toggleAddModal())}
                         >
@@ -341,110 +248,23 @@ const AddModal: React.FC<any> = () => {
                                     rows={5}
                                 />
                             </div>
-                            {formData.pets.length > 0 && formData.pets.map((pet, petIndex) => (
-                                <div key={petIndex} className="w-full mb-4">
-                                    <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}`}>
-                                        Pet {petIndex + 1}
-                                    </label>
-                                    <div className="flex justify-between gap-x-4">
-                                        <input
-                                            value={pet}
-                                            onChange={(e) => handlePetChange(petIndex, e)}
-                                            className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            type="text"
-                                            placeholder="Enter pet name"
-                                            required
-                                        />
-                                        <button type="button" onClick={() => removePet(petIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4  text-center inline-flex items-center  mb-3">
-                                            <RiDeleteBin6Line className="" />
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                            {formData.vehicles.length > 0 && formData.vehicles.map((vehicle, vehicleIndex) => (
-                                <div key={vehicleIndex} className="mb-8">
-                                    <div className="w-full">
-                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-make`}>
-                                            Vehicle Make
-                                        </label>
-                                        <input
-                                            name="make"
-                                            value={vehicle.make}
-                                            onChange={(e) => handleVehicleChange(vehicleIndex, e)}
-                                            className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            type="text"
-                                            placeholder="Enter vehicle make"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="w-full">
-                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-color`}>
-                                            Vehicle Color
-                                        </label>
-                                        <input
-                                            name="color"
-                                            value={vehicle.color}
-                                            onChange={(e) => handleVehicleChange(vehicleIndex, e)}
-                                            className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            type="text"
-                                            placeholder="Enter vehicle color"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="w-full flex justify-between items-center">
-
-
-                                        <div className="w-full">
-                                            <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-plates`}>
-                                                Vehicle Plates
-                                            </label>
-                                            <div className="flex justify-between gap-x-4">
-                                                <input
-                                                    name="plates"
-                                                    value={vehicle.plates}
-                                                    onChange={(e) => handleVehicleChange(vehicleIndex, e)}
-                                                    className="appearance-none block w-4/6 bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                                    type="text"
-                                                    placeholder="Enter vehicle plates"
-                                                    required
-                                                />
-
-                                                <button type="button" onClick={() => handleRemoveVehicle(vehicleIndex)} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 text-sm outline-none mb-3 ">
-                                                    <RiDeleteBin6Line className="mr-2" /> Delete Vehicle
-                                                </button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            ))}
                         </div>
-                        <div className="flex justify-between items-center">
-                            <button type="button" onClick={handleAddVehicle} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1">
-                                <IoMdAdd className="mr-2" /> Add Vehicle
-                            </button>
-                            <button type="button" onClick={addPet} className=" border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1">
-                                <IoMdAdd className="mr-2" /> Add Pet
-                            </button>
-                        </div>
-                        <div className="flex mt-4 gap-3 items-center">
+                        <div className="flex gap-3 items-center">
                             <button
                                 className="text-white flex justify-center items-center rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3 shadow hover:shadow-lg outline-none  mr-1 mb-1"
                                 type="submit"
                                 disabled={loading}
                             >
-                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Add Resident"}
+                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Add Security Guard"}
 
                             </button>
                             <button
-                                className=" border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1"
+                                className="text-red-500 border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1"
                                 type="button"
                                 onClick={handleCancel}
                             >
                                 Cancel
                             </button>
-
                         </div>
                     </form>
                 </div>

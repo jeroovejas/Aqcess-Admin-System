@@ -2,15 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 
-interface ResidentDetails {
-    totalResidents: number;
-    activeResidents: number;
-    overdueResidents: number;
+interface SecurityGuardDetails {
+    totalSecurityGuards: number;
+    activeSecurityGuards: number;
 }
 
-interface ResidentState {
+interface SecurityGuardState {
     exportModal: boolean,
-    importModal: boolean,
     addModal: boolean,
     editModal: boolean,
     saveModal: boolean,
@@ -18,14 +16,13 @@ interface ResidentState {
     deleteModal: boolean,
     viewModal: boolean,
     isUpdated: boolean,
-    residentData: any,
-    residentDetails: ResidentDetails;
+    securityGuardData: any,
+    securityGuardDetails: SecurityGuardDetails;
 }
 
 // Define the initial state using that type
-const initialState: ResidentState = {
+const initialState: SecurityGuardState = {
     exportModal: false,
-    importModal: false,
     addModal: false,
     editModal: false,
     saveModal: false,
@@ -33,24 +30,20 @@ const initialState: ResidentState = {
     statusModal: false,
     viewModal: false,
     isUpdated: false,
-    residentData: {},
-    residentDetails: {
-        totalResidents: 0,
-        activeResidents: 0,
-        overdueResidents: 0
+    securityGuardData: {},
+    securityGuardDetails: {
+        totalSecurityGuards: 0,
+        activeSecurityGuards: 0,
     },
 }
 
-export const residentSlice = createSlice({
-    name: 'resident',
+export const securityGuardSlice = createSlice({
+    name: 'securityGuard',
 
     initialState,
     reducers: {
         toggleExportModal: (state) => {
             state.exportModal = !state.exportModal;
-        },
-        toggleImportModal: (state) => {
-            state.importModal = !state.importModal;
         },
         toggleAddModal: (state) => {
             state.addModal = !state.addModal;
@@ -70,14 +63,14 @@ export const residentSlice = createSlice({
         toggleIsUpdated: (state) => {
             state.isUpdated = !state.isUpdated;
         },
-        setResidentData: (state, action: PayloadAction<any>) => {
-            state.residentData = { ...action.payload };
+        setSecurityGuardData: (state, action: PayloadAction<any>) => {
+            state.securityGuardData = { ...action.payload };
         },
         toggleStatusModal: (state) => {
             state.statusModal = !state.statusModal;
         },
-        setResidentDetails: (state, action: PayloadAction<Partial<ResidentDetails>>) => {
-            state.residentDetails = { ...state.residentDetails, ...action.payload };
+        setSecurityGuardDetails: (state, action: PayloadAction<Partial<SecurityGuardDetails>>) => {
+            state.securityGuardDetails = { ...state.securityGuardDetails, ...action.payload };
         },
         resetState: (state) => {
             state.exportModal = false;
@@ -92,5 +85,5 @@ export const residentSlice = createSlice({
     },
 })
 
-export const { toggleExportModal, toggleAddModal, toggleEditModal, toggleSaveModal, toggleDeleteModal, setResidentData, toggleViewModal, toggleStatusModal, toggleIsUpdated, setResidentDetails,resetState,toggleImportModal } = residentSlice.actions
-export default residentSlice.reducer
+export const { toggleExportModal, toggleAddModal, toggleEditModal, toggleSaveModal, toggleDeleteModal, setSecurityGuardData, toggleViewModal, toggleStatusModal, toggleIsUpdated, setSecurityGuardDetails, resetState } = securityGuardSlice.actions
+export default securityGuardSlice.reducer

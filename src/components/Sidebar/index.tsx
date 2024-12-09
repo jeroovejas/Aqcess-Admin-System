@@ -11,6 +11,7 @@ import { RxDashboard } from "react-icons/rx";
 import { LuUsers2 } from "react-icons/lu";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
+import { MdOutlineSecurity } from "react-icons/md";
 import { MdDeck } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
 import { MdManageAccounts, MdPlace } from "react-icons/md";
@@ -37,7 +38,7 @@ const menuGroups = [
           RxDashboard
         ),
         label: "Dashboard",
-        route: "/",
+        route: "/dashboard",
       },
       {
         icon: (
@@ -45,6 +46,13 @@ const menuGroups = [
         ),
         label: "Residents",
         route: "/residents",
+      },
+      {
+        icon: (
+          MdOutlineSecurity
+        ),
+        label: "Security Guard",
+        route: "/security-guard",
       },
       {
         icon: (
@@ -133,7 +141,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       return menuGroups[0].menuItems.filter(item => ["User Management", "Subscriptions", "Invoices", "Places"].includes(item.label));
     } else if (user.role === 2) {
       // Return only the "Super Six" items
-      return menuGroups[0].menuItems.filter(item => ["Dashboard", "Residents", "Survey", "Payments", "Common Areas", "Access History"].includes(item.label));
+      return menuGroups[0].menuItems.filter(item => ["Dashboard", "Residents", "Security Guard", "Survey", "Payments", "Common Areas", "Access History"].includes(item.label));
     }
     return []; // Default case
   };

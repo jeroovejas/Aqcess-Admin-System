@@ -1,14 +1,14 @@
 "use client"
-import React, { useRef, useEffect,useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { CiWarning } from "react-icons/ci";
-import { toggleSaveModal, toggleIsUpdated } from "@/store/Slices/ResidentSlice"
+import { toggleSaveModal, toggleIsUpdated } from "@/store/Slices/SecurityGuardSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { editResident } from "@/lib/api/resident";
+import { editSecurityGuard } from "@/lib/api/securityGuard";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const SaveChangesModal: React.FC<any> = () => {
-    const saveModal = useAppSelector((state) => state.resident.saveModal)
-    const resident = useAppSelector((state) => state.resident.residentData);
+    const saveModal = useAppSelector((state) => state.securityGuard.saveModal)
+    const securityGuard = useAppSelector((state) => state.securityGuard.securityGuardData);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false);
@@ -17,13 +17,10 @@ const SaveChangesModal: React.FC<any> = () => {
         setLoading(true)
         try {
             const body = {
-                ...resident,
-                pets: resident.pets.length > 0 ? JSON.stringify(resident.pets) : null,
-                vehicles: resident.vehicles.length > 0 ? JSON.stringify(resident.vehicles) : null,
-                token: token 
+                ...securityGuard,
+                token: token // Add the token here
             };
-            console.log(body)
-            const response = await editResident(body);
+            const response = await editSecurityGuard(body);
             if (response.success) {
                 dispatch(toggleSaveModal());
                 dispatch(toggleIsUpdated());
@@ -34,10 +31,10 @@ const SaveChangesModal: React.FC<any> = () => {
             }
 
         } catch (err: any) {
-            console.error('Unexpected error during edit resident:', err.message);
-        }finally {
+            console.error('Unexpected error during edit security guard:', err.message);
+        } finally {
             setLoading(false)
-          }
+        }
     };
 
 
@@ -71,8 +68,8 @@ const SaveChangesModal: React.FC<any> = () => {
                                         onClick={handleEdit}
                                         disabled={loading}
                                     >
-                                         {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Save Changes"}
-                                       
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Save Changes"}
+
                                     </button>
                                 </div>
                             </div>

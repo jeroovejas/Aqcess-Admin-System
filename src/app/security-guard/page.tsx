@@ -1,53 +1,49 @@
 "use client"
 import { useState, useRef, useEffect } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import ResidentTable from "@/components/Tables/residentsTable";
+import SecurityGuardTable from "@/components/Tables/securityGuardTable";
 import { IoFilterSharp } from "react-icons/io5";
-import { TfiExport, TfiImport } from "react-icons/tfi";
+import { TfiExport } from "react-icons/tfi";
 import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
-import { toggleExportModal, toggleAddModal, resetState, toggleImportModal } from "@/store/Slices/ResidentSlice"
+import { toggleExportModal, toggleAddModal, resetState } from "@/store/Slices/SecurityGuardSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import AddModal from "@/components/ResidentComponents/AddModal";
-import SaveChangesModal from "@/components/ResidentComponents/SaveChangesModal";
-import DeleteModal from "@/components/ResidentComponents/DeleteModal";
-import EditModal from "@/components/ResidentComponents/EditModal";
-import ViewModal from "@/components/ResidentComponents/ViewModal";
-import ExportModal from "@/components/ResidentComponents/exportModal";
-import StatusModal from "@/components/ResidentComponents/StatusModal";
+import AddModal from "@/components/SecurityGuardComponents/AddModal";
+import SaveChangesModal from "@/components/SecurityGuardComponents/SaveChangesModal";
+import DeleteModal from "@/components/SecurityGuardComponents/DeleteModal";
+import EditModal from "@/components/SecurityGuardComponents/EditModal";
+import ViewModal from "@/components/SecurityGuardComponents/ViewModal";
+import ExportModal from "@/components/SecurityGuardComponents/exportModal";
+import StatusModal from "@/components/SecurityGuardComponents/StatusModal";
 import { FaChevronRight } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "@/components/common/Loader";
 import { IoSearchOutline } from "react-icons/io5";
-import ImportModal from "@/components/ResidentComponents/importModal";
 
 
 
-const Residents = () => {
+const SecurityGuard = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
   const user = useAppSelector((state) => state.auth.userData);
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const [verified, setVerified] = useState<boolean | null>(null);
-  const exportModal = useAppSelector((state) => state.resident.exportModal)
-  const saveModal = useAppSelector((state) => state.resident.saveModal)
-  const deleteModal = useAppSelector((state) => state.resident.deleteModal)
-  const viewModal = useAppSelector((state) => state.resident.viewModal)
-  const addModal = useAppSelector((state) => state.resident.addModal)
-  const editModal = useAppSelector((state) => state.resident.editModal)
-  const importModal = useAppSelector((state) => state.resident.importModal)
-  const statusModal = useAppSelector((state) => state.resident.statusModal)
-  const residentDetails = useAppSelector((state) => state.resident.residentDetails)
+  const exportModal = useAppSelector((state) => state.securityGuard.exportModal)
+  const saveModal = useAppSelector((state) => state.securityGuard.saveModal)
+  const deleteModal = useAppSelector((state) => state.securityGuard.deleteModal)
+  const viewModal = useAppSelector((state) => state.securityGuard.viewModal)
+  const addModal = useAppSelector((state) => state.securityGuard.addModal)
+  const editModal = useAppSelector((state) => state.securityGuard.editModal)
+  const statusModal = useAppSelector((state) => state.securityGuard.statusModal)
+  const securityGuardDetails = useAppSelector((state) => state.securityGuard.securityGuardDetails)
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterTerm, setFilterTerm] = useState<string>('');
   const filterRef = useRef<HTMLDivElement>(null);
-
-  console.log(user)
 
   const toggleFilterDropdown = () => {
     setIsFilterOpen(!isFilterOpen);
@@ -84,7 +80,7 @@ const Residents = () => {
   }, [router])
 
   useEffect(() => {
-    if (addModal || exportModal || viewModal || editModal || statusModal || saveModal || deleteModal || importModal) {
+    if (addModal || exportModal || viewModal || editModal || statusModal || saveModal || deleteModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
@@ -92,7 +88,7 @@ const Residents = () => {
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [addModal, exportModal, deleteModal, editModal, viewModal, statusModal, saveModal, importModal]);
+  }, [addModal, exportModal, deleteModal, editModal, viewModal, statusModal, saveModal]);
 
   const handleAddResident = () => {
     window.scrollTo({
@@ -127,13 +123,11 @@ const Residents = () => {
       {verified ? (
         <>
           <DefaultLayout >
-            <Breadcrumb pageName="Resident manager" />
+            <Breadcrumb pageName="Security guard manager" />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-              <CardDataStats title="Total residents" total={`${residentDetails.totalResidents}`} rate="">
+              <CardDataStats title="Total security guards" total={`${securityGuardDetails.totalSecurityGuards}`} rate="">
               </CardDataStats>
-              <CardDataStats title="Active residents" total={`${residentDetails.activeResidents}`} rate="">
-              </CardDataStats>
-              <CardDataStats title="Residents with overdue" total={`${residentDetails.overdueResidents}`} rate="">
+              <CardDataStats title="Active security guards" total={`${securityGuardDetails.activeSecurityGuards}`} rate="">
               </CardDataStats>
             </div>
             <div className="mb-4 flex flex-wrap justify-between">
@@ -149,7 +143,7 @@ const Residents = () => {
                     value={searchTerm}
                     id="default-search"
                     className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none"
-                    placeholder="Search by resident name or ID"
+                    placeholder="Search by security guard name or ID"
                     required
                   />
                 </div>
@@ -234,24 +228,12 @@ const Residents = () => {
                 <div className="w-full md:mr-3 md:w-auto md:mt-0">
                   <button
                     type="button"
-                    onClick={() => dispatch(toggleImportModal())}
-                    className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-1 mb-2  flex items-center justify-center md:justify-start"
-                  >
-                    <TfiImport className="mr-2 text-base" />
-                    Import list
-                  </button>
-
-                </div>
-                <div className="w-full md:mr-3 md:w-auto md:mt-0">
-                  <button
-                    type="button"
                     onClick={() => dispatch(toggleExportModal())}
                     className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-1 mb-2  flex items-center justify-center md:justify-start"
                   >
                     <TfiExport className="mr-2 text-base" />
                     Export list
                   </button>
-
                 </div>
                 <div className="w-full md:w-auto mt-2 md:mt-0">
                   <button
@@ -260,16 +242,16 @@ const Residents = () => {
                     className="w-full md:w-auto text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center justify-center md:justify-start "
                   >
                     <IoIosAdd className="mr-2 text-white text-2xl" />
-                    Add resident
+                    Add Security Guard
                   </button>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-10">
-              <ResidentTable searchTerm={searchTerm} filterTerm={filterTerm} />
+              <SecurityGuardTable searchTerm={searchTerm} filterTerm={filterTerm} />
             </div>
-            {(exportModal || saveModal || deleteModal || statusModal || viewModal || addModal || editModal || importModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
+            {(exportModal || saveModal || deleteModal || statusModal || viewModal || addModal || editModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
             </div>}
             <ExportModal />
             <SaveChangesModal />
@@ -278,7 +260,6 @@ const Residents = () => {
             <ViewModal />
             <StatusModal />
             <DeleteModal />
-            <ImportModal />
           </DefaultLayout>
         </>
       ) : null}
@@ -286,4 +267,4 @@ const Residents = () => {
   );
 };
 
-export default Residents;
+export default SecurityGuard;

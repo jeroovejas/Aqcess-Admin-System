@@ -1,7 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { toggleEditModal, toggleSaveModal, toggleDeleteModal, setResidentData } from "@/store/Slices/ResidentSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoMdAdd } from "react-icons/io";
+
+interface FormData {
+    resident_id: number,
+    status: "active" | "inactive";
+    first_name: string;
+    last_name: string;
+    address: string;
+    email: string;
+    password: string;
+    internal_notes: string;
+    pets: string[];
+    vehicles: {
+        make: string;
+        color: string;
+        plates: string;
+    }[];
+}
 
 const EditModal: React.FC<any> = () => {
     const STATUS_OPTIONS = ['active', 'deactivated'];
@@ -9,15 +27,17 @@ const EditModal: React.FC<any> = () => {
     const resident = useAppSelector((state) => state.resident.residentData);
     const dispatch = useAppDispatch();
     const [pinError, setPinError] = useState('');
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         resident_id: 0,
-        status: "",
+        status: "active",
         first_name: "",
         last_name: "",
         address: "",
         email: "",
         password: "",
         internal_notes: "",
+        pets: [],
+        vehicles: [],
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -26,6 +46,59 @@ const EditModal: React.FC<any> = () => {
             ...prevState,
             [name]: value
         }));
+    };
+
+    const handleVehicleChange = (index: number, e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prevState => {
+            const updatedVehicles = [...prevState.vehicles];
+            updatedVehicles[index] = {
+                ...updatedVehicles[index],
+                [name]: value
+            };
+            return { ...prevState, vehicles: updatedVehicles };
+        });
+    };
+    const handleAddVehicle = () => {
+        setFormData(prevState => ({
+            ...prevState,
+            vehicles: [
+                ...prevState.vehicles,
+                { make: '', color: '', plates: '' }
+            ]
+        }));
+    };
+
+    // Remove a question
+    const handleRemoveVehicle = (index: number) => {
+        setFormData(prevState => {
+            const updatedVehicles = [...prevState.vehicles];
+            updatedVehicles.splice(index, 1);
+            return { ...prevState, vehicles: updatedVehicles };   //updating questions with updatedQuestions
+        });
+    };
+
+    const addPet = (): void => {
+        setFormData((prevState) => ({
+            ...prevState,
+            pets: [...prevState.pets, ""]
+        }));
+    };
+
+    const removePet = (petIndex: number): void => {
+        setFormData((prevState) => ({
+            ...prevState,
+            pets: prevState.pets.filter((_, index) => index !== petIndex) // Filter out the pet at the specified index
+        }));
+    };
+
+    const handlePetChange = (petIndex: number, e: ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        setFormData(prevState => {
+            const updatedPets = [...prevState.pets];
+            updatedPets[petIndex] = value;
+            return { ...prevState, pets: updatedPets };
+        });
     };
 
     const validatePin = (password: any) => {
@@ -78,9 +151,13 @@ const EditModal: React.FC<any> = () => {
                 email: resident.email || "",
                 password: "",
                 internal_notes: resident.resident?.internalNotes || "",
+                pets: resident.resident?.pets || [],
+                vehicles: resident.resident?.vehicles || [],
             });
         }
     }, [resident]);
+
+    console.log("edit formdata", formData)
 
     function capitalizeFirstLetter(str: any) {
         if (typeof str !== 'string' || str.length === 0) return str; // Check for valid string input
@@ -125,7 +202,7 @@ const EditModal: React.FC<any> = () => {
                                 </div>
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-address">Phone Number</label>
-                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder="Phone Number" value={resident.resident.phoneNumber} readOnly />
+                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder="Phone Number" value={resident.phoneNumber} readOnly />
                                 </div>
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-email">Email</label>
@@ -140,8 +217,95 @@ const EditModal: React.FC<any> = () => {
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-notes">Internal Notes</label>
                                     <textarea className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="internal_notes" placeholder="Add notes about resident" value={formData.internal_notes} onChange={handleChange} rows={5} />
                                 </div>
+                                {formData.pets.length > 0 && formData.pets.map((pet, petIndex) => (
+                                    <div key={petIndex} className="w-full mb-4">
+                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}`}>
+                                            Pet {petIndex + 1}
+                                        </label>
+                                        <div className="flex justify-between gap-x-4">
+                                            <input
+                                                value={pet}
+                                                onChange={(e) => handlePetChange(petIndex, e)}
+                                                className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                type="text"
+                                                placeholder="Enter pet name"
+                                                required
+                                            />
+                                            <button type="button" onClick={() => removePet(petIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4  text-center inline-flex items-center  mb-3">
+                                                <RiDeleteBin6Line className="" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {formData.vehicles.length > 0 && formData.vehicles.map((vehicle, vehicleIndex) => (
+                                    <div key={vehicleIndex} className="mb-8">
+                                        <div className="w-full">
+                                            <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-make`}>
+                                                Vehicle Make
+                                            </label>
+                                            <input
+                                                name="make"
+                                                value={vehicle.make}
+                                                onChange={(e) => handleVehicleChange(vehicleIndex, e)}
+                                                className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                type="text"
+                                                placeholder="Enter vehicle make"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="w-full">
+                                            <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-color`}>
+                                                Vehicle Color
+                                            </label>
+                                            <input
+                                                name="color"
+                                                value={vehicle.color}
+                                                onChange={(e) => handleVehicleChange(vehicleIndex, e)}
+                                                className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                type="text"
+                                                placeholder="Enter vehicle color"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="w-full flex justify-between items-center">
+
+
+                                            <div className="w-full">
+                                                <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-plates`}>
+                                                    Vehicle Plates
+                                                </label>
+                                                <div className="flex justify-between gap-x-4">
+                                                    <input
+                                                        name="plates"
+                                                        value={vehicle.plates}
+                                                        onChange={(e) => handleVehicleChange(vehicleIndex, e)}
+                                                        className="appearance-none block w-4/6 bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                        type="text"
+                                                        placeholder="Enter vehicle plates"
+                                                        required
+                                                    />
+
+                                                    <button type="button" onClick={() => handleRemoveVehicle(vehicleIndex)} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 text-sm outline-none mb-3 ">
+                                                        <RiDeleteBin6Line className="mr-2" /> Delete Vehicle
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                ))}
                             </div>
-                            <div className="flex items-center justify-between">
+                            <div className="flex justify-between items-center">
+                                <button type="button" onClick={handleAddVehicle} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1">
+                                    <IoMdAdd className="mr-2" /> Add Vehicle
+                                </button>
+                                <button type="button" onClick={addPet} className=" border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1">
+                                    <IoMdAdd className="mr-2" /> Add Pet
+                                </button>
+                            </div>
+                            <div className="flex items-center mt-4 justify-between">
                                 <div>
                                     <button className="text-white rounded-lg bg-primary-blue font-medium  text-sm px-4 py-2.5  outline-none  mr-1 mb-1" type="submit" >Save Changes</button>
 

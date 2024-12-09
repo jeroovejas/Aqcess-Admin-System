@@ -6,8 +6,8 @@ interface ApiResponse<T> {
     data?: T;
 }
 
-export const getAllResidents = async (params: any): Promise<ApiResponse<any>> => {
-    const getDataConfig = createGetRequest<any>('/residents/all', params);
+export const getAllSecurityGuards = async (params: any): Promise<ApiResponse<any>> => {
+    const getDataConfig = createGetRequest<any>('/security-guard/all', params);
     try {
         // Perform the API request
         const response = await axiosInstance(getDataConfig());
@@ -24,8 +24,8 @@ export const getAllResidents = async (params: any): Promise<ApiResponse<any>> =>
     }
 };
 
-export const exportResidents = async (params: any): Promise<any> => {
-    const getDataConfig = createExportRequest('/residents/export', params);
+export const exportSecurityGuards = async (params: any): Promise<any> => {
+    const getDataConfig = createExportRequest('/security-guard/export', params);
     try {
         // Perform the API request
         const response = await axiosInstance(getDataConfig);
@@ -44,8 +44,8 @@ export const exportResidents = async (params: any): Promise<any> => {
     }
 };
 
-export const createResident = async (body: any): Promise<ApiResponse<any>> => {
-    const postDataConfig = createPostRequest<any>('/residents/create', body);
+export const createSecurityGuard = async (body: any): Promise<ApiResponse<any>> => {
+    const postDataConfig = createPostRequest<any>('/security-guard/create', body);
     try {
         // Perform the API request
         const response = await axiosInstance(postDataConfig());
@@ -62,8 +62,8 @@ export const createResident = async (body: any): Promise<ApiResponse<any>> => {
     }
 };
 
-export const editResident = async (body: any): Promise<ApiResponse<any>> => {
-    const putDataConfig = createPutRequest<any>('/residents/edit', body);
+export const editSecurityGuard = async (body: any): Promise<ApiResponse<any>> => {
+    const putDataConfig = createPutRequest<any>('/security-guard/edit', body);
     try {
         // Perform the API request
         const response = await axiosInstance(putDataConfig());
@@ -80,8 +80,8 @@ export const editResident = async (body: any): Promise<ApiResponse<any>> => {
     }
 };
 
-export const changeResidentStatus = async (body: any): Promise<ApiResponse<any>> => {
-    const putDataConfig = createPutRequest<any>('/residents/change-status', body);
+export const changeSecurityGuardStatus = async (body: any): Promise<ApiResponse<any>> => {
+    const putDataConfig = createPutRequest<any>('/security-guard/change-status', body);
     try {
         // Perform the API request
         const response = await axiosInstance(putDataConfig());
@@ -98,29 +98,11 @@ export const changeResidentStatus = async (body: any): Promise<ApiResponse<any>>
     }
 };
 
-export const deleteResident = async (params: any): Promise<ApiResponse<any>> => {
-    const deleteDataConfig = createDeleteRequest<any>('/residents/delete', params);
+export const deleteSecurityGuard = async (params: any): Promise<ApiResponse<any>> => {
+    const deleteDataConfig = createDeleteRequest<any>('/security-guard/delete', params);
     try {
         // Perform the API request
         const response = await axiosInstance(deleteDataConfig());
-        return {
-            success: true,
-            data: response.data,
-        };
-    } catch (error: any) {
-        const errorResponse = error.response || {};
-        return {
-            success: false,
-            data: errorResponse.data,
-        };
-    }
-};
-
-export const importResidents = async (body: any): Promise<ApiResponse<any>> => {
-    const postDataConfig = createPostRequest<any>('/residents/import', body);
-    try {
-        // Perform the API request
-        const response = await axiosInstance(postDataConfig());
         return {
             success: true,
             data: response.data,
