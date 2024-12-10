@@ -2,6 +2,7 @@
 
 import React from "react"
 import { DateRange, DateRangePicker } from "./dataPicker"
+import { showErrorToast } from "@/lib/toastUtil"
 
 export const DateRangePickerElement: React.FC<any> = ({ setToDate, setFromDate }) => {
     const [dateRange, setDateRange] = React.useState<DateRange | undefined>(
@@ -59,18 +60,35 @@ export const DateRangePickerElement: React.FC<any> = ({ setToDate, setFromDate }
         },
     ]
 
+    // React.useEffect(() => {
+    //     if (dateRange) {
+    //         console.log("Dates", dateRange)
+    //         const fromDate: any = dateRange.from?.toLocaleDateString()
+    //         const toDate: any = dateRange.to?.toLocaleDateString()
+    //         const [fromDay, fromMonth, fromYear] = fromDate.split('/');
+    //         const [toDay, toMonth, toYear] = toDate.split('/');
+    //         const formattedFromDate = `${fromYear}-${fromMonth.padStart(2, '0')}-${fromDay.padStart(2, '0')}`;
+    //         const formattedToDate = `${toYear}-${toMonth.padStart(2, '0')}-${toDay.padStart(2, '0')}`;
+    //         // console.log("changed", formattedDate)
+    //         // setFromDate(fromDate?.replace(/\//g, '-'))
+    //         setFromDate(formattedFromDate)
+    //         setToDate(formattedToDate)
+    //     }
+    // }, [dateRange, setFromDate, setToDate])
     React.useEffect(() => {
         if (dateRange) {
             const fromDate: any = dateRange.from?.toLocaleDateString()
             const toDate: any = dateRange.to?.toLocaleDateString()
-            const [fromDay, fromMonth, fromYear] = fromDate.split('/');
-            const [toDay, toMonth, toYear] = toDate.split('/');
-            const formattedFromDate = `${fromYear}-${fromMonth.padStart(2, '0')}-${fromDay.padStart(2, '0')}`;
-            const formattedToDate = `${toYear}-${toMonth.padStart(2, '0')}-${toDay.padStart(2, '0')}`;
-            // console.log("changed", formattedDate)
-            // setFromDate(fromDate?.replace(/\//g, '-'))
-            setFromDate(formattedFromDate)
-            setToDate(formattedToDate)
+            if (fromDate && toDate) {
+                const [fromDay, fromMonth, fromYear] = fromDate.split('/')
+                const [toDay, toMonth, toYear] = toDate.split('/')
+                const formattedFromDate = `${fromYear}-${fromMonth.padStart(2, '0')}-${fromDay.padStart(2, '0')}`
+                const formattedToDate = `${toYear}-${toMonth.padStart(2, '0')}-${toDay.padStart(2, '0')}`
+                setFromDate(formattedFromDate)
+                setToDate(formattedToDate)
+            } else {
+                showErrorToast("Both from and to dates must be selected.")
+            }
         }
     }, [dateRange, setFromDate, setToDate])
     return (
