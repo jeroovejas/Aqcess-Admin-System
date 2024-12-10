@@ -130,7 +130,7 @@ const ViewDetails = () => {
                             </div>
                         </div>
                         <div className="w-4/6 ps-3">
-                            <div className="flex w-full">
+                            {/*<div className="flex w-full">
                                 <div className="relative w-full">
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                         <svg className="w-4  h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -139,7 +139,7 @@ const ViewDetails = () => {
                                     </div>
                                     <input type="search" id="default-search" className="block w-full p-3 ps-10 text-sm text-gray-900 border border-stroke rounded-lg  dark:placeholder-gray-400 dark:text-white" placeholder="Search by resident name or address" required />
                                 </div>
-                            </div>
+                            </div>*/}
                             {
                                 area.bookings.length === 0
                                     ?
