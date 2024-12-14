@@ -227,7 +227,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </Link>
             </li>
 
-            <div className="flex items-center  mx-3 my-2 py-2">
+            <div className="flex items-center   mx-3 my-2 py-2">
               <Link className=" inline-block" href="/settings">
                 {user.profileImage !== null ?
                   <div className="h-10 w-10 rounded-full overflow-hidden">
@@ -237,8 +237,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </div>}
               </Link>
               <div className="ms-5 me-8">
-                <p className="text-[14px] font-[600] text-white leading-4">{user.firstName} {user.lastName}</p>
-                <p className="text-[14px] font-[400] leading-4">{user.email}</p>
+                <p className="text-[14px] font-[600] text-white truncate max-w-[150px] leading-4">{user.firstName} {user.lastName}</p>
+                <p className="text-[14px] font-[400] leading-4 truncate max-w-[150px]">{user.email}</p>
               </div>
               <div>
                 <MdLogout className="cursor-pointer" onClick={logout} />
