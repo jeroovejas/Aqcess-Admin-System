@@ -21,20 +21,20 @@ const VerifyEmail: React.FC = () => {
 
   return (
 
-    <div className="rounded-sm bg-[url('/images/Authentication/background.jpg')] bg-center bg-no-repeat min-h-[100vh] ">
+    <div className="rounded-sm bg-[url('/images/main/aqcess-bg-image.JPG')] bg-center bg-cover bg-no-repeat min-h-[100vh] ">
       <div className="flex flex-wrap py-[61px]">
         <div className="w-full xl:block xl:w-1/2 text-white">
           <div className="px-26 2xsm:px-10 mt-8 2xsm:mb-10 3xsm:px-4 3xsm:mb-10 4xsm:px-6 4xsm:mb-10">
             <Link className=" inline-block" href="/">
               <Image
                 className=""
-                src={"/images/Authentication/logo.png"}
+                src={"/images/main/logo.png"}
                 alt="Logo"
-                height={80}
-                width={80}
+                height={150}
+                width={150}
               />
             </Link>
-            <h1 className="text-4xl mt-12 font-bold">Join Our Community</h1>
+            <h1 className="text-4xl  font-bold">Join Our Community</h1>
             <h1 className="text-4xl font-bold">Management App</h1>
             <p className="text-xl mt-4">
               Simplify payment management and stay connected with your residents!

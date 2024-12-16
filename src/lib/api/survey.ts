@@ -1,5 +1,5 @@
 import axiosInstance from '../axios/axiosInstance';
-import { createPostRequest, createGetRequest, createPutRequest, createDeleteRequest } from "../axios/apiRequests";
+import { createPostRequest, createGetRequest, createPutRequest, createDeleteRequest, createExportRequest } from "../axios/apiRequests";
 
 interface ApiResponse<T> {
     success: boolean;
@@ -38,6 +38,25 @@ export const getSurvey = async (params: any): Promise<ApiResponse<any>> => {
             success: false,
             data: errorResponse.data,
         };
+    }
+};
+
+export const exportSurveyResponse = async (params: any): Promise<any> => {
+    const getDataConfig = createExportRequest('/survey/export-survey-response', params);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(getDataConfig);
+        return {
+            success: true,
+            data: response.data.data,
+            message: 'File downloaded successfully!'
+        }
+    } catch (error: any) {
+        console.error('Error exporting residents:', error);
+        return {
+            success: false,
+            message: 'Failed to download the file. Please try again.'
+        }
     }
 };
 

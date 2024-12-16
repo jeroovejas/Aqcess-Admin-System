@@ -1,12 +1,14 @@
 "use client"
 import { useState, useEffect } from "react";
-import { toggleViewModal, toggleEditModal } from "@/store/Slices/SurveySlice";
+import { toggleViewModal, toggleEditModal, toggleExportModal, setSurveyId } from "@/store/Slices/SurveySlice";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import CardDataStats from "../CardDataStats";
 import { getSurvey } from "@/lib/api/survey";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
+import { TfiExport } from "react-icons/tfi";
+import ExportModal from "./exportModal";
 
 const ViewSurvey: React.FC<any> = () => {
     const maxSize = 4;
@@ -14,10 +16,16 @@ const ViewSurvey: React.FC<any> = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const viewModal = useAppSelector((state) => state.survey.viewModal);
+    const exportModal = useAppSelector((state) => state.survey.exportModal);
     const surveyData = useAppSelector((state) => state.survey.surveyData);
     const token = useAppSelector((state) => state.auth.token);
     const isUpdated = useAppSelector((state) => state.survey.isUpdated);
     const dispatch = useAppDispatch();
+
+    const handleOpenExportModal = (id: any) => {
+        dispatch(setSurveyId(id))
+        dispatch(toggleExportModal())
+    }
 
     useEffect(() => {
         setLoading(true);
@@ -92,15 +100,30 @@ const ViewSurvey: React.FC<any> = () => {
                         <CardDataStats title="Deadline" total={surveyData.deadline.split(' ')[0]} rate="">
                         </CardDataStats>
                     </div>
+
+
+
                     <div className="mb-4 flex justify-between">
-                        <div className="relative">
-                            <div className="absolute top-4 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg className="w-4 mb-2 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                </svg>
+                        <div>
+                            <div className="relative">
+                                <div className="absolute top-4 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg className="w-4 mb-2 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                    </svg>
+                                </div>
+                                <input type="search" id="default-search" value={searchTerm}
+                                    onChange={(event) => { setSearchTerm(event.target.value) }} className="block w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg  dark:placeholder-gray-400 dark:text-white" placeholder="Search for survey" required />
                             </div>
-                            <input type="search" id="default-search" value={searchTerm}
-                                onChange={(event) => { setSearchTerm(event.target.value) }} className="block w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg  dark:placeholder-gray-400 dark:text-white" placeholder="Search for survey" required />
+                        </div>
+                        <div className="w-full md:mr-3 md:w-auto md:mt-0">
+                            <button
+                                type="button"
+                                onClick={() => handleOpenExportModal(surveyData.id)}
+                                className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-1 mb-2  flex items-center justify-center md:justify-start"
+                            >
+                                <TfiExport className="mr-2 text-base" />
+                                Export list
+                            </button>
                         </div>
                     </div>
                     {/* {
@@ -262,7 +285,13 @@ const ViewSurvey: React.FC<any> = () => {
                         </div>
                     </div>
 
+                    {(exportModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
+                    </div>}
+                    <ExportModal />
+
                 </DefaultLayout >
+
+
             ) : null}:
         </>
     );

@@ -29,6 +29,7 @@ const Surveys = () => {
   const editModal = useAppSelector((state) => state.survey.editModal)
   const viewModal = useAppSelector((state) => state.survey.viewModal)
   const duplicateModal = useAppSelector((state) => state.survey.duplicateModal)
+  const exportModal = useAppSelector((state) => state.survey.exportModal)
   const surveysDetails = useAppSelector((state) => state.survey.surveysDetails)
   const closeSurvey = useAppSelector((state) => state.survey.closeSurvey)
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -70,7 +71,7 @@ const Surveys = () => {
   }, [router])
 
   useEffect(() => {
-    if (reOpenModal || duplicateModal || closeSurvey) {
+    if (reOpenModal || duplicateModal || closeSurvey || exportModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
@@ -78,7 +79,7 @@ const Surveys = () => {
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [reOpenModal, duplicateModal, closeSurvey]);
+  }, [reOpenModal, duplicateModal, closeSurvey || exportModal]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (filterRef.current && !filterRef.current.contains(event.target as Node)) {

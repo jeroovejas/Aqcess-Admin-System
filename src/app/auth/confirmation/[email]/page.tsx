@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { verifyEmail } from "@/lib/api/auth";
-import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { useRouter, useParams } from 'next/navigation';
 import Loader from "@/components/common/Loader";
 import { IoCheckmarkCircle } from "react-icons/io5";
@@ -48,17 +47,17 @@ const ConfirmationPage = () => {
       <Loader />
     ) : (
 
-      <div className="rounded-sm h-[100vh] bg-[url('/images/Authentication/background.jpg')] bg-center bg-no-repeat ">
+      <div className="rounded-sm min-h-[100vh] bg-[url('/images/main/aqcess-bg-image.JPG')] bg-center bg-cover bg-no-repeat ">
         <div className="flex flex-wrap py-[20px]">
           <div className="w-full xl:block xl:w-1/4 text-white">
-            <div className="px-6 mt-3">
+            <div className="px-10 mt-3">
               <Link className=" inline-block" href="/">
                 <Image
                   className=""
-                  src={"/images/Authentication/logo.png"}
+                  src={"/images/main/logo.png"}
                   alt="Logo"
-                  height={80}
-                  width={80}
+                  height={150}
+                  width={150}
                 />
               </Link>
             </div>

@@ -9,8 +9,10 @@ interface SurveysDetails {
     averageResponse: number;
 }
 interface ResidentState {
+    exportModal: boolean,
     reOpenModal: boolean,
     closeSurvey: boolean,
+    surveyId: number,
     addModal: boolean,
     editModal: boolean,
     duplicateModal: boolean,
@@ -22,8 +24,10 @@ interface ResidentState {
 
 // Define the initial state using that type
 const initialState: ResidentState = {
+    exportModal: false,
     reOpenModal: false,
     closeSurvey: false,
+    surveyId: 0,
     addModal: false,
     editModal: false,
     duplicateModal: false,
@@ -42,6 +46,9 @@ export const surveySlice = createSlice({
 
     initialState,
     reducers: {
+        toggleExportModal: (state) => {
+            state.exportModal = !state.exportModal;
+        },
         toggleReOpenModal: (state) => {
             state.reOpenModal = !state.reOpenModal;
         },
@@ -56,6 +63,9 @@ export const surveySlice = createSlice({
         },
         setSurveyData: (state, action: PayloadAction<any>) => {
             state.surveyData = { ...action.payload };
+        },
+        setSurveyId: (state, action: PayloadAction<any>) => {
+            state.surveyId = action.payload;
         },
         toggleDuplicateModal: (state) => {
             state.duplicateModal = !state.duplicateModal;
@@ -80,5 +90,5 @@ export const surveySlice = createSlice({
     },
 })
 
-export const { toggleReOpenModal, toggleAddModal, setSurveyData, toggleEditModal, toggleViewModal, toggleDuplicateModal, toggleCloseModal, setSurveysDetails, toggleIsUpdated, resetState } = surveySlice.actions
+export const { toggleReOpenModal, toggleAddModal, setSurveyData, toggleEditModal, toggleViewModal, toggleDuplicateModal, toggleCloseModal, setSurveysDetails, toggleExportModal, toggleIsUpdated, resetState,setSurveyId } = surveySlice.actions
 export default surveySlice.reducer

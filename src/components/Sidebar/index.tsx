@@ -160,12 +160,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
 
             {/* <!-- SIDEBAR HEADER --> */}
-            <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-              <Link href="/">
+            <div className="flex items-center justify-between gap-2 px-6">
+              <Link href="/dashboard">
                 <Image
-                  width={50}
-                  height={50}
-                  src={"/images/Authentication/logo.png"}
+                  width={100}
+                  height={100}
+                  src={"/images/main/logo.png"}
                   alt="Logo"
                   priority
                 />
@@ -195,7 +195,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
             <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear ">
               {/* <!-- Sidebar Menu --> */}
-              <nav className="mt-5 px-4 py-4 ">
+              <nav className=" px-4 py-4 ">
                 {menuGroups.map((group, groupIndex) => (
                   <div key={groupIndex}>
 

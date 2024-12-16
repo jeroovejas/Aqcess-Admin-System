@@ -135,20 +135,20 @@ const Register: React.FC = () => {
   };
   return (
 
-    <div className="rounded-sm min-h-[100vh]  bg-[url('/images/Authentication/background.jpg')] bg-center bg-no-repeat ">
+    <div className="rounded-sm min-h-[100vh]  bg-[url('/images/main/aqcess-bg-image.JPG')] bg-center bg-cover bg-no-repeat ">
       <div className="flex flex-wrap py-[61px] ">
         <div className="w-full xl:block lg:w-1/2 text-white">
-          <div className="md:px-26 px-10  mt-8 ">
+          <div className="md:px-26 px-10  mt-2 ">
             <Link className=" inline-block" href="/">
               <Image
                 className=""
-                src={"/images/Authentication/logo.png"}
+                src={"/images/main/logo.png"}
                 alt="Logo"
-                height={80}
-                width={80}
+                height={150}
+                width={150}
               />
             </Link>
-            <h1 className="text-4xl mt-12 font-bold">Join Our Community</h1>
+            <h1 className="text-4xl mt-2 font-bold">Join Our Community</h1>
             <h1 className="text-4xl font-bold">Management App</h1>
             <p className="text-xl mt-4">
               Simplify payment management and stay connected with your residents!

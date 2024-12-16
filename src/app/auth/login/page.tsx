@@ -73,23 +73,23 @@ const Login: React.FC = () => {
   };
   return (
 
-    <div className="rounded-sm min-h-[100vh] bg-[url('/images/Authentication/background.jpg')] bg-center bg-no-repeat ">
+    <div className="rounded-sm min-h-[100vh] bg-[url('/images/main/aqcess-bg-image.JPG')] bg-center bg-cover bg-no-repeat ">
       <div className="flex flex-wrap py-[20px]">
         <div className="w-full xl:block xl:w-1/4 text-white">
-          <div className="px-6 mt-3">
+          <div className="px-10 mt-3">
             <Link className=" inline-block" href="/">
               <Image
                 className=""
-                src={"/images/Authentication/logo.png"}
+                src={"/images/main/logo.png"}
                 alt="Logo"
-                height={80}
-                width={80}
+                height={150}
+                width={150}
               />
             </Link>
           </div>
         </div>
         <div className="w-full flex justify-center px-10">
-          <div className="bg-white md:w-2/3 lg:w-1/2 xl:w-5/12 w-full mt-16 rounded-md">
+          <div className="bg-white md:w-2/3 lg:w-1/2 xl:w-5/12 w-full mt-10 rounded-md">
             <div className="w-full p-12 md:p-17.5">
               <h2 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign in
