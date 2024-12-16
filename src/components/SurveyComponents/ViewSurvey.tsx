@@ -95,7 +95,7 @@ const ViewSurvey: React.FC<any> = () => {
 
                         <CardDataStats title="Responses" total={surveyData.surveyResponses} rate="">
                         </CardDataStats>
-                        <CardDataStats title="Response rate" total={`${87}%`} rate="">
+                        <CardDataStats title="Response rate" total={`${surveyData.responseRate}%`} rate="">
                         </CardDataStats>
                         <CardDataStats title="Deadline" total={surveyData.deadline.split(' ')[0]} rate="">
                         </CardDataStats>

@@ -161,7 +161,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
             {/* <!-- SIDEBAR HEADER --> */}
             <div className="flex items-center justify-between gap-2 px-6">
-              <Link href="/dashboard">
+              <Link href={`${user.role === 2 ? '/dashboard' : '/user-management'}`}>
                 <Image
                   width={100}
                   height={100}
