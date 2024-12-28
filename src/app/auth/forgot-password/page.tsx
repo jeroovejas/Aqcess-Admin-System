@@ -56,10 +56,9 @@ const ForgotPassword: React.FC = () => {
             </Link>
           </div>
         </div>
-        <div className="w-full xl:w-1/2 ">
-          <div className="bg-white sm:mx-20 mx-28 2xsm:mx-10 3xsm:mx-4 4xsm:mx-6 mt-16 rounded-md">
-
-            <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+        <div className="w-full flex justify-center px-10">
+          <div className="bg-white md:w-2/3 lg:w-1/2 xl:w-5/12 w-full mt-10 rounded-md">
+            <div className="w-full p-12 md:p-17.5">
               <h2 className="mt-10 mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Restore password
               </h2>

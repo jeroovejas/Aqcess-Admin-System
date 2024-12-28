@@ -8,7 +8,7 @@ import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { RxDashboard } from "react-icons/rx";
-import { LuUsers2 } from "react-icons/lu";
+import { LuUsers } from "react-icons/lu";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
 import { MdOutlineSecurity } from "react-icons/md";
@@ -42,7 +42,7 @@ const menuGroups = [
       },
       {
         icon: (
-          LuUsers2
+          LuUsers
         ),
         label: "Residents",
         route: "/residents",
