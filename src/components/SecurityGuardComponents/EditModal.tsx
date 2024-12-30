@@ -2,8 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { toggleEditModal, toggleSaveModal, toggleDeleteModal, setSecurityGuardData } from "@/store/Slices/SecurityGuardSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useLocale, useTranslations } from 'next-intl';
 
-const EditModal: React.FC<any> = () => {
+
+const EditModal: React.FC<any> = () => { 
+      const t = useTranslations();
+    
     const STATUS_OPTIONS = ['active', 'deactivated'];
     const editModal = useAppSelector((state) => state.securityGuard.editModal);
     const securityGuardData = useAppSelector((state) => state.securityGuard.securityGuardData);

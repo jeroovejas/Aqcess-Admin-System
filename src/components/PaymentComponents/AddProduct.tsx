@@ -139,7 +139,7 @@ const AddProduct: React.FC<any> = () => {
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="product-price">
                                     Price
                                 </label>
-                                <select
+                                {/* <select
                                     id="price"
                                     name="price"
                                     className="block appearance-none w-full rounded-xl border border-[#DDDDDD] text-black py-3 px-4 pr-8 mb-3 focus:outline-none focus:bg-white focus:border-gray-500"
@@ -151,7 +151,18 @@ const AddProduct: React.FC<any> = () => {
                                     <option value={50}>50</option>
                                     <option value={100}>100</option>
                                     <option value={150}>150</option>
-                                </select>
+                                </select> */}
+                                <input
+                                    id="price"
+                                    name="price"
+                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    type="number"
+                                    placeholder="Enter Product price"
+                                    min={1}
+                                    value={formState.price}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
 
                             <div className="flex gap-3 items-center">

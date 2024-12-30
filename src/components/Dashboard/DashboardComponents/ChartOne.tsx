@@ -3,6 +3,8 @@
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import dynamic from "next/dynamic";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -126,17 +128,20 @@ const ChartOne: React.FC = () => {
   const series = [
     {
       name: "Product One",
-      data:[[2, 200], [3, 200], [7, 300], [7, 400], [13, 500],
+      data: [[2, 200], [3, 200], [7, 300], [7, 400], [13, 500],
       [11, 600], [15, 700], [17, 800], [28, 900], [30, 1000]],
     },
   ]
+
+  const t = useTranslations();
+
 
   return (
     <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
         <div className="flex w-full flex-wrap gap-3 sm:gap-5">
 
-          <p className="font-semibold text-black">Payments</p>
+          <p className="font-semibold text-black">{t('DASHBOARD.title1')}</p>
 
         </div>
 

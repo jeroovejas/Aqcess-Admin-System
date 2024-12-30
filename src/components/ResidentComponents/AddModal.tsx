@@ -9,6 +9,8 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
 import 'react-phone-number-input/style.css';
+import { useLocale, useTranslations } from 'next-intl';
+
 
 interface FormData {
     status: "active" | "inactive";
@@ -43,6 +45,8 @@ const initialFormData: FormData = {
 
 const AddModal: React.FC<any> = () => {
     const dispatch = useAppDispatch();
+      const t = useTranslations();
+
     const addModal = useAppSelector((state) => state.resident.addModal);
     const token = useAppSelector((state) => state.auth.token);
     const modalRef = useRef<HTMLDivElement>(null);
@@ -206,7 +210,7 @@ const AddModal: React.FC<any> = () => {
             {addModal ? (
                 <div ref={modalRef} className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
                     <div className="flex justify-between items-center mt-8">
-                        <h3 className="text-3xl font-semibold">Add new resident</h3>
+                        <h3 className="text-3xl font-semibold">{t('RESIDENT.button3Modal.title')}</h3>
                         <button className="bg-transparent border-0 text-[20px] font-bold text-black"
                             onClick={() => dispatch(toggleAddModal())}
                         >
@@ -238,7 +242,7 @@ const AddModal: React.FC<any> = () => {
                             <div className="flex gap-2 mt-4">
                                 <div className="w-1/2">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="firstName">
-                                        First Name
+                                    {t('RESIDENT.button3Modal.lable1')}
                                     </label>
                                     <input
                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -247,13 +251,13 @@ const AddModal: React.FC<any> = () => {
                                         name="first_name"
                                         value={formData.first_name}
                                         onChange={handleChange}
-                                        placeholder="First Name"
+                                        placeholder={t('RESIDENT.button3Modal.lable1')}
                                         required
                                     />
                                 </div>
                                 <div className="w-1/2">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="lastName">
-                                        Last Name
+                                        {t('RESIDENT.button3Modal.lable2')}
                                     </label>
                                     <input
                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -262,14 +266,14 @@ const AddModal: React.FC<any> = () => {
                                         name="last_name"
                                         value={formData.last_name}
                                         onChange={handleChange}
-                                        placeholder="Last Name"
+                                        placeholder={t('RESIDENT.button3Modal.lable2')}
                                         required
                                     />
                                 </div>
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="address">
-                                    Address
+                                {t('RESIDENT.button3Modal.lable3')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -278,13 +282,13 @@ const AddModal: React.FC<any> = () => {
                                     name="address"
                                     value={formData.address}
                                     onChange={handleChange}
-                                    placeholder="Address"
+                                    placeholder={t('RESIDENT.button3Modal.lable3')}
                                     required
                                 />
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="address">
-                                    Phone Number
+                                {t('RESIDENT.button3Modal.lable4')}
                                 </label>
                                 <PhoneInput
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:ring-0 focus:shadow-none focus:bg-white focus:border-none"
@@ -292,13 +296,13 @@ const AddModal: React.FC<any> = () => {
                                     defaultCountry="PK"  // You can set the default country
                                     value={number}
                                     onChange={handleNumberChange}
-                                    placeholder="Enter phone number"
+                                    placeholder={t('RESIDENT.button3Modal.lable4')}
                                 />
                             </div>
                             {error && <p className="text-red text-sm font-semibold mb-2">{error}</p>}
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="email">
-                                    Email
+                                {t('RESIDENT.button3Modal.lable5')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -307,13 +311,13 @@ const AddModal: React.FC<any> = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    placeholder="Email"
+                                    placeholder={t('RESIDENT.button3Modal.lable5')}
                                     required
                                 />
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="password">
-                                    Pin
+                                {t('RESIDENT.button3Modal.lable6')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -322,14 +326,14 @@ const AddModal: React.FC<any> = () => {
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
-                                    placeholder="Pin"
+                                    placeholder={t('RESIDENT.button3Modal.lable6')}
                                     required
                                 />
                             </div>
                             {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>}
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="internal_notes">
-                                    Internal Notes
+                                {t('RESIDENT.button3Modal.lable7')}
                                 </label>
                                 <textarea
                                     className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -337,14 +341,14 @@ const AddModal: React.FC<any> = () => {
                                     name="internal_notes"
                                     value={formData.internal_notes}
                                     onChange={handleChange}
-                                    placeholder="Add notes about residents"
+                                    placeholder={t('RESIDENT.button3Modal.lable7')}
                                     rows={5}
                                 />
                             </div>
                             {formData.pets.length > 0 && formData.pets.map((pet, petIndex) => (
                                 <div key={petIndex} className="w-full mb-4">
                                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}`}>
-                                        Pet {petIndex + 1}
+                                    {t('RESIDENT.button3Modal.title9')} {petIndex + 1}
                                     </label>
                                     <div className="flex justify-between gap-x-4">
                                         <input
@@ -352,7 +356,7 @@ const AddModal: React.FC<any> = () => {
                                             onChange={(e) => handlePetChange(petIndex, e)}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter pet name"
+                                            placeholder={t('RESIDENT.button3Modal.lable9')}
                                             required
                                         />
                                         <button type="button" onClick={() => removePet(petIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4  text-center inline-flex items-center  mb-3">
@@ -365,7 +369,7 @@ const AddModal: React.FC<any> = () => {
                                 <div key={vehicleIndex} className="mb-8">
                                     <div className="w-full">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-make`}>
-                                            Vehicle Make
+                                        {t('RESIDENT.button3Modal.title10')}
                                         </label>
                                         <input
                                             name="make"
@@ -373,13 +377,13 @@ const AddModal: React.FC<any> = () => {
                                             onChange={(e) => handleVehicleChange(vehicleIndex, e)}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter vehicle make"
+                                            placeholder={t('RESIDENT.button3Modal.lable10')}
                                             required
                                         />
                                     </div>
                                     <div className="w-full">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-color`}>
-                                            Vehicle Color
+                                        {t('RESIDENT.button3Modal.title11')}
                                         </label>
                                         <input
                                             name="color"
@@ -387,7 +391,7 @@ const AddModal: React.FC<any> = () => {
                                             onChange={(e) => handleVehicleChange(vehicleIndex, e)}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter vehicle color"
+                                            placeholder={t('RESIDENT.button3Modal.lable11')}
                                             required
                                         />
                                     </div>
@@ -396,7 +400,7 @@ const AddModal: React.FC<any> = () => {
 
                                         <div className="w-full">
                                             <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-plates`}>
-                                                Vehicle Plates
+                                            {t('RESIDENT.button3Modal.title12')}
                                             </label>
                                             <div className="flex justify-between gap-x-4">
                                                 <input
@@ -405,12 +409,12 @@ const AddModal: React.FC<any> = () => {
                                                     onChange={(e) => handleVehicleChange(vehicleIndex, e)}
                                                     className="appearance-none block w-4/6 bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                     type="text"
-                                                    placeholder="Enter vehicle plates"
+                                                    placeholder={t('RESIDENT.button3Modal.lable12')}
                                                     required
                                                 />
 
                                                 <button type="button" onClick={() => handleRemoveVehicle(vehicleIndex)} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 text-sm outline-none mb-3 ">
-                                                    <RiDeleteBin6Line className="mr-2" /> Delete Vehicle
+                                                    <RiDeleteBin6Line className="mr-2" /> {t('RESIDENT.button3Modal.delButton')}
                                                 </button>
 
                                             </div>
@@ -422,10 +426,10 @@ const AddModal: React.FC<any> = () => {
                         </div>
                         <div className="flex justify-between items-center">
                             <button type="button" onClick={handleAddVehicle} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1">
-                                <IoMdAdd className="mr-2" /> Add Vehicle
+                                <IoMdAdd className="mr-2" /> {t('RESIDENT.button3Modal.addButton')}
                             </button>
                             <button type="button" onClick={addPet} className=" border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1">
-                                <IoMdAdd className="mr-2" /> Add Pet
+                                <IoMdAdd className="mr-2" /> {t('RESIDENT.button3Modal.addButton2')}
                             </button>
                         </div>
                         <div className="flex mt-4 gap-3 items-center">
@@ -434,7 +438,7 @@ const AddModal: React.FC<any> = () => {
                                 type="submit"
                                 disabled={loading}
                             >
-                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Add Resident"}
+                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('RESIDENT.button3Modal.button2')}`}
 
                             </button>
                             <button
@@ -442,7 +446,7 @@ const AddModal: React.FC<any> = () => {
                                 type="button"
                                 onClick={handleCancel}
                             >
-                                Cancel
+                                {t('RESIDENT.button3Modal.button1')}
                             </button>
 
                         </div>

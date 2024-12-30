@@ -4,7 +4,7 @@ interface AuthState {
     userData: any;
     isTokenValid: boolean,
     isFilter: boolean,
-    emailModal:boolean
+    emailModal: boolean
 }
 // Define the initial state
 const initialState: AuthState = {
@@ -12,7 +12,7 @@ const initialState: AuthState = {
     userData: {},
     isTokenValid: false,
     isFilter: false,
-    emailModal:false
+    emailModal: false
 };
 
 export const authSlice = createSlice({
@@ -26,13 +26,16 @@ export const authSlice = createSlice({
             state.token = '';
         },
         setUserData: (state, action: PayloadAction<any>) => {
+            console.log("hello user data")
             state.userData = action.payload;
         },
         clearUser: (state) => {
             state.userData = {};
         },
         toggleIsTokenValid: (state) => {
+            console.log("hello token validation", state.isTokenValid)
             state.isTokenValid = !state.isTokenValid
+            console.log("hello token 2 validation", state.isTokenValid)
         },
         toggleIsFilter: (state) => {
             state.isFilter = !state.isFilter
@@ -40,8 +43,8 @@ export const authSlice = createSlice({
         toggleEmailModal: (state) => {
             state.emailModal = !state.emailModal
         }
-        
+
     },
 });
-export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid,toggleIsFilter,toggleEmailModal } = authSlice.actions;
+export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid, toggleIsFilter, toggleEmailModal } = authSlice.actions;
 export default authSlice.reducer;

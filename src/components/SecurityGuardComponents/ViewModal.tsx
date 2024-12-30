@@ -3,12 +3,14 @@ import { toggleEditModal, toggleViewModal } from "@/store/Slices/SecurityGuardSl
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FaRegCopy } from "react-icons/fa6";
 import { PiGreaterThan } from "react-icons/pi";
+import { useLocale, useTranslations } from 'next-intl';
+
 const ViewModal: React.FC<any> = () => {
+      const t = useTranslations();
+    
     const viewModal = useAppSelector((state) => state.securityGuard.viewModal)
     const securityGuard = useAppSelector((state) => state.securityGuard.securityGuardData)
     const dispatch = useAppDispatch()
-
-
 
     const viewEdit = () => {
         dispatch(toggleViewModal())
@@ -32,8 +34,6 @@ const ViewModal: React.FC<any> = () => {
                     <div className={`absolute top-0 right-0 w-full z-999 md:w-2/5 bg-white  h-screen overflow-y-scroll my-scrollbar`}>
                         <div className="border-0  relative text-black w-full h-full outline-none focus:outline-none  px-8 py-8">
                             <div className="flex justify-between items-center mt-8">
-
-
                                 <div className="flex items-center">
                                     <h3 className="text-3xl font-semibold ">{securityGuard.firstName} {securityGuard.lastName}</h3>
                                     <span className={`${securityGuard.status === 'active' ? 'text-meta-3 p-1 px-2 bg-[#ECFDF3]' : 'text-meta-1 bg-[#FEF3F2] p-2'} ms-4 font-semibold text-[16px] rounded-2xl`}>

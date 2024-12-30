@@ -1,4 +1,5 @@
-import Link from "next/link";
+// import Link from "next/link";
+import { Link, usePathname } from '@/navigation';
 interface BreadcrumbProps {
   pageName: string;
 }

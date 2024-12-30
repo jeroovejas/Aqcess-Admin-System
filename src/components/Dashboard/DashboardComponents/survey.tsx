@@ -1,9 +1,14 @@
 "use client"
 import { useState } from "react";
-import Link from "next/link";
+// import Link from "next/link";
+import { Link, usePathname } from '@/navigation';
 import { FaArrowRight } from "react-icons/fa";
+import { useLocale, useTranslations } from 'next-intl';
+
+
 const Survey: React.FC<any> = ({ survey }) => {
   const [isDisabled, setIsDisabled] = useState(false);
+    const t = useTranslations();
 
   // console.log("survey",survey)
 
@@ -11,7 +16,7 @@ const Survey: React.FC<any> = ({ survey }) => {
     return (
       <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
         <h4 className="text-center text-xl font-semibold text-black dark:text-white">
-          No Survey Data Available
+        {t('DASHBOARD.available')}
         </h4>
       </div>
     );

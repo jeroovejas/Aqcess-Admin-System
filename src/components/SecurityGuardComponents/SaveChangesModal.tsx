@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { editSecurityGuard } from "@/lib/api/securityGuard";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useLocale, useTranslations } from 'next-intl';
+
 const SaveChangesModal: React.FC<any> = () => {
+      const t = useTranslations();
+    
     const saveModal = useAppSelector((state) => state.securityGuard.saveModal)
     const securityGuard = useAppSelector((state) => state.securityGuard.securityGuardData);
     const token = useAppSelector((state) => state.auth.token);
@@ -15,7 +19,7 @@ const SaveChangesModal: React.FC<any> = () => {
 
     const handleEdit = async () => {
         setLoading(true)
-        try {
+        try { 
             const body = {
                 ...securityGuard,
                 token: token // Add the token here

@@ -155,6 +155,9 @@ const ViewDetails = () => {
                                                     key={index}
                                                 >
                                                     <p className="text-black text-[14px] font-[600]">
+                                                        {bookingItem.firstName} {bookingItem.lastName}
+                                                    </p>
+                                                    <p className="text-black text-[14px] font-[600]">
                                                         {bookingItem.bookingTime} - {bookingItem.endTime}
                                                     </p>
                                                     <p className="text-[14px] font-[500]">{bookingItem.duration}</p>

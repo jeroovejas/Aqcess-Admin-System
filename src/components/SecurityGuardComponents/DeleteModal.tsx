@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { deleteSecurityGuard } from "@/lib/api/securityGuard";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useLocale, useTranslations } from 'next-intl';
+
 const DeleteModal: React.FC<any> = () => {
+      const t = useTranslations();
+    
     const deleteModal = useAppSelector((state) => state.securityGuard.deleteModal)
     const editModal = useAppSelector((state) => state.securityGuard.editModal)
     const securityGuard = useAppSelector((state) => state.securityGuard.securityGuardData)
@@ -14,7 +18,7 @@ const DeleteModal: React.FC<any> = () => {
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false);
 
-    const handleDelete = async () => {
+    const handleDelete = async () => { 
         setLoading(true)
         try {
             let params = { id: securityGuard.id, token: token }

@@ -1,5 +1,7 @@
-import Link from "next/link";
+// import Link from "next/link";
+import { Link, usePathname } from '@/navigation';
 import Image from "next/image";
+import { useLocale, useTranslations } from 'next-intl';
 
 const paymentData: any[] = [
   {
@@ -36,14 +38,16 @@ const paymentData: any[] = [
 ];
 
 const Payment = () => {
+  const t = useTranslations();
+
   return (
     <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
       <h4 className="mb-6 px-7.5 text-xl font-semibold text-black dark:text-white">
-        Recent Payments
+        {t('DASHBOARD.titlePayment.title')}
       </h4>
       <div className="flex bg-[#EDEEEF] border-y border-[#DDDDDD] justify-between px-5 py-3">
-        <p className="text-[12px] font-[600]">Residents</p>
-        <p className="text-[12px] font-[600]">Amount</p>
+        <p className="text-[12px] font-[600]">{t('DASHBOARD.titlePayment.resident')}</p>
+        <p className="text-[12px] font-[600]">{t('DASHBOARD.titlePayment.amount')}</p>
       </div>
 
       <div>

@@ -1,0 +1,166 @@
+{
+    "SIGNIN": {
+        "title": "Sign in",
+        "account": "Don not have an account yet?",
+        "signUp": "Sign up",
+        "email": "Your email",
+        "password": "Your password",
+        "forget": "Forget Password?"
+    },
+    "SIGNUP": {
+        "title": "Sign Up",
+        "account": "Already have an account?",
+        "signIn": "Sign in",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Your email",
+        "password": "Your password",
+        "confirmPassword": "Confirm password",
+        "check": "I agree with Terms & conditions",
+        "title1": "Join Our Community",
+        "title2": "Management App",
+        "title3": "Simplify payment management and stay connected with your residents!",
+        "title4": "Effortless Payment Management",
+        "title5": "Manage fees and track payments in one place",
+        "title6": "Stay Connected",
+        "title7": "Send important notifications and receive resident’s message",
+        "title8": "Gather Resident Feedback",
+        "title9": "Create surveys and receive valuable feedback to improve community living"
+    },
+    "FORGOT": {
+        "title": "Restore password",
+        "account": "Enter your email address below and we will send you a link to reset your password.",
+        "email": "Your email",
+        "button": "Send reset link"
+    },
+    "DASHBOARD": {
+        "title": "Welcome",
+        "titlePayment": {
+            "title": "Recent Payments",
+            "resident": "Residents",
+            "amount": "Amount"
+        },
+        "title1": "Payments",
+        "available": "No Survey Data Available",
+        "card1": "Total Payments",
+        "card2": "Overdue Payments",
+        "card3": "Total Residents",
+        "card4": "Active Surveys"
+    },
+    "RESIDENT": {
+        "title": "Resident manager",
+        "card1": "Total residents",
+        "card2": "Active residents",
+        "card3": "Residents with overdue",
+        "table": {
+            "title": "Your residents",
+            "column1": "Resident Name",
+            "column2": "ID",
+            "column3": "Email",
+            "column4": "Address",
+            "column5": "Status"
+        },
+        "button1": "Import list",
+        "button1Modal": {
+            "title": "Import Listings",
+            "lable": "Select File",
+            "button1": "Cancel",
+            "button2": "Import"
+        },
+        "button2": "Export list",
+        "button2Modal": {
+            "title": "Export residents list",
+            "lable": "Please select the format you would like to use for exporting",
+            "button1": "Cancel",
+            "button2": "Export",
+            "option": "Excel"
+        },
+        "button3": "Add resident",
+        "button3Modal": {
+            "title": "Add new resident",
+            "lable1": "First Name",
+            "lable2": "Last Name",
+            "lable3": "Address",
+            "lable4": "Phone Number",
+            "lable6": "Pin",
+            "lable5": "Email",
+            "lable7": "Add notes about residents",
+            "lable8": "Add notes about residents",
+
+            "title9": "Pet",
+            "lable9": "Enter pet name",
+            "title10": "Vehicle Make",
+            "lable10": "Enter vehicle make",
+            "title11": "Vehicle Color",
+            "lable11": "Enter vehicle color",
+            "title12": "Vehicle Plates",
+            "lable12": "Enter vehicle plates",
+            "delButton": "Delete Vehicle",
+
+            "button1": "Cancel",
+            "button2": "Add Resident",
+            "addButton": "Add Vehicle",
+            "addButton2": "Add Pet"
+        },
+        "filterButton": "Filter",
+        "search": "Search resident by name or id"
+    },
+    "SECURITY": {
+        "title": "Security guard manager",
+        "card1": "Total security guard",
+        "card2": "Active security guard",
+        "table": {
+            "title": "Your security guards",
+            "column1": "security guard Name",
+            "column2": "ID",
+            "column3": "Email",
+            "column4": "Address",
+            "column5": "Status"
+        },
+
+        "button1": "Export list",
+        "button1Modal": {
+            "title": "Export security guard list",
+            "lable": "Please select the format you would like to use for exporting",
+            "button1": "Cancel",
+            "button2": "Export",
+            "option": "Excel"
+        },
+        "button2": "Add security guard",
+        "button2Modal": {
+            "title": "Add new security guard",
+            "lable1": "First Name",
+            "lable2": "Last Name",
+            "lable3": "Address",
+            "lable4": "Phone Number",
+            "lable5": "Email",
+            "lable6": "Pin",
+            "lable7": "Internal notes",
+            "lable8": "Add notes about security guard",
+            "button1": "Cancel",
+            "button2": "Add Security Guard"
+        },
+        "deleteModal":{
+            "title": "Delete security guard?",
+            "lable": "Their account and all related information will be permanently deleted. If you want to temporarily restrict the security guard access, deactivate their account instead.",
+            "button1": "Cancel",
+            "button2": "Delete"
+        },
+        "status": "Active",
+        "status2": "Deactivated",
+        "statusModal":{
+            "status": "Activate",
+            "status2": "Deactivate",
+            "title": "security guard",
+            "lable": "Select carefully as this will affect security guards activity.",
+            "button1": "No",
+            "button2": "Yes"
+        },
+        "viewModal":{
+            "status": "Activate",
+            "button2": "Yes"
+        },
+        "filterButton": "Filter",
+        "search": "Search security guard by name or id"
+    }
+}

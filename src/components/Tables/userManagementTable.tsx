@@ -8,7 +8,8 @@ import { toggleStatusModal, setAdminData, toggleDeleteModal } from "@/store/Slic
 import { showErrorToast } from "@/lib/toastUtil";
 import { getAllSocietyAdmins } from "@/lib/api/userManagement";
 import Loader from "../common/Loader";
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
+import { Link, usePathname, useRouter } from '@/navigation';
 import { toTitleCase } from "@/lib/common.modules";
 
 const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {

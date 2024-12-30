@@ -6,9 +6,12 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { exportSecurityGuards } from "@/lib/api/securityGuard";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useLocale, useTranslations } from 'next-intl';
 import { saveAs } from 'file-saver';
-
+ 
 const ExportModal: React.FC<any> = () => {
+      const t = useTranslations();
+    
     const [selectedOption, setSelectedOption] = useState<string>("");
     const exportModal = useAppSelector((state) => state.securityGuard.exportModal);
     const token = useAppSelector((state) => state.auth.token);

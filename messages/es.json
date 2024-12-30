@@ -1,0 +1,107 @@
+{
+    "SIGNIN" : {
+        "title" : "Iniciar sesión",
+        "account": "¿Aún no tienes una cuenta?",
+        "signUp" : "Inscribirse",
+        "email" : "Tu correo electrónico",
+        "password" : "Tu contraseña",
+        "forget" : "¿Olvidaste tu contraseña?"
+    },
+    "SIGNUP" : {
+        "title" : "Inscribirse",
+        "account": "¿Ya tienes una cuenta?",
+        "signIn" : "Iniciar sesión",
+        "firstName" : "Nombre de pila",
+        "lastName" : "Apellido",
+        "email" : "Tu correo electrónico",
+        "password" : "Tu contraseña",
+        "confirmPassword" : "Confirmar Contraseña",
+        "check" : "Estoy de acuerdo con Términos y condiciones",
+        "title1" : "Únase a nuestra comunidad",
+        "title2" : "Aplicación de gestión",
+        "title3" : "¡Simplifique la gestión de pagos y manténgase conectado con sus residentes!",
+        "title4" : "Gestión de pagos sin esfuerzo",
+        "title5" : "Administre tarifas y realice un seguimiento de los pagos en un solo lugar",
+        "title6" : "Mantente conectada",
+        "title7" : "Envíe notificaciones importantes y reciba mensajes de residentes",
+        "title8" : "Recopile comentarios de los residentes",
+        "title9" : "Cree encuestas y reciba comentarios valiosos para mejorar la vida en comunidad."
+    },
+    "FORGOT" : {
+        "title" : "Restaurar contraseña",
+        "account": "Ingrese su dirección de correo electrónico a continuación y le enviaremos un enlace para restablecer su contraseña.",
+        "email" : "Tu correo electrónico",
+        "button" : "Enviar enlace de reinicio"
+    },
+    "DASHBOARD": {
+        "title": "Bienvenida",
+        "titlePayment": {
+            "title": "Pagos recientes",
+            "resident": "Residente",
+            "amount": "Cantidad"
+        },
+        "title1": "Pagos",
+        "available": "No hay datos de encuesta disponibles",
+        "card1": "Pagos totales",
+        "card2": "Pagos vencidos",
+        "card3": "Residentes totales",
+        "card4": "Encuestas activas"
+    },
+    "RESIDENT": {
+        "title": "Gerente residente",
+        "card1": "Residentes totales",
+        "card2": "Residentes activas",
+        "card3": "Residentes con vencimiento",
+        "table": {
+            "title": "Tus residentes",
+            "column1": "Nombre del residente",
+            "column2": "ID",
+            "column3": "Correo electrónico",
+            "column4": "DIRECCIÓN",
+            "column5": "Estado"
+        },
+        "button1": "Lista de importación",
+        "button1Modal": {
+            "title": "Importar listados",
+            "lable": "Seleccione Archivo",
+            "button1": "Cancelar",
+            "button2": "Importar"
+        },
+        "button2": "Lista de exportación",
+        "button2Modal": {
+            "title": "Exportar lista de residentes",
+            "lable": "Seleccione el formato que desea utilizar para exportar",
+            "button1": "Cancelar",
+            "button2": "Exportar",
+            "option": "Sobresalir"
+        },
+        "button3": "Agregar residente",
+        "button3Modal": {
+            "title": "Agregar nuevo residente",
+            "lable1": "Nombre de pila",
+            "lable2": "Apellido",
+            "lable3": "DIRECCIÓN",
+            "lable4": "Número de teléfono",
+            "lable5": "Alfiler",
+            "lable6": "Correo electrónico",
+            "lable7": "Agregar notas sobre residentes",
+
+            "title9": "Mascota",
+            "lable9": "Introduzca el nombre de la mascota",
+            "title10": "Marca del vehículo",
+            "lable10": "Introduzca la marca del vehículo",
+            "title11": "Color del vehículo",
+            "lable11": "Ingrese el color del vehículo",
+            "title12": "Placas de vehículos",
+            "lable12": "Ingresar placas de vehículos",
+            "delButton": "Eliminar vehículo",
+
+            "button1": "Cancelar",
+            "button2": "Agregar Residente",
+            "addButton": "Agregar Vehículo",
+            "addButton2": "Agregar Mascota"
+        },
+        "filterButton": "Filtrar",
+        "search": "Buscar residente por nombre o id"
+    }
+}

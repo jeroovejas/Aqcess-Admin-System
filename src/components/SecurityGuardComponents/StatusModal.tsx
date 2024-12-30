@@ -7,14 +7,18 @@ import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { changeSecurityGuardStatus } from "@/lib/api/securityGuard";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useLocale, useTranslations } from 'next-intl';
+
 const StatusModal: React.FC<any> = () => {
+      const t = useTranslations();
+    
     const statusModal = useAppSelector((state) => state.securityGuard.statusModal)
     const securityGuard = useAppSelector((state) => state.securityGuard.securityGuardData)
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false);
 
-    const handleChangeStatus = async () => {
+    const handleChangeStatus = async () => { 
         setLoading(true)
         try {
             const body = {

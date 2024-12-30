@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+// import { usePathname } from "next/navigation";
+// import Link from "next/link";
+import { Link, usePathname, useRouter } from '@/navigation';
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
@@ -21,7 +22,7 @@ import { MdLogout } from "react-icons/md";
 import { LiaFileInvoiceSolid } from "react-icons/lia";
 import { clearToken, clearUser, toggleIsTokenValid } from "@/store/Slices/AuthSlice";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 
 interface SidebarProps {

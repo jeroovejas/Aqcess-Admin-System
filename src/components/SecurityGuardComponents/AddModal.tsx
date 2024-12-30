@@ -7,7 +7,7 @@ import { createSecurityGuard } from "@/lib/api/securityGuard";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-
+import { useLocale, useTranslations } from 'next-intl';
 
 const initialFormData = {
     status: "active",
@@ -22,6 +22,8 @@ const initialFormData = {
 
 const AddModal: React.FC<any> = () => {
     const dispatch = useAppDispatch();
+      const t = useTranslations();
+    
     const addModal = useAppSelector((state) => state.securityGuard.addModal);
     const token = useAppSelector((state) => state.auth.token);
     const modalRef = useRef<HTMLDivElement>(null);
@@ -113,7 +115,7 @@ const AddModal: React.FC<any> = () => {
             {addModal ? (
                 <div ref={modalRef} className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
                     <div className="flex justify-between items-center mt-8">
-                        <h3 className="text-3xl font-semibold">Add new security guard</h3>
+                        <h3 className="text-3xl font-semibold">{t('SECURITY.button2Modal.title')}</h3>
                         <button className="bg-transparent border-0 text-[20px] font-bold text-black"
                             onClick={() => dispatch(toggleAddModal())}
                         >
@@ -145,7 +147,7 @@ const AddModal: React.FC<any> = () => {
                             <div className="flex gap-2 mt-4">
                                 <div className="w-1/2">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="firstName">
-                                        First Name
+                                    {t('SECURITY.button2Modal.lable1')}
                                     </label>
                                     <input
                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -154,13 +156,13 @@ const AddModal: React.FC<any> = () => {
                                         name="first_name"
                                         value={formData.first_name}
                                         onChange={handleChange}
-                                        placeholder="First Name"
+                                        placeholder={t('SECURITY.button2Modal.lable1')}
                                         required
                                     />
                                 </div>
                                 <div className="w-1/2">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="lastName">
-                                        Last Name
+                                    {t('SECURITY.button2Modal.lable2')}
                                     </label>
                                     <input
                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -169,14 +171,14 @@ const AddModal: React.FC<any> = () => {
                                         name="last_name"
                                         value={formData.last_name}
                                         onChange={handleChange}
-                                        placeholder="Last Name"
+                                        placeholder={t('SECURITY.button2Modal.lable2')}
                                         required
                                     />
                                 </div>
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="address">
-                                    Address
+                                {t('SECURITY.button2Modal.lable3')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -185,13 +187,13 @@ const AddModal: React.FC<any> = () => {
                                     name="address"
                                     value={formData.address}
                                     onChange={handleChange}
-                                    placeholder="Address"
+                                    placeholder={t('SECURITY.button2Modal.lable3')}
                                     required
                                 />
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="address">
-                                    Phone Number
+                                {t('SECURITY.button2Modal.lable4')}
                                 </label>
                                 <PhoneInput
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:ring-0 focus:shadow-none focus:bg-white focus:border-none"
@@ -199,13 +201,13 @@ const AddModal: React.FC<any> = () => {
                                     defaultCountry="PK"  // You can set the default country
                                     value={number}
                                     onChange={handleNumberChange}
-                                    placeholder="Enter phone number"
+                                    placeholder={t('SECURITY.button2Modal.lable4')}
                                 />
                             </div>
                             {error && <p className="text-red text-sm font-semibold mb-2">{error}</p>}
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="email">
-                                    Email
+                                {t('SECURITY.button2Modal.lable5')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -214,13 +216,13 @@ const AddModal: React.FC<any> = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    placeholder="Email"
+                                    placeholder={t('SECURITY.button2Modal.lable5')}
                                     required
                                 />
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="password">
-                                    Pin
+                                {t('SECURITY.button2Modal.lable6')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -229,14 +231,14 @@ const AddModal: React.FC<any> = () => {
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
-                                    placeholder="Pin"
+                                    placeholder={t('SECURITY.button2Modal.lable6')}
                                     required
                                 />
                             </div>
                             {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>}
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="internal_notes">
-                                    Internal Notes
+                                {t('SECURITY.button2Modal.lable7')}
                                 </label>
                                 <textarea
                                     className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -244,7 +246,7 @@ const AddModal: React.FC<any> = () => {
                                     name="internal_notes"
                                     value={formData.internal_notes}
                                     onChange={handleChange}
-                                    placeholder="Add notes about residents"
+                                    placeholder={t('SECURITY.button2Modal.lable8')}
                                     rows={5}
                                 />
                             </div>
@@ -255,7 +257,7 @@ const AddModal: React.FC<any> = () => {
                                 type="submit"
                                 disabled={loading}
                             >
-                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Add Security Guard"}
+                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SECURITY.button2Modal.button2')}`}
 
                             </button>
                             <button
@@ -263,7 +265,7 @@ const AddModal: React.FC<any> = () => {
                                 type="button"
                                 onClick={handleCancel}
                             >
-                                Cancel
+                                {t('SECURITY.button2Modal.button1')}
                             </button>
                         </div>
                     </form>
