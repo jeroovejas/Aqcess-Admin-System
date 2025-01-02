@@ -10,8 +10,11 @@ import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
 import { toTitleCase } from "@/lib/common.modules";
 import * as Select from '@radix-ui/react-select';
+import { useLocale, useTranslations } from 'next-intl';
+
 
 const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
+  const t = useTranslations();
   const limit = 10;
   const PAGE_RANGE = 5;
   const dispatch = useAppDispatch()

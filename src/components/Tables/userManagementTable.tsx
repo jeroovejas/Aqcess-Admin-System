@@ -11,8 +11,11 @@ import Loader from "../common/Loader";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 import { toTitleCase } from "@/lib/common.modules";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
+  const t = useTranslations();
   const limit = 10;
   const PAGE_RANGE = 5;
   const dispatch = useAppDispatch()

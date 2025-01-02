@@ -5,6 +5,8 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
 import { toggleEditModal, setResidentData, toggleViewModal,toggleStatusModal } from "@/store/Slices/ResidentSlice"
 import { useAppDispatch } from "@/store/hooks";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 
 const SubscriptionData: any[] = [
@@ -40,6 +42,7 @@ const SubscriptionData: any[] = [
 ];
 
 const SubscriptionTable: React.FC<any> = () => {
+  const t = useTranslations();
 
   const dispatch = useAppDispatch()
   const handleEditResident = (resident: any) => {
