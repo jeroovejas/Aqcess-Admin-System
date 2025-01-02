@@ -3,7 +3,11 @@ import { toggleEditModal, toggleViewModal } from "@/store/Slices/ResidentSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FaRegCopy } from "react-icons/fa6";
 import { PiGreaterThan } from "react-icons/pi";
+import { useLocale, useTranslations } from 'next-intl';
+
 const ViewModal: React.FC<any> = () => {
+      const t = useTranslations();
+    
     const viewModal = useAppSelector((state) => state.resident.viewModal)
     const resident = useAppSelector((state) => state.resident.residentData)
     const dispatch = useAppDispatch()
@@ -19,7 +23,7 @@ const ViewModal: React.FC<any> = () => {
         if (text.length > maxLength) {
             return text.substring(0, maxLength) + '...';
         }
-        return text;
+        return text; 
     };
 
     const handleCopy = (text: any) => {
@@ -50,17 +54,17 @@ const ViewModal: React.FC<any> = () => {
                             <div className="w-full my-6 ">
 
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Name</p>
+                                    <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable1')}</p>
                                     <p className='font-medium w-2/3'>{resident.firstName} {resident.lastName}</p>
 
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Adress</p>
+                                    <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable2')}</p>
                                     <p className='font-medium w-2/3'>{resident.resident.address}</p>
 
                                 </div>
                                 <div className="flex py-6 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Email</p>
+                                    <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable3')}</p>
                                     <div className="flex justify-between w-2/3  pe-4">
                                         <p className='font-medium'>{resident.email}</p>
                                         <p className='cursor-pointer'><FaRegCopy onClick={() => handleCopy(resident.email)} size={25} /></p>
@@ -74,24 +78,24 @@ const ViewModal: React.FC<any> = () => {
                                     </div>
                                 </div> */}
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Phone</p>
+                                    <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable4')}</p>
                                     <p className='font-medium w-2/3'>{resident.phoneNumber}</p>
 
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Last Visit</p>
+                                    <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable5')}</p>
                                     <p className='font-medium w-2/3'>{resident.lastLoggedIn}</p>
 
                                 </div>
                                 <div className="flex py-6 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Overdue Payments</p>
+                                    <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable7')}</p>
                                     <div className="flex justify-between w-2/3  pe-4">
                                         <p className='font-medium'>{resident.resident.overduePayments}</p>
                                         <p className=''><PiGreaterThan size={15} /></p>
                                     </div>
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <div className='font-bold w-1/3'>Internal Notes</div>
+                                    <div className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable6')}</div>
                                     <div className='font-medium w-2/3 '>{truncateText(resident.resident.internalNotes, 100)}</div>
 
                                 </div>
@@ -105,14 +109,14 @@ const ViewModal: React.FC<any> = () => {
                                     type="button"
                                     onClick={() => dispatch(toggleViewModal())}
                                 >
-                                    Send Message
+                                    {t('RESIDENT.viewModal.button1')}
                                 </button>
                                 <button
                                     className=" border rounded-lg border-[#DDDDDD]  background-transparent font-medium  px-6 text-sm py-3  outline-none  ml-2 mb-1"
                                     type="button"
                                     onClick={viewEdit}
                                 >
-                                    Edit
+                                    {t('RESIDENT.viewModal.button2')}
                                 </button>
                             </div>
 

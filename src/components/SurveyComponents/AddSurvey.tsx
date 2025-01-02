@@ -9,6 +9,8 @@ import { IoMdAdd } from "react-icons/io";
 import { createSurvey } from "@/lib/api/survey";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 // Define types for survey form state
 interface SurveyFormState {
@@ -33,7 +35,8 @@ const initialFormState: SurveyFormState = {
     }]
 }
 
-const AddSurvey: React.FC = () => {
+const AddSurvey: React.FC = () => { 
+    const t = useTranslations();
     const formRef = useRef<HTMLFormElement>(null);
     const [loading1, setLoading1] = useState(false);
     const [loading2, setLoading2] = useState(false);
@@ -186,33 +189,33 @@ const AddSurvey: React.FC = () => {
                             <div>
                                 <p className="text-black font-bold">Surveys / <span className="text-slate-400">Create new</span></p>
                                 <h2 className="text-4xl font-bold text-black dark:text-white">
-                                    Create new survey
+                                {t('SURVEY.button1Modal.title')}
                                 </h2>
                             </div>
                             <div className="flex gap-3">
                                 <button onClick={() => dispatch(toggleAddModal())} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
-                                    Back
+                                {t('SURVEY.button1Modal.button1')}
                                 </button>
                                 <button onClick={handleDraft} disabled={loading2} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
-                                    {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save as Draft"}
+                                    {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SURVEY.button1Modal.button2')}`}
                                 </button>
                                 <button type="submit" disabled={loading1} className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
-                                    {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Publish"}
+                                    {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SURVEY.button1Modal.button3')}`}
                                 </button>
                             </div>
                         </div>
                         <div className="flex flex-wrap">
                             <div className="w-full md:w-1/4 p-2">
                                 <div>
-                                    <p className="text-black font-bold">Survey Details</p>
-                                    <p className="mt-2">Add survey title and description. They will be visible to all participants.</p>
+                                    <p className="text-black font-bold">{t('SURVEY.info')}</p>
+                                    <p className="mt-2">{t('SURVEY.desc')}</p>
                                 </div>
                             </div>
                             <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
                                 <div>
                                     <div className="w-full mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="title">
-                                            Survey Title
+                                        {t('SURVEY.button1Modal.title1')}
                                         </label>
                                         <input
                                             name="title"
@@ -220,20 +223,20 @@ const AddSurvey: React.FC = () => {
                                             onChange={handleInputChange}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter survey title"
+                                            placeholder={t('SURVEY.button1Modal.lable1')}
                                             required
                                         />
                                     </div>
                                     <div className="w-full mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                                            Survey Description
+                                        {t('SURVEY.button1Modal.title2')}
                                         </label>
                                         <textarea
                                             name="description"
                                             value={formState.description}
                                             onChange={handleInputChange}
                                             className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            placeholder="Enter survey description"
+                                            placeholder={t('SURVEY.button1Modal.lable2')}
                                             rows={5}
                                             required
                                         />
@@ -254,7 +257,7 @@ const AddSurvey: React.FC = () => {
                                     </div> */}
                                     <div className="w-1/2 mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2">
-                                            Deadline
+                                        {t('SURVEY.button1Modal.title3')}
                                         </label>
                                         <DatePickerOne onChange={handleDateChange} defaultDate={formState.deadline} />
                                     </div>
@@ -264,8 +267,8 @@ const AddSurvey: React.FC = () => {
                         <div className="flex flex-wrap my-8">
                             <div className="w-full md:w-1/4 p-2">
                                 <div>
-                                    <p className="text-black font-bold">Questions</p>
-                                    <p className="mt-2">Add one or more questions, select their type, and define answer options</p>
+                                    <p className="text-black font-bold">{t('SURVEY.info2')}</p>
+                                    <p className="mt-2">{t('SURVEY.desc2')}</p>
                                 </div>
                             </div>
                             <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
@@ -274,7 +277,7 @@ const AddSurvey: React.FC = () => {
                                         <div className="flex flex-wrap md:flex-nowrap  gap-5 mb-4">
                                             <div className="w-full md:w-3/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${questionIndex}`}>
-                                                    Question {questionIndex + 1}
+                                                {t('SURVEY.button1Modal.title4')} {questionIndex + 1}
                                                 </label>
                                                 <input
                                                     name="question_title"
@@ -282,13 +285,13 @@ const AddSurvey: React.FC = () => {
                                                     onChange={(e) => handleQuestionChange(questionIndex, e)}
                                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                     type="text"
-                                                    placeholder="Enter Question"
+                                                    placeholder={t('SURVEY.button1Modal.lable4')}
                                                     required
                                                 />
                                             </div>
                                             <div className="relative w-full md:w-2/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`type-${questionIndex}`}>
-                                                    Question Type
+                                                {t('SURVEY.button1Modal.title5')}
                                                 </label>
                                                 <select
                                                     name="question_choice"
@@ -307,7 +310,7 @@ const AddSurvey: React.FC = () => {
                                         {question.options.map((option, optionIndex) => (
                                             <div key={optionIndex} className="w-full mb-4">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`option-${questionIndex}-${optionIndex}`}>
-                                                    Option {optionIndex + 1}
+                                                {t('SURVEY.button1Modal.title6')} {optionIndex + 1}
                                                 </label>
                                                 <div className="flex justify-between gap-x-4">
                                                     <input
@@ -315,7 +318,7 @@ const AddSurvey: React.FC = () => {
                                                         onChange={(e) => handleOptionChange(questionIndex, optionIndex, e)}
                                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                         type="text"
-                                                        placeholder="Enter option"
+                                                        placeholder={t('SURVEY.button1Modal.lable6')}
                                                         required
                                                     />
                                                     <button type="button" onClick={() => handleRemoveOption(questionIndex, optionIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4 py-2 text-center inline-flex items-center  mb-2">
@@ -326,10 +329,10 @@ const AddSurvey: React.FC = () => {
                                         ))}
                                         <div className="flex justify-between">
                                             <button type="button" onClick={() => handleAddOption(questionIndex)} className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
-                                                <IoMdAdd className="mr-2" /> Add Option
+                                                <IoMdAdd className="mr-2" /> {t('SURVEY.button1Modal.addButton')}
                                             </button>
                                             <button type="button" onClick={() => handleRemoveQuestion(questionIndex)} className="text-white bg-danger  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
-                                                <RiDeleteBin6Line className="mr-2" /> Delete Question
+                                                <RiDeleteBin6Line className="mr-2" /> {t('SURVEY.button1Modal.deleteButton')}
                                             </button>
 
                                         </div>
@@ -344,7 +347,7 @@ const AddSurvey: React.FC = () => {
                             <div className="w-full md:w-3/4  py-4 rounded-xl">
 
                                 <button type="button" onClick={handleAddQuestion} className=" text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                                    <IoMdAdd className="mr-2" /> Add Question
+                                    <IoMdAdd className="mr-2" /> {t('SURVEY.button1Modal.addButton2')}
                                 </button>
                             </div>
                         </div>

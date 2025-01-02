@@ -19,8 +19,11 @@ import Loader from "@/components/common/Loader";
 import { Link, usePathname, useRouter } from '@/navigation';
 
 import { IoSearchOutline } from "react-icons/io5";
+import { useLocale, useTranslations } from 'next-intl';
 
 const Products = () => {
+  const t = useTranslations();
+
   const addProduct = useAppSelector((state) => state.payment.addProduct)
   const editProduct = useAppSelector((state) => state.payment.editProduct)
   const statusModal = useAppSelector((state) => state.payment.statusModal)
@@ -114,16 +117,16 @@ const Products = () => {
           <DefaultLayout >
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                Payment Manager
+              {t('PAYMENT.title')}
               </h2>
             </div>
             <div className="mx-auto">
               <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
                 <div className="mt-1 text-lg font-bold mx-2">
-                  <Link href="/payment/payment-history">Payment history</Link>
+                  <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
                 </div>
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                  Products
+                {t('PAYMENT.tab2')}
                 </button>
               </div>
             </div>
@@ -133,11 +136,11 @@ const Products = () => {
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <IoSearchOutline size={20} />
                   </div>
-                  <input type="search" id="default-search" name="searchTerm" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder="Search for product" required />
+                  <input type="search" id="default-search" name="searchTerm" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('PRODUCT.search')} required />
                 </div>
                 <div ref={filterRef} className="flex items-center">
                   <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
-                    <IoFilterSharp className="mr-2" />Filters
+                    <IoFilterSharp className="mr-2" />{t('PRODUCT.filterButton')}
                   </button>
                   <div className='w-full'>
                     <div className="relative inline-block">
@@ -149,7 +152,7 @@ const Products = () => {
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                               >
-                                Status
+                                {t('COMMON.type')}
                               </button>
                               <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
                                 <FaChevronRight size={15} />
@@ -165,22 +168,22 @@ const Products = () => {
                       {isStatusOpen && (
                         <div className=" absolute top-0 font-bold z-10  left-[70px] mt-4 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                           <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                          <li>
+                            <li>
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown('')}
                               >
-                                All
+                                {t('COMMON.type2')}
                               </button>
                             </li>
-                          <li>
+                            <li>
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown('draft')}
                               >
-                                Draft
+                                {t('COMMON.lable6')}
                               </button>
                             </li>
                             <li>
@@ -189,7 +192,7 @@ const Products = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown('active')}
                               >
-                                Active
+                                {t('COMMON.lable7')}
                               </button>
                             </li>
                             <li>
@@ -198,7 +201,7 @@ const Products = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown('inactive')}
                               >
-                                Inactive
+                                {t('COMMON.lable8')}
                               </button>
                             </li>
                           </ul>
@@ -215,7 +218,7 @@ const Products = () => {
                     type="button"
                     className="w-full justify-center text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center "
                   >
-                    <IoIosAdd className="mr-2 text-white text-xl" />Create new
+                    <IoIosAdd className="mr-2 text-white text-xl" />{t('PRODUCT.button1')}
                   </button>
                 </div>
               </div>

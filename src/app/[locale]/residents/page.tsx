@@ -177,7 +177,7 @@ const Residents = () => {
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                               >
-                                Status
+                                {t('COMMON.type')}
                               </button>
                               <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
                                 <FaChevronRight size={15} />
@@ -203,7 +203,7 @@ const Residents = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("")}
                               >
-                                All
+                                {t('COMMON.type2')}
                               </button>
                             </li>
                             <li>
@@ -212,7 +212,7 @@ const Residents = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("active")}
                               >
-                                Active
+                                {t('RESIDENT.status')}
                               </button>
                             </li>
                             <li>
@@ -221,7 +221,7 @@ const Residents = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("deactivated")}
                               >
-                                Deactivated
+                                {t('RESIDENT.status2')}
                               </button>
                             </li>
                           </ul>

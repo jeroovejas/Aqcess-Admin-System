@@ -19,8 +19,11 @@ import { Link, usePathname, useRouter } from '@/navigation';
 import Loader from "@/components/common/Loader";
 import { showErrorToast } from "@/lib/toastUtil";
 import { IoSearchOutline } from "react-icons/io5";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 const Surveys = () => {
+  const t = useTranslations();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
@@ -118,22 +121,22 @@ const Surveys = () => {
           <DefaultLayout>
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-bold text-black dark:text-white">
-                Survey Manager
+              {t('SURVEY.title')}
               </h2>
               <nav>
                 <div className="">
                   <button onClick={() => dispatch(toggleAddModal())} type="button" className="text-white bg-primary-blue  font-medium rounded-lg text-[16px] px-6 py-3 text-center inline-flex items-center mb-2">
-                    <IoIosAdd className="mr-2 text-white text-xl" />Create new
+                    <IoIosAdd className="mr-2 text-white text-xl" />{t('SURVEY.button1')}
                   </button>
                 </div>
               </nav>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-              <CardDataStats title="Total surveys" total={`${surveysDetails.totalSurveys}`} rate="">
+              <CardDataStats title={t('SURVEY.card1')} total={`${surveysDetails.totalSurveys}`} rate="">
               </CardDataStats>
-              <CardDataStats title="Open surveys" total={`${surveysDetails.openedSurveys}`} rate="">
+              <CardDataStats title={t('SURVEY.card2')} total={`${surveysDetails.openedSurveys}`} rate="">
               </CardDataStats>
-              <CardDataStats title="Average response rate" total={`${surveysDetails.averageResponse}%`} rate="">
+              <CardDataStats title={t('SURVEY.card3')} total={`${surveysDetails.averageResponse}%`} rate="">
               </CardDataStats>
             </div>
             <div className="mb-4 flex flex-wrap justify-between">
@@ -142,11 +145,11 @@ const Surveys = () => {
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <IoSearchOutline size={20} />
                   </div>
-                  <input type="search" id="default-search" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder="Search for survey" required />
+                  <input type="search" id="default-search" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('SURVEY.search')} required />
                 </div>
                 <div ref={filterRef} className="flex items-center">
                   <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
-                    <IoFilterSharp className="mr-2" />Filters
+                    <IoFilterSharp className="mr-2" />{t('SURVEY.filterButton')}
                   </button>
                   <div className="w-full">
                     <div className="relative inline-block">
@@ -158,7 +161,7 @@ const Surveys = () => {
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                               >
-                                Status
+                                {t('COMMON.type')}
                                 <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
                                   <FaChevronRight size={15} />
                                 </span>
@@ -180,7 +183,7 @@ const Surveys = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("")}
                               >
-                                All
+                                {t('COMMON.type2')}
                               </button>
                             </li>
                             <li>
@@ -189,7 +192,7 @@ const Surveys = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("open")}
                               >
-                                Open
+                                {t('COMMON.lable1')}
                               </button>
                             </li>
                             <li>
@@ -198,7 +201,7 @@ const Surveys = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("closed")}
                               >
-                                Closed
+                                {t('COMMON.lable2')}
                               </button>
                             </li>
                           </ul>

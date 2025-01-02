@@ -11,6 +11,7 @@ import DeleteModal from "./DeleteModal";
 import { getAllCards } from "@/lib/api/payment";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
+import { useLocale, useTranslations } from 'next-intl';
 
 
 // Define types for survey form state
@@ -68,6 +69,8 @@ const paymentData: any[] = [
 ];
 
 const PaymentAndBilling: React.FC = () => {
+      const t = useTranslations();
+    
     const billingModal = useAppSelector((state) => state.setting.billingModal)
     const deleteModal = useAppSelector((state) => state.setting.deleteModal)
     const addMethod = useAppSelector((state) => state.setting.addMethod)
@@ -149,24 +152,24 @@ const PaymentAndBilling: React.FC = () => {
                         <div className="mb-3 flex flex-col gap-3 sm:flex-row items-center justify-between">
                             <div>
                                 <h2 className="text-4xl font-bold text-black dark:text-white">
-                                    Settings
+                                {t('PAYMENTBILLING.title')}
                                 </h2>
                             </div>
                         </div>
                         <div className="mx-auto">
                             <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
                                 <div className="mt-1 text-lg font-bold ml-2">
-                                    <button onClick={() => dispatch(toggleBillingModal())}  >User profile</button>
+                                    <button onClick={() => dispatch(toggleBillingModal())}  >{t('PAYMENTBILLING.tab1')}</button>
                                 </div>
                                 <button type="button" className="text-gray-900 bg-white ml-2 border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2  flex items-center mr-4">
-                                    Payments and billing
+                                {t('PAYMENTBILLING.tab2')}
                                 </button>
                             </div>
                         </div>
                         <div className="flex flex-col md:flex-row">
                             <div className="w-full md:w-1/2 mb-4 md:mb-0">
-                                <h2 className="text-lg font-bold pt-2">Payment method</h2>
-                                <p className="pt-1">Select and update your payment method</p>
+                                <h2 className="text-lg font-bold pt-2">{t('PAYMENTBILLING.info')}</h2>
+                                <p className="pt-1">{t('PAYMENTBILLING.desc')}</p>
                             </div>
                             <div className="w-full md:w-3/4 bg-white border border-slate-200 rounded-md px-4 py-3">
                                 {cards.map((card, index) => (
@@ -183,38 +186,38 @@ const PaymentAndBilling: React.FC = () => {
                                             </div>
                                         </div>
                                         <div className="flex flex-col md:flex-row md:items-center w-full md:w-auto">
-                                            <button onClick={() => handleDelete(card)} className="w-full md:w-auto text-black border border-slate-300 hover:text-white hover:bg-[#1E2A86] font-medium rounded-lg text-sm px-5 py-2.5 mr-0 md:mr-2 mb-2 md:mb-0">Delete</button>
-                                            <button onClick={() => handleEdit(card)} className="w-full md:w-auto text-black border border-slate-300 hover:text-white hover:bg-[#1E2A86] font-medium rounded-lg text-sm px-5 py-2.5">Edit</button>
+                                            <button onClick={() => handleDelete(card)} className="w-full md:w-auto text-black border border-slate-300 hover:text-white hover:bg-[#1E2A86] font-medium rounded-lg text-sm px-5 py-2.5 mr-0 md:mr-2 mb-2 md:mb-0">{t('PAYMENTBILLING.deleteButton')}</button>
+                                            <button onClick={() => handleEdit(card)} className="w-full md:w-auto text-black border border-slate-300 hover:text-white hover:bg-[#1E2A86] font-medium rounded-lg text-sm px-5 py-2.5">{t('PAYMENTBILLING.editButton')}</button>
                                         </div>
                                     </div>
                                 ))}
                                 <div className="flex items-center mt-4">
                                     <FaPlus className="mt-3" />
-                                    <button onClick={handleAddMethod} className="text-base font-bold pt-3 pl-2">Add new payment method</button>
+                                    <button onClick={handleAddMethod} className="text-base font-bold pt-3 pl-2">{t('PAYMENTBILLING.addButton')}</button>
                                 </div>
                             </div>
 
                         </div>
                         <div className="flex flex-col md:flex-row mt-8">
                             <div className="w-full md:w-1/2 mb-4 md:mb-0">
-                                <h2 className="text-lg font-bold pt-2">Billing history</h2>
-                                <p className="pt-1 ">Review and download recent invoices</p>
+                                <h2 className="text-lg font-bold pt-2">{t('PAYMENTBILLING.info2')}</h2>
+                                <p className="pt-1 ">{t('PAYMENTBILLING.desc2')}</p>
                             </div>
                             <div className="md:w-3/4 relative overflow-x-auto text-black">
                                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
                                             <th scope="col" className="px-6 py-3">
-                                                Invoice
+                                            {t('PAYMENTBILLING.table.column1')}
                                             </th>
                                             <th scope="col" className="pl-16 py-3">
-                                                Amount
+                                            {t('PAYMENTBILLING.table.column2')}
                                             </th>
                                             <th scope="col" className="px-6 py-3">
-                                                Date
+                                            {t('PAYMENTBILLING.table.column3')}
                                             </th>
                                             <th scope="col" className="px-6 py-3">
-                                                Status
+                                            {t('PAYMENTBILLING.table.column4')}
                                             </th>
                                             <th>
 

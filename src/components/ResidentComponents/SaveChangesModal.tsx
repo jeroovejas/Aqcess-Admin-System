@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { editResident } from "@/lib/api/resident";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-const SaveChangesModal: React.FC<any> = () => {
+import { useLocale, useTranslations } from 'next-intl';
+
+const SaveChangesModal: React.FC<any> = () => { 
+      const t = useTranslations();
+    
     const saveModal = useAppSelector((state) => state.resident.saveModal)
     const resident = useAppSelector((state) => state.resident.residentData);
     const token = useAppSelector((state) => state.auth.token);
@@ -53,8 +57,8 @@ const SaveChangesModal: React.FC<any> = () => {
 
                                 <CiWarning size={45} className="mb-6 text-[#DC6803] bg-[#FEF0C7] rounded-full p-2" />
 
-                                <h3 className="text-xl font-semibold mt-8">Unsaved Changes</h3>
-                                <p className="font-[500] mt-2 mb-6">Do you want to save or discard changes?</p>
+                                <h3 className="text-xl font-semibold mt-8">{t('RESIDENT.changesModal.title')}</h3>
+                                <p className="font-[500] mt-2 mb-6">{t('RESIDENT.changesModal.lable')}</p>
 
 
                                 <div className="flex gap-3 items-center">
@@ -63,7 +67,7 @@ const SaveChangesModal: React.FC<any> = () => {
                                         type="button"
                                         onClick={() => dispatch(toggleSaveModal())}
                                     >
-                                        Discard
+                                        {t('RESIDENT.changesModal.button1')}
                                     </button>
                                     <button
                                         className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-bold  text-base px-6 py-3   outline-none  mr-1 mb-1"
@@ -71,7 +75,7 @@ const SaveChangesModal: React.FC<any> = () => {
                                         onClick={handleEdit}
                                         disabled={loading}
                                     >
-                                         {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Save Changes"}
+                                         {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('RESIDENT.changesModal.button2')}`}
                                        
                                     </button>
                                 </div>

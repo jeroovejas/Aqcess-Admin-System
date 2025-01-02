@@ -6,7 +6,10 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { deleteCommonArea } from "@/lib/api/commonArea";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-const DeleteArea: React.FC<any> = () => {
+import { useLocale, useTranslations } from 'next-intl';
+
+const DeleteArea: React.FC<any> = () => { 
+    const t = useTranslations();
     const deleteModal = useAppSelector((state) => state.area.deleteModal)
     const areaData = useAppSelector((state) => state.area.areaData)
     const token = useAppSelector((state) => state.auth.token)
@@ -44,8 +47,8 @@ const DeleteArea: React.FC<any> = () => {
 
                                 <MdErrorOutline size={45} className="mb-6 text-danger bg-danger-light rounded-full p-2" />
 
-                                <h3 className="text-3xl font-semibold mt-8">Delete common area</h3>
-                                <p className="font-[500] mt-2 mb-6"><span className="font-bold">{areaData.title}</span> will be removed from common areas list and all active bookings will be canceled.</p>
+                                <h3 className="text-3xl font-semibold mt-8">{t('AREA.deleteModal.title')}</h3>
+                                <p className="font-[500] mt-2 mb-6"><span className="font-bold">{areaData.title}</span> {t('AREA.deleteModal.lable')}</p>
 
 
                                 <div className="flex gap-3 items-center">
@@ -54,7 +57,7 @@ const DeleteArea: React.FC<any> = () => {
                                         type="button"
                                         onClick={() => dispatch(toggleDeleteModal())}
                                     >
-                                        Back
+                                        {t('AREA.deleteModal.button1')}
                                     </button>
                                     <button
                                         className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-danger font-medium  text-sm px-6 py-3   outline-none  mr-1 mb-1"
@@ -62,7 +65,7 @@ const DeleteArea: React.FC<any> = () => {
                                         disabled={loading}
                                         onClick={handleDelete}
                                     >
-                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Delete"}
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('AREA.deleteModal.button2')}`}
                                     </button>
                                 </div>
                             </div>

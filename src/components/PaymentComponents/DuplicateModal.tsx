@@ -6,7 +6,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { duplicateProduct } from "@/lib/api/product";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-const DuplicateModal: React.FC<any> = () => {
+import { useLocale, useTranslations } from 'next-intl';
+
+const DuplicateModal: React.FC<any> = () => { 
+      const t = useTranslations();
+    
     const duplicateModal = useAppSelector((state) => state.payment.duplicateModal)
     const productData = useAppSelector((state) => state.payment.productData)
     const token = useAppSelector((state) => state.auth.token);
@@ -44,19 +48,15 @@ const DuplicateModal: React.FC<any> = () => {
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 <IoDuplicate size={30} className="mb-6 " />
-                                <h3 className="text-3xl font-semibold mt-8">Do you want to Duplicate  Product</h3>
-                                <p className="font-[500] my-4">This will create an exact copy of same product </p>
-
-
-
-
+                                <h3 className="text-3xl font-semibold mt-8">{t('PRODUCT.duplicateModal.title')}</h3>
+                                <p className="font-[500] my-4">{t('PRODUCT.duplicateModal.lable')} </p>
                                 <div className="flex gap-3 items-center">
                                     <button
                                         className="border rounded-lg border-[#DDDDDD] w-1/2 background-transparent font-bold  px-6 py-3 text-sm outline-none  mr-1 mb-1"
                                         type="button"
                                         onClick={() => dispatch(toggleDuplicateModal())}
                                     >
-                                        No
+                                        {t('PRODUCT.duplicateModal.button1')}
                                     </button>
                                     <button
                                         className={`text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue  font-bold  text-sm px-6 py-3   outline-none  mr-1 mb-1`}
@@ -64,7 +64,7 @@ const DuplicateModal: React.FC<any> = () => {
                                         onClick={handleDuplication}
                                         disabled={loading}
                                     >
-                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Yes"}
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('PRODUCT.duplicateModal.button2')}`}
                                     </button>
                                 </div>
                             </div>

@@ -9,7 +9,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
 
 const DeleteModal: React.FC<any> = () => {
-      const t = useTranslations();
+      const t = useTranslations(); 
     
     const deleteModal = useAppSelector((state) => state.securityGuard.deleteModal)
     const editModal = useAppSelector((state) => state.securityGuard.editModal)
@@ -54,8 +54,8 @@ const DeleteModal: React.FC<any> = () => {
 
                                 <MdErrorOutline size={45} className="mb-6 text-danger bg-danger-light rounded-full p-2" />
 
-                                <h3 className="text-xl font-semibold mt-8">Delete security guard?</h3>
-                                <p className="font-[500] mt-2 mb-6">Their account and all related information will be permanently deleted. If you want to temporarily restrict the security guard access, deactivate their account instead.</p>
+                                <h3 className="text-xl font-semibold mt-8">{t('SECURITY.deleteModal.title')}</h3>
+                                <p className="font-[500] mt-2 mb-6">{t('SECURITY.deleteModal.lable')}</p>
 
 
                                 <div className="flex gap-3 items-center">
@@ -64,7 +64,7 @@ const DeleteModal: React.FC<any> = () => {
                                         type="button"
                                         onClick={() => dispatch(toggleDeleteModal())}
                                     >
-                                        Cancel
+                                        {t('SECURITY.deleteModal.button1')}
                                     </button>
                                     <button
                                         className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-danger font-semibold  text-base px-6 py-3  outline-none  mr-1 mb-1"
@@ -72,7 +72,7 @@ const DeleteModal: React.FC<any> = () => {
                                         disabled={loading}
                                         onClick={handleDelete}
                                     >
-                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Delete"}
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SECURITY.deleteModal.button2')}`}
 
                                     </button>
                                 </div>

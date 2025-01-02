@@ -16,10 +16,10 @@ import Loader from "@/components/common/Loader";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
-
-
+import { useLocale, useTranslations } from 'next-intl';
 
 const PaymentManager = () => {
+    const t = useTranslations();
   const exportModal = useAppSelector((state) => state.payment.exportModal)
   const paymentDetails = useAppSelector((state) => state.payment.paymentDetails)
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
@@ -28,7 +28,7 @@ const PaymentManager = () => {
   const [verified, setVerified] = useState<boolean | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterTerm, setFilterTerm] = useState<string>('');
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const filterRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -106,27 +106,27 @@ const PaymentManager = () => {
             {/* <Breadcrumb pageName="Resident manager" /> */}
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                Payment Manager
+              {t('PAYMENT.title')}
               </h2>
             </div>
             <div className="mx-auto">
               <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                  Payment history
+                {t('PAYMENT.tab1')}
                 </button>
                 <div className="mt-1 text-lg font-bold">
-                  <Link href="/payment/products">Product</Link>
+                  <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
 
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
 
-              <CardDataStats title="Payments this month" total={`${paymentDetails.paymentThisMonth}$`} rate="">
+              <CardDataStats title={t('PAYMENT.card1')} total={`${paymentDetails.paymentThisMonth}$`} rate="">
               </CardDataStats>
-              <CardDataStats title="Over payments" total={`${paymentDetails.totalPendingAmount}$`} rate="">
+              <CardDataStats title={t('PAYMENT.card2')} total={`${paymentDetails.totalPendingAmount}$`} rate="">
               </CardDataStats>
-              <CardDataStats title="Paid in time" total={`${paymentDetails.painInTime}%`} rate="">
+              <CardDataStats title={t('PAYMENT.card3')} total={`${paymentDetails.painInTime}%`} rate="">
               </CardDataStats>
 
             </div>
@@ -136,11 +136,11 @@ const PaymentManager = () => {
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <IoSearchOutline size={20} />
                   </div>
-                  <input type="search" id="default-search" name="searchTerm" onChange={handleChange} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder="Search by resident or invoice ID" required />
+                  <input type="search" id="default-search" name="searchTerm" onChange={handleChange} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('PAYMENT.search')} required />
                 </div>
                 <div ref={filterRef} className="flex items-center">
                   <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
-                    <IoFilterSharp className="mr-2" />Filters
+                    <IoFilterSharp className="mr-2" />{t('PAYMENT.filterButton')}
                   </button>
                   <div className='w-full'>
                     <div className="relative inline-block">
@@ -155,7 +155,7 @@ const PaymentManager = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
 
                               >
-                                Status
+                                {t('COMMON.type')}
                               </button>
                               <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
                                 <FaChevronRight size={15} />
@@ -184,7 +184,7 @@ const PaymentManager = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("completed")}
                               >
-                                Completed
+                                {t('COMMON.lable3')}
                               </button>
                             </li>
                             <li>
@@ -193,7 +193,7 @@ const PaymentManager = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("pendingh")}
                               >
-                                Pending
+                                {t('COMMON.lable4')}
                               </button>
                             </li>
                             <li>
@@ -202,7 +202,7 @@ const PaymentManager = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("")}
                               >
-                                Reset
+                                {t('COMMON.lable5')}
                               </button>
                             </li>
 
@@ -223,7 +223,7 @@ const PaymentManager = () => {
                     className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center justify-center md:justify-start"
                   >
                     <TfiExport className="mr-2 text-base" />
-                    Export list
+                    {t('PAYMENT.button1')}
                   </button>
                 </div>
               </div>

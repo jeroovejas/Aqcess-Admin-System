@@ -6,7 +6,10 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { closeSurveyApi } from "@/lib/api/survey";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-const CloseSurvey: React.FC<any> = () => {
+import { useLocale, useTranslations } from 'next-intl';
+
+const CloseSurvey: React.FC<any> = () => { 
+    const t = useTranslations();
     const closeSurvey = useAppSelector((state) => state.survey.closeSurvey)
     const [loading, setLoading] = useState<boolean>(false);
     const surveyData = useAppSelector((state) => state.survey.surveyData)
@@ -48,8 +51,8 @@ const CloseSurvey: React.FC<any> = () => {
 
                                 <IoMdCloseCircle size={45} className="mb-6 text-danger bg-danger-light rounded-full p-2" />
 
-                                <h3 className="text-3xl font-semibold mt-8">Do you want to close survey ?</h3>
-                                <p className="font-[500] mt-2 mb-6">This Survey and its contents will not be visible to residents.</p>
+                                <h3 className="text-3xl font-semibold mt-8">{t('SURVEY.surveyCloseModal.title')}</h3>
+                                <p className="font-[500] mt-2 mb-6">{t('SURVEY.surveyCloseModal.lable')}</p>
 
 
                                 <div className="flex gap-3 items-center">
@@ -58,7 +61,7 @@ const CloseSurvey: React.FC<any> = () => {
                                         type="button"
                                         onClick={() => dispatch(toggleCloseModal())}
                                     >
-                                        Cancel
+                                        {t('SURVEY.surveyCloseModal.button1')}
                                     </button>
                                     <button
                                         className="text-white w-1/2 flex items-center justify-center cursor-pointer  rounded-lg bg-danger font-bold  text-sm px-6 py-3  outline-none  mr-1 mb-1"
@@ -66,7 +69,7 @@ const CloseSurvey: React.FC<any> = () => {
                                         disabled={loading}
                                         onClick={handleCloseSurvey}
                                     >
-                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Close"}
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SURVEY.surveyCloseModal.button2')}`}
                                     </button>
                                 </div>
                             </div>

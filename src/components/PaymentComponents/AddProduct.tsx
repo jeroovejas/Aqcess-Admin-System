@@ -4,7 +4,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { createProduct } from "@/lib/api/product";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useLocale, useTranslations } from 'next-intl';
+
 const AddProduct: React.FC<any> = () => {
+      const t = useTranslations();
+    
     const formRef = useRef<HTMLFormElement>(null);
     const [loading1, setLoading1] = useState(false);
     const [loading2, setLoading2] = useState(false);
@@ -13,7 +17,7 @@ const AddProduct: React.FC<any> = () => {
     const dispatch = useAppDispatch();
 
     // State for all form inputs in a single object
-    const [formState, setFormState] = useState({
+    const [formState, setFormState] = useState({ 
         title: "",
         description: "",
         price: 10,
@@ -95,7 +99,7 @@ const AddProduct: React.FC<any> = () => {
                 <div className="absolute top-0 right-0 w-full md:w-3/5 lg:w-2/5 h-screen">
                     <div className="border-0 shadow-lg relative text-black w-full h-full bg-white outline-none focus:outline-none px-8 py-8">
                         <div className="flex justify-between items-center mt-8">
-                            <h3 className="text-3xl font-semibold">Add New Product</h3>
+                            <h3 className="text-3xl font-semibold">{t('PRODUCT.button1Modal.title')}</h3>
                             <button
                                 className="bg-transparent border-0 text-[20px] font-bold text-black"
                                 onClick={() => dispatch(toggleAddProduct())}
@@ -106,14 +110,14 @@ const AddProduct: React.FC<any> = () => {
                         <form onSubmit={handleSubmit} ref={formRef} className="w-full my-6">
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="product-name">
-                                    Product Title
+                                {t('PRODUCT.button1Modal.title1')}
                                 </label>
                                 <input
                                     id="title"
                                     name="title"
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                     type="text"
-                                    placeholder="Enter Product Title"
+                                    placeholder={t('PRODUCT.button1Modal.lable1')}
                                     value={formState.title}
                                     onChange={handleChange}
                                     required
@@ -122,13 +126,13 @@ const AddProduct: React.FC<any> = () => {
 
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="product-description">
-                                    Product Description
+                                {t('PRODUCT.button1Modal.title2')}
                                 </label>
                                 <textarea
                                     id="description"
                                     name="description"
                                     className="block w-full h-48 bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 overflow-auto resize-none mb-3 leading-tight focus:outline-none focus:bg-white"
-                                    placeholder="Add description about product"
+                                    placeholder={t('PRODUCT.button1Modal.lable2')}
                                     value={formState.description}
                                     onChange={handleChange}
                                     required
@@ -137,7 +141,7 @@ const AddProduct: React.FC<any> = () => {
 
                             <div className="relative">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="product-price">
-                                    Price
+                                {t('PRODUCT.button1Modal.title3')}
                                 </label>
                                 {/* <select
                                     id="price"
@@ -157,7 +161,7 @@ const AddProduct: React.FC<any> = () => {
                                     name="price"
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                     type="number"
-                                    placeholder="Enter Product price"
+                                    placeholder={t('PRODUCT.button1Modal.lable3')}
                                     min={1}
                                     value={formState.price}
                                     onChange={handleChange}
@@ -171,7 +175,7 @@ const AddProduct: React.FC<any> = () => {
                                     type="submit"
                                     disabled={loading1}
                                 >
-                                  {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Publish"}
+                                  {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('PRODUCT.button1Modal.button2')}`}
                                 </button>
                                 <button
                                     className=" border rounded-lg border-[#DDDDDD] background-transparent font-medium px-6 py-3 text-sm outline-none mr-1 mb-1"
@@ -179,7 +183,7 @@ const AddProduct: React.FC<any> = () => {
                                     disabled={loading2}
                                     onClick={handleDraft}
                                 >
-                                        {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save as Draft"}
+                                        {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('PRODUCT.button1Modal.button3')}`}
                                 </button>
                             </div>
                         </form>

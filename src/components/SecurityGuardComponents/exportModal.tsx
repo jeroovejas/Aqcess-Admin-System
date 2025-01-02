@@ -8,7 +8,7 @@ import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
 import { saveAs } from 'file-saver';
- 
+  
 const ExportModal: React.FC<any> = () => {
       const t = useTranslations();
     
@@ -76,11 +76,11 @@ const ExportModal: React.FC<any> = () => {
         <>
             {exportModal ? (
                 <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                    <div className="relative w-[calc(100vw-20px)] md:w-auto my-6">
+                    <div className="relative w-[calc(100vw-20px)] md:w-[550px] my-6">
                         <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none px-8 py-8">
                             <FaRegArrowAltCircleUp size={30} className="mb-6 " />
-                            <h3 className="text-3xl font-semibold mt-8">Export security guards list</h3>
-                            <p className="font-[500] mt-2">Please select the format you would like to use for exporting</p>
+                            <h3 className="text-2xl md:text-3xl font-semibold mt-8">{t('SECURITY.button1Modal.title')}</h3>
+                            <p className="font-[500] mt-2">{t('SECURITY.button1Modal.lable')}</p>
                             <div className="w-full my-6">
                                 <div className="relative">
                                     <select
@@ -90,7 +90,7 @@ const ExportModal: React.FC<any> = () => {
                                         id="grid-state"
                                     >
                                         {/* <option value="PDF">PDF</option> */}
-                                        <option value="CSV">Excel</option>
+                                        <option value="CSV">{t('SECURITY.button1Modal.option')}</option>
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                         <svg
@@ -110,7 +110,7 @@ const ExportModal: React.FC<any> = () => {
                                     type="button"
                                     onClick={() => dispatch(toggleExportModal())}
                                 >
-                                    Cancel
+                                    {t('SECURITY.button1Modal.button1')}
                                 </button>
                                 <button
                                     className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-bold text-sm px-6 py-3  outline-none  mr-1 mb-1"
@@ -118,7 +118,7 @@ const ExportModal: React.FC<any> = () => {
                                     disabled={loading}
                                     onClick={handleExport}
                                 >
-                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Export"}
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SECURITY.button1Modal.button2')}`}
                                 </button>
                             </div>
                         </div>

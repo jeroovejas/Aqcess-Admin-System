@@ -12,6 +12,8 @@ import { setUserData } from "@/store/Slices/AuthSlice";
 import { Link, usePathname, useRouter } from '@/navigation';
 import Loader from "@/components/common/Loader";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useLocale, useTranslations } from 'next-intl';
+
 interface SettingsFormState {
   first_name: string;
   last_name: string;
@@ -27,6 +29,7 @@ interface PasswordFormState {
 }
 
 const Settings: React.FC = () => {
+  const t = useTranslations();
   const billingModal = useAppSelector((state) => state.setting.billingModal);
   const token = useAppSelector((state) => state.auth.token);
   const user = useAppSelector((state) => state.auth.userData);
@@ -194,7 +197,7 @@ const Settings: React.FC = () => {
             <div className="mb-3">
 
               <h2 className="text-4xl font-bold text-black dark:text-white">
-                Settings
+              {t('USERPROFILE.title')}
               </h2>
             </div>
 
@@ -203,7 +206,7 @@ const Settings: React.FC = () => {
             <div className="mx-auto">
               <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2   flex items-center mr-4">
-                  User Profile
+                {t('USERPROFILE.tab1')}
                 </button>
                 {user.role === 2 ?
                   <div className="mt-1 text-lg font-bold">
@@ -211,7 +214,7 @@ const Settings: React.FC = () => {
                       dispatch(toggleBillingModal())
 
                     }
-                    }>Payment and Billing</button>
+                    }>{t('USERPROFILE.tab2')}</button>
                   </div> : null}
               </div>
             </div>
@@ -219,8 +222,8 @@ const Settings: React.FC = () => {
             <div className="flex flex-wrap">
               <div className="w-full md:w-1/4 p-2">
                 <div>
-                  <p className="text-black font-bold">Personal Info</p>
-                  <p className="mt-2">Update your photo and personal details.</p>
+                  <p className="text-black font-bold">{t('USERPROFILE.info')}</p>
+                  <p className="mt-2">{t('USERPROFILE.desc')}</p>
                 </div>
               </div>
               <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
@@ -230,7 +233,7 @@ const Settings: React.FC = () => {
                       <div className="w-full md:w-1/2 md:pe-3 ">
 
                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="title">
-                          First Name
+                        {t('USERPROFILE.title1')}
                         </label>
                         <input
                           name="first_name"
@@ -238,14 +241,14 @@ const Settings: React.FC = () => {
                           onChange={handleInputChange}
                           className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                           type="text"
-                          placeholder="Enter First Name"
+                          placeholder={t('USERPROFILE.lable1')}
                           required
                         />
                       </div>
                       <div className="w-full md:w-1/2 md:ps-3 pt-6 md:pt-0">
 
                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="title">
-                          Last Name
+                        {t('USERPROFILE.title2')}
                         </label>
                         <input
                           name="last_name"
@@ -253,27 +256,27 @@ const Settings: React.FC = () => {
                           onChange={handleInputChange}
                           className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4  leading-tight focus:outline-none focus:bg-white"
                           type="text"
-                          placeholder="Enter Last Name"
+                          placeholder={t('USERPROFILE.lable2')}
                           required
                         />
                       </div>
                     </div>
                     <div className="w-full mb-8">
                       <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                        Email
+                      {t('USERPROFILE.title3')}
                       </label>
                       <input
                         name="email"
                         value={user.email}
                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         type="email"
-                        placeholder="Enter Email"
+                        placeholder={t('USERPROFILE.lable3')}
                         readOnly
                       />
                     </div>
                     <div className="w-full mb-8">
                       <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                        Profile Picture
+                      {t('USERPROFILE.title4')}
                       </label>
 
                       <div className="w-full flex flex-wrap">
@@ -340,10 +343,10 @@ const Settings: React.FC = () => {
                     </div>
                     <div className="flex gap-x-4 justify-end">
                       <button type="button" className=" text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                        Cancel
+                      {t('USERPROFILE.button1')}
                       </button>
                       <button disabled={loading1} type="submit" className={` text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2`}>
-                         {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save"}
+                         {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('USERPROFILE.button2')}`}
                       </button>
                     </div>
                   </div>
@@ -353,15 +356,15 @@ const Settings: React.FC = () => {
             <div className="flex flex-wrap my-8">
               <div className="w-full md:w-1/4 p-2">
                 <div>
-                  <p className="text-black font-bold">Password</p>
-                  <p className="mt-2">Change your current password</p>
+                  <p className="text-black font-bold">{t('USERPROFILE.info2')}</p>
+                  <p className="mt-2">{t('USERPROFILE.desc2')}</p>
                 </div>
               </div>
               <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
                 <form onSubmit={handleUpdatePassword}>
                   <div className="w-full mb-8">
                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                      Current Password
+                    {t('USERPROFILE.title5')}
                     </label>
                     <input
                       name="current_password"
@@ -369,13 +372,13 @@ const Settings: React.FC = () => {
                       onChange={handleChange}
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="password"
-                      placeholder="Current Password"
+                      placeholder={t('USERPROFILE.lable5')}
                       required
                     />
                   </div>
                   <div className="w-full mb-8">
                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                      New Password
+                    {t('USERPROFILE.title6')}
                     </label>
                     <input
                       name="new_password"
@@ -383,14 +386,14 @@ const Settings: React.FC = () => {
                       onChange={handleChange}
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4  leading-tight focus:outline-none focus:bg-white"
                       type="password"
-                      placeholder="New Password"
+                      placeholder={t('USERPROFILE.lable6')}
                       required
                     />
-                    <p className="mb-3 text-[14px]">New password must be at least 8 characters long</p>
+                    {/* <p className="mb-3 text-[14px]">New password must be at least 8 characters long</p> */}
                   </div>
                   <div className="w-full mb-8">
                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                      Confirm Password
+                    {t('USERPROFILE.title7')}
                     </label>
                     <input
                       name="confirm_password"
@@ -398,16 +401,16 @@ const Settings: React.FC = () => {
                       onChange={handleChange}
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="password"
-                      placeholder=" Confirm Password"
+                      placeholder={t('USERPROFILE.lable7')}
                       required
                     />
                   </div>
                   <div className="flex gap-x-4 justify-end">
                     <button type="button" className=" text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                      Cancel
+                    {t('USERPROFILE.button1')}
                     </button>
                     <button type="submit" disabled={loading2} className=" text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                      {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Update Password"}
+                      {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('USERPROFILE.button3')}`}
                     </button>
                   </div>
 

@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { addAdminCard } from "@/lib/api/payment";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useLocale, useTranslations } from 'next-intl';
+
 interface FormState {
   card_holder_name: string;
   expiry_month: string;
@@ -33,7 +35,9 @@ const initialFormState = {
   country: "Estonia",
 };
 
-const AddMethodModal: React.FC<any> = () => {
+const AddMethodModal: React.FC<any> = () => { 
+        const t = useTranslations();
+  
   const addMethod = useAppSelector((state) => state.setting.addMethod);
   const token = useAppSelector((state) => state.auth.token);
   const [loading, setLoading] = useState<boolean>(false)
@@ -80,7 +84,7 @@ const AddMethodModal: React.FC<any> = () => {
         <>
           <div className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
             <div className="flex justify-between items-center mt-8">
-              <h3 className="text-3xl font-semibold">Add Payment Method</h3>
+              <h3 className="text-3xl font-semibold">{t('PAYMENTBILLING.addTitle')}</h3>
               <button
                 className="bg-transparent border-0 text-[20px] font-bold text-black"
                 onClick={() => dispatch(toggleAddMethodModal())}
@@ -115,14 +119,14 @@ const AddMethodModal: React.FC<any> = () => {
                 <div className="w-full flex gap-x-4">
                   <div className="w-full">
                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="cardName">
-                      Name on card
+                    {t('PAYMENTBILLING.title1')}
                     </label>
                     <input
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       id="card_holder_name"
                       name="card_holder_name"
-                      placeholder="Name on card"
+                      placeholder={t('PAYMENTBILLING.lable1')}
                       value={formState.card_holder_name}
                       onChange={handleChange}
                       required
@@ -132,14 +136,14 @@ const AddMethodModal: React.FC<any> = () => {
                 <div className="w-full flex gap-x-4">
                   <div className="w-1/2">
                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="cardName">
-                      Expiry Month
+                    {t('PAYMENTBILLING.title2')}
                     </label>
                     <input
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       id="expiry_month"
                       name="expiry_month"
-                      placeholder="Expiry Month (mm)"
+                      placeholder={t('PAYMENTBILLING.lable2')}
                       value={formState.expiry_month}
                       onChange={handleChange}
                       required
@@ -147,14 +151,14 @@ const AddMethodModal: React.FC<any> = () => {
                   </div>
                   <div className="w-1/2">
                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="expiry">
-                      Expiry Year
+                    {t('PAYMENTBILLING.title3')}
                     </label>
                     <input
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       id="expiry_year"
                       name="expiry_year"
-                      placeholder="Expiry Year (yy)"
+                      placeholder={t('PAYMENTBILLING.lable3')}
                       value={formState.expiry_year}
                       onChange={handleChange}
                       required
@@ -164,14 +168,14 @@ const AddMethodModal: React.FC<any> = () => {
                 <div className="w-full flex gap-x-4">
                   <div className="w-3/4">
                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="cardNumber">
-                      Card Number
+                    {t('PAYMENTBILLING.title4')}
                     </label>
                     <input
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       id="card_number"
                       name="card_number"
-                      placeholder="Card Number"
+                      placeholder={t('PAYMENTBILLING.lable4')}
                       value={formState.card_number}
                       onChange={handleChange}
                       required
@@ -179,14 +183,14 @@ const AddMethodModal: React.FC<any> = () => {
                   </div>
                   <div className="w-1/4">
                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="cvv">
-                      CVV
+                    {t('PAYMENTBILLING.title5')}
                     </label>
                     <input
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       id="cvc"
                       name="cvc"
-                      placeholder="cvc number"
+                      placeholder={t('PAYMENTBILLING.lable5')}
                       value={formState.cvc}
                       onChange={handleChange}
                       required
@@ -195,14 +199,14 @@ const AddMethodModal: React.FC<any> = () => {
                 </div>
                 <div className="w-full">
                   <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="invoicingEmail">
-                    Invoicing Email
+                  {t('PAYMENTBILLING.title6')}
                   </label>
                   <input
                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     type="email"
                     id="invoicing_email"
                     name="invoicing_email"
-                    placeholder="Email"
+                    placeholder={t('PAYMENTBILLING.lable6')}
                     value={formState.invoicing_email}
                     onChange={handleChange}
                     required
@@ -210,14 +214,14 @@ const AddMethodModal: React.FC<any> = () => {
                 </div>
                 <div className="w-full">
                   <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="invoicingAddress">
-                    Invoicing Address
+                  {t('PAYMENTBILLING.title7')}
                   </label>
                   <input
                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     type="text"
                     id="invoicing_address"
                     name="invoicing_address"
-                    placeholder="Address"
+                    placeholder={t('PAYMENTBILLING.lable7')}
                     value={formState.invoicing_address}
                     onChange={handleChange}
                     required
@@ -226,14 +230,14 @@ const AddMethodModal: React.FC<any> = () => {
                 <div className="w-full flex gap-x-4">
                   <div className="w-1/2">
                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="city">
-                      City
+                    {t('PAYMENTBILLING.title8')}
                     </label>
                     <input
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       id="city"
                       name="city"
-                      placeholder="City"
+                      placeholder={t('PAYMENTBILLING.lable8')}
                       value={formState.city}
                       onChange={handleChange}
                       required
@@ -241,14 +245,14 @@ const AddMethodModal: React.FC<any> = () => {
                   </div>
                   <div className="w-1/2">
                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="postCode">
-                      PostCode
+                    {t('PAYMENTBILLING.title9')}
                     </label>
                     <input
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       id="postcode"
                       name="postcode"
-                      placeholder="postcode"
+                      placeholder={t('PAYMENTBILLING.lable9')}
                       value={formState.postcode}
                       onChange={handleChange}
                       required
@@ -258,14 +262,14 @@ const AddMethodModal: React.FC<any> = () => {
                 <div className="w-full flex gap-x-4">
                   <div className="w-1/2">
                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="stateOrProvince">
-                      State/Province
+                    {t('PAYMENTBILLING.title10')}
                     </label>
                     <input
                       className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       id="state"
                       name="state"
-                      placeholder="State/Province"
+                      placeholder={t('PAYMENTBILLING.lable10')}
                       value={formState.state}
                       onChange={handleChange}
                       required
@@ -274,7 +278,7 @@ const AddMethodModal: React.FC<any> = () => {
                   <div className="w-1/2">
                     <div className="relative">
                       <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="country">
-                        Country
+                      {t('PAYMENTBILLING.title11')}
                       </label>
                       <select
                         className="block appearance-none w-full rounded-lg border border-[#DDDDDD] text-black py-2.5 px-4 pr-8 mb-3 focus:outline-none focus:bg-white focus:border-gray-500"
@@ -303,7 +307,7 @@ const AddMethodModal: React.FC<any> = () => {
                   disabled={loading}
 
                 >
-                  {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Add Payment Method"}
+                  {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('PAYMENTBILLING.button2')}`}
 
                 </button>
                 <button
@@ -311,7 +315,7 @@ const AddMethodModal: React.FC<any> = () => {
                   type="button"
                   onClick={() => dispatch(toggleAddMethodModal())}
                 >
-                  Cancel
+                  {t('PAYMENTBILLING.button1')}
                 </button>
               </div>
             </form>

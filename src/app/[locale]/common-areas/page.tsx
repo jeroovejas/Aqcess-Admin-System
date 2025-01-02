@@ -16,8 +16,11 @@ import Loader from "@/components/common/Loader";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 const CommonAreas = () => {
+    const t = useTranslations();
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [verified, setVerified] = useState<boolean | null>(null);
     const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
@@ -87,18 +90,18 @@ const CommonAreas = () => {
 
                         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                                Common Areas
+                            {t('AREA.title')}
                             </h2>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 mb-5">
 
-                            <CardDataStats title="Active Bookings" total={`${areaDetails.totalActiveBookings}`} rate="">
+                            <CardDataStats title={t('AREA.card1')} total={`${areaDetails.totalActiveBookings}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title="Unique Bookers" total={`${areaDetails.uniqueBookers}`} rate="">
+                            <CardDataStats title={t('AREA.card2')} total={`${areaDetails.uniqueBookers}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title="Booked for next day" total={`${areaDetails.percentageBookedForNextDay}%`} rate="">
+                            <CardDataStats title={t('AREA.card3')} total={`${areaDetails.percentageBookedForNextDay}%`} rate="">
                             </CardDataStats>
-                            <CardDataStats title="Booked for next 7 day" total={`${areaDetails.percentageBookedForNext7Days}%`} rate="">
+                            <CardDataStats title={t('AREA.card4')} total={`${areaDetails.percentageBookedForNext7Days}%`} rate="">
                             </CardDataStats>
 
                         </div>
@@ -108,14 +111,14 @@ const CommonAreas = () => {
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                         <IoSearchOutline size={20} />
                                     </div>
-                                    <input type="search" id="default-search" name="searchTerm" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder="Search by area name" required />
+                                    <input type="search" id="default-search" name="searchTerm" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('AREA.search')} required />
                                 </div>
 
                             </div>
                             <div className="flex flex-wrap w-full md:w-auto">
                                 <div className="w-full md:w-auto mt-2 md:mt-0">
                                     <button onClick={handleAddCommonArea} type="button" className="w-full md:w-auto justify-center text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
-                                        <IoIosAdd className="mr-2 text-white text-2xl" />Add common area
+                                        <IoIosAdd className="mr-2 text-white text-2xl" />{t('AREA.button1')}
                                     </button>
 
                                 </div>

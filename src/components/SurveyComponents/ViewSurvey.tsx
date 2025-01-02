@@ -9,8 +9,11 @@ import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
 import { TfiExport } from "react-icons/tfi";
 import ExportModal from "./exportModal";
+import { useLocale, useTranslations } from 'next-intl';
 
-const ViewSurvey: React.FC<any> = () => {
+
+const ViewSurvey: React.FC<any> = () => { 
+    const t = useTranslations();
     const maxSize = 4;
     const [survey, setSurvey] = useState<any>({});
     const [loading, setLoading] = useState(true);
@@ -72,7 +75,7 @@ const ViewSurvey: React.FC<any> = () => {
                                 type="button"
                                 className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2"
                                 onClick={() => dispatch(toggleViewModal())}>
-                                Back
+                                {t('SURVEY.button1Modal.button1')}
                             </button>
                         </div>
                     </div>
@@ -83,21 +86,21 @@ const ViewSurvey: React.FC<any> = () => {
                                     dispatch(toggleViewModal())
                                     dispatch(toggleEditModal())
                                 }
-                                }>Questions</button>
+                                }>{t('SURVEY.button1Modal.title4')}</button>
                             </div>
                             <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                                Responses
+                            {t('SURVEY.button1Modal.button4')}
                             </button>
 
                         </div>
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
 
-                        <CardDataStats title="Responses" total={surveyData.surveyResponses} rate="">
+                        <CardDataStats title={t('SURVEY.card1')} total={surveyData.surveyResponses} rate="">
                         </CardDataStats>
-                        <CardDataStats title="Response rate" total={`${surveyData.responseRate}%`} rate="">
+                        <CardDataStats title={t('SURVEY.card2')} total={`${surveyData.responseRate}%`} rate="">
                         </CardDataStats>
-                        <CardDataStats title="Deadline" total={surveyData.deadline.split(' ')[0]} rate="">
+                        <CardDataStats title={t('SURVEY.card3')} total={surveyData.deadline.split(' ')[0]} rate="">
                         </CardDataStats>
                     </div>
 
@@ -122,7 +125,7 @@ const ViewSurvey: React.FC<any> = () => {
                                 className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-1 mb-2  flex items-center justify-center md:justify-start"
                             >
                                 <TfiExport className="mr-2 text-base" />
-                                Export list
+                                {t('SURVEY.exportButton')}
                             </button>
                         </div>
                     </div>
@@ -257,7 +260,7 @@ const ViewSurvey: React.FC<any> = () => {
                     < div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white mt-[22px] py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
                         <div className="flex justify-between">
                             <h4 className=" pb-4 text-xl  font-semibold text-black dark:text-white">
-                                What would you like to improve?
+                            {t('SURVEY.viewModal.title')}
                             </h4>
                             <div className="">
                                 <p className="text-[#344054] bg-[#F2F4F7] rounded-[16px] px-[16px] py-[4px] font-[600]"> {surveyData.surveyResponses} responses</p>

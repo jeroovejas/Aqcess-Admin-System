@@ -4,7 +4,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { editProductData } from '@/lib/api/product';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-const EditProduct: React.FC<any> = () => {
+import { useLocale, useTranslations } from 'next-intl';
+
+const EditProduct: React.FC<any> = () => { 
+      const t = useTranslations();
+    
     const formRef = useRef<HTMLFormElement>(null);
     const PRICE_OPTIONS = [10, 20, 50, 100, 150];
     const editProduct = useAppSelector((state) => state.payment.editProduct)
@@ -102,7 +106,7 @@ const EditProduct: React.FC<any> = () => {
                             <div className="flex justify-between items-center mt-8">
 
 
-                                <h3 className="text-3xl font-semibold ">Edit Product</h3>
+                                <h3 className="text-3xl font-semibold ">{t('PRODUCT.button1Modal.editTitle')}</h3>
 
                                 <button className="bg-transparent border-0 text-[20px] font-bold text-black "
                                     onClick={() => dispatch(toggleEditProduct())}
@@ -114,18 +118,18 @@ const EditProduct: React.FC<any> = () => {
                                 <div className="w-full my-6">
                                     <div className="w-full  ">
                                         <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-first-name">
-                                            Product Title
+                                        {t('PRODUCT.button1Modal.title1')}
                                         </label>
-                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name='title' placeholder="Product Title" onChange={handleChange} value={formState.title}
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name='title' placeholder={t('PRODUCT.button1Modal.lable1')} onChange={handleChange} value={formState.title}
                                             required
                                         />
 
                                     </div>
                                     <div className="w-full   ">
                                         <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-first-name">
-                                            Description
+                                        {t('PRODUCT.button1Modal.title2')}
                                         </label>
-                                        <textarea value={formState.description} name='description' className="block w-full h-48 bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 overflow-auto resize-none mb-3 leading-tight focus:outline-none focus:bg-white" placeholder="Add notes about residents" onChange={handleChange}
+                                        <textarea value={formState.description} name='description' className="block w-full h-48 bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 overflow-auto resize-none mb-3 leading-tight focus:outline-none focus:bg-white" placeholder={t('PRODUCT.button1Modal.lable2')} onChange={handleChange}
                                             required
                                         />
 
@@ -133,7 +137,7 @@ const EditProduct: React.FC<any> = () => {
 
                                     <div className="relative">
                                         <label className="block uppercase tracking-wide  text-[14px] font-bold mb-2" htmlFor="grid-state">
-                                            Status
+                                        {t('PRODUCT.button1Modal.title3')}
                                         </label>
                                         {/* <select value={formState.price} name="price" onChange={handleChange} className="block appearance-none w-full rounded-xl border border-[#DDDDDD] text-black py-3 px-4 pr-8   focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
 
@@ -148,7 +152,7 @@ const EditProduct: React.FC<any> = () => {
                                             name="price"
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="number"
-                                            placeholder="Enter Product price"
+                                            placeholder={t('PRODUCT.button1Modal.lable3')}
                                             min={1}
                                             value={formState.price}
                                             onChange={handleChange}
@@ -171,7 +175,7 @@ const EditProduct: React.FC<any> = () => {
                                         type="submit"
                                         disabled={loading1}
                                     >
-                                        {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : " Publish"}
+                                        {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('PRODUCT.button1Modal.button2')}`}
                                     </button>
                                     <button
                                         className=" border rounded-lg border-[#DDDDDD]  background-transparent font-medium  px-6 py-3 text-sm outline-none   mb-1"
@@ -179,7 +183,7 @@ const EditProduct: React.FC<any> = () => {
                                         onClick={handleDraft}
                                         disabled={loading2}
                                     >
-                                        {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save as Draft"}
+                                        {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('PRODUCT.button1Modal.button3')}`}
                                     </button>
                                 </div>
                             </form>

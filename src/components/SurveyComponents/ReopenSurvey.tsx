@@ -8,8 +8,11 @@ import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { reOpenSurvey } from "@/lib/api/survey";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { parseDefaultDate } from "@/lib/common.modules";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 const ReOpenSurvey: React.FC<any> = () => {
+    const t = useTranslations();
     const [deadline, setDeadline] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const reOpenModal = useAppSelector((state) => state.survey.reOpenModal)
@@ -64,7 +67,7 @@ const ReOpenSurvey: React.FC<any> = () => {
         }
     }
 
-    console.log("surveyData",surveyData)
+    console.log("surveyData", surveyData)
     return (
         <>
             {reOpenModal ? (
@@ -74,13 +77,11 @@ const ReOpenSurvey: React.FC<any> = () => {
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 <RxQuestionMarkCircled size={30} className="mb-6 " />
-                                <h3 className="text-3xl font-semibold mt-8">{surveyData.status === "draft" ?"Open":"Reopen"} Survey</h3>
-                                <p className="font-[500] mt-2">Your resident will be able to leave {surveyData.status === "draft" ?"":"new"} responses. Please select {surveyData.status === "draft" ?"":"new"} deadline.</p>
+                                <h3 className="text-3xl font-semibold mt-8">{surveyData.status === "draft" ? `${t('SURVEY.open')}` : `${t('SURVEY.reOpen')}`} {t('SURVEY.surveyOpenModal.title1')}</h3>
+                                <p className="font-[500] mt-2">{t('SURVEY.surveyOpenModal.lable')} {surveyData.status === "draft" ? "" : "new"} {t('SURVEY.surveyOpenModal.lable1')}{surveyData.status === "draft" ? "" : "new"} {t('SURVEY.surveyOpenModal.lable2')}</p>
                                 <div className="w-full my-6">
                                     <DatePickerOne onChange={handleDateChange} defaultDate={deadline} />
                                 </div>
-
-
 
                                 <div className="flex gap-3 items-center">
                                     <button
@@ -88,7 +89,7 @@ const ReOpenSurvey: React.FC<any> = () => {
                                         type="button"
                                         onClick={() => dispatch(toggleReOpenModal())}
                                     >
-                                        Cancel
+                                        {t('SURVEY.surveyOpenModal.button1')}
                                     </button>
                                     <button
                                         className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-bold text-sm px-6 py-3  outline-none  mr-1 mb-1"
@@ -96,7 +97,7 @@ const ReOpenSurvey: React.FC<any> = () => {
                                         disabled={loading}
                                         onClick={handleDraftReopen}
                                     >
-                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Reopen Survey"}
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SURVEY.surveyOpenModal.button2')}`}
 
                                     </button>
                                 </div>

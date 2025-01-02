@@ -20,7 +20,7 @@ const initialFormData = {
     token: ""
 };
 
-const AddModal: React.FC<any> = () => {
+const AddModal: React.FC<any> = () => { 
     const dispatch = useAppDispatch();
       const t = useTranslations();
     
@@ -126,7 +126,7 @@ const AddModal: React.FC<any> = () => {
                         <div className="w-full my-6">
                             <div className="relative">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="status">
-                                    Status
+                                {t('SECURITY.button2Modal.status')}
                                 </label>
                                 <select
                                     className="block appearance-none w-full rounded-xl border border-[#DDDDDD] text-black py-3 px-4 pr-8 focus:outline-none focus:bg-white focus:border-gray-500"
@@ -135,8 +135,8 @@ const AddModal: React.FC<any> = () => {
                                     value={formData.status}
                                     onChange={handleChange}
                                 >
-                                    <option value="active">Active</option>
-                                    <option value="deactivated">Deactivated</option>
+                                    <option value="active">{t('SECURITY.status')}</option>
+                                    <option value="deactivated">{t('SECURITY.status2')}</option>
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                     <svg className="fill-current h-4 w-4 mt-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

@@ -12,10 +12,10 @@ import ExportModal from "@/components/AccessComponents/ExportModal";
 import { IoSearchOutline } from "react-icons/io5";
 // import { useRouter } from 'next/navigation';
 import { useRouter } from '@/navigation';
-
-
+import { useLocale, useTranslations } from 'next-intl';
 
 const AccessHistory = () => {
+  const t = useTranslations();
   const dispatch = useAppDispatch()
   const router = useRouter();
   const filterRef = useRef<HTMLDivElement>(null);
@@ -90,7 +90,7 @@ const AccessHistory = () => {
     dispatch(resetState())
   }, [router])
 
- 
+
   return (
     <>
       {verified ? (
@@ -100,7 +100,7 @@ const AccessHistory = () => {
               {/* <Breadcrumb pageName="Access history" /> */}
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                  Access history
+                  {t('ACCESS.title')}
                 </h2>
               </div>
               <div className="mb-4 flex flex-wrap justify-between">
@@ -110,11 +110,11 @@ const AccessHistory = () => {
                       <IoSearchOutline size={20} />
                     </div>
                     <input type="search" onChange={handleChange}
-                      value={searchTerm} id="default-search" className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder="Search by resident name or visitor name" required />
+                      value={searchTerm} id="default-search" className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('ACCESS.search')} required />
                   </div>
                   <div ref={filterRef} className="flex items-center me-2 md:me-0">
                     <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
-                      <IoFilterSharp className="mr-2" />Filters
+                      <IoFilterSharp className="mr-2" />{t('ACCESS.filterButton')}
                     </button>
                     <div className='w-full'>
                       <div className="relative inline-block">
@@ -129,13 +129,13 @@ const AccessHistory = () => {
                                   className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
 
                                 >
-                                  Type
+                                  {t('COMMON.type1')}
                                 </button>
                                 <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
                                   <FaChevronRight size={15} />
                                 </span>
                               </li>
-
+                              
                             </ul>
 
                           </div>
@@ -158,7 +158,7 @@ const AccessHistory = () => {
                                   className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                   onClick={() => closeDropdown("")}
                                 >
-                                  All
+                                  {t('COMMON.type2')}
                                 </button>
                               </li>
                               <li>
@@ -167,7 +167,7 @@ const AccessHistory = () => {
                                   className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                   onClick={() => closeDropdown("qr code")}
                                 >
-                                  QR Code
+                                  {t('COMMON.lable9')}
                                 </button>
                               </li>
                               <li>
@@ -175,7 +175,7 @@ const AccessHistory = () => {
                                   type="button"
                                   className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                   onClick={() => closeDropdown("manual entry")}
-                                >Manual Entry
+                                >{t('COMMON.lable10')}
                                 </button>
                               </li>
 
@@ -194,7 +194,7 @@ const AccessHistory = () => {
                 <div className="flex flex-wrap w-full md:w-auto">
                   <div className="w-full md:mr-3 md:w-auto mt-4 md:mt-0">
                     <button onClick={() => dispatch(toggleExportModal())} type="button" className="w-full md:w-auto justify-center text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                      <TfiExport className="mr-2 text-base" />Export list
+                      <TfiExport className="mr-2 text-base" />{t('ACCESS.button1')}
                     </button>
                   </div>
                 </div>

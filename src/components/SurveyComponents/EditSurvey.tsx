@@ -9,6 +9,8 @@ import { editSurvey } from "@/lib/api/survey";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { parseDefaultDate } from "@/lib/common.modules";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 // Define types for survey form state
 interface SurveyFormState {
@@ -22,7 +24,8 @@ interface SurveyFormState {
     }[];
 }
 
-const EditSurvey: React.FC = () => {
+const EditSurvey: React.FC = () => { 
+    const t = useTranslations();
     const editModal = useAppSelector((state) => state.survey.editModal);
     const [loading, setLoading] = useState(false);
     const surveyData = useAppSelector((state) => state.survey.surveyData);
@@ -185,28 +188,28 @@ const EditSurvey: React.FC = () => {
                                     type="button"
                                     className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2"
                                     onClick={() => dispatch(toggleEditModal())}>
-                                    Back
+                                    {t('SURVEY.button1Modal.button1')}
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={loading}
                                     className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2"
                                 >
-                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save Changes"}
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SURVEY.button1Modal.button5')}`}
                                 </button>
                             </div>
                         </div>
                         <div className="mx-auto">
                             <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
                                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                                    Questions
+                                {t('SURVEY.button1Modal.title4')}
                                 </button>
                                 <div className="mt-1 text-lg font-bold">
                                     <button onClick={() => {
                                         dispatch(toggleEditModal())
                                         dispatch(toggleViewModal())
                                     }
-                                    }>Responses</button>
+                                    }>{t('SURVEY.button1Modal.button4')}</button>
                                 </div>
                             </div>
                         </div>
@@ -214,15 +217,15 @@ const EditSurvey: React.FC = () => {
                         <div className="flex flex-wrap">
                             <div className="w-full md:w-1/4 p-2">
                                 <div>
-                                    <p className="text-black font-bold">Survey Details</p>
-                                    <p className="mt-2">Add survey title and description. They will be visible to all participants.</p>
+                                    <p className="text-black font-bold">{t('SURVEY.info')}</p>
+                                    <p className="mt-2">{t('SURVEY.desc')}</p>
                                 </div>
                             </div>
                             <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
                                 <div>
                                     <div className="w-full mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="title">
-                                            Survey Title
+                                        {t('SURVEY.button1Modal.title1')}
                                         </label>
                                         <input
                                             name="title"
@@ -230,27 +233,27 @@ const EditSurvey: React.FC = () => {
                                             onChange={handleInputChange}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter survey title"
+                                            placeholder={t('SURVEY.button1Modal.lable1')}
                                             required
                                         />
                                     </div>
                                     <div className="w-full mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                                            Survey Description
+                                        {t('SURVEY.button1Modal.title2')}
                                         </label>
                                         <textarea
                                             name="description"
                                             value={formState.description}
                                             onChange={handleInputChange}
                                             className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            placeholder="Enter survey description"
+                                            placeholder={t('SURVEY.button1Modal.lable2')}
                                             rows={5}
                                             required
                                         />
                                     </div>
                                     <div className="w-1/2 mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2">
-                                            Deadline
+                                        {t('SURVEY.button1Modal.title3')}
                                         </label>
                                         <DatePickerOne defaultDate={formState.deadline} onChange={handleDateChange} />
                                     </div>
@@ -261,8 +264,8 @@ const EditSurvey: React.FC = () => {
                         <div className="flex flex-wrap my-8">
                             <div className="w-full md:w-1/4 p-2">
                                 <div>
-                                    <p className="text-black font-bold">Questions</p>
-                                    <p className="mt-2">Add one or more questions, select their type, and define answer options</p>
+                                    <p className="text-black font-bold">{t('SURVEY.info2')}</p>
+                                    <p className="mt-2">{t('SURVEY.desc2')}</p>
                                 </div>
                             </div>
                             <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
@@ -271,7 +274,7 @@ const EditSurvey: React.FC = () => {
                                         <div className="flex flex-wrap md:flex-nowrap gap-5 mb-4">
                                             <div className="w-full md:w-3/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${questionIndex}`}>
-                                                    Question {questionIndex + 1}
+                                                {t('SURVEY.button1Modal.title4')} {questionIndex + 1}
                                                 </label>
                                                 <input
                                                     name="question_title"
@@ -279,13 +282,13 @@ const EditSurvey: React.FC = () => {
                                                     onChange={(e) => handleQuestionChange(questionIndex, e)}
                                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                     type="text"
-                                                    placeholder="Enter Question"
+                                                    placeholder={t('SURVEY.button1Modal.lable4')}
                                                     required
                                                 />
                                             </div>
                                             <div className="relative w-full  md:w-2/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`type-${questionIndex}`}>
-                                                    Question Type
+                                                {t('SURVEY.button1Modal.title5')}
                                                 </label>
                                                 <select
                                                     name="question_choice"
@@ -304,7 +307,7 @@ const EditSurvey: React.FC = () => {
                                         {question.options.map((option, optionIndex) => (
                                             <div key={optionIndex} className="w-full mb-4">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`option-${questionIndex}-${optionIndex}`}>
-                                                    Option {optionIndex + 1}
+                                                {t('SURVEY.button1Modal.title6')} {optionIndex + 1}
                                                 </label>
                                                 <div className="flex justify-between gap-x-4">
                                                     <input
@@ -312,7 +315,7 @@ const EditSurvey: React.FC = () => {
                                                         onChange={(e) => handleOptionChange(questionIndex, optionIndex, e)}
                                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                         type="text"
-                                                        placeholder="Enter option"
+                                                        placeholder={t('SURVEY.lable6')}
                                                         required
                                                     />
                                                     <button type="button" onClick={() => handleRemoveOption(questionIndex, optionIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4 py-2 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
@@ -323,10 +326,10 @@ const EditSurvey: React.FC = () => {
                                         ))}
                                         <div className="flex justify-between">
                                             <button type="button" onClick={() => handleAddOption(questionIndex)} className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
-                                                <IoMdAdd className="mr-2" /> Add Option
+                                                <IoMdAdd className="mr-2" /> {t('SURVEY.button1Modal.addButton')}
                                             </button>
                                             <button type="button" onClick={() => handleRemoveQuestion(questionIndex)} className="text-white bg-danger  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center d mb-2">
-                                                <RiDeleteBin6Line className="mr-2" /> Delete Question
+                                                <RiDeleteBin6Line className="mr-2" /> {t('SURVEY.button1Modal.deleteButton')}
                                             </button>
 
                                         </div>
@@ -341,7 +344,7 @@ const EditSurvey: React.FC = () => {
                             <div className="w-full md:w-3/4  py-4 rounded-xl">
 
                                 <button type="button" onClick={handleAddQuestion} className=" text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
-                                    <IoMdAdd className="mr-2" /> Add Question
+                                    <IoMdAdd className="mr-2" /> {t('SURVEY.button1Modal.addButton2')}
                                 </button>
                             </div>
                         </div>

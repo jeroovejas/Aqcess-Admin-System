@@ -1,37 +1,37 @@
 {
-    "SIGNIN" : {
-        "title" : "Iniciar sesión",
+    "SIGNIN": {
+        "title": "Iniciar sesión",
         "account": "¿Aún no tienes una cuenta?",
-        "signUp" : "Inscribirse",
-        "email" : "Tu correo electrónico",
-        "password" : "Tu contraseña",
-        "forget" : "¿Olvidaste tu contraseña?"
+        "signUp": "Inscribirse",
+        "email": "Tu correo electrónico",
+        "password": "Tu contraseña",
+        "forget": "¿Olvidaste tu contraseña?"
     },
-    "SIGNUP" : {
-        "title" : "Inscribirse",
+    "SIGNUP": {
+        "title": "Inscribirse",
         "account": "¿Ya tienes una cuenta?",
-        "signIn" : "Iniciar sesión",
-        "firstName" : "Nombre de pila",
-        "lastName" : "Apellido",
-        "email" : "Tu correo electrónico",
-        "password" : "Tu contraseña",
-        "confirmPassword" : "Confirmar Contraseña",
-        "check" : "Estoy de acuerdo con Términos y condiciones",
-        "title1" : "Únase a nuestra comunidad",
-        "title2" : "Aplicación de gestión",
-        "title3" : "¡Simplifique la gestión de pagos y manténgase conectado con sus residentes!",
-        "title4" : "Gestión de pagos sin esfuerzo",
-        "title5" : "Administre tarifas y realice un seguimiento de los pagos en un solo lugar",
-        "title6" : "Mantente conectada",
-        "title7" : "Envíe notificaciones importantes y reciba mensajes de residentes",
-        "title8" : "Recopile comentarios de los residentes",
-        "title9" : "Cree encuestas y reciba comentarios valiosos para mejorar la vida en comunidad."
+        "signIn": "Iniciar sesión",
+        "firstName": "Nombre de pila",
+        "lastName": "Apellido",
+        "email": "Tu correo electrónico",
+        "password": "Tu contraseña",
+        "confirmPassword": "Confirmar Contraseña",
+        "check": "Estoy de acuerdo con Términos y condiciones",
+        "title1": "Únase a nuestra comunidad",
+        "title2": "Aplicación de gestión",
+        "title3": "¡Simplifique la gestión de pagos y manténgase conectado con sus residentes!",
+        "title4": "Gestión de pagos sin esfuerzo",
+        "title5": "Administre tarifas y realice un seguimiento de los pagos en un solo lugar",
+        "title6": "Mantente conectada",
+        "title7": "Envíe notificaciones importantes y reciba mensajes de residentes",
+        "title8": "Recopile comentarios de los residentes",
+        "title9": "Cree encuestas y reciba comentarios valiosos para mejorar la vida en comunidad."
     },
-    "FORGOT" : {
-        "title" : "Restaurar contraseña",
+    "FORGOT": {
+        "title": "Restaurar contraseña",
         "account": "Ingrese su dirección de correo electrónico a continuación y le enviaremos un enlace para restablecer su contraseña.",
-        "email" : "Tu correo electrónico",
-        "button" : "Enviar enlace de reinicio"
+        "email": "Tu correo electrónico",
+        "button": "Enviar enlace de reinicio"
     },
     "DASHBOARD": {
         "title": "Bienvenida",
@@ -48,60 +48,507 @@
         "card4": "Encuestas activas"
     },
     "RESIDENT": {
-        "title": "Gerente residente",
-        "card1": "Residentes totales",
-        "card2": "Residentes activas",
-        "card3": "Residentes con vencimiento",
+        "title": "Gestor de residentes",
+        "card1": "Total de residentes",
+        "card2": "Residentes activos",
+        "card3": "Residentes con pagos atrasados",
         "table": {
             "title": "Tus residentes",
             "column1": "Nombre del residente",
             "column2": "ID",
             "column3": "Correo electrónico",
-            "column4": "DIRECCIÓN",
+            "column4": "Dirección",
             "column5": "Estado"
         },
-        "button1": "Lista de importación",
+        "button1": "Importar lista",
         "button1Modal": {
             "title": "Importar listados",
-            "lable": "Seleccione Archivo",
+            "lable": "Seleccionar archivo",
             "button1": "Cancelar",
             "button2": "Importar"
         },
-        "button2": "Lista de exportación",
+        "button2": "Exportar lista",
         "button2Modal": {
             "title": "Exportar lista de residentes",
-            "lable": "Seleccione el formato que desea utilizar para exportar",
+            "lable": "Por favor, seleccione el formato que desea usar para exportar",
             "button1": "Cancelar",
             "button2": "Exportar",
-            "option": "Sobresalir"
+            "option": "Excel"
         },
         "button3": "Agregar residente",
         "button3Modal": {
             "title": "Agregar nuevo residente",
+            "editTitle": "Editar residente",
             "lable1": "Nombre de pila",
             "lable2": "Apellido",
-            "lable3": "DIRECCIÓN",
+            "lable3": "Dirección",
             "lable4": "Número de teléfono",
-            "lable5": "Alfiler",
-            "lable6": "Correo electrónico",
-            "lable7": "Agregar notas sobre residentes",
-
+            "lable5": "Correo electrónico",
+            "lable6": "Pin",
+            "lable7": "Notas internas",
+            "lable8": "Agregar notas sobre residentes",
             "title9": "Mascota",
-            "lable9": "Introduzca el nombre de la mascota",
+            "lable9": "Ingrese el nombre de la mascota",
             "title10": "Marca del vehículo",
-            "lable10": "Introduzca la marca del vehículo",
+            "lable10": "Ingrese la marca del vehículo",
             "title11": "Color del vehículo",
             "lable11": "Ingrese el color del vehículo",
-            "title12": "Placas de vehículos",
-            "lable12": "Ingresar placas de vehículos",
+            "title12": "Placas del vehículo",
+            "lable12": "Ingrese las placas del vehículo",
             "delButton": "Eliminar vehículo",
-
             "button1": "Cancelar",
-            "button2": "Agregar Residente",
-            "addButton": "Agregar Vehículo",
-            "addButton2": "Agregar Mascota"
+            "button2": "Guardar cambios",
+            "button3": "Eliminar residente",
+            "addButton": "Agregar vehículo",
+            "addButton2": "Agregar mascota"
+        },
+        "deleteModal": {
+            "title": "¿Eliminar residente?",
+            "lable": "Su cuenta y toda la información relacionada se eliminarán permanentemente. Si desea restringir temporalmente el acceso del residente, desactive su cuenta en su lugar.",
+            "button1": "Cancelar",
+            "button2": "Eliminar"
+        },
+        "status": "Activo",
+        "status2": "Desactivado",
+        "statusModal": {
+            "status": "Activar",
+            "status2": "Desactivar",
+            "title": "residente",
+            "lable": "Seleccione cuidadosamente, ya que esto afectará la actividad del residente.",
+            "button1": "No",
+            "button2": "Sí"
+        },
+        "viewModal": {
+            "lable1": "Nombre",
+            "lable2": "Dirección",
+            "lable3": "Correo electrónico",
+            "lable4": "Teléfono",
+            "lable5": "Última visita",
+            "lable6": "Notas internas",
+            "lable7": "Pagos atrasados",
+            "button1": "Enviar mensaje",
+            "button2": "Editar"
+        },
+        "changesModal": {
+            "title": "Cambios no guardados",
+            "lable": "¿Desea guardar o descartar los cambios?",
+            "button1": "Descartar",
+            "button2": "Guardar cambios"
         },
         "filterButton": "Filtrar",
-        "search": "Buscar residente por nombre o id"
+        "search": "Buscar residente por nombre o ID"
+    },
+    "SECURITY": {
+        "title": "Gestor de guardias de seguridad",
+        "card1": "Total de guardias de seguridad",
+        "card2": "Guardias de seguridad activos",
+        "table": {
+            "title": "Tus guardias de seguridad",
+            "column1": "Nombre del guardia de seguridad",
+            "column2": "ID",
+            "column3": "Correo Electrónico",
+            "column4": "Dirección",
+            "column5": "Estado"
+        },
+        "button1": "Exportar lista",
+        "button1Modal": {
+            "title": "Exportar lista de guardias de seguridad",
+            "lable": "Por favor, seleccione el formato que desea usar para exportar",
+            "button1": "Cancelar",
+            "button2": "Exportar",
+            "option": "Excel"
+        },
+        "button2": "Agregar guardia de seguridad",
+        "button2Modal": {
+            "title": "Agregar nuevo guardia de seguridad",
+            "editTitle": "Editar guardia de seguridad",
+            "status": "Estado",
+            "lable1": "Nombre",
+            "lable2": "Apellido",
+            "lable3": "Dirección",
+            "lable4": "Número de Teléfono",
+            "lable5": "Correo Electrónico",
+            "lable6": "Pin",
+            "lable7": "Notas internas",
+            "lable8": "Agregar notas sobre el guardia de seguridad",
+            "button1": "Cancelar",
+            "button2": "Guardar cambios",
+            "button3": "Eliminar guardia de seguridad"
+        },
+        "deleteModal": {
+            "title": "¿Eliminar guardia de seguridad?",
+            "lable": "Su cuenta y toda la información relacionada se eliminarán permanentemente. Si desea restringir temporalmente el acceso del guardia de seguridad, desactive su cuenta en su lugar.",
+            "button1": "Cancelar",
+            "button2": "Eliminar"
+        },
+        "status": "Activo",
+        "status2": "Desactivado",
+        "statusModal": {
+            "status": "Activar",
+            "status2": "Desactivar",
+            "title": "guardia de seguridad",
+            "lable": "Seleccione cuidadosamente, ya que esto afectará la actividad del guardia de seguridad.",
+            "button1": "No",
+            "button2": "Sí"
+        },
+        "viewModal": {
+            "lable1": "Nombre",
+            "lable2": "Dirección",
+            "lable3": "Correo Electrónico",
+            "lable4": "Teléfono",
+            "lable5": "Última visita",
+            "lable6": "Notas internas",
+            "button1": "Enviar mensaje",
+            "button2": "Editar"
+        },
+        "changesModal": {
+            "title": "Cambios no guardados",
+            "lable": "¿Desea guardar o descartar los cambios?",
+            "button1": "Descartar",
+            "button2": "Guardar cambios"
+        },
+        "filterButton": "Filtrar",
+        "search": "Buscar guardia de seguridad por nombre o ID"
+    },
+    "SURVEY": {
+        "title": "Administrador de Encuestas",
+        "card1": "Encuestas totales",
+        "card2": "Encuestas abiertas",
+        "card3": "Tasa de respuesta promedio",
+        "table": {
+            "title": "Tus Encuestas",
+            "column1": "Nombre de la encuesta",
+            "column2": "Encuesta abierta",
+            "column3": "Fecha límite",
+            "column4": "Respuestas",
+            "column5": "Estado"
+        },
+        "info": "Detalles de la encuesta",
+        "desc": "Añadir título y descripción de la encuesta. Serán visibles para todos los participantes.",
+        "info2": "Preguntas",
+        "desc2": "Añadir una o más preguntas, seleccionar su tipo y definir opciones de respuesta.",
+        "button1": "Añadir encuesta",
+        "button1Modal": {
+            "title": "Crear nueva encuesta",
+            "editTitle": "Editar encuesta",
+            "status": "Estado",
+            "title1": "Título de la encuesta",
+            "lable1": "Ingresa el título de la encuesta",
+            "title2": "Descripción de la encuesta",
+            "lable2": "Ingresa la descripción de la encuesta",
+            "title3": "Fecha límite",
+            "lable3": "Selecciona fecha y hora",
+            "title4": "Pregunta",
+            "lable4": "Ingresa la pregunta",
+            "title5": "Tipo de pregunta",
+            "lable5": "Selecciona el tipo de pregunta",
+            "title6": "Opción",
+            "lable6": "Ingresa la opción",
+            "addButton": "Añadir opción",
+            "addButton2": "Añadir pregunta",
+            "deleteButton": "Eliminar pregunta",
+            "button1": "Volver",
+            "button2": "Guardar borrador",
+            "button3": "Publicar",
+            "button4": "Respuesta",
+            "button5": "Guardar cambios"
+        },
+        "duplicateModal": {
+            "title": "¿Quieres duplicar la encuesta?",
+            "lable": "Esto creará una copia exacta de la misma encuesta.",
+            "button1": "No",
+            "button2": "Sí"
+        },
+        "open": "Abrir",
+        "reOpen": "Reabrir",
+        "surveyOpenModal": {
+            "status": "nuevo",
+            "status2": "borrador",
+            "title": "Abrir encuesta",
+            "title1": "Encuesta",
+            "lable": "Tu residente podrá dejar",
+            "lable1": "respuestas. Por favor selecciona",
+            "lable2": "la fecha límite.",
+            "button1": "Cancelar",
+            "button2": "Reabrir encuesta"
+        },
+        "surveyCloseModal": {
+            "title": "¿Quieres cerrar la encuesta?",
+            "lable": "Esta encuesta y su contenido no serán visibles para los residentes.",
+            "button1": "Cancelar",
+            "button2": "Cerrar encuesta"
+        },
+        "exportButton": "Exportar lista",
+        "exportModal": {
+            "title": "Exportar lista de respuestas de la encuesta",
+            "lable": "Por favor selecciona el formato que deseas usar para exportar.",
+            "button1": "Cancelar",
+            "button2": "Exportar"
+        },
+        "viewModal": {
+            "title": "¿Qué te gustaría mejorar?"
+        },
+        "filterButton": "Filtrar",
+        "search": "Buscar encuesta"
+    },
+    "ACCESS": {
+        "title": "Historial de acceso",
+        "table": {
+            "title": "Tu historial de acceso",
+            "column1": "Nombre del visitante",
+            "column2": "Nombre del residente",
+            "column3": "Razón de la visita",
+            "column4": "Duración",
+            "column5": "Fecha y hora",
+            "column6": "Tipo"
+        },
+        "button1": "Exportar lista",
+        "button1Modal": {
+            "title": "Exportar lista de historial de acceso",
+            "lable": "Por favor, seleccione el formato que desea usar para exportar",
+            "button1": "Cancelar",
+            "button2": "Exportar",
+            "option": "Excel"
+        },
+        "filterButton": "Filtrar",
+        "search": "Buscar por nombre de residente o visitante"
+    },
+    "PAYMENT": {
+        "tab1": "Historial de pagos",
+        "tab2": "Producto",
+        "title": "Gestor de pagos",
+        "card1": "Pagos de este mes",
+        "card2": "Pagos atrasados",
+        "card3": "Pagos a tiempo",
+        "table": {
+            "title": "Facturas recientes",
+            "column1": "Factura",
+            "column2": "Residente",
+            "column3": "Monto",
+            "column4": "Producto",
+            "column5": "Fecha y hora",
+            "column6": "Estado"
+        },
+        "button1": "Exportar lista",
+        "button1Modal": {
+            "title": "Exportar historial de pagos",
+            "lable": "Por favor, seleccione el formato que desea usar para exportar",
+            "button1": "Cancelar",
+            "button2": "Exportar",
+            "option1": "Excel",
+            "option2": "PDF"
+        },
+        "filterButton": "Filtrar",
+        "search": "Buscar por residente o ID de factura"
+    },
+    "PRODUCT": {
+        "table": {
+            "title": "Tus productos",
+            "column1": "Producto",
+            "column2": "Descripción",
+            "column3": "Precio",
+            "column4": "Estado"
+        },
+        "button1": "Crear nuevo",
+        "button1Modal": {
+            "title": "Agregar nuevo producto",
+            "editTitle": "Editar producto",
+            "title1": "Título del producto",
+            "lable1": "Ingresa el título del producto",
+            "title2": "Descripción del producto",
+            "lable2": "Agregar descripción sobre el producto",
+            "title3": "Precio",
+            "lable3": "Ingresa el precio del producto",
+            "button1": "Cancelar",
+            "button2": "Publicar",
+            "button3": "Guardar como borrador"
+        },
+        "duplicateModal": {
+            "title": "¿Quieres duplicar el producto?",
+            "lable": "Esto creará una copia exacta del mismo producto.",
+            "button1": "No",
+            "button2": "Sí"
+        },
+        "deactiveModal": {
+            "status": "Activar",
+            "status2": "Desactivar",
+            "title": "¿Quieres",
+            "title2": "Producto",
+            "lable": "Por favor selecciona la opción cuidadosamente, ya que esto afectará la disponibilidad del producto para los residentes.",
+            "button1": "No",
+            "button2": "Sí"
+        },
+        "filterButton": "Filtrar",
+        "search": "Buscar producto"
+    },
+    "AREA": {
+        "title": "Áreas Comunes",
+        "card1": "Reservas Activas",
+        "card2": "Usuarios Únicos",
+        "card3": "Reservado para el próximo día",
+        "card4": "Reservado para los próximos 7 días",
+        "table": {
+            "title": "Tus Áreas Comunes",
+            "column1": "Nombre del Área",
+            "column2": "Fecha y Hora",
+            "column3": "Ocupación",
+            "column4": "Reserva Activa",
+            "column5": "Estado"
+        },
+        "button1": "Agregar área común",
+        "button1Modal": {
+            "title": "Crear Área Común",
+            "status": "Estado",
+            "lable1": "Nombre del Área Común",
+            "lable2": "Descripción del Área Común",
+            "lable3": "Ocupación",
+            "lable4": "Imagen de Portada",
+            "button1": "Cancelar",
+            "button2": "Crear Área Común",
+            "button3": "Guardar Cambios"
+        },
+        "deleteModal": {
+            "title": "Eliminar área común",
+            "lable": "será eliminada de la lista de áreas comunes y todas las reservas activas serán canceladas.",
+            "button1": "Cancelar",
+            "button2": "Eliminar"
+        },
+        "delete2Modal": {
+            "title": "Cancelar Reserva",
+            "lable": "¿Estás seguro de que deseas cancelar esta reserva de residente?",
+            "button1": "Cancelar",
+            "button2": "Cancelar Reserva"
+        },
+        "viewModal": {
+            "title": "Área Común",
+            "back": "Atrás",
+            "button1": "Editar",
+            "button2": "Ocultar",
+            "button3": "Visible",
+            "button4": "Eliminar"
+        },
+        "hideModal": {
+            "title": "Ocultar área común",
+            "lable": "El área estará disponible para los residentes y estará disponible para futuras reservas.",
+            "lable1": "El área estará oculta para los residentes y no estará disponible para futuras reservas. Las reservas existentes permanecerán activas.",
+            "button1": "Cancelar",
+            "button2": "Ocultar",
+            "button3": "Hacer Visible"
+        },
+        "filterButton": "Filtrar",
+        "search": "Buscar área común"
+    },
+    "USERPROFILE": {
+        "title": "Configuración",
+        "tab1": "Perfil de Usuario",
+        "tab2": "Pago y Facturación",
+        "info": "Información Personal",
+        "desc": "Actualiza tu foto y detalles personales.",
+        "info2": "Contraseña",
+        "desc2": "Cambia tu contraseña actual",
+        "title1": "Nombre",
+        "lable1": "Ingresa el Nombre",
+        "title2": "Apellido",
+        "lable2": "Ingresa el Apellido",
+        "title3": "Correo Electrónico",
+        "lable3": "Ingresa el Correo Electrónico",
+        "title4": "Foto de Perfil",
+        "title5": "Contraseña Actual",
+        "lable5": "Ingresa la Contraseña Actual",
+        "title6": "Nueva Contraseña",
+        "lable6": "Ingresa la Nueva Contraseña",
+        "title7": "Confirmar Contraseña",
+        "lable7": "Ingresa la Contraseña de Confirmación",
+        "button1": "Cancelar",
+        "button2": "Guardar",
+        "button3": "Actualizar Contraseña"
+    },
+    "PAYMENTBILLING": {
+        "title": "Configuración",
+        "tab1": "Perfil de Usuario",
+        "tab2": "Pago y Facturación",
+        "info": "Método de pago",
+        "desc": "Selecciona y actualiza tu método de pago.",
+        "info2": "Historial de facturación",
+        "desc2": "Revisa y descarga las facturas recientes",
+        "addTitle": "Crear Método de Pago",
+        "editTitle": "Editar Método de Pago",
+        "addButton": "Crear nuevo Método de Pago",
+        "editButton": "Editar",
+        "deleteButton": "Eliminar",
+        "title1": "Nombre en la tarjeta",
+        "lable1": "Ingresa el nombre en la tarjeta",
+        "title2": "Mes de vencimiento",
+        "lable2": "Ingresa el mes de vencimiento",
+        "title3": "Año de vencimiento",
+        "lable3": "Ingresa el año de vencimiento",
+        "title4": "Número de tarjeta",
+        "lable4": "Ingresa el número de la tarjeta",
+        "title5": "CVV",
+        "lable5": "Ingresa el CVV",
+        "title6": "Correo electrónico de facturación",
+        "lable6": "Ingresa el correo electrónico de facturación",
+        "title7": "Dirección de facturación",
+        "lable7": "Ingresa la dirección de facturación",
+        "title8": "Ciudad",
+        "lable8": "Ingresa la ciudad",
+        "title9": "Código Postal",
+        "lable9": "Ingresa el código postal",
+        "title10": "Estado/Provincia",
+        "lable10": "Ingresa el estado/provincia",
+        "title11": "País",
+        "lable11": "Ingresa el país",
+        "button1": "Cancelar",
+        "button2": "Añadir Método de Pago",
+        "button3": "Guardar",
+        "deleteModal": {
+            "title": "¿Eliminar método de pago?",
+            "lable": "El método de pago será eliminado permanentemente.",
+            "button1": "Cancelar",
+            "button2": "Eliminar"
+        },
+        "table": {
+            "title": "Facturas recientes",
+            "column1": "Factura",
+            "column2": "Monto",
+            "column3": "Fecha",
+            "column4": "Estado"
+        }
+    },
+    "COMMON": {
+        "type": "Estado",
+        "type1": "Tipo",
+        "type2": "Todos",
+        "status": "Activo",
+        "status2": "Desactivado",
+        "lable1": "Abierto",
+        "lable2": "Cerrado",
+        "lable3": "Completado",
+        "lable4": "Pendiente",
+        "lable5": "Restablecer",
+        "lable6": "Borrador",
+        "lable7": "Activo",
+        "lable8": "Inactivo",
+        "lable9": "Código QR",
+        "lable10": "Entrada manual",
+
+        "next": "Próxima",
+        "previous":"Previa"
+    },
+    "SIDEBAR": {
+        "lable1": "Panel",
+        "lable2": "Residentes",
+        "lable3": "Encuesta",
+        "lable4": "Guardia de seguridad",
+        "lable5": "Pagos",
+        "lable6": "Historial de pagos",
+        "lable7": "Productos",
+        "lable8": "Áreas comunes",
+        "lable9": "Historial de accesos",
+        "lable10": "Configuraciones",
+        "lable11": "Gestión de usuarios",
+        "lable12": "Suscripciones",
+        "lable13": "Facturas",
+        "lable14": "Lugares"
     }
 }

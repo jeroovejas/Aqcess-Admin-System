@@ -10,8 +10,11 @@ import { getAllAreas } from "@/lib/api/commonArea";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
 import { toTitleCase } from "@/lib/common.modules";
+import { useLocale, useTranslations } from 'next-intl';
 
-const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
+
+const CommonAreaTable: React.FC<any> = ({ searchTerm }) => { 
+    const t = useTranslations();
     const dispatch = useAppDispatch();
     const limit = 10;
     const PAGE_RANGE = 5;
@@ -107,7 +110,7 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
     return (
         <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
             <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-                Common Areas
+            {t('AREA.table.title')}
             </h4>
             {loading ? (
                 <Loader />
@@ -117,19 +120,19 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
                         <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
-                                    Area Name
+                                {t('AREA.table.column1')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Date And Time
+                                {t('AREA.table.column2')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Occupacy
+                                {t('AREA.table.column3')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Active Booking
+                                {t('AREA.table.column4')}
                                 </th>                                
                                 <th scope="col" className="px-6 py-3">
-                                    Status
+                                {t('AREA.table.column5')}
                                 </th>
                                 <th></th>
                                 <th></th>

@@ -6,8 +6,12 @@ import { toggleIsUpdated } from "@/store/Slices/ResidentSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { deleteResident } from "@/lib/api/resident";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { useLocale, useTranslations } from 'next-intl';
+
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const DeleteModal: React.FC<any> = () => {
+      const t = useTranslations();
+    
     const deleteModal = useAppSelector((state) => state.resident.deleteModal)
     const editModal = useAppSelector((state) => state.resident.editModal)
     const resident = useAppSelector((state) => state.resident.residentData)
@@ -15,7 +19,7 @@ const DeleteModal: React.FC<any> = () => {
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false);
 
-    const handleDelete = async () => {
+    const handleDelete = async () => { 
         setLoading(true)
         try {
             let params = { id: resident.id, token: token }
@@ -51,8 +55,8 @@ const DeleteModal: React.FC<any> = () => {
 
                                 <MdErrorOutline size={45} className="mb-6 text-danger bg-danger-light rounded-full p-2" />
 
-                                <h3 className="text-xl font-semibold mt-8">Delete resident?</h3>
-                                <p className="font-[500] mt-2 mb-6">Their account and all related information will be permanently deleted. If you want to temporarily restrict the residents access, deactivate their account instead.</p>
+                                <h3 className="text-xl font-semibold mt-8">{t('RESIDENT.deleteModal.title')}</h3>
+                                <p className="font-[500] mt-2 mb-6">{t('RESIDENT.deleteModal.lable')}</p>
 
 
                                 <div className="flex gap-3 items-center">
@@ -61,7 +65,7 @@ const DeleteModal: React.FC<any> = () => {
                                         type="button"
                                         onClick={() => dispatch(toggleDeleteModal())}
                                     >
-                                        Cancel
+                                        {t('RESIDENT.deleteModal.button1')}
                                     </button>
                                     <button
                                         className="text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-danger font-semibold  text-base px-6 py-3  outline-none  mr-1 mb-1"
@@ -69,7 +73,7 @@ const DeleteModal: React.FC<any> = () => {
                                         disabled={loading}
                                         onClick={handleDelete}
                                     >
-                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Delete"}
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `{t('RESIDENT.deleteModal.button2')}`}
 
                                     </button>
                                 </div>

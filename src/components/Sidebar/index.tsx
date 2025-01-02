@@ -23,6 +23,7 @@ import { LiaFileInvoiceSolid } from "react-icons/lia";
 import { clearToken, clearUser, toggleIsTokenValid } from "@/store/Slices/AuthSlice";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 // import { useRouter } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 
 
 interface SidebarProps {
@@ -30,103 +31,106 @@ interface SidebarProps {
   setSidebarOpen: (arg: boolean) => void;
 }
 
-const menuGroups = [
-  {
-    name: "MENU",
-    menuItems: [
-      {
-        icon: (
-          RxDashboard
-        ),
-        label: "Dashboard",
-        route: "/dashboard",
-      },
-      {
-        icon: (
-          LuUsers
-        ),
-        label: "Residents",
-        route: "/residents",
-      },
-      {
-        icon: (
-          MdOutlineSecurity
-        ),
-        label: "Security Guard",
-        route: "/security-guard",
-      },
-      {
-        icon: (
-          FaRegQuestionCircle
-        ),
-        label: "Survey",
-        route: "/survey",
-      },
-      {
-        icon: (
-          IoWalletOutline
-        ),
-        label: "Payments",
-        route: "#",
-        children: [
-          { label: "Payment History", route: "/payment/payment-history" },
-          { label: "Products", route: "/payment/products" },
-        ],
-      },
-      {
-        icon: (
-          MdDeck
-        ),
-        label: "Common Areas",
-        route: "/common-areas",
-      },
-      {
-        icon: (
-          FaKey
-        ),
-        label: "Access History",
-        route: "/access-history",
-      },
-      {
-        icon: (
-          MdManageAccounts
-        ),
-        label: "User Management",
-        route: "/user-management",
-      },
-      {
-        icon: (
-          MdSubscriptions
-        ),
-        label: "Subscriptions",
-        route: "/subscriptions",
-      },
-      {
-        icon: (
-          LiaFileInvoiceSolid
-        ),
-        label: "Invoices",
-        route: "/invoices",
-      },
-      {
-        icon: (
-          MdPlace
-        ),
-        label: "Places",
-        route: "/places",
-      },
-    ],
-  },
-
-];
-
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const t = useTranslations();
+
+  const menuGroups = [
+    {
+      name: "MENU",
+      menuItems: [
+        {
+          icon: (
+            RxDashboard
+          ),
+          label: `${t('SIDEBAR.lable1')}`,
+          route: "/dashboard",
+        },
+        {
+          icon: (
+            LuUsers
+          ),
+          label: `${t('SIDEBAR.lable2')}`,
+          route: "/residents",
+        },
+        {
+          icon: (
+            MdOutlineSecurity
+          ),
+          label: `${t('SIDEBAR.lable4')}`,
+          route: "/security-guard",
+        },
+        {
+          icon: (
+            FaRegQuestionCircle
+          ),
+          label: `${t('SIDEBAR.lable3')}`,
+          route: "/survey",
+        },
+        {
+          icon: (
+            IoWalletOutline
+          ),
+          label: `${t('SIDEBAR.lable5')}`,
+          route: "#",
+          children: [
+            { label: `${t('SIDEBAR.lable6')}`, route: "/payment/payment-history" },
+            { label: `${t('SIDEBAR.lable7')}`, route: "/payment/products" },
+          ],
+        },
+        {
+          icon: (
+            MdDeck
+          ),
+          label: `${t('SIDEBAR.lable8')}`,
+          route: "/common-areas",
+        },
+        {
+          icon: (
+            FaKey
+          ),
+          label: `${t('SIDEBAR.lable9')}`,
+          route: "/access-history",
+        },
+        {
+          icon: (
+            MdManageAccounts
+          ),
+          label: `${t('SIDEBAR.lable11')}`,
+          route: "/user-management",
+        },
+        {
+          icon: (
+            MdSubscriptions
+          ),
+          label: `${t('SIDEBAR.lable12')}`,
+          route: "/subscriptions",
+        },
+        {
+          icon: (
+            LiaFileInvoiceSolid
+          ),
+          label: `${t('SIDEBAR.lable13')}`,
+          route: "/invoices",
+        },
+        {
+          icon: (
+            MdPlace
+          ),
+          label: `${t('SIDEBAR.lable14')}`,
+          route: "/places",
+        },
+      ],
+    },
+  
+  ];
+
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.userData);
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+
 
   const logout = () => {
     router.push('/auth/login');
@@ -139,10 +143,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const getFilteredMenuItems = () => {
     if (user.role === 1) {
-      return menuGroups[0].menuItems.filter(item => ["User Management", "Subscriptions", "Invoices", "Places"].includes(item.label));
+      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable12')}`, `${t('SIDEBAR.lable143')}`, `${t('SIDEBAR.lable14')}`].includes(item.label));
     } else if (user.role === 2) {
       // Return only the "Super Six" items
-      return menuGroups[0].menuItems.filter(item => ["Dashboard", "Residents", "Security Guard", "Survey", "Payments", "Common Areas", "Access History"].includes(item.label));
+      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable1')}`, `${t('SIDEBAR.lable2')}`, `${t('SIDEBAR.lable4')}`, `${t('SIDEBAR.lable3')}`, `${t('SIDEBAR.lable5')}`, `${t('SIDEBAR.lable8')}`, `${t('SIDEBAR.lable9')}`].includes(item.label));
     }
     return []; // Default case
   };
@@ -217,16 +221,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </div>
           </div>
           <div className="">
-            <li className="border-b pb-6 border-[#344054]">
               <Link
                 href="/settings"
-                className={` group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 mx-3`}
+                className={` group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark mx-3`}
               >
                 <IoSettingsOutline className={``} />
-                Settings
+                {t('SIDEBAR.lable10')}
 
               </Link>
-            </li>
 
             <div className="flex items-center   mx-3 my-2 py-2">
               <Link className=" inline-block" href="/settings">

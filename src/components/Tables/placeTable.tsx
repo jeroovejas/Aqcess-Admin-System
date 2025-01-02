@@ -202,7 +202,7 @@ const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                 className="text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 ms-0 flex h-8 items-center justify-center rounded-s-lg border border-e-0 bg-white px-3 font-bold leading-tight text-black dark:hover:text-white"
               >
                 <FaArrowLeft className="mr-1" />
-                Previous
+                {t('COMMON.previous')}
               </button>
             </li>
             {getPageNumbers().map((page, index) => (
@@ -227,7 +227,7 @@ const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                 disabled={currentPage === totalPages}
                 className="text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 flex h-8 items-center justify-center rounded-e-lg border bg-white px-3 font-bold leading-tight text-black dark:hover:text-white"
               >
-                Next
+                {t('COMMON.next')}
                 <FaArrowRight className="ml-1" />
               </button>
             </li>

@@ -110,50 +110,6 @@ const Login: React.FC = () => {
                 width={150}
               />
             </Link>
-            <div className="relative inline-block text-left">
-              {/* Flag Button with the selected language */}
-              <button
-                onClick={toggleDropdown}
-                className="inline-flex items-center font-medium space-x-2 bg-gray-200 text-gray-800 p-2 rounded-md"
-              >
-                {/* English/Selected Flag Icon in Circle */}
-                <img
-                  src={selectedLanguage === "English" ? "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" : "https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg"}
-                  alt={selectedLanguage}
-                  className="w-6 h-6 object-cover rounded-full mr-2"
-                />
-                <span>{selectedLanguage}</span>
-              </button>
-              {/* Dropdown Menu */}
-              {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
-                  <ul className="py-1">
-                    <li
-                      onClick={() => handleLanguageChange("Spanish")}
-                      className="flex items-center px-4 py-2 text-black font-medium hover:bg-gray-100 cursor-pointer"
-                    >
-                      <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg"
-                        alt="Spanish"
-                        className="w-6 h-6 rounded-full mr-2"
-                      />
-                      Spanish
-                    </li>
-                    <li
-                      onClick={() => handleLanguageChange("English")}
-                      className="flex items-center px-4 py-2 text-black font-medium hover:bg-gray-100 cursor-pointer"
-                    >
-                      <img
-                        src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
-                        alt="English"
-                        className="w-6 h-6 object-cover rounded-full mr-2"
-                      />
-                      English
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
           </div>
         </div>
         <div className="w-full flex justify-center px-10">

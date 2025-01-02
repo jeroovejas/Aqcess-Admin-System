@@ -9,8 +9,12 @@ import { toggleEditProduct, setProductData, toggleStatusModal, toggleDuplicateMo
 import { getAllProducts } from "@/lib/api/product";
 import { showErrorToast } from "@/lib/toastUtil";
 import { toTitleCase } from "@/lib/common.modules";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
+      const t = useTranslations();
+    
     const limit = 10;
     const PAGE_RANGE = 5;
     const dispatch = useAppDispatch()
@@ -95,7 +99,7 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
 
         <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
             <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-                Your products
+            {t('PRODUCT.table.title')}
             </h4>
             {loading ? (
                 <Loader />
@@ -105,16 +109,16 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
-                                    Product
+                                {t('PRODUCT.table.column1')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Description
+                                {t('PRODUCT.table.column2')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Price
+                                {t('PRODUCT.table.column3')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Status
+                                {t('PRODUCT.table.column4')}
                                 </th>
                                 <th>
 

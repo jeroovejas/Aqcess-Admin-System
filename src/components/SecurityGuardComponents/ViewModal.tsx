@@ -6,7 +6,7 @@ import { PiGreaterThan } from "react-icons/pi";
 import { useLocale, useTranslations } from 'next-intl';
 
 const ViewModal: React.FC<any> = () => {
-      const t = useTranslations();
+      const t = useTranslations(); 
     
     const viewModal = useAppSelector((state) => state.securityGuard.viewModal)
     const securityGuard = useAppSelector((state) => state.securityGuard.securityGuardData)
@@ -50,34 +50,34 @@ const ViewModal: React.FC<any> = () => {
                             <div className="w-full my-6 ">
 
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Name</p>
+                                    <p className='font-bold w-1/3'>{t('SECURITY.viewModal.lable1')}</p>
                                     <p className='font-medium w-2/3'>{securityGuard.firstName} {securityGuard.lastName}</p>
 
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Adress</p>
+                                    <p className='font-bold w-1/3'>{t('SECURITY.viewModal.lable2')}</p>
                                     <p className='font-medium w-2/3'>{securityGuard.securityGuard.address}</p>
 
                                 </div>
                                 <div className="flex py-6 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Email</p>
+                                    <p className='font-bold w-1/3'>{t('SECURITY.viewModal.lable3')}</p>
                                     <div className="flex justify-between w-2/3  pe-4">
                                         <p className='font-medium'>{securityGuard.email}</p>
                                         <p className='cursor-pointer'><FaRegCopy onClick={() => handleCopy(securityGuard.email)} size={25} /></p>
                                     </div>
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Phone</p>
+                                    <p className='font-bold w-1/3'>{t('SECURITY.viewModal.lable4')}</p>
                                     <p className='font-medium w-2/3'>{securityGuard.phoneNumber}</p>
 
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>Last Visit</p>
+                                    <p className='font-bold w-1/3'>{t('SECURITY.viewModal.lable5')}</p>
                                     <p className='font-medium w-2/3'>{securityGuard.lastLoggedIn}</p>
 
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <div className='font-bold w-1/3'>Internal Notes</div>
+                                    <div className='font-bold w-1/3'>{t('SECURITY.viewModal.lable6')}</div>
                                     <div className='font-medium w-2/3 '>{truncateText(securityGuard.securityGuard.internalNotes, 100)}</div>
 
                                 </div>
@@ -91,14 +91,14 @@ const ViewModal: React.FC<any> = () => {
                                     type="button"
                                     onClick={() => dispatch(toggleViewModal())}
                                 >
-                                    Send Message
+                                    {t('SECURITY.viewModal.button1')}
                                 </button>
                                 <button
                                     className=" border rounded-lg border-[#DDDDDD]  background-transparent font-medium  px-6 text-sm py-3  outline-none  ml-2 mb-1"
                                     type="button"
                                     onClick={viewEdit}
                                 >
-                                    Edit
+                                    {t('SECURITY.viewModal.button2')}
                                 </button>
                             </div>
 

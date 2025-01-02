@@ -15,8 +15,10 @@ import { toTitleCase } from "@/lib/common.modules";
 import DeleteArea from "@/components/AreasComponents/DeleteArea";
 import StatusModal from "@/components/AreasComponents/StatusModal";
 import EditArea from "@/components/AreasComponents/EditArea";
+import { useLocale, useTranslations } from 'next-intl';
 
 const ViewDetails = () => {
+        const t = useTranslations();
     const areaData = useAppSelector((state) => state.area.areaData)
     const [area, setArea] = useState<any>({});
     const [loading, setLoading] = useState(true);
@@ -83,7 +85,7 @@ const ViewDetails = () => {
                 <DefaultLayout >
                     <div className="flex justify-between">
                         <div>
-                            <p className="text-[14px] font-[600] text-black my-2">Common Area / <span className="text-body">Details</span></p>
+                            <p className="text-[14px] font-[600] text-black my-2">{t('AREA.viewModal.title')} / <span className="text-body">Details</span></p>
                             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                 <h2 className="text-title-md2 font-semibold text-black dark:text-white">
                                     {area.title}
@@ -92,22 +94,22 @@ const ViewDetails = () => {
                         </div>
                         <div>
                             <button onClick={() => dispatch(toggleViewModal())} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                                Back
+                            {t('AREA.viewModal.back')}
                             </button>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 mb-5">
-                        <CardDataStats title="Active Bookings" total={`${area.areaStats.totalActiveBookings}`} rate="">
+                        <CardDataStats title={t('AREA.card1')} total={`${area.areaStats.totalActiveBookings}`} rate="">
                         </CardDataStats>
-                        <CardDataStats title="Unique Bookers" total={`${area.areaStats.uniqueBookers}`} rate="">
+                        <CardDataStats title={t('AREA.card2')} total={`${area.areaStats.uniqueBookers}`} rate="">
                         </CardDataStats>
-                        <CardDataStats title="Booked for next day" total={`${area.areaStats.percentageBookedForNextDay}%`} rate="">
+                        <CardDataStats title={t('AREA.card3')} total={`${area.areaStats.percentageBookedForNextDay}%`} rate="">
                         </CardDataStats>
-                        <CardDataStats title="Booked for next 7 day" total={`${area.areaStats.percentageBookedForNext7Days}%`} rate="">
+                        <CardDataStats title={t('AREA.card4')} total={`${area.areaStats.percentageBookedForNext7Days}%`} rate="">
                         </CardDataStats>
                     </div>
-                    <div className="flex  flex-wrap mt-7">
-                        <div className="w-2/6 pe-3">
+                    <div className="flex flex-wrap md:flex-nowrap mt-7">
+                        <div className="md:w-2/6 md:pe-3">
                             <div className="w-full bg-white border border-stroke rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                 <div className="w-full h-[250px]">
                                     <img className="rounded-t-lg w-full h-full object-cover" src={area.imageUrl} alt="Area Image" />
@@ -118,18 +120,18 @@ const ViewDetails = () => {
                                     </span>
                                     <p className="my-3 font-normal text-gray-700 dark:text-gray-400">{area.description}</p>
                                     <button onClick={handleEdit} type="button" className="w-full font-[600]   border rounded-lg border-[#DDDDDD]  background-transparent    px-6 py-3  inline-flex items-center justify-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
-                                        <CiEdit className="mr-2  text-2xl" />Edit
+                                        <CiEdit className="mr-2  text-2xl" />{t('AREA.viewModal.button1')}
                                     </button>
                                     <button onClick={handleChangeStatus} type="button" className="w-full font-[600]   border rounded-lg border-[#DDDDDD]  background-transparent    px-6 py-3  inline-flex items-center justify-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
-                                        <GrHide className="mr-2  text-2xl" />{area.status === 'hidden' ? "Available" : "Hide"}
+                                        <GrHide className="mr-2  text-2xl" />{area.status === 'hidden' ? `{t('AREA.viewModal.button2')}` : `${t('AREA.viewModal.button3')}`}
                                     </button>
                                     <button onClick={handleDelete} type="button" className="w-full font-[600]   border rounded-lg border-[#DDDDDD]  background-transparent    px-6 py-3  inline-flex items-center justify-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
-                                        <RiDeleteBin6Line className="mr-2  text-2xl" />Delete
+                                        <RiDeleteBin6Line className="mr-2  text-2xl" />{t('AREA.viewModal.button4')}
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div className="w-4/6 ps-3">
+                        <div className="md:w-4/6 md:ps-3">
                             {/*<div className="flex w-full">
                                 <div className="relative w-full">
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -151,17 +153,17 @@ const ViewDetails = () => {
                                             <h4 className="font-[600] text-[18px] text-black my-2">{booking.date}</h4>
                                             {booking.bookings && Array.isArray(booking.bookings) && booking.bookings.map((bookingItem: any, index: number) => (
                                                 <div
-                                                    className={`flex justify-between items-center p-4 ${index < booking.bookings.length - 1 ? 'border-b border-[#E4E7EC]' : ''}`}
+                                                    className={`flex justify-between items-center p-1 md:p-4 ${index < booking.bookings.length - 1 ? 'border-b border-[#E4E7EC]' : ''}`}
                                                     key={index}
                                                 >
-                                                    <p className="text-black text-[14px] font-[600]">
+                                                    <p className="text-black mx-1 text-[14px] font-[600]">
                                                         {bookingItem.firstName} {bookingItem.lastName}
                                                     </p>
-                                                    <p className="text-black text-[14px] font-[600]">
+                                                    <p className="text-black mx-1 text-[14px] font-[600]">
                                                         {bookingItem.bookingTime} - {bookingItem.endTime}
                                                     </p>
-                                                    <p className="text-[14px] font-[500]">{bookingItem.duration}</p>
-                                                    <div>
+                                                    <p className="text-[14px] mx-1 font-[500]">{bookingItem.duration}</p>
+                                                    <div className="mx-1">
                                                         <button onClick={() => handleBookingDelete(bookingItem.id)}>
                                                             <RiDeleteBin6Line className="text-2xl" />
                                                         </button>

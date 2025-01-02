@@ -3,6 +3,8 @@ import { toggleEditModal, toggleSaveModal, toggleDeleteModal, setResidentData } 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
+import { useLocale, useTranslations } from 'next-intl';
+
 
 interface FormData {
     resident_id: number,
@@ -20,9 +22,11 @@ interface FormData {
         plates: string;
     }[];
 }
-
+ 
 const EditModal: React.FC<any> = () => {
-    const STATUS_OPTIONS = ['active', 'deactivated'];
+      const t = useTranslations();
+    
+    const STATUS_OPTIONS = [`${t('COMMON.status')}`, `${t('COMMON.status2')}`];
     const editModal = useAppSelector((state) => state.resident.editModal);
     const resident = useAppSelector((state) => state.resident.residentData);
     const dispatch = useAppDispatch();
@@ -170,13 +174,13 @@ const EditModal: React.FC<any> = () => {
                 <>
                     <div className='border-0 absolute top-0 right-0 z-999 bg-white text-black w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar outline-none focus:outline-none px-8 py-8'>
                         <div className="flex justify-between items-center mt-8">
-                            <h3 className="text-3xl font-semibold">Edit Resident</h3>
+                            <h3 className="text-3xl font-semibold">{t('RESIDENT.button3Modal.editTitle')}</h3>
                             <button className="bg-transparent border-0 text-[20px] font-bold text-black" onClick={() => dispatch(toggleEditModal())}>x</button>
                         </div>
                         <form onSubmit={saveChanges}>
                             <div className="w-full my-6">
                                 <div className="relative">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-state">Status</label>
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-state">{t('COMMON.type')}</label>
                                     <select value={formData.status} name="status" onChange={handleChange} className="block appearance-none w-full rounded-xl border border-[#DDDDDD] text-black py-3 px-4 pr-8 focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                         {STATUS_OPTIONS.map(option => (
                                             <option key={option} value={option}>{capitalizeFirstLetter(option)}</option>
@@ -188,39 +192,39 @@ const EditModal: React.FC<any> = () => {
                                 </div>
                                 <div className="flex gap-2 mt-4">
                                     <div className="w-1/2">
-                                        <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-first-name">First Name</label>
-                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="First Name" name="first_name" value={formData.first_name} onChange={handleChange} required />
+                                        <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-first-name">{t('RESIDENT.button3Modal.lable1')}</label>
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="First Name" name={t('RESIDENT.button3Modal.lable1')} value={formData.first_name} onChange={handleChange} required />
                                     </div>
                                     <div className="w-1/2">
-                                        <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-last-name">Last Name</label>
-                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Last Name" name="last_name" value={formData.last_name} onChange={handleChange} required />
+                                        <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-last-name">{t('RESIDENT.button3Modal.lable2')}</label>
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Last Name" name={t('RESIDENT.button3Modal.lable2')}value={formData.last_name} onChange={handleChange} required />
                                     </div>
                                 </div>
                                 <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-address">Address</label>
-                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-address">{t('RESIDENT.button3Modal.lable3')}</label>
+                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder={t('RESIDENT.button3Modal.lable3')} value={formData.address} onChange={handleChange} required />
                                 </div>
                                 <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-address">Phone Number</label>
-                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder="Phone Number" value={resident.phoneNumber} readOnly />
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-address">{t('RESIDENT.button3Modal.lable4')}</label>
+                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder={t('RESIDENT.button3Modal.lable4')} value={resident.phoneNumber} readOnly />
                                 </div>
                                 <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-email">Email</label>
-                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-email">{t('RESIDENT.button3Modal.lable5')}</label>
+                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="email" name="email" placeholder={t('RESIDENT.button3Modal.lable5')} value={formData.email} onChange={handleChange} required />
                                 </div>
                                 <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-password">Pin</label>
-                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="password" type="password" placeholder="Pin" value={formData.password} onChange={handleChange} />
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-password">{t('RESIDENT.button3Modal.lable6')}</label>
+                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="password" type="password" placeholder={t('RESIDENT.button3Modal.lable6')} value={formData.password} onChange={handleChange} />
                                 </div>
                                 {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>}
                                 <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-notes">Internal Notes</label>
-                                    <textarea className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="internal_notes" placeholder="Add notes about resident" value={formData.internal_notes} onChange={handleChange} rows={5} />
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-notes">{t('RESIDENT.button3Modal.lable7')}</label>
+                                    <textarea className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="internal_notes" placeholder={t('RESIDENT.button3Modal.lable8')}value={formData.internal_notes} onChange={handleChange} rows={5} />
                                 </div>
                                 {formData.pets.length > 0 && formData.pets.map((pet, petIndex) => (
                                     <div key={petIndex} className="w-full mb-4">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}`}>
-                                            Pet {petIndex + 1}
+                                        {t('RESIDENT.button3Modal.title9')} {petIndex + 1}
                                         </label>
                                         <div className="flex justify-between gap-x-4">
                                             <input
@@ -228,7 +232,7 @@ const EditModal: React.FC<any> = () => {
                                                 onChange={(e) => handlePetChange(petIndex, e)}
                                                 className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                 type="text"
-                                                placeholder="Enter pet name"
+                                                placeholder={t('RESIDENT.button3Modal.lable9')}
                                                 required
                                             />
                                             <button type="button" onClick={() => removePet(petIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4  text-center inline-flex items-center  mb-3">
@@ -242,7 +246,7 @@ const EditModal: React.FC<any> = () => {
                                     <div key={vehicleIndex} className="mb-8">
                                         <div className="w-full">
                                             <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-make`}>
-                                                Vehicle Make
+                                            {t('RESIDENT.button3Modal.title10')}
                                             </label>
                                             <input
                                                 name="make"
@@ -250,13 +254,13 @@ const EditModal: React.FC<any> = () => {
                                                 onChange={(e) => handleVehicleChange(vehicleIndex, e)}
                                                 className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                 type="text"
-                                                placeholder="Enter vehicle make"
+                                                placeholder={t('RESIDENT.button3Modal.lable10')}
                                                 required
                                             />
                                         </div>
                                         <div className="w-full">
                                             <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-color`}>
-                                                Vehicle Color
+                                            {t('RESIDENT.button3Modal.title11')}
                                             </label>
                                             <input
                                                 name="color"
@@ -264,7 +268,7 @@ const EditModal: React.FC<any> = () => {
                                                 onChange={(e) => handleVehicleChange(vehicleIndex, e)}
                                                 className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                 type="text"
-                                                placeholder="Enter vehicle color"
+                                                placeholder={t('RESIDENT.button3Modal.lable11')}
                                                 required
                                             />
                                         </div>
@@ -273,7 +277,7 @@ const EditModal: React.FC<any> = () => {
 
                                             <div className="w-full">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-plates`}>
-                                                    Vehicle Plates
+                                                {t('RESIDENT.button3Modal.title12')}
                                                 </label>
                                                 <div className="flex justify-between gap-x-4">
                                                     <input
@@ -282,12 +286,12 @@ const EditModal: React.FC<any> = () => {
                                                         onChange={(e) => handleVehicleChange(vehicleIndex, e)}
                                                         className="appearance-none block w-4/6 bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                         type="text"
-                                                        placeholder="Enter vehicle plates"
+                                                        placeholder={t('RESIDENT.button3Modal.lable12')}
                                                         required
                                                     />
 
                                                     <button type="button" onClick={() => handleRemoveVehicle(vehicleIndex)} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 text-sm outline-none mb-3 ">
-                                                        <RiDeleteBin6Line className="mr-2" /> Delete Vehicle
+                                                        <RiDeleteBin6Line className="mr-2" /> {t('RESIDENT.button3Modal.delButton')}
                                                     </button>
 
                                                 </div>
@@ -299,20 +303,20 @@ const EditModal: React.FC<any> = () => {
                             </div>
                             <div className="flex justify-between items-center">
                                 <button type="button" onClick={handleAddVehicle} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1">
-                                    <IoMdAdd className="mr-2" /> Add Vehicle
+                                    <IoMdAdd className="mr-2" /> {t('RESIDENT.button3Modal.addButton')}
                                 </button>
                                 <button type="button" onClick={addPet} className=" border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1">
-                                    <IoMdAdd className="mr-2" /> Add Pet
+                                    <IoMdAdd className="mr-2" /> {t('RESIDENT.button3Modal.addButton2')}
                                 </button>
                             </div>
                             <div className="flex items-center mt-4 justify-between">
                                 <div>
-                                    <button className="text-white rounded-lg bg-primary-blue font-medium  text-sm px-4 py-2.5  outline-none  mr-1 mb-1" type="submit" >Save Changes</button>
+                                    <button className="text-white rounded-lg bg-primary-blue font-medium  text-sm px-4 py-2.5  outline-none  mr-1 mb-1" type="submit" >{t('RESIDENT.button3Modal.button2')}</button>
 
-                                    <button className="border rounded-lg border-[#DDDDDD] bg-transparent font-medium  px-4 py-2.5 text-sm outline-none  ml-1 mb-1" type="button" onClick={() => dispatch(toggleEditModal())}>Cancel</button>
+                                    <button className="border rounded-lg border-[#DDDDDD] bg-transparent font-medium  px-4 py-2.5 text-sm outline-none  ml-1 mb-1" type="button" onClick={() => dispatch(toggleEditModal())}>{t('RESIDENT.button3Modal.button1')}</button>
                                 </div>
                                 <button type="button" onClick={deleteResident} className="text-gray-900 bg-white border rounded-lg border-[#DDDDDD] font-medium text-sm px-4 py-2.5 mb-2 flex items-center">
-                                    <RiDeleteBin6Line className="mr-2" />Delete Resident
+                                    <RiDeleteBin6Line className="mr-2" />{t('RESIDENT.button3Modal.button3')}
                                 </button>
                             </div>
                         </form>
