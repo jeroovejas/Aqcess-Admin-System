@@ -73,7 +73,7 @@ const DeleteModal: React.FC<any> = () => {
                                         disabled={loading}
                                         onClick={handleDelete}
                                     >
-                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `{t('RESIDENT.deleteModal.button2')}`}
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('RESIDENT.deleteModal.button2')}`}
 
                                     </button>
                                 </div>

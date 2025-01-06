@@ -109,7 +109,7 @@ const ViewDetails = () => {
                         </CardDataStats>
                     </div>
                     <div className="flex flex-wrap md:flex-nowrap mt-7">
-                        <div className="md:w-2/6 md:pe-3">
+                        <div className="md:w-2/6 w-full md:pe-3">
                             <div className="w-full bg-white border border-stroke rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                 <div className="w-full h-[250px]">
                                     <img className="rounded-t-lg w-full h-full object-cover" src={area.imageUrl} alt="Area Image" />
@@ -122,8 +122,8 @@ const ViewDetails = () => {
                                     <button onClick={handleEdit} type="button" className="w-full font-[600]   border rounded-lg border-[#DDDDDD]  background-transparent    px-6 py-3  inline-flex items-center justify-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
                                         <CiEdit className="mr-2  text-2xl" />{t('AREA.viewModal.button1')}
                                     </button>
-                                    <button onClick={handleChangeStatus} type="button" className="w-full font-[600]   border rounded-lg border-[#DDDDDD]  background-transparent    px-6 py-3  inline-flex items-center justify-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
-                                        <GrHide className="mr-2  text-2xl" />{area.status === 'hidden' ? `{t('AREA.viewModal.button2')}` : `${t('AREA.viewModal.button3')}`}
+                                    <button onClick={handleChangeStatus} type="button" className="w-full font-[600]   border rounded-lg border-[#DDDDDD]  background-transparent   px-6 py-3  inline-flex items-center justify-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
+                                        <GrHide className="mr-2  text-2xl" />{area.status === 'hidden' ? `${t('AREA.viewModal.button3')}` : `${t('AREA.viewModal.button2')}`}
                                     </button>
                                     <button onClick={handleDelete} type="button" className="w-full font-[600]   border rounded-lg border-[#DDDDDD]  background-transparent    px-6 py-3  inline-flex items-center justify-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">
                                         <RiDeleteBin6Line className="mr-2  text-2xl" />{t('AREA.viewModal.button4')}
@@ -131,7 +131,7 @@ const ViewDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="md:w-4/6 md:ps-3">
+                        <div className="md:w-4/6 w-full md:ps-3">
                             {/*<div className="flex w-full">
                                 <div className="relative w-full">
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -145,11 +145,11 @@ const ViewDetails = () => {
                             {
                                 area.bookings.length === 0
                                     ?
-                                    <div className="w-full bg-white my-6 border border-stroke rounded-lg p-4">
+                                    <div className="w-full bg-white mb-6 border border-stroke rounded-lg p-4">
                                         <p className="text-center">No Booking Found</p>
                                     </div> :
                                     area.bookings.map((booking: any) => (
-                                        <div className="w-full bg-white my-6 border border-stroke rounded-lg p-4" key={booking.date}>
+                                        <div className="w-full bg-white my-6 md:my-0 md:mb-6 border border-stroke rounded-lg p-4" key={booking.date}>
                                             <h4 className="font-[600] text-[18px] text-black my-2">{booking.date}</h4>
                                             {booking.bookings && Array.isArray(booking.bookings) && booking.bookings.map((bookingItem: any, index: number) => (
                                                 <div
