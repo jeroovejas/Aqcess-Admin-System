@@ -95,7 +95,6 @@ const ViewSurvey: React.FC<any> = () => {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-
                         <CardDataStats title={t('SURVEY.card1')} total={surveyData.surveyResponses} rate="">
                         </CardDataStats>
                         <CardDataStats title={t('SURVEY.card2')} total={`${surveyData.responseRate}%`} rate="">
@@ -103,9 +102,6 @@ const ViewSurvey: React.FC<any> = () => {
                         <CardDataStats title={t('SURVEY.card3')} total={surveyData.deadline.split(' ')[0]} rate="">
                         </CardDataStats>
                     </div>
-
-
-
                     <div className="mb-4 flex justify-between">
                         <div>
                             <div className="relative">
@@ -254,9 +250,6 @@ const ViewSurvey: React.FC<any> = () => {
                             )
                         )
                     }
-
-
-
                     < div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white mt-[22px] py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
                         <div className="flex justify-between">
                             <h4 className=" pb-4 text-xl  font-semibold text-black dark:text-white">
@@ -268,8 +261,6 @@ const ViewSurvey: React.FC<any> = () => {
                         </div>
                         <div className="  py-3 border-t border-[#DDDDDD]">
                             {surveyData.feedbackArray.map((feedback: any, key: any) => {
-
-
                                 return <div key={key} className="flex  gap-3 my-4">
                                     {feedback.profileImage !== null ?
                                         <div className="flex-shrink-0">
@@ -287,14 +278,10 @@ const ViewSurvey: React.FC<any> = () => {
 
                         </div>
                     </div>
-
                     {(exportModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
                     </div>}
                     <ExportModal />
-
                 </DefaultLayout >
-
-
             ) : null}:
         </>
     );
