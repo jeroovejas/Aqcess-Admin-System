@@ -11,7 +11,7 @@ import Loader from "../common/Loader";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 import { toTitleCase } from "@/lib/common.modules";
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 
 const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
@@ -97,7 +97,7 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold   text-black dark:text-white">
-        Society Admin Details
+      {t('USERMANAGEMENT.table.title')}
       </h4>
       {loading ? (
         <Loader />
@@ -107,20 +107,20 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Admin name
+                {t('USERMANAGEMENT.table.col1')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Admin Email
+                {t('USERMANAGEMENT.table.col2')}
                 </th>
                 <th scope="col" className="px-6 py-3 flex items-center space-x-2">
-                  Admin Status
+                {t('USERMANAGEMENT.table.col3')}
                   {/* <FaArrowDown className="ml-2 mt-1" /> */}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Last Logged In
+                {t('USERMANAGEMENT.table.col4')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Login Type
+                {t('USERMANAGEMENT.table.col5')}
                 </th>
                 <th>
                 </th>
@@ -130,7 +130,7 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
               {admins.length === 0 ? (
                 <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
                   <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
-                    No Data Found
+                  {t('COMMON.noDataText')}
                   </td>
                 </tr>
               ) : (
@@ -169,10 +169,10 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                     <td className=" relative px-6 group whitespace-nowrap">
                       <BsThreeDotsVertical className="text-black " />
                       <ul className="absolute z-500 bottom-0 mb-0 w-[150px] right-2 text-[14px]  bg-white hidden group-hover:block  text-black border border-gray ">
-                        <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleView(admin)}>View </li>
+                        <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleView(admin)}> {t('COMMON.lable12')}</li>
                         {/* <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleDelete(admin)}>Delete</li> */}
                         <li onClick={() => handleStatusChange(admin)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                          {admin.status === 'active' ? 'Deactivate' : 'Activate'}
+                          {admin.status === 'active' ? `${t('COMMON.lable11')}` : `${t('COMMON.lable13')}`}
                         </li>
                       </ul>
                     </td>

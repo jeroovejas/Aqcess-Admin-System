@@ -10,8 +10,10 @@ import Loader from "@/components/common/Loader";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 import { getSocietyAdminDetails } from "@/lib/api/userManagement";
+import { useTranslations } from 'next-intl';
 
 const ViewAdmin = () => {
+    const t = useTranslations();
     const token = useAppSelector((state) => state.auth.token)
     const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
     const [verified, setVerified] = useState(false);
@@ -66,14 +68,14 @@ const ViewAdmin = () => {
                     <DefaultLayout>
                         <div className="mb-6 flex flex-wrap justify-between mx-4">
                             <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                                Admin Details
+                            {t('USERMANAGEMENT.viewPage.title')}
                             </h2>
 
                             <div className="">
                                 <Link
                                     href="/user-management" type="button"
                                     className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                                    Back
+                                    {t('USERMANAGEMENT.viewPage.backButton')}
                                 </Link>
                             </div>
                         </div>
@@ -86,21 +88,21 @@ const ViewAdmin = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="bg-gray-2 p-6 rounded-sm shadow-sm">
                                             <ul className="list-disc pl-5 space-y-3">
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Name:</span> {adminData.firstName} {adminData.lastName}</li>
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Email:</span> {adminData.email}</li>
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Role:</span> {adminData.role}</li>
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Residents Count:</span> {residentCount}</li>
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Last Login:</span> {adminData.lastLoggedIn}</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label1')}:</span> {adminData.firstName} {adminData.lastName}</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label2')}:</span> {adminData.email}</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label3')}:</span> {adminData.role}</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label4')}:</span> {residentCount}</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label5')}:</span> {adminData.lastLoggedIn}</li>
                                             </ul>
                                         </div>
 
                                         <div className="bg-gray-2 p-6 rounded-sm shadow-sm">
                                             <ul className="list-disc pl-5 space-y-3">
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Login Type:</span> {adminData.loginType}</li>
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Status:</span> {adminData.status}</li>
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Subscription Plan:</span> Basic</li>
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">Start Date:</span>16-09-2024 02:45</li>
-                                                <li className="text-black"><span className="text-sm text-black font-semibold">End Date:</span> 16-09-2026 02:45</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label6')}:</span> {adminData.loginType}</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label7')}:</span> {adminData.status}</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label8')}:</span> Basic</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label9')}:</span>16-09-2024 02:45</li>
+                                                <li className="text-black"><span className="text-sm text-black font-semibold">{t('USERMANAGEMENT.viewPage.label10')}:</span> 16-09-2026 02:45</li>
                                             </ul>
                                         </div>
                                     </div>

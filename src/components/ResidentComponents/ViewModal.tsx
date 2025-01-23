@@ -6,8 +6,8 @@ import { PiGreaterThan } from "react-icons/pi";
 import { useLocale, useTranslations } from 'next-intl';
 
 const ViewModal: React.FC<any> = () => {
-      const t = useTranslations();
-    
+    const t = useTranslations();
+
     const viewModal = useAppSelector((state) => state.resident.viewModal)
     const resident = useAppSelector((state) => state.resident.residentData)
     const dispatch = useAppDispatch()
@@ -23,7 +23,7 @@ const ViewModal: React.FC<any> = () => {
         if (text.length > maxLength) {
             return text.substring(0, maxLength) + '...';
         }
-        return text; 
+        return text;
     };
 
     const handleCopy = (text: any) => {
@@ -77,6 +77,11 @@ const ViewModal: React.FC<any> = () => {
                                         <p className='cursor-pointer'><FaRegCopy onClick={() => handleCopy(12345678)} size={25} /></p>
                                     </div>
                                 </div> */}
+                                <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                    <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable8')}</p>
+                                    <p className='font-medium w-2/3'>{resident.resident.propertyNumber}</p>
+
+                                </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                     <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable4')}</p>
                                     <p className='font-medium w-2/3'>{resident.phoneNumber}</p>

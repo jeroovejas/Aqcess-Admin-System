@@ -8,8 +8,10 @@ import { assignPlace } from "@/lib/api/place";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Select from 'react-select';
 import { getAllSocietyAdminsIdAndName } from "@/lib/api/userManagement";
+import { useTranslations } from 'next-intl';
 
 const AssignModal: React.FC<any> = () => {
+    const t = useTranslations();
     const [loading, setLoading] = useState<boolean>(false);
     const assignModal = useAppSelector((state) => state.place.assignModal);
     const placeData = useAppSelector((state) => state.place.placeData);
@@ -35,7 +37,7 @@ const AssignModal: React.FC<any> = () => {
             setSelectedUsers(assignedUsers);
         }
     }, [placeData?.assignPlace]);
-    
+
     const handleUserChange = (selectedStateOptions: any) => {
         setSelectedUsers(selectedStateOptions);
     };
@@ -66,23 +68,23 @@ const AssignModal: React.FC<any> = () => {
 
     useEffect(() => {
         fetchRSocietyAdmins();
-      }, [])
-    
-    
-      const fetchRSocietyAdmins = async () => {
+    }, [])
+
+
+    const fetchRSocietyAdmins = async () => {
         try {
-            let params = { token: token}
-          const response = await getAllSocietyAdminsIdAndName(params);
-          if (response.success) {
-            console.log(response);
-            setAdmins(response.data.data);
-          } else {
-            showErrorToast(response.data.message)
-          }
+            let params = { token: token }
+            const response = await getAllSocietyAdminsIdAndName(params);
+            if (response.success) {
+                console.log(response);
+                setAdmins(response.data.data);
+            } else {
+                showErrorToast(response.data.message)
+            }
         } catch (err: any) {
-          console.error('Unexpected error during Society Admins Fetch:', err.message);
+            console.error('Unexpected error during Society Admins Fetch:', err.message);
         }
-      }
+    }
 
     return (
         <>
@@ -91,7 +93,7 @@ const AssignModal: React.FC<any> = () => {
                     <div className="relative w-auto my-6 max-w-3xl">
                         <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none px-8 py-8">
                             <IoDuplicate size={30} className="mb-6" />
-                            <h3 className="text-3xl font-semibold mt-8">Assign Place to Users</h3>
+                            <h3 className="text-3xl font-semibold mt-8">{t('PLACE.assignModal.title')}</h3>
 
                             <div className="my-5">
                                 <Select
@@ -121,7 +123,7 @@ const AssignModal: React.FC<any> = () => {
                                     type="button"
                                     onClick={() => dispatch(toggleAssignModal())}
                                 >
-                                    Cancel
+                                    {t('PLACE.assignModal.button1')}
                                 </button>
                                 <button
                                     className={`text-white w-1/2 flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-bold text-sm px-6 py-3 outline-none mr-1 mb-1`}
@@ -129,7 +131,7 @@ const AssignModal: React.FC<any> = () => {
                                     disabled={loading}
                                     onClick={handleAssign}
                                 >
-                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Assign"}
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('PLACE.assignModal.button2')}`}
                                 </button>
                             </div>
                         </div>

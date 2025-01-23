@@ -16,8 +16,10 @@ import Loader from "@/components/common/Loader";
 import { toggleIsTokenValid, setUserData } from "@/store/Slices/AuthSlice";
 import { verifyToken } from "@/lib/api/auth";
 import { showSuccessToast } from "@/lib/toastUtil";
+import { useTranslations } from 'next-intl';
 
 const UserManagement = () => {
+    const t = useTranslations();
     const router = useRouter();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
@@ -120,7 +122,7 @@ const UserManagement = () => {
                     <DefaultLayout>
                         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <h2 className="text-title-md2 font-bold text-black dark:text-white">
-                                User Management
+                                {t('USERMANAGEMENT.main.title')}
                             </h2>
                         </div>
                         <div className="mb-4 flex flex-wrap justify-between">
@@ -136,7 +138,7 @@ const UserManagement = () => {
                                         value={searchTerm}
                                         id="default-search"
                                         className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none"
-                                        placeholder="Search by society admin name"
+                                        placeholder={t('USERMANAGEMENT.main.searchTitle')}
                                         required
                                     />
                                 </div>
@@ -147,7 +149,7 @@ const UserManagement = () => {
                                         className=" text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center justify-center "
                                     >
                                         <IoFilterSharp className="mr-2" />
-                                        Filters
+                                        {t('COMMON.filter')}
                                     </button>
                                     <div className="w-full">
                                         <div className="relative inline-block">
@@ -163,7 +165,7 @@ const UserManagement = () => {
                                                                 type="button"
                                                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                                             >
-                                                                Status
+                                                                 {t('COMMON.type')}
                                                             </button>
                                                             <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
                                                                 <FaChevronRight size={15} />
@@ -189,7 +191,7 @@ const UserManagement = () => {
                                                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                                                 onClick={() => closeDropdown("")}
                                                             >
-                                                                All
+                                                                {t('COMMON.type2')}
                                                             </button>
                                                         </li>
                                                         <li>
@@ -198,7 +200,7 @@ const UserManagement = () => {
                                                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                                                 onClick={() => closeDropdown("active")}
                                                             >
-                                                                Active
+                                                                {t('COMMON.status')}
                                                             </button>
                                                         </li>
                                                         <li>
@@ -207,7 +209,7 @@ const UserManagement = () => {
                                                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                                                 onClick={() => closeDropdown("deactivated")}
                                                             >
-                                                                Deactivated
+                                                                {t('COMMON.status2')}
                                                             </button>
                                                         </li>
                                                     </ul>

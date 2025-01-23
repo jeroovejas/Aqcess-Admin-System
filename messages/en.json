@@ -87,22 +87,26 @@
             "lable6": "Pin",
             "lable7": "Internal Notes",
             "lable8": "Add notes about residents",
-            "title9": "Pet",
-            "lable9": "Enter pet name",
+            "title9": "Pet Type",
+            "lable9": "Select pet type",
             "title10": "Vehicle Make",
             "lable10": "Enter vehicle make",
             "title11": "Vehicle Color",
             "lable11": "Enter vehicle color",
             "title12": "Vehicle Plates",
             "lable12": "Enter vehicle plates",
+            "title13": "Pet Name",
+            "lable13": "Enter pet name",
+            "lable14": "Property Number",
             "delButton": "Delete Vehicle",
+            "delButtonPet": "Delete Pet",
             "button1": "Cancel",
             "button2": "Save Changes",
             "button3": "Delete Resident",
             "addButton": "Add Vehicle",
             "addButton2": "Add Pet"
         },
-        "deleteModal":{
+        "deleteModal": {
             "title": "Delete resident?",
             "lable": "Their account and all related information will be permanently deleted. If you want to temporarily restrict the resident access, deactivate their account instead.",
             "button1": "Cancel",
@@ -110,7 +114,7 @@
         },
         "status": "Active",
         "status2": "Deactivated",
-        "statusModal":{
+        "statusModal": {
             "status": "Activate",
             "status2": "Deactivate",
             "title": "resident",
@@ -118,7 +122,7 @@
             "button1": "No",
             "button2": "Yes"
         },
-        "viewModal":{
+        "viewModal": {
             "lable1": "Name",
             "lable2": "Address",
             "lable3": "Email",
@@ -126,10 +130,11 @@
             "lable5": "Last Visit",
             "lable6": "Internal Notes",
             "lable7": "Overdue Payments",
+            "lable8": "Property Number",
             "button1": "Send Message",
             "button2": "Edit"
         },
-        "changesModal":{
+        "changesModal": {
             "title": "Unsaved Changes",
             "lable": "Do you want to save or discard changes?",
             "button1": "Discard",
@@ -175,7 +180,7 @@
             "button2": "Save Changes",
             "button3": "Delete Security Guard"
         },
-        "deleteModal":{
+        "deleteModal": {
             "title": "Delete security guard?",
             "lable": "Their account and all related information will be permanently deleted. If you want to temporarily restrict the security guard access, deactivate their account instead.",
             "button1": "Cancel",
@@ -183,7 +188,7 @@
         },
         "status": "Active",
         "status2": "Deactivated",
-        "statusModal":{
+        "statusModal": {
             "status": "Activate",
             "status2": "Deactivate",
             "title": "security guard",
@@ -191,7 +196,7 @@
             "button1": "No",
             "button2": "Yes"
         },
-        "viewModal":{
+        "viewModal": {
             "lable1": "Name",
             "lable2": "Address",
             "lable3": "Email",
@@ -201,7 +206,7 @@
             "button1": "Send Message",
             "button2": "Edit"
         },
-        "changesModal":{
+        "changesModal": {
             "title": "Unsaved Changes",
             "lable": "Do you want to save or discard changes?",
             "button1": "Discard",
@@ -223,59 +228,45 @@
             "column4": "Responses",
             "column5": "Status"
         },
-
         "info": "Survey Details",
         "desc": "Add survey title and description. They will be visible to all participants.",
-
         "info2": "Questions",
         "desc2": "Add one or more questions, select their type, and define answer options.",
-
         "button1": "Add survey",
         "button1Modal": {
             "title": "Create new survey",
             "editTitle": "Edit survey",
             "status": "Status",
-
             "title1": "Survey Title",
             "lable1": "Enter survey title",
-    
             "title2": "Survey Description",
             "lable2": "Enter survey description",
-    
             "title3": "Deadline",
             "lable3": "Select date & time",
-    
             "title4": "Question ",
             "lable4": "Enter Question",
-    
             "title5": "Question Type ",
             "lable5": "Select question type",
-    
             "title6": "Option",
             "lable6": "Enter option",
-
             "addButton": "Add Option",
             "addButton2": "Add Question",
             "deleteButton": "Delete Question",
-
             "button1": "Back",
             "button2": "Save Draft",
             "button3": "Publish",
             "button4": "Response",
             "button5": "Save Changes"
         },
-
-        "duplicateModal":{
+        "duplicateModal": {
             "title": "Do you want to Duplicate Survey",
             "lable": "This will create an exact copy of same survey.",
             "button1": "No",
             "button2": "Yes"
         },
-
         "open": "Open",
         "reOpen": "Reopen",
-
-        "surveyOpenModal":{
+        "surveyOpenModal": {
             "status": "new",
             "status2": "draft",
             "title": "Open Survey",
@@ -286,23 +277,20 @@
             "button1": "Cancel",
             "button2": "Reopen Survey"
         },
-
-        "surveyCloseModal":{
+        "surveyCloseModal": {
             "title": "Do you want to close survey ?",
             "lable": "This Survey and its contents will not be visible to residents.",
             "button1": "Cancel",
             "button2": "Close Survey"
         },
-
-        "exportButton" : "Export List",
-        "exportModal":{
+        "exportButton": "Export List",
+        "exportModal": {
             "title": "Export survey response list",
             "lable": "Please select the format you would like to use for exporting.",
             "button1": "Cancel",
             "button2": "Export"
         },
-
-        "viewModal":{
+        "viewModal": {
             "title": "What would you like to improve?"
         },
         "filterButton": "Filter",
@@ -380,13 +368,13 @@
             "button2": "Publish",
             "button3": "Save as draft"
         },
-        "duplicateModal":{
+        "duplicateModal": {
             "title": "Do you want to Duplicate Product?",
             "lable": "This will create an exact copy of same product.",
             "button1": "No",
             "button2": "Yes"
         },
-        "deactiveModal":{
+        "deactiveModal": {
             "status": "Activate",
             "status2": "Deactivate",
             "title": "Do you want to",
@@ -410,33 +398,43 @@
             "column2": "Date And Time",
             "column3": "Occupacy",
             "column4": "Active Booking",
-            "column5": "Status"
+            "column5": "Status",
+            "column6": "Current Status"
         },
         "button1": "Add common area",
         "button1Modal": {
             "title": "Create Common Area",
+            "addTitle": "Create new",
+            "editTitle": "Edit",
             "status": "Status",
-            "lable1": "Common Area Name",
-            "lable2": "Common Area Description",
-            "lable3": "Occupancy",
-            "lable4": "Cover Image",
-            "button1": "Cancel",
-            "button2": "Create Common Area",
+            "head1": "Area Details",
+            "head2": "Timings",
+            "detail1": "Add area details.They will be visible to all residents.",
+            "detail2": "You have set timings for day(s).",
+            "label1": "Common Area Name",
+            "label2": "Common Area Description",
+            "label3": "Occupancy",
+            "label4": "Cover Image",
+            "label5": "Click to upload",
+            "label6": "or drag and drop",
+            "label7": "SVG, PNG, JPG or GIF (MAX. 800x400px)",
+            "button1": "Back",
+            "button2": "Create",
             "button3": "Save Changes"
         },
-        "deleteModal":{
+        "deleteModal": {
             "title": "Delete common area",
             "lable": "will be removed from common areas list and all active bookings will be canceled.",
             "button1": "Cancel",
             "button2": "Delete"
         },
-        "delete2Modal":{
+        "delete2Modal": {
             "title": "Cancel Booking",
             "lable": "Are you sure you want to cancel this resident booking ?.",
             "button1": "Cancel",
             "button2": "Cancel Booking"
         },
-        "viewModal":{
+        "viewModal": {
             "title": "Common Area",
             "back": "Back",
             "button1": "Edit",
@@ -444,7 +442,7 @@
             "button3": "Visible",
             "button4": "Delete"
         },
-        "hideModal":{
+        "hideModal": {
             "title": "Hide common area",
             "lable": "Area will be available for residents and will be available for future bookings.",
             "lable1": "Area will be hidden from residents and will not be available for future bookings. Existing bookings will be remain active.",
@@ -459,33 +457,23 @@
         "title": "Setting",
         "tab1": "User Profile",
         "tab2": "Payment And Billing",
-
         "info": "Personal Info",
         "desc": "Update your photo and personal details.",
-
         "info2": "Password",
         "desc2": "Change your current password",
-
         "title1": "First Name",
         "lable1": "Enter First Name",
-
         "title2": "Last Name",
         "lable2": "Enter Last Name",
-
         "title3": "Email ",
         "lable3": "Enter Email",
-
         "title4": "Profile Picture ",
-
         "title5": "Current Password ",
         "lable5": "Enter Current Password",
-
         "title6": "New Password ",
         "lable6": "Enter New Password",
-
         "title7": "Confirm Password ",
         "lable7": "Enter Confirm Password",
-        
         "button1": "Cancel",
         "button2": "Save ",
         "button3": "Update Password"
@@ -494,58 +482,41 @@
         "title": "Setting",
         "tab1": "User Profile",
         "tab2": "Payment And Billing",
-
         "info": "Payment method",
         "desc": "Select and update your payment method.",
-
         "info2": "Billing history",
         "desc2": "Review and download recent invoices",
-
         "addTitle": "Create Payment Method",
         "editTitle": "Edit Payment Method",
-
         "addButton": "Create new Payment Method",
         "editButton": "Edit",
         "deleteButton": "Delete",
-
         "title1": "Name on card",
         "lable1": "Enter name on card",
-
         "title2": "Expiry Month",
         "lable2": "Enter expiry month",
-
         "title3": "Expiry Year ",
         "lable3": "Enter expiry year",
-
         "title4": "Card Number ",
         "lable4": "Enter card number",
-
         "title5": "CVV ",
         "lable5": "Enter cvv",
-
         "title6": "Invoicing Email ",
         "lable6": "Enter invoicing email",
-
         "title7": "Invoicing Address ",
         "lable7": "Enter invoicing address",
-        
         "title8": "City ",
         "lable8": "Enter city",
-
         "title9": "PostCode ",
         "lable9": "Enter postCode",
-
         "title10": "State/Province ",
         "lable10": "Enter state/province",
-
         "title11": "Country ",
         "lable11": "Enter country",
-        
         "button1": "Cancel",
         "button2": "Add Payment Method ",
         "button3": "Save",
-
-        "deleteModal":{
+        "deleteModal": {
             "title": "Delete payment method?",
             "lable": "Payment method will be permanently deleted.",
             "button1": "Cancel",
@@ -563,10 +534,9 @@
         "type": "Status",
         "type1": "Type",
         "type2": "All",
-
         "status": "Active",
+        "filter": "Filters",
         "status2": "Deactivated",
-
         "lable1": "Open",
         "lable2": "Closed",
         "lable3": "Completed",
@@ -577,9 +547,12 @@
         "lable8": "Inactive",
         "lable9": "QR Code",
         "lable10": "Manual Entry",
-
+        "lable11": "Deactivate",
+        "lable12": "View",
+        "lable13": "Activate",
         "next": "Next",
-        "previous": "Previous"
+        "previous": "Previous",
+        "noDataText": "No Data Found"
     },
     "SIDEBAR": {
         "lable1": "Dashboard",
@@ -596,5 +569,112 @@
         "lable12": "Subscriptions",
         "lable13": "Invoices",
         "lable14": "Places"
+    },
+    "TIMING": {
+        "label1": "Day",
+        "label2": "Start Time",
+        "label3": "End Time",
+        "label4": "Status",
+        "label5": "Open",
+        "label6": "Close"
+    },
+    "PLACE": {
+        "main": {
+            "title": "Places",
+            "createButton": "Create new",
+            "searchLabel": "Search for places",
+            "filterButton": "Filters",
+            "option": "Status",
+            "subOption1": "All",
+            "subOption2": "Open",
+            "subOption3": "Closed"
+        },
+        "table": {
+            "title": "Places",
+            "col1": "Place name",
+            "col2": "Contact Email",
+            "col3": "Phone",
+            "col4": "Whatsapp",
+            "col5": "Website",
+            "col6": "Current Status",
+            "col7": "Assign",
+            "assignButton": "Assign",
+            "editButton": "Edit"
+        },
+        "modal": {
+            "title": "Places",
+            "addTitle": "Create new",
+            "editTitle": "Edit",
+            "addHead": "Create new place",
+            "addButton": "Create",
+            "editButton": "Save Changes",
+            "backButton": "Back",
+            "head1": "Place Details",
+            "detail1": "Add place details.They will be visible to all visitors.",
+            "head2": "Timings",
+            "detail2": "You have set timings for day(s).",
+            "label1": "Name",
+            "label2": "Contact Email",
+            "label3": "Phone",
+            "label4": "Whatsapp",
+            "label5": "Website",
+            "label6": "Description",
+            "label7": "Address",
+            "label8": "Cover Image",
+            "placeHolder1": "Enter place name",
+            "placeHolder2": "Enter contact email",
+            "placeHolder3": "Enter phone",
+            "placeHolder4": "Enter whatsapp",
+            "placeHolder5": "Enter website",
+            "placeHolder6": "Enter place description",
+            "placeHolder7": "Enter place address",
+            "placeHolder8": "Click to upload",
+            "placeHolder9": "or drag and drop",
+            "placeHolder10": "SVG, PNG, JPG or GIF (MAX. 800x400px)"
+        },
+        "assignModal": {
+            "title": "Assign Place to Users",
+            "button1": "Cancel",
+            "button2": "Assign"
+        }
+    },
+    "USERMANAGEMENT": {
+        "main": {
+            "title": "User Management",
+            "searchTitle": "Search by society admin name"
+        },
+        "table": {
+            "title": "Society Admin Details",
+            "col1": "Admin name",
+            "col2": "Admin Email",
+            "col3": "Admin Status",
+            "col4": "Last Logged In",
+            "col5": "Login Type"
+        },
+        "viewPage": {
+            "title": "Admin Details",
+            "backButton": "Back",
+            "label1": "Name",
+            "label2": "Email",
+            "label3": "Role",
+            "label4": "Residents Count",
+            "label5": "Last Login",
+            "label6": "Login Type",
+            "label7": "Status",
+            "label8": "Subscription Plan",
+            "label9": "Start Date",
+            "label10": "End Date"
+        },
+        "modal": {
+            "deleteTitle": "Delete Society Admin?",
+            "deleteDesc": "Their account and all related information will be permanently deleted. If you want to temporarily restrict the society admin access, deactivate their account instead.",
+            "cancelButton": "Cancel",
+            "deleteButton": "Delete",
+            "noButton": "No",
+            "yesButton": "Yes",
+            "statusTitle1": "Do you want to",
+            "statusTitle2": "Society Admin",
+            "statusDesc": "Select Carefully as this will affect admins activity."
+        }
     }
 }

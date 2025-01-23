@@ -24,6 +24,24 @@ export const getAllResidents = async (params: any): Promise<ApiResponse<any>> =>
     }
 };
 
+export const getPetTypes = async (params: any): Promise<ApiResponse<any>> => {
+    const getDataConfig = createGetRequest<any>('/master-data/get-pet-types',params);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(getDataConfig());
+        return {
+            success: true,
+            data: response.data,  //response.data contains our backend API response
+        };
+    } catch (error: any) {
+        const errorResponse = error.response || {};
+        return {
+            success: false,
+            data: errorResponse.data,
+        };
+    }
+};
+
 export const exportResidents = async (params: any): Promise<any> => {
     const getDataConfig = createExportRequest('/residents/export', params);
     try {

@@ -103,7 +103,7 @@ const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold   text-black dark:text-white">
-        Places
+        {t('PLACE.table.title')}
       </h4>
       {loading ? (
         <Loader />
@@ -113,27 +113,27 @@ const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  Place name
+                  {t('PLACE.table.col1')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Contact Email
+                  {t('PLACE.table.col2')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Phone
+                  {t('PLACE.table.col3')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Whatsapp
+                  {t('PLACE.table.col4')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Website
+                  {t('PLACE.table.col5')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Current Status
+                  {t('PLACE.table.col6')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Assign
+                  {t('PLACE.table.col7')}
                 </th>
-               
+
                 <th>
                 </th>
               </tr>
@@ -142,7 +142,7 @@ const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
               {places.length === 0 ? (
                 <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
                   <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
-                    No Data Found
+                    {t('COMMON.noDataText')}
                   </td>
                 </tr>
               ) : (
@@ -178,13 +178,13 @@ const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         onClick={() => handleAssignPlace(place)}
                         className="bg-primary-blue text-white px-4 py-2 rounded mr-2"
                       >
-                        Assign
+                        {t('PLACE.table.assignButton')}
                       </button>
                     </td>
                     <td className="relative group whitespace-nowrap">
                       <BsThreeDotsVertical className="text-black" />
                       <ul className="absolute z-20 top-5 w-[150px] right-2 my-4 text-[14px] bg-white hidden group-hover:block  text-black border border-gray ">
-                        <li onClick={() => handleEditPlace(place)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">Edit</li>
+                        <li onClick={() => handleEditPlace(place)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">{t('PLACE.table.editButton')}</li>
                       </ul>
                     </td>
 

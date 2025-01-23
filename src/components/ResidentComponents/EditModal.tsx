@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
 import { useLocale, useTranslations } from 'next-intl';
+import Select from 'react-select';
+
 
 
 interface FormData {
@@ -13,22 +15,27 @@ interface FormData {
     last_name: string;
     address: string;
     email: string;
-    password: string;
+    property_number: string;
+    // password: string;
     internal_notes: string;
-    pets: string[];
+    pets: {
+        type: string;
+        name: string;
+    }[];
     vehicles: {
         make: string;
         color: string;
         plates: string;
     }[];
 }
- 
+
 const EditModal: React.FC<any> = () => {
-      const t = useTranslations();
-    
+    const t = useTranslations();
+
     const STATUS_OPTIONS = [`${t('COMMON.status')}`, `${t('COMMON.status2')}`];
     const editModal = useAppSelector((state) => state.resident.editModal);
     const resident = useAppSelector((state) => state.resident.residentData);
+    const petOptions = useAppSelector((state) => state.resident.PetTypeData);
     const dispatch = useAppDispatch();
     const [pinError, setPinError] = useState('');
     const [formData, setFormData] = useState<FormData>({
@@ -38,7 +45,8 @@ const EditModal: React.FC<any> = () => {
         last_name: "",
         address: "",
         email: "",
-        password: "",
+        property_number: "",
+        // password: "",
         internal_notes: "",
         pets: [],
         vehicles: [],
@@ -81,60 +89,76 @@ const EditModal: React.FC<any> = () => {
             return { ...prevState, vehicles: updatedVehicles };   //updating questions with updatedQuestions
         });
     };
-
     const addPet = (): void => {
         setFormData((prevState) => ({
             ...prevState,
-            pets: [...prevState.pets, ""]
+            pets: [
+                ...prevState.pets,
+                { type: '', name: '', }
+            ]
         }));
     };
 
     const removePet = (petIndex: number): void => {
-        setFormData((prevState) => ({
-            ...prevState,
-            pets: prevState.pets.filter((_, index) => index !== petIndex) // Filter out the pet at the specified index
-        }));
-    };
-
-    const handlePetChange = (petIndex: number, e: ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
         setFormData(prevState => {
             const updatedPets = [...prevState.pets];
-            updatedPets[petIndex] = value;
+            updatedPets.splice(petIndex, 1);
+            return { ...prevState, pets: updatedPets };   //updating questions with updatedQuestions
+        });
+    };
+
+    const handlePetTypeChange = (index: number, selectedOption: any) => {
+        setFormData((prevState) => {
+            const updatedPets = [...prevState.pets];
+            updatedPets[index] = {
+                ...updatedPets[index],
+                type: selectedOption ? selectedOption.value : "", // Update type
+            };
             return { ...prevState, pets: updatedPets };
         });
     };
 
+    // Handle input change for name
+    const handlePetNameChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setFormData((prevState) => {
+            const updatedPets = [...prevState.pets];
+            updatedPets[index] = {
+                ...updatedPets[index],
+                name: value, // Update name
+            };
+            return { ...prevState, pets: updatedPets };
+        });
+    };
+
+
     const validatePin = (password: any) => {
-        // If the password is empty, return early without running any checks
+
         if (password === "") {
-            setPinError(""); // Optionally reset any existing error if the password is empty
+            setPinError("");
             return "";
         }
 
-        // Check if password contains only digits
-        const digitRegex = /^\d+$/; // This checks for only digits (no letters or special characters)
+        const digitRegex = /^\d+$/;
         if (!digitRegex.test(password)) {
             return "Pin must contain only digits.";
         }
 
-        // Check if password has exactly 4 digits
         if (password.length !== 4) {
             return "Pin must be exactly 4 digits long.";
         }
 
-        // If all checks pass, clear any error and return an empty string
         setPinError("");
         return "";
     };
 
     const saveChanges = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const errorMessage = validatePin(formData.password)
-        if (errorMessage || errorMessage !== '') {
-            setPinError(errorMessage)
-            return
-        }
+        // const errorMessage = validatePin(formData.password)
+        // if (errorMessage || errorMessage !== '') {
+        //     setPinError(errorMessage)
+        //     return
+        // }
         dispatch(setResidentData(formData));
         dispatch(toggleEditModal());
         dispatch(toggleSaveModal());
@@ -153,7 +177,8 @@ const EditModal: React.FC<any> = () => {
                 last_name: resident.lastName || "",
                 address: resident.resident?.address || "",
                 email: resident.email || "",
-                password: "",
+                property_number: resident.resident?.propertyNumber || "",
+                // password: "",
                 internal_notes: resident.resident?.internalNotes || "",
                 pets: resident.resident?.pets || [],
                 vehicles: resident.resident?.vehicles || [],
@@ -197,7 +222,7 @@ const EditModal: React.FC<any> = () => {
                                     </div>
                                     <div className="w-1/2">
                                         <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-last-name">{t('RESIDENT.button3Modal.lable2')}</label>
-                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Last Name" name={t('RESIDENT.button3Modal.lable2')}value={formData.last_name} onChange={handleChange} required />
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Last Name" name={t('RESIDENT.button3Modal.lable2')} value={formData.last_name} onChange={handleChange} required />
                                     </div>
                                 </div>
                                 <div className="w-full">
@@ -213,40 +238,77 @@ const EditModal: React.FC<any> = () => {
                                     <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="email" name="email" placeholder={t('RESIDENT.button3Modal.lable5')} value={formData.email} onChange={handleChange} required />
                                 </div>
                                 <div className="w-full">
+                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="property_number">
+                                        {t('RESIDENT.button3Modal.lable14')}
+                                    </label>
+                                    <input
+                                        className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                        type="text"
+                                        id="property_number"
+                                        name="property_number"
+                                        value={formData.property_number}
+                                        onChange={handleChange}
+                                        placeholder={t('RESIDENT.button3Modal.lable14')}
+                                        required
+                                    />
+                                </div>
+                                {/* <div className="w-full">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-password">{t('RESIDENT.button3Modal.lable6')}</label>
                                     <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="password" type="password" placeholder={t('RESIDENT.button3Modal.lable6')} value={formData.password} onChange={handleChange} />
                                 </div>
-                                {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>}
+                                {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>} */}
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-notes">{t('RESIDENT.button3Modal.lable7')}</label>
-                                    <textarea className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="internal_notes" placeholder={t('RESIDENT.button3Modal.lable8')}value={formData.internal_notes} onChange={handleChange} rows={5} />
+                                    <textarea className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="internal_notes" placeholder={t('RESIDENT.button3Modal.lable8')} value={formData.internal_notes} onChange={handleChange} rows={5} />
                                 </div>
                                 {formData.pets.length > 0 && formData.pets.map((pet, petIndex) => (
                                     <div key={petIndex} className="w-full mb-4">
-                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}`}>
-                                        {t('RESIDENT.button3Modal.title9')} {petIndex + 1}
+                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}-name`}>
+                                            {t('RESIDENT.button3Modal.title9')}
                                         </label>
                                         <div className="flex justify-between gap-x-4">
-                                            <input
-                                                value={pet}
-                                                onChange={(e) => handlePetChange(petIndex, e)}
-                                                className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                                type="text"
+                                            <Select
+                                                options={petOptions}
+                                                name="type"
+                                                value={pet.type ? petOptions.find((opt) => opt.value === pet.type) : null}
+                                                className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black  mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                onChange={(selectedOption) => handlePetTypeChange(petIndex, selectedOption)}
                                                 placeholder={t('RESIDENT.button3Modal.lable9')}
-                                                required
+                                                isClearable
                                             />
-                                            <button type="button" onClick={() => removePet(petIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4  text-center inline-flex items-center  mb-3">
-                                                <RiDeleteBin6Line className="" />
-                                            </button>
+                                        </div>
+                                        <div className="w-full flex justify-between items-center">
+                                            <div className="w-full">
+                                                <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}-name`}>
+                                                    {t('RESIDENT.button3Modal.title13')}
+                                                </label>
+                                                <div className="flex justify-between gap-x-4">
+                                                    <input
+                                                        name="name"
+                                                        value={pet.name}
+                                                        onChange={(e) => handlePetNameChange(petIndex, e)}
+                                                        className="appearance-none block w-4/6 bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                        type="text"
+                                                        placeholder={t('RESIDENT.button3Modal.lable13')}
+                                                        required
+                                                    />
+
+                                                    <button type="button" onClick={() => removePet(petIndex)} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 text-sm outline-none mb-3 ">
+                                                        <RiDeleteBin6Line className="mr-2" /> {t('RESIDENT.button3Modal.delButtonPet')}
+                                                    </button>
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                 ))}
 
                                 {formData.vehicles.length > 0 && formData.vehicles.map((vehicle, vehicleIndex) => (
                                     <div key={vehicleIndex} className="mb-8">
                                         <div className="w-full">
                                             <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-make`}>
-                                            {t('RESIDENT.button3Modal.title10')}
+                                                {t('RESIDENT.button3Modal.title10')}
                                             </label>
                                             <input
                                                 name="make"
@@ -260,7 +322,7 @@ const EditModal: React.FC<any> = () => {
                                         </div>
                                         <div className="w-full">
                                             <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-color`}>
-                                            {t('RESIDENT.button3Modal.title11')}
+                                                {t('RESIDENT.button3Modal.title11')}
                                             </label>
                                             <input
                                                 name="color"
@@ -277,7 +339,7 @@ const EditModal: React.FC<any> = () => {
 
                                             <div className="w-full">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-plates`}>
-                                                {t('RESIDENT.button3Modal.title12')}
+                                                    {t('RESIDENT.button3Modal.title12')}
                                                 </label>
                                                 <div className="flex justify-between gap-x-4">
                                                     <input

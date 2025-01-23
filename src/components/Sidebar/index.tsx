@@ -143,7 +143,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const getFilteredMenuItems = () => {
     if (user.role === 1) {
-      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable12')}`, `${t('SIDEBAR.lable143')}`, `${t('SIDEBAR.lable14')}`].includes(item.label));
+      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable14')}`].includes(item.label));
+      // return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable12')}`, `${t('SIDEBAR.lable13')}`, `${t('SIDEBAR.lable14')}`].includes(item.label));
     } else if (user.role === 2) {
       // Return only the "Super Six" items
       return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable1')}`, `${t('SIDEBAR.lable2')}`, `${t('SIDEBAR.lable4')}`, `${t('SIDEBAR.lable3')}`, `${t('SIDEBAR.lable5')}`, `${t('SIDEBAR.lable8')}`, `${t('SIDEBAR.lable9')}`].includes(item.label));

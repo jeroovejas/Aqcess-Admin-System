@@ -6,7 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { editPlace } from "@/lib/api/place";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-
+import { useTranslations } from 'next-intl';
 interface PlaceFormState {
     name: string;
     description: string;
@@ -27,6 +27,7 @@ interface PlaceFormState {
 
 
 const EditPlace: React.FC = () => {
+    const t = useTranslations();
     const editModal = useAppSelector((state) => state.place.editModal);
     const [loading, setLoading] = useState(false);
     const placeData = useAppSelector((state) => state.place.placeData);
@@ -230,7 +231,7 @@ const EditPlace: React.FC = () => {
                     <form onSubmit={handleEdit}>
                         <div className="mb-3 flex flex-col gap-3 sm:flex-row items-start md:items-center justify-between">
                             <div>
-                                <p className="text-black font-bold">Places / <span className="text-slate-400">Edit</span></p>
+                                <p className="text-black font-bold">{t('PLACE.modal.title')}  / <span className="text-slate-400">{t('PLACE.modal.editTitle')}</span></p>
                                 <h2 className="text-4xl font-bold text-black dark:text-white">
                                     {placeData.name}
                                 </h2>
@@ -240,14 +241,14 @@ const EditPlace: React.FC = () => {
                                     type="button"
                                     className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2"
                                     onClick={() => dispatch(toggleEditModal())}>
-                                    Back
+                                      {t('PLACE.modal.backButton')}
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={loading}
                                     className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2"
                                 >
-                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Save Changes"}
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('PLACE.modal.editButton')}`}
                                 </button>
                             </div>
                         </div>
@@ -255,9 +256,9 @@ const EditPlace: React.FC = () => {
                         <div className="flex flex-wrap">
                             <div className="w-full md:w-1/4 p-2">
                                 <div>
-                                    <p className="text-black font-bold">Place Details</p>
+                                    <p className="text-black font-bold">{t('PLACE.modal.head1')}</p>
                                     <p className="mt-2">
-                                        You have set timings for {formState.timings.length} day(s).
+                                    {t('PLACE.modal.detail1')}
                                     </p>
                                 </div>
                             </div>
@@ -266,7 +267,7 @@ const EditPlace: React.FC = () => {
                                     {/* First Row: Name and Contact Email */}
                                     <div className="w-full md:w-1/2">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="name">
-                                            Name
+                                        {t('PLACE.modal.label1')}
                                         </label>
                                         <input
                                             name="name"
@@ -274,13 +275,13 @@ const EditPlace: React.FC = () => {
                                             onChange={handleInputChange}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter place name"
+                                            placeholder={t('PLACE.modal.placeHolder1')}
                                             required
                                         />
                                     </div>
                                     <div className="w-full md:w-1/2">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="contact_email">
-                                            Contact Email
+                                        {t('PLACE.modal.label2')}
                                         </label>
                                         <input
                                             name="contact_email"
@@ -288,7 +289,7 @@ const EditPlace: React.FC = () => {
                                             onChange={handleInputChange}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter contact email"
+                                            placeholder={t('PLACE.modal.placeHolder2')}
                                             required
                                         />
                                     </div>
@@ -298,7 +299,7 @@ const EditPlace: React.FC = () => {
                                     {/* Second Row: Phone and Whatsapp */}
                                     <div className="w-full md:w-1/2">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="phone">
-                                            Phone
+                                        {t('PLACE.modal.label3')}
                                         </label>
                                         <input
                                             name="phone"
@@ -306,13 +307,13 @@ const EditPlace: React.FC = () => {
                                             onChange={handleInputChange}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter phone"
+                                            placeholder={t('PLACE.modal.placeHolder3')}
                                             required
                                         />
                                     </div>
                                     <div className="w-full md:w-1/2">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="whatsapp">
-                                            Whatsapp
+                                        {t('PLACE.modal.label4')}
                                         </label>
                                         <input
                                             name="whatsapp"
@@ -320,14 +321,14 @@ const EditPlace: React.FC = () => {
                                             onChange={handleInputChange}
                                             className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                             type="text"
-                                            placeholder="Enter whatsapp"
+                                            placeholder={t('PLACE.modal.placeHolder4')}
                                             required
                                         />
                                     </div>
                                 </div>
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="website">
-                                        Website
+                                    {t('PLACE.modal.label5')}
                                     </label>
                                     <input
                                         name="website"
@@ -335,41 +336,41 @@ const EditPlace: React.FC = () => {
                                         onChange={handleInputChange}
                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                         type="text"
-                                        placeholder="Enter website"
+                                        placeholder={t('PLACE.modal.placeHolder5')}
                                         required
                                     />
                                 </div>
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                                        Description
+                                    {t('PLACE.modal.label6')}
                                     </label>
                                     <textarea
                                         name="description"
                                         value={formState.description}
                                         onChange={handleInputChange}
                                         className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        placeholder="Enter place description"
+                                        placeholder={t('PLACE.modal.placeHolder6')}
                                         rows={5}
                                         required
                                     />
                                 </div>
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="address">
-                                        Address
+                                    {t('PLACE.modal.label7')}
                                     </label>
                                     <textarea
                                         name="address"
                                         value={formState.address}
                                         onChange={handleInputChange}
                                         className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        placeholder="Enter place address"
+                                        placeholder={t('PLACE.modal.placeHolder7')}
                                         rows={5}
                                         required
                                     />
                                 </div>
                                 <div className="w-full my-6">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="file">
-                                        Cover Image
+                                    {t('PLACE.modal.label8')}
                                     </label>
                                     <div className="flex items-center justify-center w-full">
                                         <label
@@ -402,10 +403,10 @@ const EditPlace: React.FC = () => {
                                                         />
                                                     </svg>
                                                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                        <span className="font-semibold">Click to upload</span> or drag and drop
+                                                        <span className="font-semibold">{t('PLACE.modal.placeHolder8')}</span> {t('PLACE.modal.placeHolder9')}
                                                     </p>
                                                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                        SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                                    {t('PLACE.modal.placeHolder10')}
                                                     </p>
                                                 </div>
                                             )}
@@ -425,8 +426,8 @@ const EditPlace: React.FC = () => {
                         <div className="flex flex-wrap my-8">
                             <div className="w-full md:w-1/4 p-2">
                                 <div>
-                                    <p className="text-black font-bold">Timings</p>
-                                    <p className="mt-2">You have set timings for {formState.timings.length} day(s).
+                                    <p className="text-black font-bold">{t('PLACE.modal.head2')}</p>
+                                    <p className="mt-2">{t('PLACE.modal.detail2')}
                                     </p>
                                 </div>
                             </div>
@@ -436,7 +437,7 @@ const EditPlace: React.FC = () => {
                                         <div className="flex flex-wrap md:flex-nowrap gap-5 mb-4">
                                             <div className="w-full md:w-2/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`day-${dayIndex}`}>
-                                                    Day
+                                                {t('TIMING.label1')}
                                                 </label>
                                                 <input
                                                     id={`day-${dayIndex}`}
@@ -456,7 +457,7 @@ const EditPlace: React.FC = () => {
                                             {/* Start Time */}
                                             <div className="w-full md:w-3/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`startTime-${dayIndex}`}>
-                                                    Start Time
+                                                {t('TIMING.label2')}
                                                 </label>
                                                 <input
                                                     id={`startTime-${dayIndex}`}
@@ -473,7 +474,7 @@ const EditPlace: React.FC = () => {
                                             {/* End Time */}
                                             <div className="w-full md:w-2/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`endTime-${dayIndex}`}>
-                                                    End Time
+                                                {t('TIMING.label3')}
                                                 </label>
                                                 <input
                                                     id={`endTime-${dayIndex}`}
@@ -490,7 +491,7 @@ const EditPlace: React.FC = () => {
                                             {/* Open/Close select */}
                                             <div className="w-full md:w-2/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`status-${dayIndex}`}>
-                                                    Status
+                                                {t('TIMING.label4')}
                                                 </label>
                                                 <select
                                                     id={`status-${dayIndex}`}
@@ -499,8 +500,8 @@ const EditPlace: React.FC = () => {
                                                     onChange={(e) => handleStatusChange(dayIndex, e)}
                                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                 >
-                                                    <option value="open">Open</option>
-                                                    <option value="close">Close</option>
+                                                    <option value="open">{t('TIMING.label5')}</option>
+                                                    <option value="close">{t('TIMING.label6')}</option>
                                                 </select>
                                             </div>
                                         </div>

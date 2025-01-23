@@ -8,6 +8,11 @@ interface ResidentDetails {
     overdueResidents: number;
 }
 
+interface PetType {
+    label: string;
+    value: string;
+}
+
 interface ResidentState {
     exportModal: boolean,
     importModal: boolean,
@@ -20,6 +25,7 @@ interface ResidentState {
     isUpdated: boolean,
     residentData: any,
     residentDetails: ResidentDetails;
+    PetTypeData: PetType[]
 }
 
 // Define the initial state using that type
@@ -34,6 +40,7 @@ const initialState: ResidentState = {
     viewModal: false,
     isUpdated: false,
     residentData: {},
+    PetTypeData: [],
     residentDetails: {
         totalResidents: 0,
         activeResidents: 0,
@@ -79,6 +86,10 @@ export const residentSlice = createSlice({
         setResidentDetails: (state, action: PayloadAction<Partial<ResidentDetails>>) => {
             state.residentDetails = { ...state.residentDetails, ...action.payload };
         },
+        setPetTypeData: (state, action: PayloadAction<PetType[]>) => {
+            state.PetTypeData = [...state.PetTypeData, ...action.payload];
+        },
+
         resetState: (state) => {
             state.exportModal = false;
             state.addModal = false;
@@ -92,5 +103,5 @@ export const residentSlice = createSlice({
     },
 })
 
-export const { toggleExportModal, toggleAddModal, toggleEditModal, toggleSaveModal, toggleDeleteModal, setResidentData, toggleViewModal, toggleStatusModal, toggleIsUpdated, setResidentDetails,resetState,toggleImportModal } = residentSlice.actions
+export const { toggleExportModal, toggleAddModal, toggleEditModal, toggleSaveModal, toggleDeleteModal, setResidentData, toggleViewModal, toggleStatusModal, toggleIsUpdated, setResidentDetails, resetState, toggleImportModal, setPetTypeData } = residentSlice.actions
 export default residentSlice.reducer

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ChangeEvent, useRef } from "react";
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import { toggleAddModal, toggleIsUpdated } from "@/store/Slices/ResidentSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
@@ -10,6 +10,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
 import 'react-phone-number-input/style.css';
 import { useLocale, useTranslations } from 'next-intl';
+import Select from 'react-select';
 
 
 interface FormData {
@@ -18,9 +19,13 @@ interface FormData {
     last_name: string;
     address: string;
     email: string;
-    password: string;
+    property_number: string;
+    // password: string;
     internal_notes: string;
-    pets: string[];
+    pets: {
+        type: string;
+        name: string;
+    }[];
     vehicles: {
         make: string;
         color: string;
@@ -36,7 +41,8 @@ const initialFormData: FormData = {
     last_name: "",
     address: "",
     email: "",
-    password: "",
+    property_number: "",
+    // password: "",
     internal_notes: "",
     pets: [],
     vehicles: [],
@@ -45,15 +51,14 @@ const initialFormData: FormData = {
 
 const AddModal: React.FC<any> = () => {
     const dispatch = useAppDispatch();
-      const t = useTranslations();
+    const t = useTranslations();
 
     const addModal = useAppSelector((state) => state.resident.addModal);
+    const petOptions = useAppSelector((state) => state.resident.PetTypeData);
     const token = useAppSelector((state) => state.auth.token);
     const modalRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState(false);
     const [pinError, setPinError] = useState('');
-
-    // State to hold form data
     const [formData, setFormData] = useState<FormData>(initialFormData);
     const [error, setError] = useState('');
     const [number, setNumber] = useState<string | undefined>('');
@@ -61,7 +66,6 @@ const AddModal: React.FC<any> = () => {
     const handleNumberChange = (value: string | undefined) => {
         setNumber(value); // Update value, which can be undefined or a valid phone number
     };
-
     // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -103,22 +107,41 @@ const AddModal: React.FC<any> = () => {
     const addPet = (): void => {
         setFormData((prevState) => ({
             ...prevState,
-            pets: [...prevState.pets, ""]
+            pets: [
+                ...prevState.pets,
+                { type: '', name: '', }
+            ]
         }));
     };
 
     const removePet = (petIndex: number): void => {
-        setFormData((prevState) => ({
-            ...prevState,
-            pets: prevState.pets.filter((_, index) => index !== petIndex) // Filter out the pet at the specified index
-        }));
-    };
-
-    const handlePetChange = (petIndex: number, e: ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
         setFormData(prevState => {
             const updatedPets = [...prevState.pets];
-            updatedPets[petIndex] = value;
+            updatedPets.splice(petIndex, 1);
+            return { ...prevState, pets: updatedPets };   //updating questions with updatedQuestions
+        });
+    };
+
+    const handlePetTypeChange = (index: number, selectedOption: any) => {
+        setFormData((prevState) => {
+            const updatedPets = [...prevState.pets];
+            updatedPets[index] = {
+                ...updatedPets[index],
+                type: selectedOption ? selectedOption.value : "", // Update type
+            };
+            return { ...prevState, pets: updatedPets };
+        });
+    };
+
+    // Handle input change for name
+    const handlePetNameChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setFormData((prevState) => {
+            const updatedPets = [...prevState.pets];
+            updatedPets[index] = {
+                ...updatedPets[index],
+                name: value, // Update name
+            };
             return { ...prevState, pets: updatedPets };
         });
     };
@@ -153,11 +176,11 @@ const AddModal: React.FC<any> = () => {
         } else {
             setError('')
         }
-        const errorMessage = validatePin(formData.password)
-        if (errorMessage || errorMessage !== '') {
-            setPinError(errorMessage)
-            return
-        }
+        // const errorMessage = validatePin(formData.password)
+        // if (errorMessage || errorMessage !== '') {
+        //     setPinError(errorMessage)
+        //     return
+        // }
         setLoading(true)
         try {
             setError('');
@@ -185,8 +208,6 @@ const AddModal: React.FC<any> = () => {
         }
 
     };
-
-
 
     // const handleClickOutside = (event: MouseEvent) => {
     //     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -242,7 +263,7 @@ const AddModal: React.FC<any> = () => {
                             <div className="flex gap-2 mt-4">
                                 <div className="w-1/2">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="firstName">
-                                    {t('RESIDENT.button3Modal.lable1')}
+                                        {t('RESIDENT.button3Modal.lable1')}
                                     </label>
                                     <input
                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -273,7 +294,7 @@ const AddModal: React.FC<any> = () => {
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="address">
-                                {t('RESIDENT.button3Modal.lable3')}
+                                    {t('RESIDENT.button3Modal.lable3')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -288,7 +309,7 @@ const AddModal: React.FC<any> = () => {
                             </div>
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="address">
-                                {t('RESIDENT.button3Modal.lable4')}
+                                    {t('RESIDENT.button3Modal.lable4')}
                                 </label>
                                 <PhoneInput
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:ring-0 focus:shadow-none focus:bg-white focus:border-none"
@@ -302,7 +323,7 @@ const AddModal: React.FC<any> = () => {
                             {error && <p className="text-red text-sm font-semibold mb-2">{error}</p>}
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="email">
-                                {t('RESIDENT.button3Modal.lable5')}
+                                    {t('RESIDENT.button3Modal.lable5')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -316,8 +337,23 @@ const AddModal: React.FC<any> = () => {
                                 />
                             </div>
                             <div className="w-full">
+                                <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="property_number">
+                                    {t('RESIDENT.button3Modal.lable14')}
+                                </label>
+                                <input
+                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    type="text"
+                                    id="property_number"
+                                    name="property_number"
+                                    value={formData.property_number}
+                                    onChange={handleChange}
+                                    placeholder={t('RESIDENT.button3Modal.lable14')}
+                                    required
+                                />
+                            </div>
+                            {/* <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="password">
-                                {t('RESIDENT.button3Modal.lable6')}
+                                    {t('RESIDENT.button3Modal.lable6')}
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -330,10 +366,10 @@ const AddModal: React.FC<any> = () => {
                                     required
                                 />
                             </div>
-                            {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>}
+                            {pinError && <p className="text-red text-sm font-semibold mb-2">{pinError}</p>} */}
                             <div className="w-full">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="internal_notes">
-                                {t('RESIDENT.button3Modal.lable7')}
+                                    {t('RESIDENT.button3Modal.lable7')}
                                 </label>
                                 <textarea
                                     className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -347,29 +383,51 @@ const AddModal: React.FC<any> = () => {
                             </div>
                             {formData.pets.length > 0 && formData.pets.map((pet, petIndex) => (
                                 <div key={petIndex} className="w-full mb-4">
-                                    <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}`}>
-                                    {t('RESIDENT.button3Modal.title9')} {petIndex + 1}
+                                    <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}-name`}>
+                                        {t('RESIDENT.button3Modal.title9')}
                                     </label>
                                     <div className="flex justify-between gap-x-4">
-                                        <input
-                                            value={pet}
-                                            onChange={(e) => handlePetChange(petIndex, e)}
-                                            className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                            type="text"
+                                        <Select
+                                            options={petOptions}
+                                            name="type"
+                                            value={pet.type ? petOptions.find((opt) => opt.value === pet.type) : null}
+                                            className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black  mb-3 leading-tight focus:outline-none focus:bg-white"
+                                            onChange={(selectedOption) => handlePetTypeChange(petIndex, selectedOption)} // Update state
                                             placeholder={t('RESIDENT.button3Modal.lable9')}
-                                            required
+                                            isClearable
                                         />
-                                        <button type="button" onClick={() => removePet(petIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4  text-center inline-flex items-center  mb-3">
-                                            <RiDeleteBin6Line className="" />
-                                        </button>
+                                    </div>
+                                    <div className="w-full flex justify-between items-center">
+                                        <div className="w-full">
+                                            <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`pet-${petIndex}-name`}>
+                                                {t('RESIDENT.button3Modal.title13')}
+                                            </label>
+                                            <div className="flex justify-between gap-x-4">
+                                                <input
+                                                    name="name"
+                                                    value={pet.name}
+                                                    onChange={(e) => handlePetNameChange(petIndex, e)}
+                                                    className="appearance-none block w-4/6 bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                    type="text"
+                                                    placeholder={t('RESIDENT.button3Modal.lable13')}
+                                                    required
+                                                />
+
+                                                <button type="button" onClick={() => removePet(petIndex)} className="border flex items-center rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 text-sm outline-none mb-3 ">
+                                                    <RiDeleteBin6Line className="mr-2" /> {t('RESIDENT.button3Modal.delButtonPet')}
+                                                </button>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                             ))}
                             {formData.vehicles.length > 0 && formData.vehicles.map((vehicle, vehicleIndex) => (
                                 <div key={vehicleIndex} className="mb-8">
                                     <div className="w-full">
-                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-make`}>
-                                        {t('RESIDENT.button3Modal.title10')}
+                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`vehicle-${vehicleIndex}-make`}>
+                                            {t('RESIDENT.button3Modal.title10')}
                                         </label>
                                         <input
                                             name="make"
@@ -382,8 +440,8 @@ const AddModal: React.FC<any> = () => {
                                         />
                                     </div>
                                     <div className="w-full">
-                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-color`}>
-                                        {t('RESIDENT.button3Modal.title11')}
+                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`vehicle-${vehicleIndex}-color`}>
+                                            {t('RESIDENT.button3Modal.title11')}
                                         </label>
                                         <input
                                             name="color"
@@ -399,8 +457,8 @@ const AddModal: React.FC<any> = () => {
 
 
                                         <div className="w-full">
-                                            <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${vehicleIndex}-plates`}>
-                                            {t('RESIDENT.button3Modal.title12')}
+                                            <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`vehicle-${vehicleIndex}-plates`}>
+                                                {t('RESIDENT.button3Modal.title12')}
                                             </label>
                                             <div className="flex justify-between gap-x-4">
                                                 <input

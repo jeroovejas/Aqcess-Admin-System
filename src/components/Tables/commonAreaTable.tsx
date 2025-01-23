@@ -13,7 +13,7 @@ import { toTitleCase } from "@/lib/common.modules";
 import { useLocale, useTranslations } from 'next-intl';
 
 
-const CommonAreaTable: React.FC<any> = ({ searchTerm }) => { 
+const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
     const t = useTranslations();
     const dispatch = useAppDispatch();
     const limit = 10;
@@ -110,7 +110,7 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
     return (
         <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
             <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-            {t('AREA.table.title')}
+                {t('AREA.table.title')}
             </h4>
             {loading ? (
                 <Loader />
@@ -120,19 +120,23 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
                         <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
-                                {t('AREA.table.column1')}
+                                    {t('AREA.table.column1')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                {t('AREA.table.column2')}
+                                    {t('AREA.table.column2')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                {t('AREA.table.column3')}
+                                    {t('AREA.table.column3')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                {t('AREA.table.column4')}
-                                </th>                                
+                                    {t('AREA.table.column4')}
+                                </th>
                                 <th scope="col" className="px-6 py-3">
-                                {t('AREA.table.column5')}
+                                    {t('AREA.table.column6')}
+                                   
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    {t('AREA.table.column5')}
                                 </th>
                                 <th></th>
                                 <th></th>
@@ -155,7 +159,7 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
                                             <p className=" text-black font-bold dark:text-white ml-2">
                                                 {area.title}
                                             </p>
-                                        </td>                                        
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {area.createdAt}
                                         </td>
@@ -164,6 +168,11 @@ const CommonAreaTable: React.FC<any> = ({ searchTerm }) => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {area.areaStats.totalActiveBookings}
+                                        </td>
+                                        <td className="px-6 py-4  font-bold whitespace-nowrap">
+                                            <span className={` p-2 rounded-2xl ${area.areaCurrentStatus == 'open' ? 'text-meta-3 bg-[#ECFDED]' : 'text-meta-1 bg-[#FEF3F2]'}`}>
+                                                {toTitleCase(area.areaCurrentStatus)}
+                                            </span>
                                         </td>
                                         <td className="px-6 py-4  font-bold whitespace-nowrap">
                                             <span className={` p-2 rounded-2xl ${area.status == 'available' ? 'text-meta-3 bg-[#ECFDED]' : area.status == 'booked' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>

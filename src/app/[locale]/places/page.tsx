@@ -10,7 +10,7 @@ import AddPlace from "@/components/PlaceComponents/AddPlace";
 import EditPlace from "@/components/PlaceComponents/EditPlace";
 import AssignModal from "@/components/PlaceComponents/AssignModal";
 import { toggleAddModal, resetState } from "@/store/Slices/PlaceSlice";
-// import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/navigation';
 
 import Loader from "@/components/common/Loader";
@@ -18,6 +18,7 @@ import { showErrorToast } from "@/lib/toastUtil";
 import { IoSearchOutline } from "react-icons/io5";
 
 const Surveys = () => {
+  const t = useTranslations();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
@@ -97,12 +98,12 @@ const Surveys = () => {
           <DefaultLayout>
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-bold text-black dark:text-white">
-                Places
+                {t('PLACE.main.title')}
               </h2>
               <nav>
                 <div className="">
                   <button onClick={() => dispatch(toggleAddModal())} type="button" className="text-white bg-primary-blue  font-medium rounded-lg text-[16px] px-6 py-3 text-center inline-flex items-center mb-2">
-                    <IoIosAdd className="mr-2 text-white text-xl" />Create new
+                    <IoIosAdd className="mr-2 text-white text-xl" />{t('PLACE.main.createButton')}
                   </button>
                 </div>
               </nav>
@@ -113,11 +114,11 @@ const Surveys = () => {
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <IoSearchOutline size={20} />
                   </div>
-                  <input type="search" id="default-search" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder="Search for survey" required />
+                  <input type="search" id="default-search" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('PLACE.main.searchLabel')} required />
                 </div>
                 <div ref={filterRef} className="flex items-center">
                   <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
-                    <IoFilterSharp className="mr-2" />Filters
+                    <IoFilterSharp className="mr-2" />{t('PLACE.main.filterButton')}
                   </button>
                   <div className="w-full">
                     <div className="relative inline-block">
@@ -129,7 +130,7 @@ const Surveys = () => {
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                               >
-                                Status
+                                {t('PLACE.main.option')}
                                 <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
                                   <FaChevronRight size={15} />
                                 </span>
@@ -151,7 +152,7 @@ const Surveys = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("")}
                               >
-                                All
+                                {t('PLACE.main.subOption1')}
                               </button>
                             </li>
                             <li>
@@ -160,7 +161,7 @@ const Surveys = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("open")}
                               >
-                                Open
+                                {t('PLACE.main.subOption2')}
                               </button>
                             </li>
                             <li>
@@ -169,7 +170,7 @@ const Surveys = () => {
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                 onClick={() => closeDropdown("closed")}
                               >
-                                Closed
+                                {t('PLACE.main.subOption3')}
                               </button>
                             </li>
                           </ul>

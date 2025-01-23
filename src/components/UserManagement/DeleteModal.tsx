@@ -5,7 +5,9 @@ import { toggleIsUpdated, toggleDeleteModal } from "@/store/Slices/UserManagemen
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { deleteSocietyAdmin } from "@/lib/api/userManagement";
+import { useTranslations } from 'next-intl';
 const DeleteModal: React.FC<any> = () => {
+    const t = useTranslations();
     const deleteModal = useAppSelector((state) => state.userManagement.deleteModal)
     const admin = useAppSelector((state) => state.userManagement.adminData)
     const token = useAppSelector((state) => state.auth.token)
@@ -42,8 +44,8 @@ const DeleteModal: React.FC<any> = () => {
 
                                 <MdErrorOutline size={45} className="mb-6 text-danger bg-danger-light rounded-full p-2" />
 
-                                <h3 className="text-3xl font-semibold mt-8">Delete Society Admin?</h3>
-                                <p className="font-[500] mt-2 mb-6">Their account and all related information will be permanently deleted. If you want to temporarily restrict the society admin access, deactivate their account instead.</p>
+                                <h3 className="text-3xl font-semibold mt-8">   {t('USERMANAGEMENT.modal.deleteTitle')}</h3>
+                                <p className="font-[500] mt-2 mb-6">{t('USERMANAGEMENT.modal.deleteDesc')}</p>
 
 
                                 <div className="flex gap-3 items-center">
@@ -52,14 +54,14 @@ const DeleteModal: React.FC<any> = () => {
                                         type="button"
                                         onClick={() => dispatch(toggleDeleteModal())}
                                     >
-                                        Cancel
+                                        {t('USERMANAGEMENT.modal.cancelButton')}
                                     </button>
                                     <button
                                         className="text-white w-1/2 rounded-lg bg-danger font-bold  text-sm px-6 py-3  outline-none  mr-1 mb-1"
                                         type="button"
                                         onClick={handleDelete}
                                     >
-                                        Delete
+                                        {t('USERMANAGEMENT.modal.deleteButton')}
                                     </button>
                                 </div>
                             </div>

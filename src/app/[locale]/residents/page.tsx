@@ -7,7 +7,7 @@ import { TfiExport, TfiImport } from "react-icons/tfi";
 import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
-import { toggleExportModal, toggleAddModal, resetState, toggleImportModal } from "@/store/Slices/ResidentSlice"
+import { toggleExportModal, toggleAddModal, resetState, toggleImportModal, setPetTypeData } from "@/store/Slices/ResidentSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import AddModal from "@/components/ResidentComponents/AddModal";
 import SaveChangesModal from "@/components/ResidentComponents/SaveChangesModal";
@@ -20,7 +20,7 @@ import { FaChevronRight } from "react-icons/fa";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 import { useLocale, useTranslations } from 'next-intl';
-
+import { getPetTypes } from "@/lib/api/resident";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "@/components/common/Loader";
 import { IoSearchOutline } from "react-icons/io5";
@@ -33,6 +33,7 @@ const Residents = () => {
   const dispatch = useAppDispatch();
   const t = useTranslations();
   const user = useAppSelector((state) => state.auth.userData);
+  const token = useAppSelector((state) => state.auth.token);
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const [verified, setVerified] = useState<boolean | null>(null);
   const exportModal = useAppSelector((state) => state.resident.exportModal)
@@ -119,6 +120,30 @@ const Residents = () => {
     };
   }, [isFilterOpen]);
 
+  const fetchPetTypes = async () => {
+    try {
+      let params = { token: token }
+      const response = await getPetTypes(params);
+
+      if (response.success) {
+        let data = response.data.data
+        const petOptions = data.map((type: any) => ({
+          value: type.name,
+          label: type.name,
+        }));
+        dispatch(setPetTypeData(petOptions))
+      } else {
+        showErrorToast(response.data.message)
+      }
+    } catch (err: any) {
+      console.error('Unexpected error during pet types Fetch:', err.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchPetTypes()
+  }, [])
+
   if (verified === null) {
     return <Loader />
   }
@@ -128,7 +153,7 @@ const Residents = () => {
       {verified ? (
         <>
           <DefaultLayout >
-            <Breadcrumb pageName={t('RESIDENT.title')}/>
+            <Breadcrumb pageName={t('RESIDENT.title')} />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
               <CardDataStats title={t('RESIDENT.card1')} total={`${residentDetails.totalResidents}`} rate="">
               </CardDataStats>

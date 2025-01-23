@@ -87,15 +87,19 @@
             "lable6": "Pin",
             "lable7": "Notas internas",
             "lable8": "Agregar notas sobre residentes",
-            "title9": "Mascota",
-            "lable9": "Ingrese el nombre de la mascota",
+            "title9": "Tipo de mascota",
+            "lable9": "Seleccione tipo de mascota",
             "title10": "Marca del vehículo",
             "lable10": "Ingrese la marca del vehículo",
             "title11": "Color del vehículo",
             "lable11": "Ingrese el color del vehículo",
             "title12": "Placas del vehículo",
             "lable12": "Ingrese las placas del vehículo",
+            "title13": "Nombre de mascota",
+            "lable13": "Introduzca el nombre de la mascota",
+            "lable14": "Número de propiedad",
             "delButton": "Eliminar vehículo",
+            "delButtonPet": "Eliminar mascota",
             "button1": "Cancelar",
             "button2": "Guardar cambios",
             "button3": "Eliminar residente",
@@ -126,6 +130,7 @@
             "lable5": "Última visita",
             "lable6": "Notas internas",
             "lable7": "Pagos atrasados",
+            "lable8": "Número de propiedad",
             "button1": "Enviar mensaje",
             "button2": "Editar"
         },
@@ -393,18 +398,28 @@
             "column2": "Fecha y Hora",
             "column3": "Ocupación",
             "column4": "Reserva Activa",
-            "column5": "Estado"
+            "column5": "Estado",
+            "column6": "Estado actual"
         },
         "button1": "Agregar área común",
         "button1Modal": {
             "title": "Crear Área Común",
+            "addTitle": "Crear nuevo",
+            "editTitle": "Editar",
             "status": "Estado",
-            "lable1": "Nombre del Área Común",
-            "lable2": "Descripción del Área Común",
-            "lable3": "Ocupación",
-            "lable4": "Imagen de Portada",
-            "button1": "Cancelar",
-            "button2": "Crear Área Común",
+            "head1": "Detalles del área",
+            "head2": "Horarios",
+            "detail1": "Agregue detalles del área. Serán visibles para todos los residentes.",
+            "detail2": "Ha establecido horarios para los días.",
+            "label1": "Nombre del Área Común",
+            "label2": "Descripción del Área Común",
+            "label3": "Ocupación",
+            "label4": "Imagen de Portada",
+            "label5": "Haga clic para cargar",
+            "label6": "o arrastrar y soltar",
+            "label7": "SVG, PNG, JPG o GIF (MÁX. 800x400px)",
+            "button1": "Atrás",
+            "button2": "Crear",
             "button3": "Guardar Cambios"
         },
         "deleteModal": {
@@ -520,6 +535,7 @@
         "type1": "Tipo",
         "type2": "Todos",
         "status": "Activo",
+        "filter": "Filtros",
         "status2": "Desactivado",
         "lable1": "Abierto",
         "lable2": "Cerrado",
@@ -531,9 +547,12 @@
         "lable8": "Inactivo",
         "lable9": "Código QR",
         "lable10": "Entrada manual",
-
+        "lable11": "Desactivar",
+        "lable12": "Vista",
+        "lable13": "Activar",
         "next": "Próxima",
-        "previous":"Previa"
+        "previous": "Previa",
+        "noDataText": "No se encontraron datos"
     },
     "SIDEBAR": {
         "lable1": "Panel",
@@ -550,5 +569,112 @@
         "lable12": "Suscripciones",
         "lable13": "Facturas",
         "lable14": "Lugares"
+    },
+    "TIMING": {
+        "label1": "Día",
+        "label2": "Hora de inicio",
+        "label3": "Hora de finalización",
+        "label4": "Estado",
+        "label5": "Abierta",
+        "label6": "Cerca"
+    },
+    "PLACE": {
+        "main": {
+            "title": "Lugares",
+            "createButton": "Crear nuevo",
+            "searchLabel": "buscar lugares",
+            "filterButton": "Filtros",
+            "option": "Estado",
+            "subOption1": "Toda",
+            "subOption2": "Abierta",
+            "subOption3": "Cerrada"
+        },
+        "table": {
+            "title": "Lugares",
+            "col1": "Topónimo",
+            "col2": "Correo electrónico de contacto",
+            "col3": "Teléfono",
+            "col4": "Whatsapp",
+            "col5": "Sitio web",
+            "col6": "Estado actual",
+            "col7": "Asignar",
+            "assignButton": "Asignar",
+            "editButton": "Editar"
+        },
+        "modal": {
+            "title": "Lugares",
+            "addTitle": "Crear nuevo",
+            "editTitle": "Editar",
+            "addHead": "Crear nuevo lugar",
+            "addButton": "Crear",
+            "editButton": "Guardar cambios",
+            "backButton": "Atrás",
+            "head1": "Detalles del lugar",
+            "detail1": "Añade detalles del lugar. Serán visibles para todos los visitantes.",
+            "head2": "Horarios",
+            "detail2": "Ha establecido horarios para los días.",
+            "label1": "Nombre",
+            "label2": "Correo electrónico de contacto",
+            "label3": "Teléfono",
+            "label4": "Whatsapp",
+            "label5": "Sitio web",
+            "label6": "Descripción",
+            "label7": "DIRECCIÓN",
+            "label8": "Imagen de portada",
+            "placeHolder1": "Introduzca el nombre del lugar",
+            "placeHolder2": "Introduzca el correo electrónico de contacto",
+            "placeHolder3": "Introducir teléfono",
+            "placeHolder4": "Ingresa whatsapp",
+            "placeHolder5": "Ingresar al sitio web",
+            "placeHolder6": "Ingrese la descripción del lugar",
+            "placeHolder7": "Introduce la dirección del lugar",
+            "placeHolder8": "Haga clic para cargar",
+            "placeHolder9": "o arrastrar y soltar",
+            "placeHolder10": "SVG, PNG, JPG o GIF (MÁX. 800x400px)"
+        },
+        "assignModal": {
+            "title": "Asignar lugar a las usuarias",
+            "button1": "Cancelar",
+            "button2": "Asignar"
+        }
+    },
+    "USERMANAGEMENT": {
+        "main": {
+            "title": "Gestión de usuarios",
+            "searchTitle": "Buscar por nombre de administrador de la sociedad"
+        },
+        "table": {
+            "title": "Detalles del administrador de la sociedad",
+            "col1": "Nombre del administrador",
+            "col2": "Correo electrónico del administrador",
+            "col3": "Estado de administrador",
+            "col4": "Último inicio de sesión",
+            "col5": "Tipo de inicio de sesión"
+        },
+        "viewPage": {
+            "title": "Detalles del administrador",
+            "backButton": "Atrás",
+            "label1": "Nombre",
+            "label2": "Correo electrónico",
+            "label3": "Role",
+            "label4": "Las residentes cuentan",
+            "label5": "Último inicio de sesión",
+            "label6": "Tipo de inicio de sesión",
+            "label7": "Estado",
+            "label8": "Plan de suscripción",
+            "label9": "Fecha de inicio",
+            "label10": "Fecha de finalización"
+        },
+        "modal": {
+            "deleteTitle": "¿Eliminar administrador de la sociedad?",
+            "deleteDesc": "Su cuenta y toda la información relacionada se eliminarán permanentemente. Si desea restringir temporalmente el acceso del administrador de la sociedad, desactive su cuenta.",
+            "cancelButton": "Cancelar",
+            "deleteButton": "Borrar",
+            "noButton": "No",
+            "yesButton": "Sí",
+            "statusTitle1": "¿Quieres",
+            "statusTitle2": "Administrador de la sociedad",
+            "statusDesc": "Seleccione Con cuidado ya que esto afectará la actividad de los administradores."
+        }
     }
 }

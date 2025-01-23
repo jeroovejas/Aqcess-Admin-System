@@ -47,7 +47,7 @@ const CommonAreas = () => {
     };
 
     useEffect(() => {
-        if (addModal || deleteModal || statusModal || editModal || bookingModal) {
+        if (deleteModal || statusModal || bookingModal) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
@@ -55,7 +55,7 @@ const CommonAreas = () => {
         return () => {
             document.body.style.overflow = 'auto';
         };
-    }, [addModal, deleteModal, statusModal, editModal, bookingModal]);
+    }, [deleteModal, statusModal, editModal, bookingModal]);
 
     useEffect(() => {
         if (isTokenValid) {
@@ -78,9 +78,17 @@ const CommonAreas = () => {
         return <Loader />
     }
 
+    if (addModal) {
+        return <AddArea />
+    }
+    if (editModal) {
+        return <EditArea />
+    }
+
     if (viewModal) {
         return <ViewDetails />
     }
+
     return (
         <>
             {verified ? (
@@ -90,7 +98,7 @@ const CommonAreas = () => {
 
                         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                            {t('AREA.title')}
+                                {t('AREA.title')}
                             </h2>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 mb-5">
@@ -127,12 +135,11 @@ const CommonAreas = () => {
                         <div className="flex flex-col gap-10">
                             <CommonAreaTable searchTerm={searchTerm} />
                         </div>
-                        {(addModal || deleteModal || statusModal || editModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
+                        {(deleteModal || statusModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
                         </div>}
-                        <AddArea />
                         <DeleteArea />
                         <StatusModal />
-                        <EditArea />
+                        
                     </DefaultLayout>
                 </>
             ) : null}

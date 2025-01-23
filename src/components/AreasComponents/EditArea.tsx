@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { toggleEditModal, toggleIsUpdated } from "@/store/Slices/AreaSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -7,6 +7,7 @@ import { editCommonArea } from "@/lib/api/commonArea";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
+import DefaultLayout from "../Layouts/DefaultLayout";
 
 
 interface FormValues {
@@ -15,9 +16,15 @@ interface FormValues {
     occupancy: number;
     file: File | null;
     imagePreview?: string | null;
+    timings: {
+        day: string;
+        startTime: string;
+        endTime: string;
+        status: string;
+    }[];
 }
 
-const EditArea: React.FC = () => { 
+const EditArea: React.FC = () => {
     const t = useTranslations();
     const editModal = useAppSelector((state) => state.area.editModal);
     const areaData = useAppSelector((state) => state.area.areaData);
@@ -30,7 +37,51 @@ const EditArea: React.FC = () => {
         description: '',
         occupancy: 1,
         file: null,
-        imagePreview: null
+        imagePreview: null,
+        timings: [
+            {
+                day: "Saturday",
+                startTime: "10:00",
+                endTime: "17:00",
+                status: "open",
+            },
+            {
+                day: "Sunday",
+                startTime: "",
+                endTime: "",
+                status: "close",
+            },
+            {
+                day: "Monday",
+                startTime: "10:00",
+                endTime: "17:00",
+                status: "open",
+            },
+            {
+                day: "Tuesday",
+                startTime: "10:00",
+                endTime: "17:00",
+                status: "open",
+            },
+            {
+                day: "Wednesday",
+                startTime: "10:00",
+                endTime: "17:00",
+                status: "open",
+            },
+            {
+                day: "Thursday",
+                startTime: "10:00",
+                endTime: "17:00",
+                status: "open",
+            },
+            {
+                day: "Friday",
+                startTime: "10:00",
+                endTime: "17:00",
+                status: "open",
+            }
+        ]
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -62,6 +113,33 @@ const EditArea: React.FC = () => {
         }
     }
 
+    const handleTimingChange = (index: number, e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormValues(prevState => {
+            const updatedTimings = [...prevState.timings];
+            updatedTimings[index] = {
+                ...updatedTimings[index],
+                [name]: value
+            };
+            return { ...prevState, timings: updatedTimings };
+        });
+    };
+
+    const handleStatusChange = (dayIndex: number, e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const updatedTimings = [...formValues.timings];
+        updatedTimings[dayIndex].status = e.target.value;
+
+        if (e.target.value === 'close') {
+            updatedTimings[dayIndex].startTime = '';
+            updatedTimings[dayIndex].endTime = '';
+        }
+
+        setFormValues({
+            ...formValues,
+            timings: updatedTimings,
+        });
+    };
+
     const deleteImage = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -76,7 +154,6 @@ const EditArea: React.FC = () => {
         event.preventDefault();
         setLoading(true)
         try {
-            console.log("occupancy", formValues.occupancy)
             const formData = new FormData();
             formData.append('area_id', areaData.id);
             formData.append('title', formValues.title);
@@ -86,9 +163,12 @@ const EditArea: React.FC = () => {
             if (formValues.file) {
                 formData.append('image', formValues.file);
             }
+            formData.append('timings', JSON.stringify(formValues.timings.map(timing => {
+                const { status, ...rest } = timing;
+                return rest;
+            })));
             formData.append('token', token);
             const response = await editCommonArea(formData);
-            console.log(response)
             if (response.success) {
                 dispatch(toggleEditModal());
                 dispatch(toggleIsUpdated());
@@ -104,55 +184,77 @@ const EditArea: React.FC = () => {
         }
     };
     useEffect(() => {
-        if (areaData) {
+        if (areaData && Array.isArray(areaData.timings)) {
             setFormValues({
                 title: areaData.title || '',
                 description: areaData.description || '',
                 occupancy: areaData.occupancy || '',
                 file: null,
-                imagePreview: areaData.imageUrl
+                imagePreview: areaData.imageUrl,
+                timings: areaData.timings.map((item: any) => ({
+                    day: item.day,
+                    startTime: item.start_time !== '00:00:00' ? item.start_time : '',
+                    endTime: item.end_time !== '00:00:00' ? item.end_time : '',
+                    status: item.status,
+                }))
             });
         }
-        //upper ...prevState functional form of setState of updating state when you want to update some fields of your state
     }, [areaData]);
     return (
         <>
-            {editModal && (
-                <div className="absolute top-0 right-0 w-full md:w-3/5 lg:w-2/5 h-screen overflow-y-scroll my-scrollbar bg-white my-0">
-                    <div className="border-0 relative text-black w-full h-full outline-none focus:outline-none px-8 py-8">
-                        <div className="flex justify-between items-center mt-8">
-                            <h3 className="text-3xl font-semibold">{areaData.title}</h3>
-                            <button
-                                className="bg-transparent border-0 text-[20px] font-bold text-black"
-                                onClick={() => dispatch(toggleEditModal())}
-                            >
-                                x
-                            </button>
+            {editModal ? (
+                <DefaultLayout>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-6 flex flex-col gap-3 sm:flex-row items-start md:items-center justify-between">
+                            <div>
+                                <p className="text-black font-bold"> {t('AREA.title')} / <span className="text-slate-400">{t('AREA.button1Modal.editTitle')}</span></p>
+                                <h2 className="text-4xl font-bold text-black dark:text-white">
+                                    {areaData.title}
+                                </h2>
+                            </div>
+                            <div className="flex gap-3">
+                                <button onClick={() => dispatch(toggleEditModal())} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
+                                    {t('AREA.button1Modal.button1')}
+                                </button>
+
+                                <button type="submit" disabled={loading} className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center  mb-2">
+                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('AREA.button1Modal.button3')}`}
+                                </button>
+                            </div>
                         </div>
-                        <form onSubmit={handleSubmit}>
-                            <div className="w-full my-6">
+                        <div className="flex flex-wrap">
+                            <div className="w-full md:w-1/4 p-2">
+                                <div>
+                                    <p className="text-black font-bold">{t('AREA.button1Modal.head1')}</p>
+                                    <p className="mt-2">
+                                        {t('AREA.button1Modal.detail1')}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
                                 <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="name">
-                                    {t('AREA.button1Modal.lable1')}
+                                    <label className="block uppercase tracking-wide text-black  text-[14px] font-bold mb-2" htmlFor="name">
+                                        {t('AREA.button1Modal.label1')}
+
                                     </label>
                                     <input
                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                         name="title"
                                         type="text"
                                         id="title"
-                                        placeholder={t('AREA.button1Modal.lable1')}
+                                        placeholder={t('AREA.button1Modal.label1')}
                                         value={formValues.title}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
                                 <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="description">
-                                    {t('AREA.button1Modal.lable2')}
+                                    <label className="block uppercase tracking-wide text-black  text-[14px] font-bold mb-2" htmlFor="description">
+                                        {t('AREA.button1Modal.label2')}
                                     </label>
                                     <textarea
                                         className="block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                        placeholder={t('AREA.button1Modal.lable2')}
+                                        placeholder={t('AREA.button1Modal.label2')}
                                         rows={5}
                                         name="description"
                                         id="description"
@@ -161,99 +263,161 @@ const EditArea: React.FC = () => {
                                         required
                                     />
                                 </div>
-                                <div className="w-full">
-                                    <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="occupancy">
-                                    {t('AREA.button1Modal.lable3')}
+                                <div className="w-full ">
+                                    <label className="block uppercase text-black  tracking-wide text-[14px] font-bold mb-2" htmlFor="occupancy">
+                                        {t('AREA.button1Modal.label3')}
                                     </label>
                                     <input
                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                         name="occupancy"
                                         type="number"
                                         id="occupancy"
-                                        placeholder={t('AREA.button1Modal.lable3')}
+                                        placeholder={t('AREA.button1Modal.label3')}
                                         value={formValues.occupancy}
                                         onChange={handleChange}
                                         min={1}
                                         required
                                     />
                                 </div>
-                            </div>
-
-
-                            <div className="w-full my-6">
-                                <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="file">
-                                {t('AREA.button1Modal.lable4')}
-                                </label>
-                                <div className="flex items-center justify-center w-full">
-                                    <label
-                                        htmlFor="file"
-                                        className="flex flex-col items-center justify-center w-full h-50 border-gray-300 border border-[#DDDDDD] rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                                    >
-                                        {formValues.imagePreview ? (
-                                            <div className="relative w-full h-full">
-
-                                                <img src={formValues.imagePreview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
-                                                <button onClick={deleteImage} className="absolute right-2 top-2 bg-[#D0D5DD] rounded-[8px] text-slate-950 p-2">
-                                                    <RiDeleteBin6Line size={15} />
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                <svg
-                                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                                    aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 20 16"
-                                                >
-                                                    <path
-                                                        stroke="currentColor"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                                                    />
-                                                </svg>
-                                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                    <span className="font-semibold">Click to upload</span> or drag and drop
-                                                </p>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                                                </p>
-                                            </div>
-                                        )}
-                                        <input
-                                            id="file"
-                                            type="file"
-                                            name="file"
-                                            className="hidden"
-                                            onChange={handleFileChange}
-                                        />
+                                <div className="w-full">
+                                    <label className="block uppercase text-black  tracking-wide text-[14px] font-bold mb-2" htmlFor="file">
+                                        {t('AREA.button1Modal.label4')}
                                     </label>
+                                    <div className="flex items-center justify-center w-full">
+                                        <label
+                                            htmlFor="file"
+                                            className="flex flex-col items-center justify-center w-full h-50 border-gray-300 border border-[#DDDDDD] rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                        >
+                                            {formValues.imagePreview ? (
+                                                <div className="relative w-full h-full">
+
+                                                    <img src={formValues.imagePreview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
+                                                    <button onClick={deleteImage} className="absolute right-2 top-2 bg-[#D0D5DD] rounded-[8px] text-slate-950 p-2">
+                                                        <RiDeleteBin6Line size={15} />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                    <svg
+                                                        className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                        aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 20 16"
+                                                    >
+                                                        <path
+                                                            stroke="currentColor"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                        />
+                                                    </svg>
+                                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                        <span className="font-semibold">{t('AREA.button1Modal.label5')}</span> {t('AREA.button1Modal.label6')}
+                                                    </p>
+                                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                    {t('AREA.button1Modal.label7')}
+                                                    </p>
+                                                </div>
+                                            )}
+                                            <input
+                                                id="file"
+                                                type="file"
+                                                name="file"
+                                                className="hidden"
+                                                onChange={handleFileChange}
+                                            />
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="flex gap-3 items-center">
-                                <button
-                                    disabled={loading}
-                                    className={`text-white rounded-lg bg-primary-blue font-medium  text-sm px-6 py-3  outline-none  mr-1 mb-1`}
-                                    type="submit"
+                        </div>
 
-                                >
-                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('AREA.button1Modal.button3')}`}
-
-                                </button>
-                                <button
-                                    className="text-red-500 border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none mr-1 mb-1"
-                                    type="button"
-                                    onClick={() => dispatch(toggleEditModal())}
-                                >
-                                    {t('AREA.button1Modal.button1')}
-                                </button>
+                        <div className="flex flex-wrap my-8">
+                            <div className="w-full md:w-1/4 p-2">
+                                <div>
+                                    <p className="text-black font-bold">{t('AREA.button1Modal.head2')}</p>
+                                    <p className="mt-2">{t('AREA.button1Modal.detail2')}
+                                    </p>
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+                            <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
+                                {formValues.timings.map((day, dayIndex) => (
+
+                                    <div key={dayIndex} className="mb-8">
+                                        <div className="flex flex-wrap md:flex-nowrap gap-5 mb-4">
+                                            <div className="w-full md:w-2/5">
+                                                <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`day-${dayIndex}`}>
+                                                    {t('TIMING.label1')}
+                                                </label>
+                                                <input
+                                                    id={`day-${dayIndex}`}
+                                                    name="day"
+                                                    value={day.day}
+                                                    onChange={(e) => handleTimingChange(dayIndex, e)}
+                                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                    type="text"
+                                                    placeholder="Enter Day"
+                                                    required
+                                                    disabled
+                                                />
+                                            </div>
+                                            <div className="w-full md:w-3/5">
+                                                <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`startTime-${dayIndex}`}>
+                                                    {t('TIMING.label2')}
+                                                </label>
+                                                <input
+                                                    id={`startTime-${dayIndex}`}
+                                                    name="startTime"
+                                                    value={day.startTime}
+                                                    onChange={(e) => handleTimingChange(dayIndex, e)}
+                                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                    type="time"
+                                                    required
+                                                    disabled={day.status === 'close'}
+                                                />
+                                            </div>
+                                            <div className="w-full md:w-2/5">
+                                                <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`endTime-${dayIndex}`}>
+                                                    {t('TIMING.label3')}
+                                                </label>
+                                                <input
+                                                    id={`endTime-${dayIndex}`}
+                                                    name="endTime"
+                                                    value={day.endTime}
+                                                    onChange={(e) => handleTimingChange(dayIndex, e)}
+                                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                    type="time"
+                                                    required
+                                                    disabled={day.status === 'close'}
+                                                />
+                                            </div>
+                                            <div className="w-full md:w-2/5">
+                                                <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`status-${dayIndex}`}>
+                                                    {t('TIMING.label4')}
+                                                </label>
+                                                <select
+                                                    id={`status-${dayIndex}`}
+                                                    name="status"
+                                                    value={day.status}
+                                                    onChange={(e) => handleStatusChange(dayIndex, e)}
+                                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                >
+                                                    <option value="open"> {t('TIMING.label5')}</option>
+                                                    <option value="close"> {t('TIMING.label6')}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+
+                    </form>
+                </DefaultLayout>
+            ) : null}
         </>
     );
 };
