@@ -32,7 +32,17 @@ interface FormData {
 const EditModal: React.FC<any> = () => {
     const t = useTranslations();
 
-    const STATUS_OPTIONS = [`${t('COMMON.status')}`, `${t('COMMON.status2')}`];
+    // const STATUS_OPTIONS = [`${t('COMMON.status')}`, `${t('COMMON.status2')}`];
+    const STATUS_OPTIONS = [
+        {
+            label: `${t('COMMON.status')}`,
+            value: 'active'
+        },
+        {
+            label: `${t('COMMON.status2')}`,
+            value: 'deactivated'
+        }
+    ];
     const editModal = useAppSelector((state) => state.resident.editModal);
     const resident = useAppSelector((state) => state.resident.residentData);
     const petOptions = useAppSelector((state) => state.resident.PetTypeData);
@@ -178,7 +188,6 @@ const EditModal: React.FC<any> = () => {
                 address: resident.resident?.address || "",
                 email: resident.email || "",
                 property_number: resident.resident?.propertyNumber || "",
-                // password: "",
                 internal_notes: resident.resident?.internalNotes || "",
                 pets: resident.resident?.pets || [],
                 vehicles: resident.resident?.vehicles || [],
@@ -208,7 +217,7 @@ const EditModal: React.FC<any> = () => {
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-state">{t('COMMON.type')}</label>
                                     <select value={formData.status} name="status" onChange={handleChange} className="block appearance-none w-full rounded-xl border border-[#DDDDDD] text-black py-3 px-4 pr-8 focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
                                         {STATUS_OPTIONS.map(option => (
-                                            <option key={option} value={option}>{capitalizeFirstLetter(option)}</option>
+                                            <option key={option.value} value={option.value}>{capitalizeFirstLetter(option.label)}</option>
                                         ))}
                                     </select>
                                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

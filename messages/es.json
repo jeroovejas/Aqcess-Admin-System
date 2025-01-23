@@ -58,7 +58,8 @@
             "column2": "ID",
             "column3": "Correo electrónico",
             "column4": "Dirección",
-            "column5": "Estado"
+            "column5": "Estado",
+            "column6": "Número de propiedad"
         },
         "button1": "Importar lista",
         "button1Modal": {
@@ -103,6 +104,7 @@
             "button1": "Cancelar",
             "button2": "Guardar cambios",
             "button3": "Eliminar residente",
+            "button4": "Agregar residente",
             "addButton": "Agregar vehículo",
             "addButton2": "Agregar mascota"
         },
@@ -302,7 +304,7 @@
             "title": "Tu historial de acceso",
             "column1": "Nombre del visitante",
             "column2": "Nombre del residente",
-            "column3": "Razón de la visita",
+            "column3": "DIRECCIÓN",
             "column4": "Duración",
             "column5": "Fecha y hora",
             "column6": "Tipo"

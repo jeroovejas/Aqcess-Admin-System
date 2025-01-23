@@ -251,8 +251,8 @@ const AddModal: React.FC<any> = () => {
                                     value={formData.status}
                                     onChange={handleChange}
                                 >
-                                    <option value="active">Active</option>
-                                    <option value="deactivated">Deactivated</option>
+                                    <option value="active">{t('COMMON.status')}</option>
+                                    <option value="deactivated">{t('COMMON.status2')}</option>
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                     <svg className="fill-current h-4 w-4 mt-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -496,7 +496,7 @@ const AddModal: React.FC<any> = () => {
                                 type="submit"
                                 disabled={loading}
                             >
-                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('RESIDENT.button3Modal.button2')}`}
+                                {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('RESIDENT.button3Modal.button4')}`}
 
                             </button>
                             <button

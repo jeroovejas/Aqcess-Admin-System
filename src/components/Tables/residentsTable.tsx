@@ -120,6 +120,7 @@ const ResidentTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                 <th scope="col" className="px-6 py-3">{t('RESIDENT.table.column1')}</th>
                 <th scope="col" className="px-6 py-3">{t('RESIDENT.table.column2')}</th>
                 <th scope="col" className="px-6 py-3">{t('RESIDENT.table.column3')}</th>
+                <th scope="col" className="px-6 py-3">{t('RESIDENT.table.column6')}</th>
                 <th scope="col" className="px-6 py-3">{t('RESIDENT.table.column4')}</th>
                 <th scope="col" className="px-6 py-3">{t('RESIDENT.table.column5')}</th>
                 <th></th>
@@ -148,6 +149,7 @@ const ResidentTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                     </th>
                     <td className="px-6 py-4 whitespace-nowrap">{resident.resident.residentCode}</td>
                     <td className="px-6 py-4 font-bold whitespace-nowrap">{resident.email}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{resident.resident.propertyNumber}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{resident.resident.address}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center font-bold">

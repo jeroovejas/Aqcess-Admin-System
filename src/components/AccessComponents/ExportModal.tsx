@@ -52,14 +52,15 @@ const ExportModal: React.FC<any> = () => {
             return value;
         };
         const headers = [
-            'Visitor Name', 'Visit Reason', 'Duration', 'Type', 'Resident Name'
+            'Visitor Name', 'Visit Date Time', 'Duration','Address', 'Type', 'Resident Name'
         ];
         csvRows.push(headers.join(','));
         data.forEach((record: any) => {
             const row = [
                 escapeValue(record.visitorName),
-                escapeValue(record.visitReason),
+                escapeValue(record.dateTime),
                 escapeValue(record.duration),
+                escapeValue(record.address),
                 escapeValue(record.type),
                 escapeValue(record.residentName),
             ].map(value => ((value !== undefined && value !== null) ? `${value}` : ``)).join(',');

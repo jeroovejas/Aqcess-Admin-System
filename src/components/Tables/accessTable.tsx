@@ -114,10 +114,10 @@ const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }
                     </th>
                     <td className="px-6 py-4 whitespace-nowrap">{record.residentName}</td>
                     <td className="px-6 py-4 whitespace-nowrap md:whitespace-normal md:max-w-xs">
-                      {record.visitReason}
+                      {record.address}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{record.duration}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{record.createdAt}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{record.dateTime}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{record.type}</td>
 
                   </tr>

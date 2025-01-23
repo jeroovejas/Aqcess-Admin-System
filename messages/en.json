@@ -58,7 +58,8 @@
             "column2": "ID",
             "column3": "Email",
             "column4": "Address",
-            "column5": "Status"
+            "column5": "Status",
+            "column6": "Property Number"
         },
         "button1": "Import list",
         "button1Modal": {
@@ -103,6 +104,7 @@
             "button1": "Cancel",
             "button2": "Save Changes",
             "button3": "Delete Resident",
+            "button4": "Add Resident",
             "addButton": "Add Vehicle",
             "addButton2": "Add Pet"
         },
@@ -302,7 +304,7 @@
             "title": "Your access history",
             "column1": "Visitor Name",
             "column2": "Resident Name",
-            "column3": "visit Reason",
+            "column3": "Address",
             "column4": "Duration",
             "column5": "Date and Time",
             "column6": "Type"
