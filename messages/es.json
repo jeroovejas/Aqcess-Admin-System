@@ -445,7 +445,7 @@
             "button4": "Eliminar"
         },
         "hideModal": {
-            "title": "Ocultar área común",
+            "title": "Área común",
             "lable": "El área estará disponible para los residentes y estará disponible para futuras reservas.",
             "lable1": "El área estará oculta para los residentes y no estará disponible para futuras reservas. Las reservas existentes permanecerán activas.",
             "button1": "Cancelar",

@@ -18,7 +18,7 @@ import EditArea from "@/components/AreasComponents/EditArea";
 import { useLocale, useTranslations } from 'next-intl';
 
 const ViewDetails = () => {
-        const t = useTranslations();
+    const t = useTranslations();
     const areaData = useAppSelector((state) => state.area.areaData)
     const [area, setArea] = useState<any>({});
     const [loading, setLoading] = useState(true);
@@ -94,7 +94,7 @@ const ViewDetails = () => {
                         </div>
                         <div>
                             <button onClick={() => dispatch(toggleViewModal())} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                            {t('AREA.viewModal.back')}
+                                {t('AREA.viewModal.back')}
                             </button>
                         </div>
                     </div>
@@ -172,92 +172,6 @@ const ViewDetails = () => {
                                             ))}
                                         </div>
                                     ))}
-
-                            {/* <div className="w-full bg-white my-6  border border-stroke rounded-lg p-4">
-                            <h4 className="font-[600] text-[18px] text-black my-2">Jul 16th, 2024</h4>
-
-                            <div className="flex justify-between items-center p-4 border-b border-[#E4E7EC]">
-                                <div className="flex gap-x-4 ">
-                                    <p className="text-black text-[14px] font-[600]">10:00 - 12:00</p>
-                                    <p className=" text-[14px] font-[500]">John Smith, 123 Marple street 9</p>
-
-                                </div>
-                                <div>
-                                    <RiDeleteBin6Line className=" text-2xl" />
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center p-4 border-b border-[#E4E7EC]">
-                                <div className="flex gap-x-4 ">
-                                    <p className="text-black text-[14px] font-[600]">10:00 - 12:00</p>
-                                    <p className=" text-[14px] font-[500]">John Smith, 123 Marple street 9</p>
-
-                                </div>
-                                <div>
-                                    <RiDeleteBin6Line className=" text-2xl" />
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center p-4 border-b border-[#E4E7EC]">
-                                <div className="flex gap-x-4 ">
-                                    <p className="text-black text-[14px] font-[600]">10:00 - 12:00</p>
-                                    <p className=" text-[14px] font-[500]">John Smith, 123 Marple street 9</p>
-
-                                </div>
-                                <div>
-                                    <RiDeleteBin6Line className=" text-2xl" />
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center p-4 border-b border-[#E4E7EC]">
-                                <div className="flex gap-x-4 ">
-                                    <p className="text-black text-[14px] font-[600]">10:00 - 12:00</p>
-                                    <p className=" text-[14px] font-[500]">John Smith, 123 Marple street 9</p>
-
-                                </div>
-                                <div>
-                                    <RiDeleteBin6Line className=" text-2xl" />
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center p-4 border-b border-[#E4E7EC]">
-                                <div className="flex gap-x-4 ">
-                                    <p className="text-black text-[14px] font-[600]">10:00 - 12:00</p>
-                                    <p className=" text-[14px] font-[500]">John Smith, 123 Marple street 9</p>
-
-                                </div>
-                                <div>
-                                    <RiDeleteBin6Line className=" text-2xl" />
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center p-4 border-b border-[#E4E7EC]">
-                                <div className="flex gap-x-4 ">
-                                    <p className="text-black text-[14px] font-[600]">10:00 - 12:00</p>
-                                    <p className=" text-[14px] font-[500]">John Smith, 123 Marple street 9</p>
-
-                                </div>
-                                <div>
-                                    <RiDeleteBin6Line className=" text-2xl" />
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center p-4 border-b border-[#E4E7EC]">
-                                <div className="flex gap-x-4 ">
-                                    <p className="text-black text-[14px] font-[600]">10:00 - 12:00</p>
-                                    <p className=" text-[14px] font-[500]">John Smith, 123 Marple street 9</p>
-
-                                </div>
-                                <div>
-                                    <RiDeleteBin6Line className=" text-2xl" />
-                                </div>
-                            </div>
-
-                            <div className="flex justify-between items-center p-4 ">
-                                <div className="flex gap-x-4 ">
-                                    <p className="text-black text-[14px] font-[600]">10:00 - 12:00</p>
-                                    <p className=" text-[14px] font-[500]">John Smith, 123 Marple street 9</p>
-
-                                </div>
-                                <div>
-                                    <RiDeleteBin6Line className=" text-2xl" />
-                                </div>
-                            </div>
-                        </div> */}
                         </div>
 
                     </div>

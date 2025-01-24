@@ -4,7 +4,7 @@ import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { GrHide } from "react-icons/gr";
 import { BiSolidShow } from "react-icons/bi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { toggleStatusModal, toggleIsUpdated } from "@/store/Slices/AreaSlice"
+import { toggleStatusModal, toggleIsUpdated,toggleViewModal } from "@/store/Slices/AreaSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { changeCommonAreaStatus } from "@/lib/api/commonArea";
 import { useLocale, useTranslations } from 'next-intl';
@@ -13,6 +13,7 @@ const StatusModal: React.FC<any> = () => {
     const t = useTranslations();
     const statusModal = useAppSelector((state) => state.area.statusModal)
     const areaData = useAppSelector((state) => state.area.areaData)
+    const viewModal = useAppSelector((state) => state.area.viewModal)
     const token = useAppSelector((state) => state.auth.token);
     const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch()
@@ -27,6 +28,9 @@ const StatusModal: React.FC<any> = () => {
             };
             const response = await changeCommonAreaStatus(body);
             if (response.success) {
+                if (viewModal) {
+                    dispatch(toggleViewModal())
+                }
                 dispatch(toggleIsUpdated());
                 dispatch(toggleStatusModal());
                 showSuccessToast(response.data.message);
@@ -50,7 +54,7 @@ const StatusModal: React.FC<any> = () => {
                             <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none  px-8 py-8">
 
                                 {areaData.status === "hidden" ? <BiSolidShow size={30} className="mb-6 " /> : <GrHide size={30} className="mb-6 " />}
-                                <h3 className="text-3xl font-semibold mt-8">{areaData.status === "hidden" ? "Make available" : "Hide"}{t('AREA.hideModal.title')}</h3>
+                                <h3 className="text-3xl font-semibold mt-8">{areaData.status === "hidden" ? "Make available" : "Hide"} {t('AREA.hideModal.title')}</h3>
                                 {areaData.status === "hidden" ?
                                     <p className="font-[500] mt-4 mb-6">{t('AREA.hideModal.lable')}</p> :
                                     <p className="font-[500] mt-4 mb-6">{t('AREA.hideModal.lable1')}</p>}

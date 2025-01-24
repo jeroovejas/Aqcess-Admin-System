@@ -445,7 +445,7 @@
             "button4": "Delete"
         },
         "hideModal": {
-            "title": "Hide common area",
+            "title": "Common area",
             "lable": "Area will be available for residents and will be available for future bookings.",
             "lable1": "Area will be hidden from residents and will not be available for future bookings. Existing bookings will be remain active.",
             "button1": "Cancel",

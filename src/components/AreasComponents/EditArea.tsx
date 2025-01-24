@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, ChangeEvent } from "react";
-import { toggleEditModal, toggleIsUpdated } from "@/store/Slices/AreaSlice";
+import { toggleEditModal, toggleIsUpdated,toggleViewModal } from "@/store/Slices/AreaSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { editCommonArea } from "@/lib/api/commonArea";
@@ -28,6 +28,7 @@ const EditArea: React.FC = () => {
     const t = useTranslations();
     const editModal = useAppSelector((state) => state.area.editModal);
     const areaData = useAppSelector((state) => state.area.areaData);
+    const viewModal = useAppSelector((state) => state.area.viewModal);
     const token = useAppSelector((state) => state.auth.token);
     const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch();
@@ -170,6 +171,9 @@ const EditArea: React.FC = () => {
             formData.append('token', token);
             const response = await editCommonArea(formData);
             if (response.success) {
+                if (viewModal) {
+                    dispatch(toggleViewModal())
+                }
                 dispatch(toggleEditModal());
                 dispatch(toggleIsUpdated());
                 showSuccessToast(response.data.message);

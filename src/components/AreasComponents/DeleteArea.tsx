@@ -1,17 +1,18 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
 import { MdErrorOutline } from "react-icons/md";
-import { toggleDeleteModal, toggleIsUpdated } from "@/store/Slices/AreaSlice"
+import { toggleDeleteModal, toggleIsUpdated, toggleViewModal } from "@/store/Slices/AreaSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { deleteCommonArea } from "@/lib/api/commonArea";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
 
-const DeleteArea: React.FC<any> = () => { 
+const DeleteArea: React.FC<any> = () => {
     const t = useTranslations();
     const deleteModal = useAppSelector((state) => state.area.deleteModal)
     const areaData = useAppSelector((state) => state.area.areaData)
+    const viewModal = useAppSelector((state) => state.area.viewModal)
     const token = useAppSelector((state) => state.auth.token)
     const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useAppDispatch()
@@ -22,6 +23,9 @@ const DeleteArea: React.FC<any> = () => {
             let params = { id: areaData.id, token: token }
             const response = await deleteCommonArea(params);
             if (response.success) {
+                if (viewModal) {
+                    dispatch(toggleViewModal())
+                }
                 dispatch(toggleIsUpdated())
                 dispatch(toggleDeleteModal())
                 showSuccessToast(response.data.message);
