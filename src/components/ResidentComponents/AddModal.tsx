@@ -318,6 +318,7 @@ const AddModal: React.FC<any> = () => {
                                     value={number}
                                     onChange={handleNumberChange}
                                     placeholder={t('RESIDENT.button3Modal.lable4')}
+                                    required
                                 />
                             </div>
                             {error && <p className="text-red text-sm font-semibold mb-2">{error}</p>}
@@ -395,6 +396,7 @@ const AddModal: React.FC<any> = () => {
                                             onChange={(selectedOption) => handlePetTypeChange(petIndex, selectedOption)} // Update state
                                             placeholder={t('RESIDENT.button3Modal.lable9')}
                                             isClearable
+                                            required
                                         />
                                     </div>
                                     <div className="w-full flex justify-between items-center">

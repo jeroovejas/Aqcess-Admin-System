@@ -284,6 +284,7 @@ const EditModal: React.FC<any> = () => {
                                                 onChange={(selectedOption) => handlePetTypeChange(petIndex, selectedOption)}
                                                 placeholder={t('RESIDENT.button3Modal.lable9')}
                                                 isClearable
+                                                required
                                             />
                                         </div>
                                         <div className="w-full flex justify-between items-center">
