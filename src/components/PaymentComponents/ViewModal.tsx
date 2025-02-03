@@ -44,12 +44,12 @@ const ViewModal: React.FC<any> = () => {
                             <div className="w-full my-6 ">
 
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'> {t('PAYMENT.viewModal.label1')}</p>
+                                    <p className='font-bold w-1/3'> {t('PAYMENT.viewModal.label2')}</p>
                                     <p className='font-medium w-2/3'>{payment.invoiceId}</p>
 
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>{t('PAYMENT.viewModal.label2')}</p>
+                                    <p className='font-bold w-1/3'>{t('PAYMENT.viewModal.label1')}</p>
                                     <p className='font-medium w-2/3'>{payment.residentName}</p>
 
                                 </div>

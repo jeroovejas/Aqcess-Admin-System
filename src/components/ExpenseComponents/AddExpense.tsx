@@ -139,6 +139,7 @@ const AddExpense: React.FC<any> = () => {
                                     onChange={handleChange}
                                     placeholder={t('PAYMENT.paymentModal.placeHolder3')}
                                     value={formData.amount || ''}
+                                    required
                                 />
                             </div>
 
