@@ -9,6 +9,7 @@ import settingReducer from "./Slices/SettingSlice"
 import userManagementReducer from "./Slices/UserManagementSlice"
 import authReducer from "./Slices/AuthSlice"
 import securityGuardReducer from "./Slices/SecurityGuardSlice"
+import expenseReducer from "./Slices/ExpenseSlice"
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from './storage'
 
@@ -21,6 +22,7 @@ export const store = configureStore({
   reducer: {
     resident: residentReducer,
     payment: paymentReducer,
+    expense: expenseReducer,
     access: accessReducer,
     survey: surveyReducer,
     place: placeReducer,
@@ -42,7 +44,5 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch

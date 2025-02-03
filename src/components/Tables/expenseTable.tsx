@@ -7,20 +7,21 @@ import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { getAllPayments } from "@/lib/api/payment";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
-import { setPaymentDetails, setPaymentData, toggleViewModal, togglePaymentStatusModal } from "@/store/Slices/PaymentSlice";
+import { setExpenseData, setExpenseDetails, toggleDeleteModal, toggleIsUpdated, toggleViewModal } from "@/store/Slices/ExpenseSlice";
 import { useLocale, useTranslations } from 'next-intl';
 import { toTitleCase, downloadBase64Image } from "@/lib/common.modules";
+import { getAllExpenses } from "@/lib/api/expense";
 
 
-const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
+const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   const t = useTranslations();
   const limit = 10;
   const PAGE_RANGE = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const isUpdated = useAppSelector((state) => state.payment.isUpdated)
+  const isUpdated = useAppSelector((state) => state.expense.isUpdated)
   const token = useAppSelector((state) => state.auth.token);
-  const [payments, setPayments] = useState<any[]>([]);
+  const [expenses, setExpenses] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch()
 
@@ -51,57 +52,56 @@ const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
     }
   };
 
-  const handleViewPayment = (payment: any) => {
+  const handleViewExpense = (expense: any) => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-    dispatch(setPaymentData(payment))
+    dispatch(setExpenseData(expense))
     dispatch(toggleViewModal())
   }
 
-  const handlePaymentStatusChange = (payment: any) => {
-    dispatch(setPaymentData(payment))
-    dispatch(togglePaymentStatusModal())
+  const handleDeleteExpense = (expense: any) => {
+    dispatch(setExpenseData(expense))
+    dispatch(toggleDeleteModal())
   }
 
   useEffect(() => {
     setLoading(true);
-    fetchIncomes().finally(() => {
+    fetchExpenses().finally(() => {
       setLoading(false);
     });
   }, [currentPage, isUpdated, filterTerm, searchTerm])
 
 
-  const fetchIncomes = async () => {
+  const fetchExpenses = async () => {
     try {
 
       let params = { page: currentPage, token: token, limit: limit, filterTerm: filterTerm, searchTerm: searchTerm }
-      const response = await getAllPayments(params);
+      const response = await getAllExpenses(params);
 
       // Check the success property to determine if the request was successful
       if (response.success) {
-        console.log(response.data.data)
-        setPayments(response.data.data.allPayments);
+        setExpenses(response.data.data.allExpenses);
         setTotalPages(response.data.data.pagination.totalPages)
-        dispatch(setPaymentDetails({
-          totalPendingAmount: response.data.data.totalPendingAmount,
-          painInTime: response.data.data.painInTime,
-          paymentThisMonth: response.data.data.paymentThisMonth,
+        dispatch(setExpenseDetails({
+          totalExpenses: response.data.data.totalExpenses,
+          totalIncomes: response.data.data.totalIncomes,
+          expenseThisMonth: response.data.data.expenseThisMonth,
         }))
       } else {
         showErrorToast(response.data.message)
       }
     } catch (err: any) {
-      console.error('Unexpected error during incomes Fetch:', err.message);
+      console.error('Unexpected error during expenses Fetch:', err.message);
     }
   }
 
-  console.log("payments", payments)
+  console.log("expenses", expenses)
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-        {t('PAYMENT.table.title')}
+      {t('EXPENSE.table.title')}
       </h4>
       {loading ? (
         <Loader />
@@ -111,88 +111,65 @@ const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  {t('PAYMENT.table.column1')}
+                {t('EXPENSE.table.column1')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('PAYMENT.table.column2')}
+                {t('EXPENSE.table.column2')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('PAYMENT.table.column3')}
+                {t('EXPENSE.table.column3')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('PAYMENT.table.column4')}
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  {t('PAYMENT.table.column5')}
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  {t('PAYMENT.table.column7')}
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  {t('PAYMENT.table.column6')}
+                {t('EXPENSE.table.column4')}
                 </th>
                 <th>
 
                 </th>
-                <th>
-
-                </th>
+  
               </tr>
             </thead>
             <tbody>
-              {payments.length === 0 ? (
+              {expenses.length === 0 ? (
                 <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
                   <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
                     {t('COMMON.noDataText')}
                   </td>
                 </tr>
               ) : (
-                payments.map((payment, key) => (
+                expenses.map((expense, key) => (
                   <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.invoiceId}
-                    </td>
                     <td scope="row" className="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                      {payment.profileImage !== null ?
+                      {expense.profileImage !== null ?
                         <div className="w-10 h-10 rounded-full overflow-hidden">
-                          <img src={payment.profileImage} alt="Profile Image" className="w-full h-full object-cover" />
+                          <img src={expense.profileImage} alt="Profile Image" className="w-full h-full object-cover" />
                         </div> : <div className="flex-shrink-0">
                           <img src="/images/user/dummy.png" alt="Profile Image" width={35} height={35} />
                         </div>}
                       <p className=" text-black font-bold dark:text-white  mt-2 ml-2">
-                        {payment.residentName}
+                        {expense.userName}
                       </p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.amount}
+                      {expense.amount}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.productTitle}
+                      {expense.desc}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.createdAt}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {toTitleCase(payment.type)}
-                    </td>
-                    <td className="px-6 py-4  font-bold whitespace-nowrap">
-                      <span className={` p-2 rounded-2xl ${payment.adminStatus == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.adminStatus == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
-                        {toTitleCase(payment.adminStatus)}
-                      </span>
+                      {expense.createdAt}
                     </td>
                     <td className="relative group whitespace-nowrap overflow-visible">
                       <BsThreeDotsVertical className="text-black" />
                       <ul className="absolute z-50 bottom-0 mb-0 min-w-[170px] w-auto right-2 text-[14px] bg-white hidden group-hover:block text-black border border-gray shadow-lg">
-                        <li onClick={() => handleViewPayment(payment)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                          {t('PAYMENT.table.option1')}
+                        <li onClick={() => handleViewExpense(expense)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                        {t('EXPENSE.table.tab1')}
                         </li>
-                        {payment.adminStatus === 'pending' &&
-                          <li onClick={() => handlePaymentStatusChange(payment)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                            {t('PAYMENT.table.option2')}
-                          </li>}
-                        {payment.attachment &&
-                          <li onClick={() => downloadBase64Image(payment.attachmentBase64)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                            {t('PAYMENT.table.option3')}
+                        <li onClick={() => handleDeleteExpense(expense)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                        {t('EXPENSE.table.tab2')}
+                        </li>
+                        {expense.attachment &&
+                          <li onClick={() => downloadBase64Image(expense.attachmentBase64)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                          {t('EXPENSE.table.tab3')}
                           </li>}
                       </ul>
                     </td>
@@ -249,4 +226,4 @@ const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   );
 };
 
-export default PaymentTable;
+export default ExpenseTable;

@@ -3,25 +3,28 @@ import { useState, useEffect, useRef } from "react";
 import PaymentTable from "@/components/Tables/paymentTable";
 import { IoFilterSharp } from "react-icons/io5";
 import { TfiExport } from "react-icons/tfi";
+import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
 import ExportModal from "@/components/PaymentComponents/ExportModal";
 import { FaChevronRight } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { toggleExportModal, resetPaymentState } from "@/store/Slices/PaymentSlice";
-// import Link from "next/link";
-// import { Link, usePathname } from '@/navigation';
-import { showErrorToast } from "@/lib/toastUtil";
+import { toggleExportModal, resetPaymentState, toggleAddPayment } from "@/store/Slices/PaymentSlice";
 import Loader from "@/components/common/Loader";
-// import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
 import { useLocale, useTranslations } from 'next-intl';
+import AddPayment from "@/components/PaymentComponents/AddPayment";
+import ViewModal from "@/components/PaymentComponents/ViewModal";
+import PaymentStatusModal from "@/components/PaymentComponents/PaymentStatusModal";
 
 const PaymentManager = () => {
-    const t = useTranslations();
+  const t = useTranslations();
   const exportModal = useAppSelector((state) => state.payment.exportModal)
+  const paymentStatusModal = useAppSelector((state) => state.payment.paymentStatusModal)
   const paymentDetails = useAppSelector((state) => state.payment.paymentDetails)
+  const addPayment = useAppSelector((state) => state.payment.addPayment)
+  const viewModal = useAppSelector((state) => state.payment.viewModal)
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
@@ -51,6 +54,14 @@ const PaymentManager = () => {
     setSearchTerm(event.target.value); // Update the search term
   };
 
+  const handleAddPayment = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    dispatch(toggleAddPayment())
+  };
+
   useEffect(() => {
     if (isTokenValid) {
       setVerified(true);
@@ -63,7 +74,7 @@ const PaymentManager = () => {
   }, [isTokenValid, router])
 
   useEffect(() => {
-    if (exportModal) {
+    if (exportModal || addPayment || viewModal || paymentStatusModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
@@ -71,7 +82,7 @@ const PaymentManager = () => {
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [exportModal]);
+  }, [exportModal, addPayment, viewModal, paymentStatusModal]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
@@ -106,17 +117,19 @@ const PaymentManager = () => {
             {/* <Breadcrumb pageName="Resident manager" /> */}
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-              {t('PAYMENT.title')}
+                {t('PAYMENT.title')}
               </h2>
             </div>
             <div className="mx-auto">
               <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                {t('PAYMENT.tab1')}
+                  {t('PAYMENT.tab1')}
                 </button>
+                <div className="mt-1 text-lg font-bold me-3">
+                  <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
+                </div>
                 <div className="mt-1 text-lg font-bold">
                   <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
-
                 </div>
               </div>
             </div>
@@ -182,7 +195,7 @@ const PaymentManager = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown("completed")}
+                                onClick={() => closeDropdown("approved")}
                               >
                                 {t('COMMON.lable3')}
                               </button>
@@ -191,9 +204,18 @@ const PaymentManager = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown("pendingh")}
+                                onClick={() => closeDropdown("pending")}
                               >
                                 {t('COMMON.lable4')}
+                              </button>
+                            </li>
+                            <li>
+                              <button
+                                type="button"
+                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
+                                onClick={() => closeDropdown("rejected")}
+                              >
+                                {t('COMMON.lable14')}
                               </button>
                             </li>
                             <li>
@@ -226,14 +248,27 @@ const PaymentManager = () => {
                     {t('PAYMENT.button1')}
                   </button>
                 </div>
+                <div className="w-full mr-3 md:w-auto mt-2 md:mt-0">
+                  <button
+                    type="button"
+                    onClick={handleAddPayment}
+                    className="w-full justify-center text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center"
+                  >
+                    <IoIosAdd className="mr-2 text-white text-xl" />
+                    {t('PAYMENT.button2')}
+                  </button>
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-10">
               <PaymentTable filterTerm={filterTerm} searchTerm={searchTerm} />
             </div>
-            {(exportModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
+            {(exportModal || addPayment || viewModal || paymentStatusModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
             </div>}
             <ExportModal />
+            <AddPayment />
+            <ViewModal />
+            <PaymentStatusModal />
           </DefaultLayout>
         </>
       ) : null}

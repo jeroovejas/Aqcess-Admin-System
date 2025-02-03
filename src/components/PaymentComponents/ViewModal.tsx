@@ -1,0 +1,116 @@
+import React, { useRef, useEffect } from 'react'
+import { toggleViewModal } from "@/store/Slices/PaymentSlice"
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useLocale, useTranslations } from 'next-intl';
+import { toTitleCase } from '@/lib/common.modules';
+
+const ViewModal: React.FC<any> = () => {
+    const t = useTranslations();
+
+    const viewModal = useAppSelector((state) => state.payment.viewModal)
+    const payment = useAppSelector((state) => state.payment.paymentData)
+    const dispatch = useAppDispatch()
+
+
+    const truncateText = (text: any, maxLength: any) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    };
+
+    return (
+        <>
+            {viewModal ? (
+                <>
+                    <div className={`absolute top-0 right-0 w-full z-999 md:w-2/5 bg-white  h-screen overflow-y-scroll my-scrollbar`}>
+                        <div className="border-0  relative text-black w-full h-full outline-none focus:outline-none  px-8 py-8">
+                            <div className="flex justify-between items-center mt-8">
+
+
+                                <div className="flex items-center gap-3">
+                                    <h3 className="text-3xl font-semibold ">{payment.invoiceId}</h3>
+                                    <span className={` p-2 rounded-2xl ${payment.adminStatus == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.adminStatus == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
+                                        {toTitleCase(payment.adminStatus)}
+                                    </span>
+                                </div>
+
+                                <button className="bg-transparent border-0 text-[20px] font-bold text-black "
+                                    onClick={() => dispatch(toggleViewModal())}
+                                >
+                                    x
+                                </button>
+                            </div>
+                            <div className="w-full my-6 ">
+
+                                <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                    <p className='font-bold w-1/3'> {t('PAYMENT.viewModal.label1')}</p>
+                                    <p className='font-medium w-2/3'>{payment.invoiceId}</p>
+
+                                </div>
+                                <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                    <p className='font-bold w-1/3'>{t('PAYMENT.viewModal.label2')}</p>
+                                    <p className='font-medium w-2/3'>{payment.residentName}</p>
+
+                                </div>
+                                <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                    <p className='font-bold w-1/3'>{t('PAYMENT.viewModal.label3')}</p>
+                                    <p className='font-medium w-2/3'> {payment.productTitle}</p>
+
+                                </div>
+                                <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                    <p className='font-bold w-1/3'>{t('PAYMENT.viewModal.label4')}</p>
+                                    <p className='font-medium w-2/3'> {payment.amount}</p>
+
+                                </div>
+                                <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                    <p className='font-bold w-1/3'>{t('PAYMENT.viewModal.label5')}</p>
+                                    <p className='font-medium w-2/3'> {toTitleCase(payment.type)}</p>
+
+                                </div>
+                                <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                    <div className='font-bold w-1/3'>{t('PAYMENT.viewModal.label6')}</div>
+                                    <div className='font-medium w-2/3 '>{truncateText(payment.desc, 100)}</div>
+
+                                </div>
+                                {payment.rejectReason &&
+                                    <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                        <div className='font-bold w-1/3'>{t('PAYMENT.viewModal.label7')}</div>
+                                        <div className='font-medium w-2/3 '>{truncateText(payment.rejectReason, 100)}</div>
+
+                                    </div>}
+                                {payment.attachment &&
+                                    <div className=" py-4 ">
+                                        <div className='font-bold w-1/3'>{t('PAYMENT.viewModal.label8')}</div>
+                                        <img src={payment.attachment} className='w-full mt-3 h-[250px] object-cover rounded-lg' alt='Attachment' />
+
+                                    </div>}
+                            </div>
+                            <div className="flex gap-3 items-center ">
+                                <button
+                                    className=" border rounded-lg border-[#DDDDDD]  background-transparent font-medium  px-6 text-sm py-3  outline-none  ml-2 mb-1"
+                                    type="button"
+                                    onClick={() => dispatch(toggleViewModal())}
+                                >
+                                    {t('PAYMENT.viewModal.button')}
+                                </button>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </>
+            ) : null}
+        </>
+    );
+}
+
+export default ViewModal
+
+

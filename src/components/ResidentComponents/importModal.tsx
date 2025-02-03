@@ -7,10 +7,11 @@ import { showSuccessToast, showErrorToast } from "../../lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { importResidents } from "@/lib/api/resident";
 import { useLocale, useTranslations } from 'next-intl';
+import { LuDownload } from "react-icons/lu";
 
 
 const ImportModal: React.FC<any> = () => {
-  const t = useTranslations();
+    const t = useTranslations();
     const importModal = useAppSelector((state) => state.resident.importModal);
     const token = useAppSelector((state) => state.auth.token);
     const [loading, setLoading] = useState<boolean>(false);
@@ -63,12 +64,33 @@ const ImportModal: React.FC<any> = () => {
         <>
             {importModal && (
                 <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                    <div  className="relative w-auto my-6 max-w-3xl">
+                    <div className="relative w-auto my-6 max-w-3xl">
                         <div className="border-0 rounded-lg shadow-lg relative text-black w-full bg-white outline-none focus:outline-none px-8 py-8">
                             <FaRegArrowAltCircleDown size={30} className="mb-6" />
                             <h3 className="text-3xl font-semibold mt-8">{t('RESIDENT.button1Modal.title')}</h3>
                             <div className="w-full my-6">
-                                <p className="font-[500] mt-3 mb-2">{t('RESIDENT.button1Modal.lable')} <small>(.csv)</small> <span className="text-danger">*</span></p>
+                                <div className="flex justify-between items-center">
+                                    <p className="font-[500] mt-3 mb-2">
+                                        {t('RESIDENT.button1Modal.lable')} <small>(.csv)</small>
+                                        <span className="text-danger">*</span>
+                                    </p>
+
+                                    {/* Group wrapper for hover effect */}
+                                    <div className="relative group flex items-center me-3">
+                                        <a href="/files/residents.csv" download className="p-2">
+                                            <LuDownload className="text-lg" />
+                                        </a>
+
+                                        {/* Tooltip */}
+                                        <div className="absolute left-1/2 -translate-x-1/2 -top-6 bg-gray-900 text-blue-950 text-xs font-bold fo px-3 py-1 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
+                                            Download Sample
+                                            {/* Tooltip Arrow */}
+                                            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div className="relative">
                                     <input
                                         type="file"

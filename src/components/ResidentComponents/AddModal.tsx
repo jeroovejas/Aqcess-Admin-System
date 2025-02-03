@@ -52,7 +52,6 @@ const initialFormData: FormData = {
 const AddModal: React.FC<any> = () => {
     const dispatch = useAppDispatch();
     const t = useTranslations();
-
     const addModal = useAppSelector((state) => state.resident.addModal);
     const petOptions = useAppSelector((state) => state.resident.PetTypeData);
     const token = useAppSelector((state) => state.auth.token);

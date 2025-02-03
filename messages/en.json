@@ -323,6 +323,7 @@
     "PAYMENT": {
         "tab1": "Payment History",
         "tab2": "Product",
+        "tab3": "Expense",
         "title": "Payment Manager",
         "card1": "Payments this month",
         "card2": "Over payments",
@@ -334,9 +335,14 @@
             "column3": "Amount",
             "column4": "Product",
             "column5": "Date and time",
-            "column6": "Status"
+            "column6": "Status",
+            "column7": "Type",
+            "option1": "View",
+            "option2": "Update status",
+            "option3": "Dowload invoice"
         },
         "button1": "Export list",
+        "button2": "Add payment",
         "button1Modal": {
             "title": "Export payment history",
             "lable": "Please select the format you would like to use for exporting",
@@ -344,6 +350,43 @@
             "button2": "Export",
             "option1": "Excel",
             "option2": "PDF"
+        },
+        "paymentModal": {
+            "title": "Add payment",
+            "label1": "Residents",
+            "label2": "Products",
+            "label3": "Amount",
+            "label4": "Description",
+            "label5": "Attachement",
+            "placeHolder1": "Select Resident",
+            "placeHolder2": "Select Product",
+            "placeHolder3": "Enter amount",
+            "placeHolder4": "Enter description",
+            "button1": "Cancel",
+            "button2": "Add Payment"
+        },
+        "viewModal": {
+            "label1": "Resident",
+            "label2": "Invoive Id",
+            "label3": "Product",
+            "label4": "Amount",
+            "label5": "Type",
+            "label6": "Description",
+            "label7": "Reject Reason",
+            "label8": "Attachment",
+            "button": "Close"
+        },
+        "statusModal": {
+            "title": "Update Payment Status",
+            "desc": "Select carefully as it will impact the payments of residents",
+            "label1": "Status",
+            "label2": "Reject Reason",
+            "placeHolder1": "Select status",
+            "placeHolder2": "Enter reason for payment rejection",
+            "option1": "Approved",
+            "option2": "Rejected",
+            "button1": "Cancel",
+            "button2": "Update"
         },
         "filterButton": "Filter",
         "search": "Search by resident or invoice ID"
@@ -354,7 +397,8 @@
             "column1": "Product",
             "column2": "Description",
             "column3": "Price",
-            "column4": "Status"
+            "column4": "Status",
+            "column5": "Type"
         },
         "button1": "Create new",
         "button1Modal": {
@@ -366,6 +410,9 @@
             "lable2": "Add description about product",
             "title3": "Price",
             "lable3": "Enter product price",
+            "title4": "Type",
+            "title5": "Year",
+            "title6": "Month",
             "button1": "Cancel",
             "button2": "Publish",
             "button3": "Save as draft"
@@ -387,6 +434,42 @@
         },
         "filterButton": "Filter",
         "search": "Search for product"
+    },
+    "EXPENSE": {
+        "label1": "Expense this month",
+        "label2": "Total expenses",
+        "label3": "Total incomes",
+        "label4": "Search for expenses",
+        "button1": "Export list",
+        "button2": "Add expense",
+        "table": {
+            "title": "All Expenses",
+            "column1": "User",
+            "column2": "Amount",
+            "column3": "Description",
+            "column4": "Date and time",
+            "tab1": "View",
+            "tab2": "Delete",
+            "tab3": "Dowload Invoice"
+        },
+        "addModal": {
+            "title": "Add expense",
+            "button": "Add expense"
+        },
+        "exportModal": {
+            "title": "Export expenses data"
+        },
+        "viewModal": {
+            "title": "Expense Details",
+            "label1": "User Name",
+            "label2": "Amount",
+            "label3": "Description",
+            "label4": "Attachment"
+        },
+        "deleteModal": {
+            "title": "Delete expense ?",
+            "desc": "Are you sure you want to delete this expense as this will affect the activities related to payments in your account"
+        }
     },
     "AREA": {
         "title": "Common Areas",
@@ -552,6 +635,7 @@
         "lable11": "Deactivate",
         "lable12": "View",
         "lable13": "Activate",
+        "lable14": "Rejected",
         "next": "Next",
         "previous": "Previous",
         "noDataText": "No Data Found"
@@ -570,7 +654,8 @@
         "lable11": "User Management",
         "lable12": "Subscriptions",
         "lable13": "Invoices",
-        "lable14": "Places"
+        "lable14": "Places",
+        "lable15": "Expenses"
     },
     "TIMING": {
         "label1": "Day",

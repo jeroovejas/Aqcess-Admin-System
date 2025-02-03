@@ -32,7 +32,7 @@ const ExportModal: React.FC<any> = () => {
                 dispatch(toggleExportModal())
                 showSuccessToast(response.message);
             } else {
-                showSuccessToast('Failed to download the file. Please try again.');
+                showErrorToast('Failed to download the file. Please try again.');
             }
         } catch (err: any) {
             console.error('Unexpected error during deleting resident:', err.message);

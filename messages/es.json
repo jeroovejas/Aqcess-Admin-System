@@ -323,6 +323,7 @@
     "PAYMENT": {
         "tab1": "Historial de pagos",
         "tab2": "Producto",
+        "tab3": "Gastos",
         "title": "Gestor de pagos",
         "card1": "Pagos de este mes",
         "card2": "Pagos atrasados",
@@ -334,9 +335,14 @@
             "column3": "Monto",
             "column4": "Producto",
             "column5": "Fecha y hora",
-            "column6": "Estado"
+            "column6": "Estado",
+            "column7": "Tipo",
+            "option1": "Vista",
+            "option2": "Estado de actualización",
+            "option3": "Descargar factura"
         },
         "button1": "Exportar lista",
+        "button2": "Agregar pago",
         "button1Modal": {
             "title": "Exportar historial de pagos",
             "lable": "Por favor, seleccione el formato que desea usar para exportar",
@@ -344,6 +350,43 @@
             "button2": "Exportar",
             "option1": "Excel",
             "option2": "PDF"
+        },
+        "paymentModal": {
+            "title": "Agregar pago",
+            "label1": "Residentes",
+            "label2": "Productos",
+            "label3": "Cantidad",
+            "label4": "Descripción",
+            "label5": "Adjunto",
+            "placeHolder1": "Seleccionar Residente",
+            "placeHolder2": "Seleccionar Producto",
+            "placeHolder3": "Ingrese la cantidad",
+            "placeHolder4": "Introduce la descripción",
+            "button1": "Cancelar",
+            "button2": "Agregar pago"
+        },
+        "viewModal": {
+            "label1": "Residente",
+            "label2": "ID de factura",
+            "label3": "Producto",
+            "label4": "Cantidad",
+            "label5": "Tipo",
+            "label6": "Descripción",
+            "label7": "Motivo del rechazo",
+            "label8": "Adjunto",
+            "button": "Cerca"
+        },
+        "statusModal": {
+            "title": "Actualizar estado de pago",
+            "desc": "Seleccione cuidadosamente ya que afectará los pagos de las residentes.",
+            "label1": "Estado",
+            "label2": "Motivo del rechazo",
+            "placeHolder1": "Seleccionar estado",
+            "placeHolder2": "Ingrese el motivo del rechazo del pago",
+            "option1": "Aprobada",
+            "option2": "Rechazada",
+            "button1": "Cancelar",
+            "button2": "Actualizar"
         },
         "filterButton": "Filtrar",
         "search": "Buscar por residente o ID de factura"
@@ -354,7 +397,8 @@
             "column1": "Producto",
             "column2": "Descripción",
             "column3": "Precio",
-            "column4": "Estado"
+            "column4": "Estado",
+            "column5": "Tipo"
         },
         "button1": "Crear nuevo",
         "button1Modal": {
@@ -366,6 +410,9 @@
             "lable2": "Agregar descripción sobre el producto",
             "title3": "Precio",
             "lable3": "Ingresa el precio del producto",
+            "title4": "Tipo",
+            "title5": "Año",
+            "title6": "Mes",
             "button1": "Cancelar",
             "button2": "Publicar",
             "button3": "Guardar como borrador"
@@ -387,6 +434,42 @@
         },
         "filterButton": "Filtrar",
         "search": "Buscar producto"
+    },
+    "EXPENSE": {
+        "label1": "Gasto este mes",
+        "label2": "Gastos totales",
+        "label3": "Ingresos totales",
+        "label4": "buscar gastos",
+        "button1": "Lista de exportación",
+        "button2": "Agregar gasto",
+        "table": {
+            "title": "Todos los gastos",
+            "column1": "Usuaria",
+            "column2": "Cantidad",
+            "column3": "Descripción",
+            "column4": "Fecha y hora",
+            "tab1": "Vista",
+            "tab2": "Borrar",
+            "tab3": "Descargar Factura"
+        },
+        "addModal": {
+            "title": "Agregar gasto",
+            "button": "Agregar gasto"
+        },
+        "exportModal": {
+            "title": "Datos de gastos de exportación"
+        },
+        "viewModal": {
+            "title": "Detalles de gastos",
+            "label1": "Nombre de usuario",
+            "label2": "Cantidad",
+            "label3": "Descripción",
+            "label4": "Adjunto"
+        },
+        "deleteModal": {
+            "title": "¿Eliminar gasto?",
+            "desc": "¿Está seguro de que desea eliminar este gasto ya que afectará las actividades relacionadas con los pagos en su cuenta?"
+        }
     },
     "AREA": {
         "title": "Áreas Comunes",
@@ -552,6 +635,7 @@
         "lable11": "Desactivar",
         "lable12": "Vista",
         "lable13": "Activar",
+        "lable14": "Rechazada",
         "next": "Próxima",
         "previous": "Previa",
         "noDataText": "No se encontraron datos"
@@ -570,7 +654,8 @@
         "lable11": "Gestión de usuarios",
         "lable12": "Suscripciones",
         "lable13": "Facturas",
-        "lable14": "Lugares"
+        "lable14": "Lugares",
+        "lable15": "Gastos"
     },
     "TIMING": {
         "label1": "Día",

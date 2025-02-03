@@ -1,41 +1,36 @@
 "use client"
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdErrorOutline } from "react-icons/md";
-import { toggleDeleteModal, toggleEditModal,toggleIsUpdated } from "@/store/Slices/ResidentSlice"
+import { toggleDeleteModal,toggleIsUpdated } from "@/store/Slices/ExpenseSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { deleteResident } from "@/lib/api/resident";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
+import { deleteExpense } from "@/lib/api/expense";
 
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const DeleteModal: React.FC<any> = () => {
-      const t = useTranslations();
-    
-    const deleteModal = useAppSelector((state) => state.resident.deleteModal)
-    const editModal = useAppSelector((state) => state.resident.editModal)
-    const resident = useAppSelector((state) => state.resident.residentData)
+    const t = useTranslations();
+    const deleteModal = useAppSelector((state) => state.expense.deleteModal)
+    const expense = useAppSelector((state) => state.expense.expenseData)
     const token = useAppSelector((state) => state.auth.token)
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false);
 
-    const handleDelete = async () => { 
+    const handleDelete = async () => {
         setLoading(true)
         try {
-            let params = { id: resident.id, token: token }
-            const response = await deleteResident(params);
+            let params = { id: expense.id, token: token }
+            const response = await deleteExpense(params);
             if (response.success) {
                 dispatch(toggleIsUpdated())
                 dispatch(toggleDeleteModal())
-                if (editModal) {
-                    dispatch(toggleEditModal())
-                }
                 showSuccessToast(response.data.message);
             } else {
                 showErrorToast(response.data.message)
             }
 
         } catch (err: any) {
-            console.error('Unexpected error during deleting resident:', err.message);
+            console.error('Unexpected error during deleting expense:', err.message);
         } finally {
             setLoading(false)
         }
@@ -54,8 +49,8 @@ const DeleteModal: React.FC<any> = () => {
 
                                 <MdErrorOutline size={45} className="mb-6 text-danger bg-danger-light rounded-full p-2" />
 
-                                <h3 className="text-xl font-semibold mt-8">{t('RESIDENT.deleteModal.title')}</h3>
-                                <p className="font-[500] mt-2 mb-6">{t('RESIDENT.deleteModal.lable')}</p>
+                                <h3 className="text-xl font-semibold mt-8">{t('EXPENSE.deleteModal.title')}</h3>
+                                <p className="font-[500] mt-2 mb-6">{t('EXPENSE.deleteModal.desc')}</p>
 
 
                                 <div className="flex gap-3 items-center">

@@ -118,6 +118,9 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                                 {t('PRODUCT.table.column3')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
+                                {t('PRODUCT.table.column5')}
+                                </th>
+                                <th scope="col" className="px-6 py-3">
                                 {t('PRODUCT.table.column4')}
                                 </th>
                                 <th>
@@ -143,6 +146,9 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             ${product.price}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {product.type}
                                         </td>
                                         <td className={`px-4 py-4 flex items-center font-bold  whitespace-nowrap`}>
                                             <div className={`flex items-center p-2 rounded-2xl ${product.status === 'active' ? 'text-meta-3 bg-[#ECFDED]' : product.status === 'inactive' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-yellow-100 text-yellow-700'}`}>

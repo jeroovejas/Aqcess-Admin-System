@@ -11,12 +11,16 @@ interface PaymentDetails {
 
 interface ProductState {
     exportModal: boolean,
+    paymentStatusModal: boolean,
     statusModal: boolean,
     addProduct: boolean,
+    addPayment: boolean,
     duplicateModal: boolean,
     editProduct: boolean,
+    viewModal: boolean,
     isUpdated: boolean,
     productData: any,
+    paymentData: any,
     paymentDetails: PaymentDetails;
 
 }
@@ -24,11 +28,15 @@ interface ProductState {
 // Define the initial state using that type
 const initialState: ProductState = {
     exportModal: false,
+    paymentStatusModal: false,
     statusModal: false,
     addProduct: false,
+    addPayment: false,
     duplicateModal: false,
     editProduct: false,
+    viewModal: false,
     isUpdated: false,
+    paymentData: {},
     productData: {},
     paymentDetails: {
         totalPendingAmount: 0,
@@ -45,8 +53,14 @@ export const productSlice = createSlice({
         toggleExportModal: (state) => {
             state.exportModal = !state.exportModal;
         },
+        togglePaymentStatusModal: (state) => {
+            state.paymentStatusModal = !state.paymentStatusModal;
+        },
         toggleAddProduct: (state) => {
             state.addProduct = !state.addProduct;
+        },
+        toggleAddPayment: (state) => {
+            state.addPayment = !state.addPayment;
         },
         toggleEditProduct: (state) => {
             state.editProduct = !state.editProduct;
@@ -60,14 +74,23 @@ export const productSlice = createSlice({
         setProductData: (state, action: PayloadAction<any>) => {
             state.productData = { ...state.productData, ...action.payload };
         },
+        setPaymentData: (state, action: PayloadAction<any>) => {
+            state.paymentData = { ...state.paymentData, ...action.payload };
+        },
         toggleIsUpdated: (state) => {
             state.isUpdated = !state.isUpdated;
         },
         setPaymentDetails: (state, action: PayloadAction<Partial<PaymentDetails>>) => {
             state.paymentDetails = { ...state.paymentDetails, ...action.payload };
         },
+        toggleViewModal: (state) => {
+            state.viewModal = !state.viewModal;
+        },
         resetPaymentState: (state) => {
             state.exportModal = false;
+            state.viewModal = false;
+            state.paymentStatusModal = false;
+            state.addPayment = false;
         },
         resetProductState: (state) => {
             state.statusModal = false;
@@ -80,5 +103,5 @@ export const productSlice = createSlice({
     },
 })
 
-export const { toggleExportModal, toggleAddProduct, setProductData, toggleEditProduct, toggleStatusModal, toggleDuplicateModal, toggleIsUpdated, resetProductState, resetPaymentState, setPaymentDetails } = productSlice.actions
+export const { toggleExportModal, toggleAddProduct, setProductData, toggleEditProduct, toggleStatusModal, toggleDuplicateModal, toggleIsUpdated, resetProductState, resetPaymentState, setPaymentDetails, toggleAddPayment, setPaymentData, toggleViewModal,togglePaymentStatusModal } = productSlice.actions
 export default productSlice.reducer

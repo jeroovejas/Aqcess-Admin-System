@@ -9,13 +9,10 @@ import { FaChevronRight } from "react-icons/fa";
 import AddProduct from "@/components/PaymentComponents/AddProduct";
 import { toggleAddProduct, resetProductState } from "@/store/Slices/PaymentSlice";
 import EditProduct from "@/components/PaymentComponents/EditProduct";
-// import Link from "next/link";
-// import { Link, usePathname } from '@/navigation';
 import ToggleStatusModal from "@/components/PaymentComponents/ToggleStatusModal";
 import DuplicateModal from "@/components/PaymentComponents/DuplicateModal";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "@/components/common/Loader";
-// import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 
 import { IoSearchOutline } from "react-icons/io5";
@@ -124,6 +121,9 @@ const Products = () => {
               <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
                 <div className="mt-1 text-lg font-bold mx-2">
                   <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
+                </div>
+                <div className="mt-1 text-lg font-bold mx-2">
+                  <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
                 </div>
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
                 {t('PAYMENT.tab2')}

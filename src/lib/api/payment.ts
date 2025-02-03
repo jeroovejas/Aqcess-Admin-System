@@ -1,13 +1,13 @@
 import axiosInstance from '../axios/axiosInstance';
-import { createGetRequest, createPostRequest,createPutRequest,createDeleteRequest } from "../axios/apiRequests";
+import { createGetRequest, createPostRequest, createPutRequest, createDeleteRequest, createExportRequest } from "../axios/apiRequests";
 
 interface ApiResponse<T> {
     success: boolean;
     data?: T;
 }
 
-export const getAllTransactions = async (params: any): Promise<ApiResponse<any>> => {
-    const getDataConfig = createGetRequest<any>('/payment/alltransactions', params);
+export const getAllPayments = async (params: any): Promise<ApiResponse<any>> => {
+    const getDataConfig = createGetRequest<any>('/payment/all-payments', params);
     try {
         // Perform the API request
         const response = await axiosInstance(getDataConfig());
@@ -24,8 +24,26 @@ export const getAllTransactions = async (params: any): Promise<ApiResponse<any>>
     }
 };
 
+export const createPayment = async (body: any): Promise<ApiResponse<any>> => {
+    const postDataConfig = createPostRequest<any>('/payment/create-payment', body);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(postDataConfig());
+        return {
+            success: true,
+            data: response.data,
+        };
+    } catch (error: any) {
+        const errorResponse = error.response || {};
+        return {
+            success: false,
+            data: errorResponse.data,
+        };
+    }
+};
+
 export const getAllCards = async (params: any): Promise<ApiResponse<any>> => {
-    const getDataConfig = createGetRequest<any>('/payment/allCards', params);
+    const getDataConfig = createGetRequest<any>('/payment/all-cards', params);
     try {
         // Perform the API request
         const response = await axiosInstance(getDataConfig());
@@ -43,7 +61,7 @@ export const getAllCards = async (params: any): Promise<ApiResponse<any>> => {
 };
 
 export const getCardDetail = async (params: any): Promise<ApiResponse<any>> => {
-    const getDataConfig = createGetRequest<any>('/payment/CardDetail', params);
+    const getDataConfig = createGetRequest<any>('/payment/card-detail', params);
     try {
         // Perform the API request
         const response = await axiosInstance(getDataConfig());
@@ -96,6 +114,24 @@ export const editAdminCard = async (body: any): Promise<ApiResponse<any>> => {
     }
 };
 
+export const updatePaymentStatus = async (body: any): Promise<ApiResponse<any>> => {
+    const putDataConfig = createPutRequest<any>('/payment/update-payment-status', body);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(putDataConfig());
+        return {
+            success: true,
+            data: response.data,
+        };
+    } catch (error: any) {
+        const errorResponse = error.response || {};
+        return {
+            success: false,
+            data: errorResponse.data,
+        };
+    }
+};
+
 export const deleteCard = async (params: any): Promise<ApiResponse<any>> => {
     const deleteDataConfig = createDeleteRequest<any>('/payment/delete-card', params);
     try {
@@ -111,5 +147,23 @@ export const deleteCard = async (params: any): Promise<ApiResponse<any>> => {
             success: false,
             data: errorResponse.data,
         };
+    }
+};
+
+export const exportPayments = async (params: any): Promise<any> => {
+    const getDataConfig = createExportRequest('/payment/export', params);
+    try {
+        const response = await axiosInstance(getDataConfig);
+        return {
+            success: true,
+            data: response.data.data,
+            message: 'File downloaded successfully!'
+        }
+    } catch (error: any) {
+        console.error('Error exporting residents:', error);
+        return {
+            success: false,
+            message: 'Failed to download the file. Please try again.'
+        }
     }
 };
