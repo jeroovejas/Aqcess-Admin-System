@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 // import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "@/lib/api/auth";
@@ -14,6 +14,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import SendEmailModal from "@/components/AuthComponents/sendEmailModal";
 import { useLocale, useTranslations } from 'next-intl';
 import { Link, useRouter, usePathname } from '@/navigation';
+import Loader from "@/components/common/Loader";
 
 interface signInFormState {
   email: string;
@@ -28,6 +29,8 @@ const Login: React.FC = () => {
   const t = useTranslations();
   const [show, setShow] = useState(false);
   const emailModal = useAppSelector((state) => state.auth.emailModal)
+  const user = useAppSelector((state) => state.auth.userData)
+  const [verified, setVerified] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch()
   const [formState, setFormState] = useState<signInFormState>({
@@ -61,6 +64,7 @@ const Login: React.FC = () => {
       [name]: value
     }));
   };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -95,97 +99,118 @@ const Login: React.FC = () => {
     }
 
   };
+
+  useEffect(() => {
+    const checkLoggoedInUser = async () => {
+      if (Object.entries(user).length !== 0 && user.role !== undefined && user.role) {
+        if (user.role === 1) {
+          router.push('/user-management');
+        } else {
+          router.push('/dashboard');
+        }
+      } else {
+        setVerified(true)
+      }
+    }
+    checkLoggoedInUser()
+  }, [router])
+
+  if (verified === null) {
+    return <Loader />
+  }
   return (
 
-    <div className="rounded-sm min-h-[100vh] bg-[url('/images/main/aqcess-bg-image.JPG')] bg-center bg-cover bg-no-repeat ">
-      <div className="flex flex-wrap">
-        <div className="w-full text-white">
-          <div className="relative px-10 flex justify-between items-center">
-            <Link className="" href="/">
-              <Image
-                className=""
-                src={"/images/main/logo.png"}
-                alt="Logo"
-                height={150}
-                width={150}
-              />
-            </Link>
-          </div>
-        </div>
-        <div className="w-full flex justify-center px-10">
-          <div className="bg-white md:w-2/3 lg:w-1/2 xl:w-5/12 w-full mt-10 rounded-md">
-            <div className="w-full p-12 md:p-17.5">
-              <h2 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                {t('SIGNIN.title')}
-              </h2>
-              <div className="mb-4  ">
-                <p>
-                {t('SIGNIN.account')}{" "}
-                  <Link href="/auth/register" className="text-[#475467] font-bold">
-                  {t('SIGNIN.signUp')}
-                  </Link>
-                </p>
+    <>
+      {verified ? (
+        <div className="rounded-sm min-h-[100vh] bg-[url('/images/main/aqcess-bg-image.JPG')] bg-center bg-cover bg-no-repeat ">
+          <div className="flex flex-wrap">
+            <div className="w-full text-white">
+              <div className="relative px-10 flex justify-between items-center">
+                <Link className="" href="/">
+                  <Image
+                    className=""
+                    src={"/images/main/logo.png"}
+                    alt="Logo"
+                    height={150}
+                    width={150}
+                  />
+                </Link>
               </div>
-
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <div className="relative">
-                    <input
-                      name="email"
-                      value={formState.email}
-                      onChange={handleInputChange}
-                      type="email"
-                      placeholder={t('SIGNIN.email')}
-                      className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      required
-                    />
-
-                    <span className="absolute right-4 top-2">
-                      <TfiEmail size={24} className="text-[#C4CBD4]" />
-                    </span>
+            </div>
+            <div className="w-full flex justify-center px-10">
+              <div className="bg-white md:w-2/3 lg:w-1/2 xl:w-5/12 w-full mt-10 rounded-md">
+                <div className="w-full p-12 md:p-17.5">
+                  <h2 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
+                    {t('SIGNIN.title')}
+                  </h2>
+                  <div className="mb-4  ">
+                    <p>
+                      {t('SIGNIN.account')}{" "}
+                      <Link href="/auth/register" className="text-[#475467] font-bold">
+                        {t('SIGNIN.signUp')}
+                      </Link>
+                    </p>
                   </div>
-                </div>
 
-                <div className="">
-                  <div className="relative">
-                    <input
-                      name="password"
-                      value={formState.password}
-                      onChange={handleInputChange}
-                      type={show === false ? 'password' : 'text'}
-                      placeholder={t('SIGNIN.password')}
-                      className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                      required
-                    />
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                      <div className="relative">
+                        <input
+                          name="email"
+                          value={formState.email}
+                          onChange={handleInputChange}
+                          type="email"
+                          placeholder={t('SIGNIN.email')}
+                          className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                          required
+                        />
+
+                        <span className="absolute right-4 top-2">
+                          <TfiEmail size={24} className="text-[#C4CBD4]" />
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="">
+                      <div className="relative">
+                        <input
+                          name="password"
+                          value={formState.password}
+                          onChange={handleInputChange}
+                          type={show === false ? 'password' : 'text'}
+                          placeholder={t('SIGNIN.password')}
+                          className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                          required
+                        />
 
 
-                    <span className="absolute right-4 top-2">
-                      {show === true
-                        ? <IoMdEyeOff size={24} className="text-[#C4CBD4]" onClick={() => { setShow(!show) }} /> :
-                        <IoMdEye size={24} className="text-[#C4CBD4]" onClick={() => { setShow(!show) }} />}
-                    </span>
-                  </div>
-                </div>
-                {/* <p className="mb-5 block font-medium text-gray-700 dark:text-white mt-1">
+                        <span className="absolute right-4 top-2">
+                          {show === true
+                            ? <IoMdEyeOff size={24} className="text-[#C4CBD4]" onClick={() => { setShow(!show) }} /> :
+                            <IoMdEye size={24} className="text-[#C4CBD4]" onClick={() => { setShow(!show) }} />}
+                        </span>
+                      </div>
+                    </div>
+                    {/* <p className="mb-5 block font-medium text-gray-700 dark:text-white mt-1">
                   Password must be at least 8 characters long
                 </p> */}
 
-                <div className="mb-6">
-                </div>
-                <div className="flex items-center mb-5">
-                  <Link href={"/auth/forgot-password"} className="text-base font-semibold text-gray-900 dark:text-gray-300">{t('SIGNIN.forget')}</Link>
-                </div>
-                <div className="mb-5">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full flex items-center justify-center cursor-pointer rounded-lg font-bold bg-[#1D2C3E] px-4 py-2.5 text-white transition hover:bg-opacity-90"
-                  >
-                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SIGNIN.title')}`}
-                  </button>
-                </div>
+                    <div className="mb-6">
+                    </div>
+                    <div className="flex items-center mb-5">
+                      <Link href={"/auth/forgot-password"} className="text-base font-semibold text-gray-900 dark:text-gray-300">{t('SIGNIN.forget')}</Link>
+                    </div>
+                    <div className="mb-5">
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full flex items-center justify-center cursor-pointer rounded-lg font-bold bg-[#1D2C3E] px-4 py-2.5 text-white transition hover:bg-opacity-90"
+                      >
+                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SIGNIN.title')}`}
+                      </button>
+                    </div>
 
-                {/* <button className="flex w-full font-semibold items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray px-4 py-2.5 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+                    {/* <button className="flex w-full font-semibold items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray px-4 py-2.5 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg
                       width="20"
@@ -223,15 +248,17 @@ const Login: React.FC = () => {
                 </button> */}
 
 
-              </form>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
+          {(emailModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
+          </div>}
+          <SendEmailModal email={formState.email} />
         </div>
-      </div>
-      {(emailModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
-      </div>}
-      <SendEmailModal email={formState.email} />
-    </div>
+      ) : null}
+    </>
   );
 };
 

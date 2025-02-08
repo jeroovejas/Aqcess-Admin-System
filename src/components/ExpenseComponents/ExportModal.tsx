@@ -50,7 +50,7 @@ const ExportModal: React.FC<any> = () => {
             return value;
         };
         const headers = [
-            'User Name', 'Email', 'Amount', 'Description',
+            'User Name', 'Email', 'Amount', 'Description', 'Attachment',
         ];
         csvRows.push(headers.join(','));
         data.forEach((expense: any) => {
@@ -58,7 +58,8 @@ const ExportModal: React.FC<any> = () => {
                 escapeValue(expense.userName),
                 escapeValue(expense.email),
                 escapeValue(expense.amount),
-                escapeValue(expense.desc)
+                escapeValue(expense.desc),
+                escapeValue(expense.attachment)
             ].map(value => ((value !== undefined && value !== null) ? `${value}` : ``)).join(',');
             csvRows.push(row);
         });

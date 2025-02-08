@@ -1,19 +1,15 @@
 "use client"
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import { GoDotFill } from "react-icons/go";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
+import { showErrorToast } from "@/lib/toastUtil";
 import { getAccessHistoryData } from "@/lib/api/accessHistory";
 import Loader from "../common/Loader";
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }) => {
   const t = useTranslations();
-
   const limit = 10;
   const PAGE_RANGE = 5;
   const dispatch = useAppDispatch()
@@ -79,7 +75,7 @@ const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-      {t('ACCESS.table.title')}
+        {t('ACCESS.table.title')}
       </h4>
       {loading ? (
         <Loader />

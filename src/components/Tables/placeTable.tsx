@@ -13,7 +13,7 @@ import * as Select from '@radix-ui/react-select';
 import { useLocale, useTranslations } from 'next-intl';
 
 
-const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
+const PlaceTable: React.FC<any> = ({ searchTerm }) => {
   const t = useTranslations();
   const limit = 10;
   const PAGE_RANGE = 5;
@@ -80,13 +80,13 @@ const PlaceTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
     fetchResidents().finally(() => {
       setLoading(false);
     });
-  }, [currentPage, isUpdated, searchTerm, filterTerm])
+  }, [currentPage, isUpdated, searchTerm])
 
 
   const fetchResidents = async () => {
     try {
 
-      let params = { page: currentPage, token: token, limit: limit, searchTerm: searchTerm, filterTerm: filterTerm }
+      let params = { page: currentPage, token: token, limit: limit, searchTerm: searchTerm }
       const response = await getAllPlaces(params);
 
       // Check the success property to determine if the request was successful

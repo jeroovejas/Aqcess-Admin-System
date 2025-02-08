@@ -116,7 +116,7 @@ const Surveys = () => {
                   </div>
                   <input type="search" id="default-search" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('PLACE.main.searchLabel')} required />
                 </div>
-                <div ref={filterRef} className="flex items-center">
+                {/* <div ref={filterRef} className="flex items-center">
                   <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
                     <IoFilterSharp className="mr-2" />{t('PLACE.main.filterButton')}
                   </button>
@@ -178,11 +178,11 @@ const Surveys = () => {
                       )}
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="flex flex-col gap-10">
-              <PlaceTable searchTerm={searchTerm} filterTerm={filterTerm} />
+              <PlaceTable searchTerm={searchTerm}/>
             </div>
             {(assignModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
             </div>}

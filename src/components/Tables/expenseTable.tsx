@@ -150,7 +150,7 @@ const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                       </p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {expense.amount}
+                      ${expense.amount}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {expense.desc}

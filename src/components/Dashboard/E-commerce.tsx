@@ -19,7 +19,7 @@ import { useLocale, useTranslations } from 'next-intl';
 const ECommerce: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-    const t = useTranslations();
+  const t = useTranslations();
 
   const token = useAppSelector((state) => state.auth.token);
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
@@ -28,6 +28,8 @@ const ECommerce: React.FC = () => {
   const [loading, setLoading] = useState<boolean | null>(false);
   const [residentCount, setResidentCount] = useState<any>(0);
   const [activeSurveyCount, setActiveSurveyCount] = useState<any>(0);
+  const [totalPayments, setTotalPayments] = useState<any>(0);
+  const [pendingPayments, setPendingPayments] = useState<any>(0);
   const [survey, setSurvey] = useState<any>({});
   const [currentDate, setCurrentDate] = useState('');
   const [currentDay, setCurrentDay] = useState('');
@@ -37,7 +39,7 @@ const ECommerce: React.FC = () => {
   useEffect(() => {
     const checkUser = async () => {
       console.log(token);
-      
+
       const response = await verifyToken({ token: token });
       if (response.success) {
         if (response.data.data.role === 3) {
@@ -45,11 +47,11 @@ const ECommerce: React.FC = () => {
           setTimeout(() => {
             showErrorToast("Permission denied!");
           }, 2000);
-          
+
         } else {
           setVerified(true);
           dispatch(setUserData(response.data.data))
-          
+
           if (!isTokenValid) {
             dispatch(toggleIsTokenValid())
             showSuccessToast(`Welcome  ${response.data.data.firstName} ${response.data.data.lastName}`)
@@ -61,11 +63,7 @@ const ECommerce: React.FC = () => {
           dispatch(toggleIsTokenValid())
         }
         dispatch(clearToken())
-        dispatch(clearToken())
-
-        // setTimeout(() => {
-        //   showErrorToast("Plz Login First");
-        // }, 2000);
+        dispatch(clearUser())
       }
     };
     checkUser()
@@ -108,6 +106,8 @@ const ECommerce: React.FC = () => {
         setResidentCount(response.data.data.residentCount);
         setActiveSurveyCount(response.data.data.activeSurveyCount)
         setSurvey(response.data.data.survey)
+        setTotalPayments(response.data.data.totalPayments)
+        setPendingPayments(response.data.data.pendingPayments)
       } else {
         showErrorToast(response.data.message)
       }
@@ -139,9 +139,9 @@ const ECommerce: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
 
-              <CardDataStats title={t('DASHBOARD.card1')} total="$10,000" rate="40%" levelUp>
+              <CardDataStats title={t('DASHBOARD.card1')} total={`${totalPayments}`} rate="40%" levelUp>
               </CardDataStats>
-              <CardDataStats title={t('DASHBOARD.card2')} total="$1,000" rate="40%" levelUp>
+              <CardDataStats title={t('DASHBOARD.card2')} total={`${pendingPayments}`} rate="40%" levelUp>
               </CardDataStats>
               <CardDataStats title={t('DASHBOARD.card3')} total={`${residentCount}`} rate="40%" levelUp>
               </CardDataStats>

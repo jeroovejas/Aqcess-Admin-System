@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useState} from 'react'
 import { toggleEditModal, toggleViewModal } from "@/store/Slices/SecurityGuardSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FaRegCopy } from "react-icons/fa6";
@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 const ViewModal: React.FC<any> = () => {
       const t = useTranslations(); 
-    
+      const [copied, setCopied] = useState(false);
     const viewModal = useAppSelector((state) => state.securityGuard.viewModal)
     const securityGuard = useAppSelector((state) => state.securityGuard.securityGuardData)
     const dispatch = useAppDispatch()
@@ -26,6 +26,8 @@ const ViewModal: React.FC<any> = () => {
 
     const handleCopy = (text: any) => {
         navigator.clipboard.writeText(text)
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
     }
     return (
         <>
@@ -59,11 +61,25 @@ const ViewModal: React.FC<any> = () => {
                                     <p className='font-medium w-2/3'>{securityGuard.securityGuard.address}</p>
 
                                 </div>
-                                <div className="flex py-6 border-b-[3px] border-slate-100 ">
-                                    <p className='font-bold w-1/3'>{t('SECURITY.viewModal.lable3')}</p>
-                                    <div className="flex justify-between w-2/3  pe-4">
-                                        <p className='font-medium'>{securityGuard.email}</p>
-                                        <p className='cursor-pointer'><FaRegCopy onClick={() => handleCopy(securityGuard.email)} size={25} /></p>
+
+                                <div className="flex py-6 border-b-[3px] border-slate-100">
+                                    <p className="font-bold w-1/3">{t('SECURITY.viewModal.lable3')}</p>
+                                    <div className="flex justify-between w-2/3 pe-4 relative">
+                                        <p className="font-medium">{securityGuard.email}</p>
+                                        <div className="relative flex items-center">
+                                            <button
+                                                onClick={() => handleCopy(securityGuard.email)}
+                                                className="cursor-pointer active:scale-90 transition-transform"
+                                            >
+                                                <FaRegCopy size={25} />
+                                            </button>
+                                            {copied && (
+                                                <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-800 text-xs font-bold px-2 py-1 rounded-md shadow-md transition-opacity duration-300">
+                                                    Copied!
+                                                    <span className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-l-transparent border-r-transparent border-t-4 border-t-gray-800"></span>
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">

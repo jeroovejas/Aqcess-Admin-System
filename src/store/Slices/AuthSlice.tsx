@@ -26,16 +26,13 @@ export const authSlice = createSlice({
             state.token = '';
         },
         setUserData: (state, action: PayloadAction<any>) => {
-            console.log("hello user data")
             state.userData = action.payload;
         },
         clearUser: (state) => {
             state.userData = {};
         },
         toggleIsTokenValid: (state) => {
-            console.log("hello token validation", state.isTokenValid)
             state.isTokenValid = !state.isTokenValid
-            console.log("hello token 2 validation", state.isTokenValid)
         },
         toggleIsFilter: (state) => {
             state.isFilter = !state.isFilter

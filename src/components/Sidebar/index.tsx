@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-// import { usePathname } from "next/navigation";
-// import Link from "next/link";
 import { Link, usePathname, useRouter } from '@/navigation';
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
@@ -22,8 +20,7 @@ import { MdLogout } from "react-icons/md";
 import { LiaFileInvoiceSolid } from "react-icons/lia";
 import { clearToken, clearUser, toggleIsTokenValid } from "@/store/Slices/AuthSlice";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-// import { useRouter } from 'next/navigation';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 
 interface SidebarProps {
@@ -123,11 +120,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         },
       ],
     },
-  
+
   ];
 
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.userData);
+  const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
   const dispatch = useAppDispatch();
@@ -135,10 +133,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const logout = () => {
     router.push('/auth/login');
+    dispatch(clearUser())
     setTimeout(() => {
       dispatch(clearToken())
-      dispatch(clearUser())
-      dispatch(toggleIsTokenValid())
+      if (isTokenValid) {
+        dispatch(toggleIsTokenValid())
+      }
     }, 3000)
   }
 
@@ -223,14 +223,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </div>
           </div>
           <div className="">
-              <Link
-                href="/settings"
-                className={` group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark mx-3`}
-              >
-                <IoSettingsOutline className={``} />
-                {t('SIDEBAR.lable10')}
+            <Link
+              href="/settings"
+              className={` group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark mx-3`}
+            >
+              <IoSettingsOutline className={``} />
+              {t('SIDEBAR.lable10')}
 
-              </Link>
+            </Link>
 
             <div className="flex items-center   mx-3 my-2 py-2">
               <Link className=" inline-block" href="/settings">

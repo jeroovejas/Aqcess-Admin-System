@@ -164,7 +164,7 @@ const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                       </p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.amount}
+                      ${payment.amount}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {payment.productTitle}

@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react'
 import { toggleViewModal } from "@/store/Slices/ExpenseSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useLocale, useTranslations } from 'next-intl';
+import { downloadBase64Image } from '@/lib/common.modules';
+import { LuDownload } from "react-icons/lu";
 
 const ViewModal: React.FC<any> = () => {
     const t = useTranslations();
@@ -56,7 +58,20 @@ const ViewModal: React.FC<any> = () => {
                                 </div>
                                 {expense.attachment &&
                                     <div className=" py-4 ">
-                                        <div className='font-bold w-1/3'>{t('EXPENSE.viewModal.label4')}</div>
+                                        <div className='font-bold w-1/3'></div>
+                                        <div className="flex justify-between">
+                                            <div className='font-bold '>{t('EXPENSE.viewModal.label4')}</div>
+                                            <div className="relative group flex items-center me-">
+                                                <button onClick={() => downloadBase64Image(expense.attachmentBase64)} className="p-2">
+                                                    <LuDownload className="text-lg" />
+                                                </button>
+
+                                                <div className="absolute left-1/2 -translate-x-1/2 -top-6 bg-gray-900 text-blue-950 text-xs font-bold fo px-3 py-1 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
+                                                    Download
+                                                    <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <img src={expense.attachment} className='w-full mt-3 h-[250px] object-cover rounded-lg' alt='Attachment' />
 
                                     </div>}

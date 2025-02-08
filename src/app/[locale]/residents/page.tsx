@@ -141,7 +141,9 @@ const Residents = () => {
   }
 
   useEffect(() => {
-    fetchPetTypes()
+    if (verified) {
+      fetchPetTypes()
+    }
   }, [])
 
   if (verified === null) {

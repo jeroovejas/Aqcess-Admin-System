@@ -52,7 +52,7 @@ const ExportModal: React.FC<any> = () => {
         };
         const headers = [
             'Invoive Id', 'Resident Name', 'Email', 'Product Title', 'Amount',
-            'Type', 'Description', 'Status', 'Reject Reason'
+            'Type', 'Description', 'Attachment', 'Status', 'Reject Reason'
         ];
         csvRows.push(headers.join(','));
         data.forEach((payment: any) => {
@@ -64,6 +64,7 @@ const ExportModal: React.FC<any> = () => {
                 escapeValue(payment.amount),
                 escapeValue(payment.type),
                 escapeValue(payment.desc),
+                escapeValue(payment.attachment),
                 escapeValue(payment.adminStatus),
                 escapeValue(payment.rejectReason)
             ].map(value => ((value !== undefined && value !== null) ? `${value}` : ``)).join(',');

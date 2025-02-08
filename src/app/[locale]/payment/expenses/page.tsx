@@ -119,11 +119,11 @@ const Expenses = () => {
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
 
-                            <CardDataStats title={t('EXPENSE.label1')} total={`${expenseDetails.expenseThisMonth}$`} rate="">
+                            <CardDataStats title={t('EXPENSE.label1')} total={`$${expenseDetails.expenseThisMonth}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title={t('EXPENSE.label2')} total={`${expenseDetails.totalExpenses}$`} rate="">
+                            <CardDataStats title={t('EXPENSE.label2')} total={`$${expenseDetails.totalExpenses}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title={t('EXPENSE.label3')} total={`${expenseDetails.totalIncomes}$`} rate="">
+                            <CardDataStats title={t('EXPENSE.label3')} total={`$${expenseDetails.totalIncomes}`} rate="">
                             </CardDataStats>
 
                         </div>

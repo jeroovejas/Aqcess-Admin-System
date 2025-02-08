@@ -13,7 +13,7 @@ import { Link, usePathname, useRouter } from '@/navigation';
 import { resetState } from "@/store/Slices/UserManagementSlice";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "@/components/common/Loader";
-import { toggleIsTokenValid, setUserData } from "@/store/Slices/AuthSlice";
+import { toggleIsTokenValid, setUserData, clearToken, clearUser } from "@/store/Slices/AuthSlice";
 import { verifyToken } from "@/lib/api/auth";
 import { showSuccessToast } from "@/lib/toastUtil";
 import { useTranslations } from 'next-intl';
@@ -70,16 +70,14 @@ const UserManagement = () => {
                 }
             } else {
                 router.push('/auth/login');
-                // setTimeout(() => {
-                //     showErrorToast("Plz Login First");
-                // }, 2000);
+                if (isTokenValid) {
+                    dispatch(toggleIsTokenValid())
+                }
+                dispatch(clearToken())
+                dispatch(clearUser())
             }
         };
-        if (token !== null) {
-            checkUser()
-        } else {
-            showErrorToast("Plz Login First");
-        }
+        checkUser()
     }, [token, router, dispatch])
 
     useEffect(() => {
@@ -112,6 +110,7 @@ const UserManagement = () => {
             document.body.style.overflow = 'auto';
         };
     }, [statusModal, deleteModal]);
+
     if (verified === null) {
         return <Loader />
     }
@@ -165,7 +164,7 @@ const UserManagement = () => {
                                                                 type="button"
                                                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
                                                             >
-                                                                 {t('COMMON.type')}
+                                                                {t('COMMON.type')}
                                                             </button>
                                                             <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
                                                                 <FaChevronRight size={15} />

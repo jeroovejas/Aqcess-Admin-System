@@ -135,9 +135,9 @@ const PaymentManager = () => {
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
 
-              <CardDataStats title={t('PAYMENT.card1')} total={`${paymentDetails.paymentThisMonth}$`} rate="">
+              <CardDataStats title={t('PAYMENT.card1')} total={`$${paymentDetails.paymentThisMonth}`} rate="">
               </CardDataStats>
-              <CardDataStats title={t('PAYMENT.card2')} total={`${paymentDetails.totalPendingAmount}$`} rate="">
+              <CardDataStats title={t('PAYMENT.card2')} total={`$${paymentDetails.totalPendingAmount}`} rate="">
               </CardDataStats>
               <CardDataStats title={t('PAYMENT.card3')} total={`${paymentDetails.painInTime}%`} rate="">
               </CardDataStats>

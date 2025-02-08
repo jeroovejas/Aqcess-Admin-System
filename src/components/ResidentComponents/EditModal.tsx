@@ -227,11 +227,11 @@ const EditModal: React.FC<any> = () => {
                                 <div className="flex gap-2 mt-4">
                                     <div className="w-1/2">
                                         <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-first-name">{t('RESIDENT.button3Modal.lable1')}</label>
-                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="First Name" name={t('RESIDENT.button3Modal.lable1')} value={formData.first_name} onChange={handleChange} required />
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder={t('RESIDENT.button3Modal.lable1')} name="first_name" value={formData.first_name} onChange={handleChange} required />
                                     </div>
                                     <div className="w-1/2">
                                         <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-last-name">{t('RESIDENT.button3Modal.lable2')}</label>
-                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Last Name" name={t('RESIDENT.button3Modal.lable2')} value={formData.last_name} onChange={handleChange} required />
+                                        <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder={t('RESIDENT.button3Modal.lable2')} name="last_name" value={formData.last_name} onChange={handleChange} required />
                                     </div>
                                 </div>
                                 <div className="w-full">
@@ -240,7 +240,7 @@ const EditModal: React.FC<any> = () => {
                                 </div>
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-address">{t('RESIDENT.button3Modal.lable4')}</label>
-                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" placeholder={t('RESIDENT.button3Modal.lable4')} value={resident.phoneNumber} readOnly />
+                                    <input className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="" placeholder={t('RESIDENT.button3Modal.lable4')} value={resident.phoneNumber} readOnly />
                                 </div>
                                 <div className="w-full">
                                     <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="grid-email">{t('RESIDENT.button3Modal.lable5')}</label>
