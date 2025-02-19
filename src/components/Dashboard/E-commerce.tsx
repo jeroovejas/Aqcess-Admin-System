@@ -139,7 +139,7 @@ const ECommerce: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
 
-              <CardDataStats title={t('DASHBOARD.card1')} total={`${totalPayments}`} rate="40%" levelUp>
+              <CardDataStats title={t('DASHBOARD.card1')} total={`$${totalPayments}`} rate="40%" levelUp>
               </CardDataStats>
               <CardDataStats title={t('DASHBOARD.card2')} total={`${pendingPayments}`} rate="40%" levelUp>
               </CardDataStats>

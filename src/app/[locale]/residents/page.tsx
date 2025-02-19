@@ -73,6 +73,7 @@ const Residents = () => {
   useEffect(() => {
     if (isTokenValid) {
       setVerified(true);
+      fetchPetTypes()
     } else {
       router.push('/auth/login');
       // setTimeout(() => {
@@ -125,6 +126,10 @@ const Residents = () => {
       let params = { token: token }
       const response = await getPetTypes(params);
 
+      console.log("Pet Type Response ===> ");
+      console.log(response);
+      
+
       if (response.success) {
         let data = response.data.data
         const petOptions = data.map((type: any) => ({
@@ -140,11 +145,11 @@ const Residents = () => {
     }
   }
 
-  useEffect(() => {
-    if (verified) {
-      fetchPetTypes()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (verified) {
+  //     fetchPetTypes()
+  //   }
+  // }, [])
 
   if (verified === null) {
     return <Loader />

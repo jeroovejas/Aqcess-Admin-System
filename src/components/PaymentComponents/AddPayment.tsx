@@ -130,6 +130,7 @@ const AddPayment: React.FC<any> = () => {
                 dispatch(toggleAddPayment());
                 showSuccessToast(response.data.message);
                 setFormData(initialFormData);
+                setProducts([])
             } else {
                 showErrorToast(response.data.message);
             }

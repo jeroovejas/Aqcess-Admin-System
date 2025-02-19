@@ -13,8 +13,8 @@ import { useLocale, useTranslations } from 'next-intl';
 
 
 const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
-      const t = useTranslations();
-    
+    const t = useTranslations();
+
     const limit = 10;
     const PAGE_RANGE = 5;
     const dispatch = useAppDispatch()
@@ -99,7 +99,7 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
 
         <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
             <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-            {t('PRODUCT.table.title')}
+                {t('PRODUCT.table.title')}
             </h4>
             {loading ? (
                 <Loader />
@@ -109,19 +109,19 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
-                                {t('PRODUCT.table.column1')}
+                                    {t('PRODUCT.table.column1')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                {t('PRODUCT.table.column2')}
+                                    {t('PRODUCT.table.column2')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                {t('PRODUCT.table.column3')}
+                                    {t('PRODUCT.table.column3')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                {t('PRODUCT.table.column5')}
+                                    {t('PRODUCT.table.column5')}
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                {t('PRODUCT.table.column4')}
+                                    {t('PRODUCT.table.column4')}
                                 </th>
                                 <th>
 
@@ -138,10 +138,10 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                             ) : (
                                 products.map((product, key) => (
                                     <tr key={key} className="bg-white border-b font-medium border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
-                                        <td className="px-6 py-4 font-bold whitespace-nowrap">
+                                        <td className="px-6 py-4 font-bold md:w-[200px] md:break-words md:whitespace-normal whitespace-nowrap">
                                             {product.title}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-6 py-4 md:w-[300px] md:break-words md:whitespace-normal whitespace-nowrap">
                                             {product.description}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -150,8 +150,8 @@ const ProductTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {product.type}
                                         </td>
-                                        <td className={`px-4 py-4 flex items-center font-bold  whitespace-nowrap`}>
-                                            <div className={`flex items-center p-2 rounded-2xl ${product.status === 'active' ? 'text-meta-3 bg-[#ECFDED]' : product.status === 'inactive' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-yellow-100 text-yellow-700'}`}>
+                                        <td className={`px-4 py-4 font-bold  whitespace-nowrap`}>
+                                            <div className={`px-4 py-2 w-fit  text-center rounded-2xl ${product.status === 'active' ? 'text-meta-3 bg-[#ECFDED]' : product.status === 'inactive' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-yellow-100 text-yellow-700'}`}>
                                                 {toTitleCase(product.status)}
                                             </div>
                                         </td>
