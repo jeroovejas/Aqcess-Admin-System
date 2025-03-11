@@ -9,7 +9,7 @@ import { exportPayments } from "@/lib/api/payment";
 import { saveAs } from 'file-saver';
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 
-const ExportModal: React.FC<any> = () => {
+const ExportModal: React.FC<any> = ({filterTerm}) => {
     const t = useTranslations();
 
     const [selectedOption, setSelectedOption] = useState<string>("");
@@ -21,7 +21,7 @@ const ExportModal: React.FC<any> = () => {
     const handleExport = async () => {
         setLoading(true)
         try {
-            let params = { token: token }
+            let params = { token: token, filterTerm }
             const response = await exportPayments(params);
             if (response.success) {
                 const csvData = convertToCSV(response.data);

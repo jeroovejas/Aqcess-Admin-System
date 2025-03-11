@@ -103,8 +103,6 @@ const AddPayment: React.FC<any> = () => {
         }));
     }
 
-
-
     const handleCancel = async () => {
         dispatch(toggleAddPayment());
         setFormData(initialFormData);
@@ -141,8 +139,6 @@ const AddPayment: React.FC<any> = () => {
         }
 
     };
-
-
 
     const fetchResidents = async () => {
         try {

@@ -17,6 +17,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import AddPayment from "@/components/PaymentComponents/AddPayment";
 import ViewModal from "@/components/PaymentComponents/ViewModal";
 import PaymentStatusModal from "@/components/PaymentComponents/PaymentStatusModal";
+import SearchFilterModal from "@/components/PaymentComponents/filterMOdal";
 
 const PaymentManager = () => {
   const t = useTranslations();
@@ -27,13 +28,31 @@ const PaymentManager = () => {
   const viewModal = useAppSelector((state) => state.payment.viewModal)
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [verified, setVerified] = useState<boolean | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterTerm, setFilterTerm] = useState<string>('');
+  const [filters, setFilters] = useState({
+        residentId: null,
+        propertyNo: "",
+        productId: null,
+        month: null,
+        year: null,
+        status: null,
+  });
+
   const dispatch = useAppDispatch();
   const filterRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const handleFiltersSubmit = (newFilters: any) => {
+    console.log("Here is Filter Data");
+    console.log(newFilters);
+    setFilterTerm(newFilters)
+    
+    setFilters(newFilters);
+  };
 
   const toggleFilterDropdown = () => {
     setIsFilterOpen(!isFilterOpen);
@@ -151,7 +170,7 @@ const PaymentManager = () => {
                   </div>
                   <input type="search" id="default-search" name="searchTerm" onChange={handleChange} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('PAYMENT.search')} required />
                 </div>
-                <div ref={filterRef} className="flex items-center">
+                {/* <div ref={filterRef} className="flex items-center">
                   <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
                     <IoFilterSharp className="mr-2" />{t('PAYMENT.filterButton')}
                   </button>
@@ -235,6 +254,16 @@ const PaymentManager = () => {
                     </div>
 
                   </div>
+                </div> */}
+                <div className="px-2">
+                  <button
+                    className="px-4 py-[10px] flex items-center bg-black text-white rounded-lg"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    <IoFilterSharp className="mr-2" /> Filter
+                  </button>
+
+                  <SearchFilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onFiltersSubmit={handleFiltersSubmit}  />
                 </div>
               </div>
               <div className="flex flex-wrap w-full md:w-auto">
@@ -265,7 +294,7 @@ const PaymentManager = () => {
             </div>
             {(exportModal || addPayment || viewModal || paymentStatusModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
             </div>}
-            <ExportModal />
+            <ExportModal filterTerm={filterTerm} />
             <AddPayment />
             <ViewModal />
             <PaymentStatusModal />
