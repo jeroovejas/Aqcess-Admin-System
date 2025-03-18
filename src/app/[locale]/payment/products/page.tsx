@@ -114,7 +114,7 @@ const Products = () => {
           <DefaultLayout >
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-              {t('PAYMENT.title')}
+                {t('PAYMENT.title')}
               </h2>
             </div>
             <div className="mx-auto">
@@ -126,8 +126,11 @@ const Products = () => {
                   <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
                 </div>
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                {t('PAYMENT.tab2')}
+                  {t('PAYMENT.tab2')}
                 </button>
+                <div className="mt-1 text-lg font-bold">
+                  <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
+                </div>
               </div>
             </div>
             <div className="mb-4 flex flex-wrap justify-between">

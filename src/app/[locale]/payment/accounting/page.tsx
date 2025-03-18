@@ -1,31 +1,30 @@
 "use client"
 import { useState, useEffect, useRef } from "react";
-import ExpenseTable from "@/components/Tables/expenseTable";
+import AccountingTable from "@/components/Tables/accountingTable";
 import { IoFilterSharp } from "react-icons/io5";
 import { TfiExport } from "react-icons/tfi";
-import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
+import ExportModal from "@/components/AccountingComponents/ExportModal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Loader from "@/components/common/Loader";
-import { Link, usePathname, useRouter } from '@/navigation';
+import { toggleExportModal, resetAccountingState } from "@/store/Slices/AccountingSlice";
+import { Link,useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
-import { useLocale, useTranslations } from 'next-intl';
-import AddExpense from "@/components/ExpenseComponents/AddExpense";
-import { resetExpenseState, toggleAddExpense, toggleExportModal } from "@/store/Slices/ExpenseSlice";
-import ViewModal from "@/components/ExpenseComponents/ViewModal";
-import ExportModal from "@/components/ExpenseComponents/ExportModal";
-import DeleteModal from "@/components/ExpenseComponents/DeleteModal";
+import { useTranslations } from 'next-intl';
+import ViewModal from "@/components/AccountingComponents/ViewModal";
+import SearchFilterModal from "@/components/AccountingComponents/filterMOdal";
+console.log();
 
-const Expenses = () => {
+
+const AccountingManager = () => {
     const t = useTranslations();
-    const exportModal = useAppSelector((state) => state.expense.exportModal)
-    const deleteModal = useAppSelector((state) => state.expense.deleteModal)
-    const expenseDetails = useAppSelector((state) => state.expense.expenseDetails)
-    const addExpense = useAppSelector((state) => state.expense.addExpense)
-    const viewModal = useAppSelector((state) => state.expense.viewModal)
+    const exportModal = useAppSelector((state) => state.accounting.exportModal)
+    const accountingDetails = useAppSelector((state) => state.accounting.accountingDetails)
+    const viewModal = useAppSelector((state) => state.accounting.viewModal)
     const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
     const [verified, setVerified] = useState<boolean | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -34,16 +33,14 @@ const Expenses = () => {
     const filterRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value); // Update the search term
+    const handleFiltersSubmit = (newFilters: any) => {
+        console.log("Here is Filter Data");
+        console.log(newFilters);
+        setFilterTerm(newFilters)
     };
 
-    const handleAddExpense = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-        dispatch(toggleAddExpense())
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value); 
     };
 
     useEffect(() => {
@@ -51,14 +48,11 @@ const Expenses = () => {
             setVerified(true);
         } else {
             router.push('/auth/login');
-            // setTimeout(() => {
-            //   showErrorToast("Plz Login First");
-            // }, 2000);
         }
     }, [isTokenValid, router])
 
     useEffect(() => {
-        if (exportModal || addExpense || viewModal || deleteModal) {
+        if (exportModal || viewModal) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
@@ -66,7 +60,7 @@ const Expenses = () => {
         return () => {
             document.body.style.overflow = 'auto';
         };
-    }, [exportModal, addExpense, viewModal, deleteModal]);
+    }, [exportModal, viewModal]);
 
     const handleClickOutside = (event: MouseEvent) => {
         if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
@@ -85,7 +79,7 @@ const Expenses = () => {
     }, [isFilterOpen]);
 
     useEffect(() => {
-        dispatch(resetExpenseState())
+        dispatch(resetAccountingState())
     }, [router])
 
 
@@ -106,27 +100,27 @@ const Expenses = () => {
                         </div>
                         <div className="mx-auto">
                             <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
-                                <div className="mt-1 text-lg font-bold">
+                                <div className="mt-1 text-lg font-bold me-3">
                                     <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
                                 </div>
-                                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mx-4">
-                                    {t('PAYMENT.tab3')}
-                                </button>
+                                <div className="mt-1 text-lg font-bold me-3">
+                                    <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
+                                </div>
                                 <div className="mt-1 text-lg font-bold me-4">
                                     <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
                                 </div>
-                                <div className="mt-1 text-lg font-bold">
-                                    <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
-                                </div>
+                                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
+                                    {t('PAYMENT.tab4')}
+                                </button>
                             </div>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
 
-                            <CardDataStats title={t('EXPENSE.label1')} total={`$${expenseDetails.expenseThisMonth}`} rate="">
+                            <CardDataStats title={t('ACCOUNTNG.card1')} total={`$${accountingDetails.totalIncomeAmount || 0}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title={t('EXPENSE.label2')} total={`$${expenseDetails.totalExpenses}`} rate="">
+                            <CardDataStats title={t('ACCOUNTNG.card2')} total={`$${accountingDetails.totalProductAmount || 0}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title={t('EXPENSE.label3')} total={`$${expenseDetails.totalIncomes}`} rate="">
+                            <CardDataStats title={t('ACCOUNTNG.card3')} total={`$${accountingDetails.totalExpenseAmount || 0}`} rate="">
                             </CardDataStats>
 
                         </div>
@@ -136,7 +130,17 @@ const Expenses = () => {
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                         <IoSearchOutline size={20} />
                                     </div>
-                                    <input type="search" id="default-search" name="searchTerm" onChange={handleChange} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('EXPENSE.label4')} required />
+                                    <input type="search" id="default-search" name="searchTerm" onChange={handleChange} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('ACCOUNTNG.search')} required />
+                                </div>
+                                <div className="px-2">
+                                    <button
+                                        className="px-4 py-[10px] flex items-center bg-black text-white rounded-lg"
+                                        onClick={() => setIsModalOpen(true)}
+                                    >
+                                        <IoFilterSharp className="mr-2" /> {t('ACCOUNTNG.button2')}
+                                    </button>
+
+                                    <SearchFilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onFiltersSubmit={handleFiltersSubmit} />
                                 </div>
                             </div>
                             <div className="flex flex-wrap w-full md:w-auto">
@@ -147,30 +151,18 @@ const Expenses = () => {
                                         className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center justify-center md:justify-start"
                                     >
                                         <TfiExport className="mr-2 text-base" />
-                                        {t('EXPENSE.button1')}
-                                    </button>
-                                </div>
-                                <div className="w-full mr-3 md:w-auto mt-2 md:mt-0">
-                                    <button
-                                        type="button"
-                                        onClick={handleAddExpense}
-                                        className="w-full justify-center text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center"
-                                    >
-                                        <IoIosAdd className="mr-2 text-white text-xl" />
-                                        {t('EXPENSE.button2')}
+                                        {t('ACCOUNTNG.button1')}
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-col gap-10">
-                            <ExpenseTable filterTerm={filterTerm} searchTerm={searchTerm} />
+                            <AccountingTable filterTerm={filterTerm} searchTerm={searchTerm} />
                         </div>
-                        {(exportModal || addExpense || viewModal || deleteModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
+                        {(exportModal || viewModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
                         </div>}
-                        <AddExpense />
+                        <ExportModal filterTerm={filterTerm} searchTerm={searchTerm} />
                         <ViewModal />
-                        <ExportModal />
-                        <DeleteModal />
                     </DefaultLayout>
                 </>
             ) : null}
@@ -178,4 +170,4 @@ const Expenses = () => {
     );
 };
 
-export default Expenses;
+export default AccountingManager;

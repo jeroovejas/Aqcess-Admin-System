@@ -147,8 +147,11 @@ const PaymentManager = () => {
                 <div className="mt-1 text-lg font-bold me-3">
                   <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
                 </div>
-                <div className="mt-1 text-lg font-bold">
+                <div className="mt-1 text-lg font-bold me-4">
                   <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
+                </div>
+                <div className="mt-1 text-lg font-bold">
+                  <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
                 </div>
               </div>
             </div>
