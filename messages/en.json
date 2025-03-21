@@ -472,7 +472,7 @@
             "desc": "Are you sure you want to delete this expense as this will affect the activities related to payments in your account"
         }
     },
-    "ACCOUNTNG": {
+    "ACCOUNTING": {
         "card1": "Total Invoice Payments",
         "card2": "Total Expenses Amount",
         "card3": "Total Products Amount",
@@ -482,15 +482,14 @@
         "button3": "Close",
         "table": {
             "title": "All Accounting",
-            "column1": "Ex-User",
-            "column2": "Resident",
-            "column3": "Product",
-            "column4": "Pr-Amount",
-            "column5": "Ex-Amount",
-            "column6": "Payment-type",
-            "column7": "Ex-Date",
-            "column8": "Pr-Date",
-            "column9": "Py-Status",
+            "column1": "Transaction",
+            "column2": "Invoice No.",
+            "column3": "Resident",
+            "column4": "Property Number",
+            "column5": "Product",
+            "column6": "Amount",
+            "column7": "Date",
+            "column8": "Status",
             "option1": "View"
         },
         "exportModal": {

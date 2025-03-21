@@ -154,7 +154,7 @@ const SearchFilterModal = ({ isOpen, onClose, onFiltersSubmit }: { isOpen: boole
             <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
 
             {/* Modal Content */}
-            <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 z-50">
+            <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 z-50 h-[500px] overflow-y-auto">
                 {/* Close Button */}
                 <button className="absolute top-4 right-4 text-gray-600 hover:text-gray-900" onClick={onClose}>
                     <X size={24} />

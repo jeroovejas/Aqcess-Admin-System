@@ -10,7 +10,7 @@ import Loader from "../common/Loader";
 import { setAccountingDetails, setAccountingData, toggleViewModal } from "@/store/Slices/AccountingSlice";
 import { useTranslations } from 'next-intl';
 import { toTitleCase } from "@/lib/common.modules";
-
+import moment from "moment";
 
 const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   const t = useTranslations();
@@ -64,12 +64,10 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
     fetchIncomes().finally(() => {
       setLoading(false);
     });
-  }, [currentPage, isUpdated, filterTerm, searchTerm])
-
+  }, [currentPage, isUpdated, filterTerm, searchTerm]);
 
   const fetchIncomes = async () => {
     try {
-
       let params = { page: currentPage, token: token, limit: limit, filterTerm: filterTerm, searchTerm: searchTerm }
       const response = await getAllAccounting(params);
 
@@ -91,11 +89,10 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
     }
   }
 
-  console.log("payments", accounting)
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-        {t('ACCOUNTNG.table.title')}
+        {t('ACCOUNTING.table.title')}
       </h4>
       {loading ? (
         <Loader />
@@ -105,32 +102,30 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column1')}
+                  {t('ACCOUNTING.table.column1')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column2')}
+                  {t('ACCOUNTING.table.column2')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column3')}
+                  {t('ACCOUNTING.table.column3')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column4')}
+                  {t('ACCOUNTING.table.column4')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column5')}
+                  {t('ACCOUNTING.table.column5')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column6')}
+                  {t('ACCOUNTING.table.column6')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column7')}
+                  {t('ACCOUNTING.table.column7')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column8')}
+                  {t('ACCOUNTING.table.column8')}
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTNG.table.column9')}
-                </th>
+                <th scope="col" className="px-6 py-3"></th>
                 <th>
                 </th>
                 <th>
@@ -140,7 +135,7 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
             <tbody>
               {accounting.length === 0 ? (
                 <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
-                  <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
+                  <td colSpan={9} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
                     {t('COMMON.noDataText')}
                   </td>
                 </tr>
@@ -148,12 +143,16 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                 accounting.map((payment, key) => (
                   <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.expenseUser || "N/A"}
+                      {payment.transactionType || "N/A"}
                     </td>
-                    <td scope="row" className="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                      <p className=" text-black font-bold dark:text-white  mt-2 ml-2">
-                        {payment.residentName || "N/A"}
-                      </p>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {payment.invoiceId || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {payment.residentName || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {payment.residentPropertyNo || "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {payment.productTitle || "N/A"}
@@ -162,20 +161,11 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                       {payment.productPrice || "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.expenseAmount || "N/A"}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.type || "N/A"}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.expenseDate || "N/A"}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.productDate || "N/A"}
+                      {payment.createdAt || "N/A"}
                     </td>
                     <td className="px-6 py-4  font-bold whitespace-nowrap">
-                      <span className={` p-2 rounded-2xl ${payment.adminStatus == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.adminStatus == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
-                        {payment.adminStatus ? toTitleCase(payment.adminStatus) : "N/A"}
+                      <span className={` p-2 rounded-2xl ${payment.status == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.status == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
+                        {payment.status ? toTitleCase(payment.status) : "N/A"}
                       </span>
                     </td>
                     <td className="relative group whitespace-nowrap overflow-visible">
@@ -189,7 +179,6 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                   </tr>
                 ))
               )}
-
             </tbody>
           </table>
         </div>)}

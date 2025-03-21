@@ -9,7 +9,7 @@ import { exportAccounting } from "@/lib/api/payment";
 import { saveAs } from 'file-saver';
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 
-const ExportModal: React.FC<any> = ({filterTerm}) => {
+const ExportModal: React.FC<any> = ({ filterTerm }) => {
     const t = useTranslations();
 
     const [selectedOption, setSelectedOption] = useState<string>("");
@@ -42,65 +42,55 @@ const ExportModal: React.FC<any> = ({filterTerm}) => {
 
     const convertToCSV = (data: any[]): string => {
         const csvRows: string[] = [];
-    
+
         // Function to escape and wrap values
         const escapeValue = (value: any): string => {
             if (typeof value === "string") {
-                return `"${value.replace(/"/g, '""')}"`; // Escape double quotes and wrap value
+                return `"${value.replace(/"/g, '""')}"`;
             }
             return value !== null && value !== undefined ? String(value) : "";
         };
-    
-        // Updated headers based on the provided data structure
+
+        // Updated headers based on provided data structure
         const headers = [
-            "ID", "Invoice ID", "Amount", "Type", "Attachment", 
-            "Description", "Admin Status", "Reject Reason", "Created At",
-            "Resident ID", "Resident Name", "Resident Property No",
+            "Transaction Type", "Invoice ID", "Amount", "Description", "Attachment",
+            "Status", "Created At", "Resident ID", "Resident Name", "Resident Property No",
             "Product ID", "Product Title", "Product Description", "Product Type",
-            "Product Price", "Product Year", "Product Month", "Product Date", "Product Status",
-            "Expense User", "Expense Amount", "Expense Description", "Expense Attachment", "Expense Date"
+            "Product Price", "Product Year", "Product Month", "Product Status"
         ];
         csvRows.push(headers.join(",")); // Add headers to CSV
-    
+
         // Mapping data to CSV rows
-        data.forEach((accounting: any) => {
+        data.forEach((transaction: any) => {
             const row = [
-                escapeValue(accounting.id),
-                escapeValue(accounting.invoiceId),
-                escapeValue(accounting.amount),
-                escapeValue(accounting.type),
-                escapeValue(accounting.attachment),
-                escapeValue(accounting.desc),
-                escapeValue(accounting.adminStatus),
-                escapeValue(accounting.rejectReason),
-                escapeValue(accounting.createdAt),
-                escapeValue(accounting.residentId),
-                escapeValue(accounting.residentName),
-                escapeValue(accounting.residentPropertyNo),
-                escapeValue(accounting.productId),
-                escapeValue(accounting.productTitle),
-                escapeValue(accounting.productDesc),
-                escapeValue(accounting.productType),
-                escapeValue(accounting.productPrice),
-                escapeValue(accounting.productYear),
-                escapeValue(accounting.productMonth),
-                escapeValue(accounting.productDate),
-                escapeValue(accounting.productStatus),
-                escapeValue(accounting.expenseUser),
-                escapeValue(accounting.expenseAmount),
-                escapeValue(accounting.expenseDesc),
-                escapeValue(accounting.expenseAttachment),
-                escapeValue(accounting.expenseDate),
+                escapeValue(transaction.transactionType),
+                escapeValue(transaction.invoiceId),
+                escapeValue(transaction.amount),
+                escapeValue(transaction.description),
+                escapeValue(transaction.attachment),
+                escapeValue(transaction.status),
+                escapeValue(transaction.createdAt),
+                escapeValue(transaction.residentId),
+                escapeValue(transaction.residentName),
+                escapeValue(transaction.residentPropertyNo),
+                escapeValue(transaction.productId),
+                escapeValue(transaction.productTitle),
+                escapeValue(transaction.productDesc),
+                escapeValue(transaction.productType),
+                escapeValue(transaction.productPrice),
+                escapeValue(transaction.productYear),
+                escapeValue(transaction.productMonth),
+                escapeValue(transaction.productStatus),
             ].join(",");
-    
+
             csvRows.push(row);
         });
-    
+
         return csvRows.join("\n");
     };
-    
 
-console.log(exportModal);
+
+    console.log(exportModal);
 
     return (
         <>

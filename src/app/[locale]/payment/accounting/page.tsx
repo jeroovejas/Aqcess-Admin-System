@@ -9,13 +9,11 @@ import ExportModal from "@/components/AccountingComponents/ExportModal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Loader from "@/components/common/Loader";
 import { toggleExportModal, resetAccountingState } from "@/store/Slices/AccountingSlice";
-import { Link,useRouter } from '@/navigation';
+import { Link, useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
 import { useTranslations } from 'next-intl';
 import ViewModal from "@/components/AccountingComponents/ViewModal";
 import SearchFilterModal from "@/components/AccountingComponents/filterMOdal";
-console.log();
-
 
 const AccountingManager = () => {
     const t = useTranslations();
@@ -29,9 +27,9 @@ const AccountingManager = () => {
     const [verified, setVerified] = useState<boolean | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [filterTerm, setFilterTerm] = useState<string>('');
-    const dispatch = useAppDispatch();
     const filterRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
+    const dispatch = useAppDispatch();
 
     const handleFiltersSubmit = (newFilters: any) => {
         console.log("Here is Filter Data");
@@ -40,7 +38,7 @@ const AccountingManager = () => {
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value); 
+        setSearchTerm(event.target.value);
     };
 
     useEffect(() => {
@@ -80,8 +78,7 @@ const AccountingManager = () => {
 
     useEffect(() => {
         dispatch(resetAccountingState())
-    }, [router])
-
+    }, [router, dispatch]);
 
     if (verified === null) {
         return <Loader />
@@ -115,14 +112,12 @@ const AccountingManager = () => {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-
-                            <CardDataStats title={t('ACCOUNTNG.card1')} total={`$${accountingDetails.totalIncomeAmount || 0}`} rate="">
+                            <CardDataStats title={t('ACCOUNTING.card1')} total={`$${accountingDetails.totalIncomeAmount || 0}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title={t('ACCOUNTNG.card2')} total={`$${accountingDetails.totalProductAmount || 0}`} rate="">
+                            <CardDataStats title={t('ACCOUNTING.card2')} total={`$${accountingDetails.totalExpenseAmount || 0}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title={t('ACCOUNTNG.card3')} total={`$${accountingDetails.totalExpenseAmount || 0}`} rate="">
+                            <CardDataStats title={t('ACCOUNTING.card3')} total={`$${accountingDetails.totalProductAmount || 0}`} rate="">
                             </CardDataStats>
-
                         </div>
                         <div className="mb-4 flex flex-wrap justify-between">
                             <div className="flex flex-wrap w-full md:w-auto">
@@ -130,14 +125,14 @@ const AccountingManager = () => {
                                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                         <IoSearchOutline size={20} />
                                     </div>
-                                    <input type="search" id="default-search" name="searchTerm" onChange={handleChange} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('ACCOUNTNG.search')} required />
+                                    <input type="search" id="default-search" name="searchTerm" onChange={handleChange} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('ACCOUNTING.search')} required />
                                 </div>
                                 <div className="px-2">
                                     <button
                                         className="px-4 py-[10px] flex items-center bg-black text-white rounded-lg"
                                         onClick={() => setIsModalOpen(true)}
                                     >
-                                        <IoFilterSharp className="mr-2" /> {t('ACCOUNTNG.button2')}
+                                        <IoFilterSharp className="mr-2" /> {t('ACCOUNTING.button2')}
                                     </button>
 
                                     <SearchFilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onFiltersSubmit={handleFiltersSubmit} />
@@ -151,7 +146,7 @@ const AccountingManager = () => {
                                         className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center justify-center md:justify-start"
                                     >
                                         <TfiExport className="mr-2 text-base" />
-                                        {t('ACCOUNTNG.button1')}
+                                        {t('ACCOUNTING.button1')}
                                     </button>
                                 </div>
                             </div>
