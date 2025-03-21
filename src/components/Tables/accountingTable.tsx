@@ -158,10 +158,10 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                       {payment.productTitle || "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.productPrice || "N/A"}
+                      {payment.amount || "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.createdAt || "N/A"}
+                      {payment.createdAt ? moment(payment.createdAt).format('DD-MM-YYYY HH:mm') : "N/A"}
                     </td>
                     <td className="px-6 py-4  font-bold whitespace-nowrap">
                       <span className={` p-2 rounded-2xl ${payment.status == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.status == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
