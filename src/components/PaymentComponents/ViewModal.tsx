@@ -99,8 +99,7 @@ const ViewModal: React.FC<any> = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <img src={payment.attachment} className='w-full mt-3 h-[250px] object-cover rounded-lg' alt='Attachment' />
-
+                                        {/* <img src={payment.attachment} className='w-full mt-3 h-[250px] object-cover rounded-lg' alt='Attachment' /> */}
                                     </div>}
                             </div>
                             <div className="flex gap-3 items-center ">
