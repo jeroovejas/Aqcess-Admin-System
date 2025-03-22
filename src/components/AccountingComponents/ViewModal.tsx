@@ -85,10 +85,10 @@ const ViewModal: React.FC<any> = () => {
                                                 <p className='font-bold w-1/3'> {t('ACCOUNTING.viewModal.product.label1')}</p>
                                                 <p className='font-medium w-2/3'>{payment.productTitle || "N/A"}</p>
                                             </div>
-                                            {/* <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                            <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.product.label2')}</p>
-                                                <p className='font-medium w-2/3'>{payment.productPrice || "N/A"}</p>
-                                            </div> */}
+                                                <p className='font-medium w-2/3'>{payment.amount || "N/A"}</p>
+                                            </div>
                                             <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.product.label3')}</p>
                                                 <p className='font-medium w-2/3'> {payment.productDesc || "N/A"}</p>
@@ -97,6 +97,12 @@ const ViewModal: React.FC<any> = () => {
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.product.label4')}</p>
                                                 <p className='font-medium w-2/3'> {payment.productType || "N/A"}</p>
                                             </div>
+                                            {payment.productType == "monthly" ?
+                                                <div className="flex py-4 border-b-[3px] border-slate-100 ">
+                                                    <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.product.label4')}</p>
+                                                    <p className='font-medium w-2/3'> {payment.productMonth || "N/A"}</p>
+                                                </div>
+                                                : ""}
                                             <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.product.label5')}</p>
                                                 <p className='font-medium w-2/3'> {payment.productStatus || "N/A"}</p>

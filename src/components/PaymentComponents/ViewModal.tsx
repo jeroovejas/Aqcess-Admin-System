@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useLocale, useTranslations } from 'next-intl';
 import { downloadBase64Image, toTitleCase } from '@/lib/common.modules';
 import { LuDownload } from "react-icons/lu";
+import Link from 'next/link';
 
 const ViewModal: React.FC<any> = () => {
     const t = useTranslations();
@@ -85,9 +86,12 @@ const ViewModal: React.FC<any> = () => {
                                         <div className="flex justify-between">
                                             <div className='font-bold '>{t('PAYMENT.viewModal.label8')}</div>
                                             <div className="relative group flex items-center me-">
-                                                <button onClick={() => downloadBase64Image(payment.attachmentBase64)} className="p-2">
+                                                <Link href={payment.attachment} download target="_blank" rel="noopener noreferrer">
+                                                    Download File
+                                                </Link>
+                                                {/* <Link onClick={() => downloadImage(payment.attachmentBase64)} className="p-2">
                                                     <LuDownload className="text-lg" />
-                                                </button>
+                                                </Link> */}
 
                                                 <div className="absolute left-1/2 -translate-x-1/2 -top-6 bg-gray-900 text-blue-950 text-xs font-bold fo px-3 py-1 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
                                                     Download
