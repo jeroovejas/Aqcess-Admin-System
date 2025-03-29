@@ -1,16 +1,15 @@
 "use client"
 import { useState, useEffect, useRef } from "react";
 import ExpenseTable from "@/components/Tables/expenseTable";
-import { IoFilterSharp } from "react-icons/io5";
 import { TfiExport } from "react-icons/tfi";
 import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Loader from "@/components/common/Loader";
-import { Link, usePathname, useRouter } from '@/navigation';
+import { Link, useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import AddExpense from "@/components/ExpenseComponents/AddExpense";
 import { resetExpenseState, toggleAddExpense, toggleExportModal } from "@/store/Slices/ExpenseSlice";
 import ViewModal from "@/components/ExpenseComponents/ViewModal";
@@ -106,29 +105,30 @@ const Expenses = () => {
                         </div>
                         <div className="mx-auto">
                             <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
-                                <div className="mt-1 text-lg font-bold">
+                                <div className="text-sm font-semibold ms-3 my-2 me-3">
+                                    <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
+                                </div>
+                                <div className="text-sm font-semibold my-2 me-3">
                                     <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
                                 </div>
-                                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mx-4">
+                                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
                                     {t('PAYMENT.tab3')}
                                 </button>
-                                <div className="mt-1 text-lg font-bold me-4">
-                                    <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
+                                <div className="text-sm font-semibold my-2 me-3">
+                                    <Link href="/payment/payment-tracker">{t('PAYMENT.tab5')}</Link>
                                 </div>
-                                <div className="mt-1 text-lg font-bold">
-                                    <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
+                                <div className="text-sm font-semibold my-2">
+                                    <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
                                 </div>
                             </div>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-
                             <CardDataStats title={t('EXPENSE.label1')} total={`$${expenseDetails.expenseThisMonth}`} rate="">
                             </CardDataStats>
                             <CardDataStats title={t('EXPENSE.label2')} total={`$${expenseDetails.totalExpenses}`} rate="">
                             </CardDataStats>
                             <CardDataStats title={t('EXPENSE.label3')} total={`$${expenseDetails.totalIncomes}`} rate="">
                             </CardDataStats>
-
                         </div>
                         <div className="mb-4 flex flex-wrap justify-between">
                             <div className="flex flex-wrap w-full md:w-auto">
@@ -144,8 +144,7 @@ const Expenses = () => {
                                     <button
                                         type="button"
                                         onClick={() => dispatch(toggleExportModal())}
-                                        className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center justify-center md:justify-start"
-                                    >
+                                        className="w-full md:w-auto text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-3 ms-0 md:ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center justify-center md:justify-start">
                                         <TfiExport className="mr-2 text-base" />
                                         {t('EXPENSE.button1')}
                                     </button>
@@ -154,8 +153,7 @@ const Expenses = () => {
                                     <button
                                         type="button"
                                         onClick={handleAddExpense}
-                                        className="w-full justify-center text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center"
-                                    >
+                                        className="w-full justify-center text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center">
                                         <IoIosAdd className="mr-2 text-white text-xl" />
                                         {t('EXPENSE.button2')}
                                     </button>

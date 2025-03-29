@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useLocale, useTranslations } from 'next-intl';
 import { downloadBase64Image, toTitleCase } from '@/lib/common.modules';
 import { LuDownload } from "react-icons/lu";
+import Link from 'next/link';
 
 const ViewModal: React.FC<any> = () => {
     const t = useTranslations();
@@ -17,7 +18,6 @@ const ViewModal: React.FC<any> = () => {
         return text;
     };
 
-    console.log(payment);
     return (
         <>
             {viewModal ? (
@@ -33,8 +33,7 @@ const ViewModal: React.FC<any> = () => {
                                                 <h3 className="text-3xl font-semibold ">Income Details</h3>
                                             </div>
                                             <button className="bg-transparent border-0 text-[26px] font-bold text-black "
-                                                onClick={() => dispatch(toggleViewModal())}
-                                            >
+                                                onClick={() => dispatch(toggleViewModal())}>
                                                 x
                                             </button>
                                         </div>
@@ -46,7 +45,6 @@ const ViewModal: React.FC<any> = () => {
                                             <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.invoice.label2')}</p>
                                                 <p className='font-medium w-2/3'>{payment.residentName || "N/A"}</p>
-
                                             </div>
                                             {/* <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.invoice.label3')}</p>
@@ -55,24 +53,25 @@ const ViewModal: React.FC<any> = () => {
                                             <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.invoice.label4')}</p>
                                                 <p className='font-medium w-2/3'> {payment.status || "N/A"}</p>
-
                                             </div>
                                             {payment.attachment &&
                                                 <div className=" py-4 ">
                                                     <div className="flex justify-between">
                                                         <div className='font-bold '>{t('ACCOUNTING.viewModal.invoice.label5')}</div>
                                                         <div className="relative group flex items-center me-">
-                                                            <button onClick={() => downloadBase64Image(payment.attachmentBase64)} className="p-2">
+                                                            <Link href={payment.attachment} download target="_blank" rel="noopener noreferrer">
                                                                 <LuDownload className="text-lg" />
-                                                            </button>
-
+                                                            </Link>
+                                                            {/* <button onClick={() => downloadBase64Image(payment.attachmentBase64)} className="p-2">
+                                                                <LuDownload className="text-lg" />
+                                                            </button> */}
                                                             <div className="absolute left-1/2 -translate-x-1/2 -top-6 bg-gray-900 text-blue-950 text-xs font-bold fo px-3 py-1 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
                                                                 Download
                                                                 <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900"></div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <img src={payment.attachment} className='w-full mt-3 h-[250px] object-cover rounded-lg' alt='Attachment' />
+                                                    {/* <img src={payment.attachment} className='w-full mt-3 h-[250px] object-cover rounded-lg' alt='Attachment' /> */}
                                                 </div>
                                             }
                                         </div>
@@ -117,8 +116,7 @@ const ViewModal: React.FC<any> = () => {
                                                 <h3 className="text-3xl font-semibold ">Expense Details</h3>
                                             </div>
                                             <button className="bg-transparent border-0 text-[26px] font-bold text-black "
-                                                onClick={() => dispatch(toggleViewModal())}
-                                            >
+                                                onClick={() => dispatch(toggleViewModal())}>
                                                 x
                                             </button>
                                         </div>
@@ -130,7 +128,6 @@ const ViewModal: React.FC<any> = () => {
                                             <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.expenses.label2')}</p>
                                                 <p className='font-medium w-2/3'>{payment.amount || "N/A"}</p>
-
                                             </div>
                                             <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.expenses.label3')}</p>
@@ -139,30 +136,30 @@ const ViewModal: React.FC<any> = () => {
                                             <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                                 <p className='font-bold w-1/3'>{t('ACCOUNTING.viewModal.expenses.label4')}</p>
                                                 <p className='font-medium w-2/3'> {payment.createdAt || "N/A"}</p>
-
                                             </div>
                                             {payment.attachment &&
                                                 <div className=" py-4 ">
                                                     <div className="flex justify-between">
                                                         <div className='font-bold '>{t('ACCOUNTING.viewModal.expenses.label5')}</div>
                                                         <div className="relative group flex items-center me-">
-                                                            <button onClick={() => downloadBase64Image(payment.attachmentBase64)} className="p-2">
+                                                            <Link href={payment.attachment} download target="_blank" rel="noopener noreferrer">
                                                                 <LuDownload className="text-lg" />
-                                                            </button>
-
+                                                            </Link>
+                                                            {/* <button onClick={() => downloadBase64Image(payment.attachmentBase64)} className="p-2">
+                                                                <LuDownload className="text-lg" />
+                                                            </button> */}
                                                             <div className="absolute left-1/2 -translate-x-1/2 -top-6 bg-gray-900 text-blue-950 text-xs font-bold fo px-3 py-1 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
                                                                 Download
                                                                 <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900"></div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <img src={payment.attachment} className='w-full mt-3 h-[250px] object-cover rounded-lg' alt='Attachment' />
+                                                    {/* <img src={payment.attachment} className='w-full mt-3 h-[250px] object-cover rounded-lg' alt='Attachment' /> */}
                                                 </div>
                                             }
                                         </div>
                                     </>
                             }
-
                             <div className="flex gap-3 items-center ">
                                 <button
                                     className=" border rounded-lg border-[#DDDDDD]  background-transparent font-medium  px-6 text-sm py-3  outline-none  ml-2 mb-1"
@@ -180,6 +177,4 @@ const ViewModal: React.FC<any> = () => {
     );
 }
 
-export default ViewModal
-
-
+export default ViewModal;

@@ -4,14 +4,12 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { getAllPayments } from "@/lib/api/payment";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
-import { setExpenseData, setExpenseDetails, toggleDeleteModal, toggleIsUpdated, toggleViewModal } from "@/store/Slices/ExpenseSlice";
-import { useLocale, useTranslations } from 'next-intl';
-import { toTitleCase, downloadBase64Image } from "@/lib/common.modules";
+import { setExpenseData, setExpenseDetails, toggleDeleteModal, toggleViewModal } from "@/store/Slices/ExpenseSlice";
+import { useTranslations } from 'next-intl';
 import { getAllExpenses } from "@/lib/api/expense";
-
+import Link from "next/link";
 
 const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   const t = useTranslations();
@@ -76,10 +74,8 @@ const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
 
   const fetchExpenses = async () => {
     try {
-
       let params = { page: currentPage, token: token, limit: limit, filterTerm: filterTerm, searchTerm: searchTerm }
       const response = await getAllExpenses(params);
-
       // Check the success property to determine if the request was successful
       if (response.success) {
         setExpenses(response.data.data.allExpenses);
@@ -97,11 +93,10 @@ const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
     }
   }
 
-  console.log("expenses", expenses)
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-      {t('EXPENSE.table.title')}
+        {t('EXPENSE.table.title')}
       </h4>
       {loading ? (
         <Loader />
@@ -111,21 +106,18 @@ const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                {t('EXPENSE.table.column1')}
+                  {t('EXPENSE.table.column1')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('EXPENSE.table.column2')}
+                  {t('EXPENSE.table.column2')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('EXPENSE.table.column3')}
+                  {t('EXPENSE.table.column3')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('EXPENSE.table.column4')}
+                  {t('EXPENSE.table.column4')}
                 </th>
-                <th>
-
-                </th>
-  
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -162,21 +154,26 @@ const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                       <BsThreeDotsVertical className="text-black" />
                       <ul className="absolute z-50 bottom-0 mb-0 min-w-[170px] w-auto right-2 text-[14px] bg-white hidden group-hover:block text-black border border-gray shadow-lg">
                         <li onClick={() => handleViewExpense(expense)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                        {t('EXPENSE.table.tab1')}
+                          {t('EXPENSE.table.tab1')}
                         </li>
                         <li onClick={() => handleDeleteExpense(expense)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                        {t('EXPENSE.table.tab2')}
+                          {t('EXPENSE.table.tab2')}
                         </li>
                         {expense.attachment &&
-                          <li onClick={() => downloadBase64Image(expense.attachmentBase64)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                          {t('EXPENSE.table.tab3')}
+                          <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                            <Link href={expense.attachment} download target="_blank" rel="noopener noreferrer">
+                              {t('EXPENSE.table.tab3')}
+                            </Link>
                           </li>}
+                        {/* {expense.attachment &&
+                          <li onClick={() => downloadBase64Image(expense.attachmentBase64)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                            {t('EXPENSE.table.tab3')}
+                          </li>} */}
                       </ul>
                     </td>
                   </tr>
                 ))
               )}
-
             </tbody>
           </table>
         </div>)}
@@ -187,8 +184,7 @@ const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 ms-0 flex h-8 items-center justify-center rounded-s-lg border border-e-0 bg-white px-3 font-bold leading-tight text-black dark:hover:text-white"
-              >
+                className="text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 ms-0 flex h-8 items-center justify-center rounded-s-lg border border-e-0 bg-white px-3 font-bold leading-tight text-black dark:hover:text-white">
                 <FaArrowLeft className="mr-1" />
                 {t('COMMON.previous')}
               </button>
@@ -202,8 +198,7 @@ const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                 ) : (
                   <button
                     onClick={() => handlePageChange(page as number)}
-                    className={`text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 flex h-8 items-center justify-center border bg-white px-3 leading-tight text-black dark:hover:text-white ${page === currentPage ? "dark:bg-gray-700 border-blue-500 bg-blue-50 text-blue-700 dark:text-white" : ""}`}
-                  >
+                    className={`text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 flex h-8 items-center justify-center border bg-white px-3 leading-tight text-black dark:hover:text-white ${page === currentPage ? "dark:bg-gray-700 border-blue-500 bg-blue-50 text-blue-700 dark:text-white" : ""}`}>
                     {page}
                   </button>
                 )}
@@ -213,8 +208,7 @@ const ExpenseTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 flex h-8 items-center justify-center rounded-e-lg border bg-white px-3 font-bold leading-tight text-black dark:hover:text-white"
-              >
+                className="text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 flex h-8 items-center justify-center rounded-e-lg border bg-white px-3 font-bold leading-tight text-black dark:hover:text-white">
                 {t('COMMON.next')}
                 <FaArrowRight className="ml-1" />
               </button>

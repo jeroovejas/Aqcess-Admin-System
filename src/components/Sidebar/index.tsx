@@ -71,10 +71,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           label: `${t('SIDEBAR.lable5')}`,
           route: "#",
           children: [
+            { label: `${t('SIDEBAR.lable16')}`, route: "/payment/accounting" },
             { label: `${t('SIDEBAR.lable6')}`, route: "/payment/payment-history" },
             { label: `${t('SIDEBAR.lable15')}`, route: "/payment/expenses" },
+            { label: `${t('SIDEBAR.lable17')}`, route: "/payment/payment-tracker" },
             { label: `${t('SIDEBAR.lable7')}`, route: "/payment/products" },
-            { label: `${t('SIDEBAR.lable16')}`, route: "/payment/accounting" },
           ],
         },
         {

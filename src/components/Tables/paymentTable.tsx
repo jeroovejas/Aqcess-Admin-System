@@ -10,6 +10,7 @@ import Loader from "../common/Loader";
 import { setPaymentDetails, setPaymentData, toggleViewModal, togglePaymentStatusModal } from "@/store/Slices/PaymentSlice";
 import { useLocale, useTranslations } from 'next-intl';
 import { toTitleCase, downloadBase64Image } from "@/lib/common.modules";
+import Link from "next/link";
 
 
 const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
@@ -131,12 +132,8 @@ const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                 <th scope="col" className="px-6 py-3">
                   {t('PAYMENT.table.column6')}
                 </th>
-                <th>
-
-                </th>
-                <th>
-
-                </th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -191,15 +188,16 @@ const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                             {t('PAYMENT.table.option2')}
                           </li>}
                         {payment.attachment &&
-                          <li onClick={() => downloadBase64Image(payment.attachmentBase64)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                            {t('PAYMENT.table.option3')}
+                          <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                            <Link href={payment.attachment} download target="_blank" rel="noopener noreferrer">
+                              {t('PAYMENT.table.option3')}
+                            </Link>
                           </li>}
                       </ul>
                     </td>
                   </tr>
                 ))
               )}
-
             </tbody>
           </table>
         </div>)}

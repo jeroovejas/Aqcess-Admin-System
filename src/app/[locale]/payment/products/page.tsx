@@ -11,16 +11,13 @@ import { toggleAddProduct, resetProductState } from "@/store/Slices/PaymentSlice
 import EditProduct from "@/components/PaymentComponents/EditProduct";
 import ToggleStatusModal from "@/components/PaymentComponents/ToggleStatusModal";
 import DuplicateModal from "@/components/PaymentComponents/DuplicateModal";
-import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "@/components/common/Loader";
-import { Link, usePathname, useRouter } from '@/navigation';
-
+import { Link, useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 const Products = () => {
   const t = useTranslations();
-
   const addProduct = useAppSelector((state) => state.payment.addProduct)
   const editProduct = useAppSelector((state) => state.payment.editProduct)
   const statusModal = useAppSelector((state) => state.payment.statusModal)
@@ -119,18 +116,21 @@ const Products = () => {
             </div>
             <div className="mx-auto">
               <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
-                <div className="mt-1 text-lg font-bold mx-2">
-                  <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
-                </div>
-                <div className="mt-1 text-lg font-bold mx-2">
-                  <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
-                </div>
-                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                  {t('PAYMENT.tab2')}
-                </button>
-                <div className="mt-1 text-lg font-bold">
+                <div className="text-sm font-semibold ms-3 my-2 me-3">
                   <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
                 </div>
+                <div className="text-sm font-semibold my-2 me-3">
+                  <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
+                </div>
+                <div className="text-sm font-semibold my-2 me-3">
+                  <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
+                </div>
+                <div className="text-sm font-semibold my-2 me-3">
+                  <Link href="/payment/payment-tracker">{t('PAYMENT.tab5')}</Link>
+                </div>
+                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
+                  {t('PAYMENT.tab2')}
+                </button>
               </div>
             </div>
             <div className="mb-4 flex flex-wrap justify-between">
@@ -153,8 +153,7 @@ const Products = () => {
                             <li onClick={toggleStatusDropdown}>
                               <button
                                 type="button"
-                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                              >
+                                className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left">
                                 {t('COMMON.type')}
                               </button>
                               <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
@@ -175,8 +174,7 @@ const Products = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown('')}
-                              >
+                                onClick={() => closeDropdown('')}>
                                 {t('COMMON.type2')}
                               </button>
                             </li>
@@ -184,8 +182,7 @@ const Products = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown('draft')}
-                              >
+                                onClick={() => closeDropdown('draft')}>
                                 {t('COMMON.lable6')}
                               </button>
                             </li>
@@ -193,8 +190,7 @@ const Products = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown('active')}
-                              >
+                                onClick={() => closeDropdown('active')}>
                                 {t('COMMON.lable7')}
                               </button>
                             </li>
@@ -202,8 +198,7 @@ const Products = () => {
                               <button
                                 type="button"
                                 className="block w-full px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef] text-left"
-                                onClick={() => closeDropdown('inactive')}
-                              >
+                                onClick={() => closeDropdown('inactive')}>
                                 {t('COMMON.lable8')}
                               </button>
                             </li>
@@ -219,8 +214,7 @@ const Products = () => {
                   <button
                     onClick={handleAddProduct}
                     type="button"
-                    className="w-full justify-center text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center "
-                  >
+                    className="w-full justify-center text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center">
                     <IoIosAdd className="mr-2 text-white text-xl" />{t('PRODUCT.button1')}
                   </button>
                 </div>

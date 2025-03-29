@@ -42,6 +42,25 @@ export const getAllAccounting = async (params: any): Promise<ApiResponse<any>> =
     }
 };
 
+export const getAllPaymentTracker = async (params: any): Promise<ApiResponse<any>> => {
+    const getDataConfig = createGetRequest<any>('/tracker/all-payment-tracking', params);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(getDataConfig());
+        return {
+            success: true,
+            data: response.data,  //response.data contains our backend API response
+        };
+    } catch (error: any) {
+        const errorResponse = error.response || {};
+        return {
+            success: false,
+            data: errorResponse.data,
+        };
+    }
+};
+
+
 export const createPayment = async (body: any): Promise<ApiResponse<any>> => {
     const postDataConfig = createPostRequest<any>('/payment/create-payment', body);
     try {

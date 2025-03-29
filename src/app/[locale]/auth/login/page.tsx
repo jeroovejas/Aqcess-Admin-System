@@ -15,6 +15,7 @@ import SendEmailModal from "@/components/AuthComponents/sendEmailModal";
 import { useLocale, useTranslations } from 'next-intl';
 import { Link, useRouter, usePathname } from '@/navigation';
 import Loader from "@/components/common/Loader";
+import LanguageDropdown from "@/components/language/language";
 
 interface signInFormState {
   email: string;
@@ -125,7 +126,7 @@ const Login: React.FC = () => {
         <div className="rounded-sm min-h-[100vh] bg-[url('/images/main/aqcess-bg-image.JPG')] bg-center bg-cover bg-no-repeat ">
           <div className="flex flex-wrap">
             <div className="w-full text-white">
-              <div className="relative px-10 flex justify-between items-center">
+              <div className="relative px-5 md:px-10 flex justify-between items-center">
                 <Link className="" href="/">
                   <Image
                     className=""
@@ -135,9 +136,10 @@ const Login: React.FC = () => {
                     width={150}
                   />
                 </Link>
+                <LanguageDropdown />
               </div>
             </div>
-            <div className="w-full flex justify-center px-10">
+            <div className="w-full flex justify-center px-5 md:px-10">
               <div className="bg-white md:w-2/3 lg:w-1/2 xl:w-5/12 w-full mt-10 rounded-md">
                 <div className="w-full p-12 md:p-17.5">
                   <h2 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">

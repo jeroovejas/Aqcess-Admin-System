@@ -13,8 +13,9 @@ import { setUserData, toggleIsTokenValid, clearToken, clearUser } from "@/store/
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { verifyToken } from "@/lib/api/auth";
 import Loader from "@/components/common/Loader";
-import { getDashboardData } from "@/lib/api/dashboard";
+import { getDashboardChartPayment, getDashboardData } from "@/lib/api/dashboard";
 import { useLocale, useTranslations } from 'next-intl';
+import LanguageDropdown from "../language/language";
 
 const ECommerce: React.FC = () => {
   const router = useRouter();
@@ -132,7 +133,8 @@ const ECommerce: React.FC = () => {
                 <h1 className="text-black text-3xl font-bold">{t('DASHBOARD.title')}, {user.firstName} {user.lastName}</h1>
                 <p className="text-black">{currentDay}, {currentDate}</p>
               </div>
-              <div className="text-black">
+              <div className="text-black flex gap-2">
+                <LanguageDropdown />
                 <DateRangePickerElement setFromDate={setFromDate} setToDate={setToDate} />
                 {/* <p>{fromDate} and{toDate} </p> */}
               </div>
@@ -149,10 +151,16 @@ const ECommerce: React.FC = () => {
               </CardDataStats>
             </div>
 
-            <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-              <ChartOne />
-              <Payment />
-            </div>
+            <ChartOne token={token} />
+            {/* <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+              <div className="col-span-12 md:col-span-8">
+            <ChartOne />
+              </div>
+              <div className="col-span-12 md:col-span-4">
+                <Payment />
+              </div>
+            </div> */}
+
 
             <div className="w-full my-6"><Survey survey={survey} /></div>
           </DefaultLayout>

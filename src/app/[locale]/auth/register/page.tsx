@@ -15,6 +15,7 @@ import { IoMdEyeOff } from "react-icons/io";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
 import { Link, useRouter, usePathname } from '@/navigation';
+import LanguageDropdown from "@/components/language/language";
 
 
 interface signUpFormState {
@@ -145,19 +146,23 @@ const Register: React.FC = () => {
       <div className="flex flex-wrap py-[61px] ">
         <div className="w-full xl:block lg:w-1/2 text-white">
           <div className="md:px-26 px-10  mt-2 ">
-            <Link className=" inline-block" href="/">
-              <Image
-                className=""
-                src={"/images/main/logo.png"}
-                alt="Logo"
-                height={150}
-                width={150}
-              />
-            </Link>
+            <div className="flex justify-start items-center gap-5">
+              <Link className=" inline-block" href="/">
+                <Image
+                  className=""
+                  src={"/images/main/logo.png"}
+                  alt="Logo"
+                  height={150}
+                  width={150}
+                />
+              </Link>
+              <LanguageDropdown />
+            </div>
+
             <h1 className="text-4xl mt-2 font-bold">{t('SIGNUP.title1')}</h1>
             <h1 className="text-4xl font-bold">{t('SIGNUP.title2')}</h1>
             <p className="text-xl mt-4">
-            {t('SIGNUP.title3')}
+              {t('SIGNUP.title3')}
             </p>
             <div className="flex items-center gap-4 mt-12">
               <div className="bg-blue-700 rounded-full p-1">
@@ -193,13 +198,13 @@ const Register: React.FC = () => {
           <div className="bg-white  mx-10 md:mx-26 lg:mx-10 xl:mx-26  mt-8 md:rounded-md rounded-xl">
             <div className="w-full p-8 md:p-17.5 lg:p-16">
               <h2 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-              {t('SIGNUP.title')}
+                {t('SIGNUP.title')}
               </h2>
               <div className="mb-4  ">
                 <p>
-                {t('SIGNUP.account')}{" "}
+                  {t('SIGNUP.account')}{" "}
                   <Link href="/auth/login" className="text-[#475467] font-bold">
-                  {t('SIGNUP.signIn')}
+                    {t('SIGNUP.signIn')}
                   </Link>
                 </p>
               </div>

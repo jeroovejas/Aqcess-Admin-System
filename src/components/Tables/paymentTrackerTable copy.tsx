@@ -4,24 +4,24 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { getAllAccounting } from "@/lib/api/payment";
+import { getAllPayments } from "@/lib/api/payment";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
-import { setAccountingDetails, setAccountingData, toggleViewModal } from "@/store/Slices/AccountingSlice";
-import { useTranslations } from 'next-intl';
-import { toTitleCase } from "@/lib/common.modules";
-import moment from "moment";
+import { setPaymentDetails, setPaymentData, toggleViewModal, togglePaymentStatusModal } from "@/store/Slices/PaymentSlice";
+import { useLocale, useTranslations } from 'next-intl';
+import { toTitleCase, downloadBase64Image } from "@/lib/common.modules";
 import Link from "next/link";
 
-const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
+
+const PaymentTrackerTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   const t = useTranslations();
   const limit = 10;
   const PAGE_RANGE = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const isUpdated = useAppSelector((state) => state.accounting.isUpdated)
+  const isUpdated = useAppSelector((state) => state.payment.isUpdated)
   const token = useAppSelector((state) => state.auth.token);
-  const [accounting, setAccounting] = useState<any[]>([]);
+  const [payments, setPayments] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch()
 
@@ -57,30 +57,38 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
       top: 0,
       behavior: 'smooth'
     });
-    dispatch(setAccountingData(payment))
+    dispatch(setPaymentData(payment))
     dispatch(toggleViewModal())
   }
+
+  const handlePaymentStatusChange = (payment: any) => {
+    dispatch(setPaymentData(payment))
+    dispatch(togglePaymentStatusModal())
+  }
+
   useEffect(() => {
     setLoading(true);
     fetchIncomes().finally(() => {
       setLoading(false);
     });
-  }, [currentPage, isUpdated, filterTerm, searchTerm]);
+  }, [currentPage, isUpdated, filterTerm, searchTerm])
+
 
   const fetchIncomes = async () => {
     try {
+
       let params = { page: currentPage, token: token, limit: limit, filterTerm: filterTerm, searchTerm: searchTerm }
-      const response = await getAllAccounting(params);
+      const response = await getAllPayments(params);
 
       // Check the success property to determine if the request was successful
       if (response.success) {
         console.log(response.data.data)
-        setAccounting(response.data.data.allAccounting);
+        setPayments(response.data.data.allPayments);
         setTotalPages(response.data.data.pagination.totalPages)
-        dispatch(setAccountingDetails({
-          totalIncomeAmount: response.data.data.totalIncomeAmount,
-          totalProductAmount: response.data.data.totalProductAmount,
-          totalExpenseAmount: response.data.data.totalExpenseAmount,
+        dispatch(setPaymentDetails({
+          totalPendingAmount: response.data.data.totalPendingAmount,
+          painInTime: response.data.data.painInTime,
+          paymentThisMonth: response.data.data.paymentThisMonth,
         }))
       } else {
         showErrorToast(response.data.message)
@@ -90,10 +98,11 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
     }
   }
 
+  console.log("payments", payments)
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
-        {t('ACCOUNTING.table.title')}
+        {t('PAYMENTTRACKER.table.title')}
       </h4>
       {loading ? (
         <Loader />
@@ -103,83 +112,110 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTING.table.column1')}
+                  {t('PAYMENTTRACKER.table.column1')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTING.table.column2')}
+                  {t('PAYMENTTRACKER.table.column2')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTING.table.column3')}
+                  {t('PAYMENTTRACKER.table.column3')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTING.table.column4')}
+                  {t('PAYMENTTRACKER.table.column5')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTING.table.column5')}
+                  {t('PAYMENTTRACKER.table.column7')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTING.table.column6')}
+                  {t('PAYMENTTRACKER.table.column6')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTING.table.column7')}
+                  {t('PAYMENTTRACKER.table.column7')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  {t('ACCOUNTING.table.column8')}
+                  {t('PAYMENTTRACKER.table.column8')}
                 </th>
-                <th scope="col" className="px-6 py-3"></th>
+                <th scope="col" className="px-6 py-3">
+                  {t('PAYMENTTRACKER.table.column9')}
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  {t('PAYMENTTRACKER.table.column10')}
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  {t('PAYMENTTRACKER.table.column11')}
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  {t('PAYMENTTRACKER.table.column12')}
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  {t('PAYMENTTRACKER.table.column13')}
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  {t('PAYMENTTRACKER.table.column14')}
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  {t('PAYMENTTRACKER.table.column15')}
+                </th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {accounting.length === 0 ? (
+              {payments.length === 0 ? (
                 <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
-                  <td colSpan={9} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
+                  <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
                     {t('COMMON.noDataText')}
                   </td>
                 </tr>
               ) : (
-                accounting.map((payment, key) => (
+                payments.map((payment, key) => (
                   <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.transactionType || "N/A"}
+                      {payment.invoiceId}
+                    </td>
+                    <td scope="row" className="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                      <p className=" text-black font-bold dark:text-white  mt-2 ml-2">
+                        {payment.residentName}
+                      </p>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.invoiceId || "N/A"}
+                      ${payment.amount}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.residentName || "N/A"}
+                      {payment.productTitle}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.residentPropertyNo || "N/A"}
+                      {payment.createdAt}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.productTitle || "N/A"}
+                      {toTitleCase(payment.type)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.amount || "N/A"}
+                      {toTitleCase(payment.type)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {payment.createdAt ? moment(payment.createdAt).format('DD-MM-YYYY HH:mm') : "N/A"}
+                      {toTitleCase(payment.type)}
                     </td>
-                    <td className="px-6 py-4  font-bold whitespace-nowrap">
-                      <span className={` p-2 rounded-2xl ${payment.status == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.status == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
-                        {payment.status ? toTitleCase(payment.status) : "N/A"}
-                      </span>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {toTitleCase(payment.type)}
                     </td>
-                    <td className="relative group whitespace-nowrap overflow-visible">
-                      <BsThreeDotsVertical className="text-black" />
-                      <ul className="absolute z-50 bottom-0 mb-0 min-w-[170px] w-auto right-2 text-[14px] bg-white hidden group-hover:block text-black border border-gray shadow-lg">
-                        <li onClick={() => handleViewPayment(payment)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                          {t('PAYMENT.table.option1')}
-                        </li>
-                        {payment.attachment &&
-                          <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
-                            <Link href={payment.attachment} download target="_blank" rel="noopener noreferrer">
-                              {t('PAYMENT.table.option3')}
-                            </Link>
-                          </li>}
-                      </ul>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {toTitleCase(payment.type)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {toTitleCase(payment.type)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {toTitleCase(payment.type)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {toTitleCase(payment.type)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {toTitleCase(payment.type)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {toTitleCase(payment.type)}
                     </td>
                   </tr>
                 ))
@@ -233,4 +269,4 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   );
 };
 
-export default AccountingTable;
+export default PaymentTrackerTable;

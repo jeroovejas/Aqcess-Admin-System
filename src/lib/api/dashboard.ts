@@ -23,3 +23,21 @@ export const getDashboardData = async (params: any): Promise<ApiResponse<any>> =
         };
     }
 };
+
+export const getDashboardChartPayment = async (params: any): Promise<ApiResponse<any>> => {
+    const getDataConfig = createGetRequest<any>('/dashboard/chart-stats', params);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(getDataConfig());
+        return {
+            success: true,
+            data: response.data,  //response.data contains our backend API response
+        };
+    } catch (error: any) {
+        const errorResponse = error.response || {};
+        return {
+            success: false,
+            data: errorResponse.data,
+        };
+    }
+};

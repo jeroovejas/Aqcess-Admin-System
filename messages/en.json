@@ -321,14 +321,15 @@
         "search": "Search by resident name or visitor name"
     },
     "PAYMENT": {
-        "tab1": "Payment History",
-        "tab2": "Product",
-        "tab3": "Expense",
+        "tab1": "Income",
+        "tab2": "Billing Items",
+        "tab3": "Expenses",
         "tab4": "Accounting",
+        "tab5": "Tracker",
         "title": "Payment Manager",
-        "card1": "Payments this month",
-        "card2": "Over payments",
-        "card3": "Paid in time",
+        "card1": "Payments This Year",
+        "card2": "Payments This Month",
+        "card3": "Over Due payments",
         "table": {
             "title": "Recent invoices",
             "column1": "Invoice",
@@ -470,6 +471,38 @@
         "deleteModal": {
             "title": "Delete expense ?",
             "desc": "Are you sure you want to delete this expense as this will affect the activities related to payments in your account"
+        }
+    },
+    "PAYMENTTRACKER": {
+        "title": "Payment Tracker",
+        "card1": "Expected Amount to Date",
+        "card2": "Total Paid to Date",
+        "card3": "Overdue to Date",
+        "card4": "Collection Rate",
+        "tab1": "This Month",
+        "tab2": "Year to Date",
+        "button1": "Export list",
+        "button2": "Filter",
+        "search": "Search here",
+        "table": {
+            "title": "All Payments Tracker",
+            "column1": "Property No",
+            "column2": "Resident Name",
+            "column3": "Product Title",
+            "column5": "January",
+            "column6": "February",
+            "column7": "March",
+            "column8": "April",
+            "column9": "May",
+            "column10": "June",
+            "column11": "July",
+            "column12": "August",
+            "column13": "October",
+            "column14": "November",
+            "column15": "December"
+        },
+        "exportModal": {
+            "title": "Export expenses data"
         }
     },
     "ACCOUNTING": {
@@ -696,9 +729,9 @@
         "lable2": "Residents",
         "lable3": "Survey",
         "lable4": "Security Guard",
-        "lable5": "Payments",
-        "lable6": "Payment History",
-        "lable7": "Products",
+        "lable5": "Finances",
+        "lable6": "Income",
+        "lable7": "Billing Items",
         "lable8": "Common Areas",
         "lable9": "Access History",
         "lable10": "Settings",
@@ -707,7 +740,8 @@
         "lable13": "Invoices",
         "lable14": "Places",
         "lable15": "Expenses",
-        "lable16": "Accounting"
+        "lable16": "Accounting",
+        "lable17": "Tracker"
     },
     "TIMING": {
         "label1": "Day",
@@ -815,5 +849,23 @@
             "statusTitle2": "Society Admin",
             "statusDesc": "Select Carefully as this will affect admins activity."
         }
+    },
+    "LANG": {
+        "english": "English",
+        "spanish": "Spanish"
+    },
+    "MONTHNAME": {
+        "January": "January",
+        "February": "February",
+        "March": "March",
+        "April": "April",
+        "May": "May",
+        "June": "June",
+        "July": "July",
+        "August": "August",
+        "September": "September",
+        "October": "October",
+        "November": "November",
+        "December": "December"
     }
 }

@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import residentReducer from "./Slices/ResidentSlice"
 import paymentReducer from "./Slices/PaymentSlice"
 import AccountingReducer from "./Slices/AccountingSlice"
+import TrackerReducer from "./Slices/TrackerSlice"
 import accessReducer from "./Slices/AccessSlice"
 import surveyReducer from "./Slices/SurveySlice"
 import placeReducer from "./Slices/PlaceSlice"
@@ -24,6 +25,7 @@ export const store = configureStore({
     resident: residentReducer,
     payment: paymentReducer,
     accounting: AccountingReducer,
+    tracker: TrackerReducer,
     expense: expenseReducer,
     access: accessReducer,
     survey: surveyReducer,

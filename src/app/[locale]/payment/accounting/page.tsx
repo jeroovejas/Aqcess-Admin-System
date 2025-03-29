@@ -97,18 +97,21 @@ const AccountingManager = () => {
                         </div>
                         <div className="mx-auto">
                             <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
-                                <div className="mt-1 text-lg font-bold me-3">
-                                    <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
-                                </div>
-                                <div className="mt-1 text-lg font-bold me-3">
-                                    <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
-                                </div>
-                                <div className="mt-1 text-lg font-bold me-4">
-                                    <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
-                                </div>
-                                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
+                                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
                                     {t('PAYMENT.tab4')}
                                 </button>
+                                <div className="text-sm font-semibold my-2 me-3">
+                                    <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
+                                </div>
+                                <div className="text-sm font-semibold my-2 me-3">
+                                    <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
+                                </div>
+                                <div className="text-sm font-semibold my-2 me-3">
+                                    <Link href="/payment/payment-tracker">{t('PAYMENT.tab5')}</Link>
+                                </div>
+                                <div className="text-sm font-semibold my-2">
+                                    <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
+                                </div>
                             </div>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
@@ -130,11 +133,9 @@ const AccountingManager = () => {
                                 <div className="px-2">
                                     <button
                                         className="px-4 py-[10px] flex items-center bg-black text-white rounded-lg"
-                                        onClick={() => setIsModalOpen(true)}
-                                    >
+                                        onClick={() => setIsModalOpen(true)}>
                                         <IoFilterSharp className="mr-2" /> {t('ACCOUNTING.button2')}
                                     </button>
-
                                     <SearchFilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onFiltersSubmit={handleFiltersSubmit} />
                                 </div>
                             </div>

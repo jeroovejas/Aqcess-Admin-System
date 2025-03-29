@@ -26,6 +26,8 @@ interface productOptions {
 interface FormData {
     residentId: number | null
     productId: number | null
+    productMonth: string | null
+    productYear: string | null
     amount: number | null
     desc: string
     file: File | null;
@@ -36,6 +38,8 @@ interface FormData {
 const initialFormData: FormData = {
     residentId: null,
     productId: null,
+    productMonth: null,
+    productYear: null,
     amount: null,
     desc: '',
     file: null,
@@ -51,18 +55,26 @@ const AddPayment: React.FC<any> = () => {
     const [residents, setResidents] = useState<residentOptions[]>([]);
     const [products, setProducts] = useState<productOptions[]>([]);
     const [loading, setLoading] = useState(false);
+    const [productMonths, setProductMonths] = useState([]);
+    const [ProductYear, setProductYear] = useState(null);
+    const [productType, setProductType] = useState('');
     const [formData, setFormData] = useState<FormData>(initialFormData);
 
     // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         if (name === 'productId') {
-            const selectedProduct = products.find(product => product.id === Number(value));
+            const selectedProduct: any = products.find(product => product.id === Number(value));
             const price = selectedProduct ? selectedProduct.price : null;
+            // const productMonth = selectedProduct?.productDetails?.map((item:any)=> item.month);
+            setProductMonths(selectedProduct?.productDetails);
+            setProductYear(selectedProduct?.productDetails[0]?.year);
+            console.log(selectedProduct);
+            setProductType(selectedProduct.type);
             setFormData(prevData => ({
                 ...prevData,
                 [name]: Number(value),
-                amount: price
+                amount: price,
             }));
         } else {
             setFormData(prevData => ({
@@ -118,6 +130,9 @@ const AddPayment: React.FC<any> = () => {
             body.append('amount', formData.amount === null ? '' : formData.amount.toString());
             body.append('desc', formData.desc);
             body.append('token', token);
+            body.append('type', productType);
+            body.append('month', formData?.productMonth?.toString() || '');
+            body.append('year', ProductYear == null ? '' : ProductYear);
             if (formData.file) {
                 body.append('attachment', formData.file);
             }
@@ -255,6 +270,55 @@ const AddPayment: React.FC<any> = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            {
+                                productType == "monthly" ?
+                                    <div className="flex gap-4">
+                                        <div className="w-full">
+                                            <div className="relative">
+                                                <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="productMonth">
+                                                    Month
+                                                </label>
+                                                <select
+                                                    id="productMonth"
+                                                    name="productMonth"
+                                                    value={formData.productMonth || ''}
+                                                    onChange={handleChange}
+                                                    required
+                                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                >
+                                                    <option value="" disabled>
+                                                        {t('PAYMENT.paymentModal.placeHolder2')}
+                                                    </option>
+                                                    {productMonths.map((product: any, index) => (
+                                                        <option key={index} value={product.month}>
+                                                            {product.month}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                    <svg className="fill-current h-4 w-4 mt-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="w-full">
+                                            <div className="relative">
+                                                <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="productYear">
+                                                    Year
+                                                </label>
+                                                <input
+                                                    value={ProductYear || ''}
+                                                    readOnly
+                                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    : ''
+                            }
+
 
                             <div className="relative">
                                 <label className="block uppercase tracking-wide text-[14px] font-bold mb-2" htmlFor="price">

@@ -97,7 +97,7 @@ export const DateRangePickerElement: React.FC<any> = ({ setToDate, setFromDate }
                 presets={presets}
                 value={dateRange}
                 onChange={setDateRange}
-                className="w-60 py-2.5 md:py-3"
+                className="w-[11rem] md:w-60 py-2.5 md:py-3"
             />
 
             {/* <p className="flex items-center rounded-md bg-gray-100 p-2 text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-300">

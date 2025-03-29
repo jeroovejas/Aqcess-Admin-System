@@ -7,13 +7,12 @@ import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
 import ExportModal from "@/components/PaymentComponents/ExportModal";
-import { FaChevronRight } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleExportModal, resetPaymentState, toggleAddPayment } from "@/store/Slices/PaymentSlice";
 import Loader from "@/components/common/Loader";
-import { Link, usePathname, useRouter } from '@/navigation';
+import { Link, useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import AddPayment from "@/components/PaymentComponents/AddPayment";
 import ViewModal from "@/components/PaymentComponents/ViewModal";
 import PaymentStatusModal from "@/components/PaymentComponents/PaymentStatusModal";
@@ -34,12 +33,12 @@ const PaymentManager = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterTerm, setFilterTerm] = useState<string>('');
   const [filters, setFilters] = useState({
-        residentId: null,
-        propertyNo: "",
-        productId: null,
-        month: null,
-        year: null,
-        status: null,
+    residentId: null,
+    propertyNo: "",
+    productId: null,
+    month: null,
+    year: null,
+    status: null,
   });
 
   const dispatch = useAppDispatch();
@@ -50,7 +49,7 @@ const PaymentManager = () => {
     console.log("Here is Filter Data");
     console.log(newFilters);
     setFilterTerm(newFilters)
-    
+
     setFilters(newFilters);
   };
 
@@ -141,29 +140,30 @@ const PaymentManager = () => {
             </div>
             <div className="mx-auto">
               <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
-                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
+                <div className="text-sm font-semibold ms-3 my-2 me-3">
+                  <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
+                </div>
+                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
                   {t('PAYMENT.tab1')}
                 </button>
-                <div className="mt-1 text-lg font-bold me-3">
+                <div className="text-sm font-semibold my-2 me-3">
                   <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
                 </div>
-                <div className="mt-1 text-lg font-bold me-4">
-                  <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
+                <div className="text-sm font-semibold my-2 me-3">
+                  <Link href="/payment/payment-tracker">{t('PAYMENT.tab5')}</Link>
                 </div>
-                <div className="mt-1 text-lg font-bold">
-                  <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
+                <div className="text-sm font-semibold my-2 me-3">
+                  <Link href="/payment/products">{t('PAYMENT.tab2')}</Link>
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-
-              <CardDataStats title={t('PAYMENT.card1')} total={`$${paymentDetails.paymentThisMonth}`} rate="">
+              <CardDataStats title={t('PAYMENT.card1')} total={`$${paymentDetails.painInTime}`} rate="">
               </CardDataStats>
-              <CardDataStats title={t('PAYMENT.card2')} total={`$${paymentDetails.totalPendingAmount}`} rate="">
+              <CardDataStats title={t('PAYMENT.card2')} total={`$${paymentDetails.paymentThisMonth}`} rate="">
               </CardDataStats>
-              <CardDataStats title={t('PAYMENT.card3')} total={`${paymentDetails.painInTime}%`} rate="">
+              <CardDataStats title={t('PAYMENT.card3')} total={`$${paymentDetails.totalPendingAmount}`} rate="">
               </CardDataStats>
-
             </div>
             <div className="mb-4 flex flex-wrap justify-between">
               <div className="flex flex-wrap w-full md:w-auto">
@@ -261,12 +261,10 @@ const PaymentManager = () => {
                 <div className="px-2">
                   <button
                     className="px-4 py-[10px] flex items-center bg-black text-white rounded-lg"
-                    onClick={() => setIsModalOpen(true)}
-                  >
+                    onClick={() => setIsModalOpen(true)}>
                     <IoFilterSharp className="mr-2" /> Filter
                   </button>
-
-                  <SearchFilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onFiltersSubmit={handleFiltersSubmit}  />
+                  <SearchFilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onFiltersSubmit={handleFiltersSubmit} />
                 </div>
               </div>
               <div className="flex flex-wrap w-full md:w-auto">
