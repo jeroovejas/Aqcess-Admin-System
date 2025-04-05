@@ -44,13 +44,13 @@
         "available": "No Survey Data Available",
         "card1": "Total Payments",
         "card2": "Overdue Payments",
-        "card3": "Total Residents",
+        "card3": "Total Properties",
         "card4": "Active Surveys"
     },
     "RESIDENT": {
         "title": "Resident manager",
-        "card1": "Total residents",
-        "card2": "Active residents",
+        "card1": "Total Properties",
+        "card2": "Active Properties",
         "card3": "Residents with overdue",
         "table": {
             "title": "Your residents",
@@ -394,6 +394,7 @@
         "search": "Search by resident or invoice ID"
     },
     "PRODUCT": {
+        "title": "Billing Items",
         "table": {
             "title": "Your products",
             "column1": "Product",
@@ -506,9 +507,10 @@
         }
     },
     "ACCOUNTING": {
+        "title": "Finances",
         "card1": "Total Invoice Payments",
         "card2": "Total Expenses Amount",
-        "card3": "Total Products Amount",
+        "card3": "Balance",
         "search": "Search for accounting",
         "button1": "Export list",
         "button2": "Filter",

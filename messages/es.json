@@ -44,13 +44,13 @@
         "available": "No hay datos de encuestas disponibles",
         "card1": "Pagos totales",
         "card2": "Pagos vencidos",
-        "card3": "Total de residentes",
+        "card3": "Propiedades totales",
         "card4": "Encuestas activas"
     },
     "RESIDENT": {
         "title": "Gestión de residentes",
-        "card1": "Total de residentes",
-        "card2": "Residentes activos",
+        "card1": "Propiedades totales",
+        "card2": "Propiedades activos",
         "card3": "Residentes con pagos vencidos",
         "table": {
             "title": "Tus residentes",
@@ -394,6 +394,7 @@
         "search": "Buscar por residente o ID de factura"
     },
     "PRODUCT": {
+        "title": "Artículos de facturación",
         "table": {
             "title": "Tus productos",
             "column1": "Producto",
@@ -506,9 +507,10 @@
         }
     },
     "ACCOUNTING": {
+        "title": "Finanzas",
         "card1": "Pagos de facturas totales",
         "card2": "Monto total de gastos",
-        "card3": "Monto total de productos",
+        "card3": "Balance",
         "search": "Buscar contabilidad",
         "button1": "Exportar lista",
         "button2": "Filtrar",

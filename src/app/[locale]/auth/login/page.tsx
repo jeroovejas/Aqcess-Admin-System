@@ -74,6 +74,7 @@ const Login: React.FC = () => {
 
       // Check the success property to determine if the request was successful
       if (response.success) {
+        localStorage.setItem("loginTime", Date.now().toString());
         let token = "Bearer " + response.data.accessToken;
         dispatch(setToken(token))
         if (response.data.data.role === 1) {

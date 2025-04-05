@@ -100,7 +100,7 @@ const Expenses = () => {
                         {/* <Breadcrumb pageName="Resident manager" /> */}
                         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                                {t('PAYMENT.title')}
+                                {t('ACCOUNTING.title')}
                             </h2>
                         </div>
                         <div className="mx-auto">
@@ -127,8 +127,8 @@ const Expenses = () => {
                             </CardDataStats>
                             <CardDataStats title={t('EXPENSE.label2')} total={`$${expenseDetails.totalExpenses}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title={t('EXPENSE.label3')} total={`$${expenseDetails.totalIncomes}`} rate="">
-                            </CardDataStats>
+                            {/* <CardDataStats title={t('EXPENSE.label3')} total={`$${expenseDetails.totalIncomes}`} rate="">
+                            </CardDataStats> */}
                         </div>
                         <div className="mb-4 flex flex-wrap justify-between">
                             <div className="flex flex-wrap w-full md:w-auto">

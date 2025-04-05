@@ -116,7 +116,7 @@ const PaymentTrackerTable: React.FC<any> = ({ filterTerm, searchTerm, selectedMo
               <tr>
                 <th className="px-6 py-3">{t("PAYMENTTRACKER.table.column1")}</th>
                 <th className="px-6 py-3">{t("PAYMENTTRACKER.table.column2")}</th>
-                <th className="px-6 py-3">{t("PAYMENTTRACKER.table.column3")}</th>
+                {/* <th className="px-6 py-3">{t("PAYMENTTRACKER.table.column3")}</th> */}
                 {/* 🔥 Dynamic Months */}
                 {
                   selectedMonthYear == "month" ?
@@ -126,6 +126,7 @@ const PaymentTrackerTable: React.FC<any> = ({ filterTerm, searchTerm, selectedMo
                       <th key={index} className="px-6 py-3">{month.spanishName}</th>
                     ))
                 }
+                <th className="px-6 py-3">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -142,7 +143,7 @@ const PaymentTrackerTable: React.FC<any> = ({ filterTerm, searchTerm, selectedMo
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {payment.resident}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{payment.product}</td>
+                    {/* <td className="px-6 py-4 whitespace-nowrap">{payment.product}</td> */}
                     {/* 🔥 Monthly Values */}
                     {
                       selectedMonthYear == "month" ?
@@ -161,6 +162,7 @@ const PaymentTrackerTable: React.FC<any> = ({ filterTerm, searchTerm, selectedMo
                           </td>
                         ))                        
                     }
+                    <td className="px-6 py-4 whitespace-nowrap">${payment.total_payments}</td>
                   </tr>
                 ))
               )}

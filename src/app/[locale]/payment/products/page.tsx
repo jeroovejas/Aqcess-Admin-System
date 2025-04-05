@@ -111,7 +111,7 @@ const Products = () => {
           <DefaultLayout >
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                {t('PAYMENT.title')}
+                {t('PRODUCT.title')}
               </h2>
             </div>
             <div className="mx-auto">
@@ -142,7 +142,7 @@ const Products = () => {
                   <input type="search" id="default-search" name="searchTerm" onChange={handleChange} value={searchTerm} className="block w-full md:w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('PRODUCT.search')} required />
                 </div>
                 <div ref={filterRef} className="flex items-center">
-                  <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
+                  <button onClick={toggleFilterDropdown} type="button" className="text-white bg-black border border-gray-300  font-medium rounded-lg text-sm px-6 py-3 md:ms-4 mb-4 dark:text-white dark:hover:bg-gray-700 flex items-center">
                     <IoFilterSharp className="mr-2" />{t('PRODUCT.filterButton')}
                   </button>
                   <div className='w-full'>

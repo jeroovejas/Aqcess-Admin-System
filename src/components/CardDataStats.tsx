@@ -25,7 +25,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
           </h4>
         </div>
 
-        <span
+        {/* <span
           className={`flex items-center gap-1 text-sm font-medium  ${levelUp && "text-meta-3 bg-[#ECFDED]"
             } ${levelDown && "text-meta-5 bg-[#C1D5F6]"} w-[70px] px-2 mt-2 rounded-2xl `}>
           {levelUp && (
@@ -60,9 +60,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
           )}
 
           {rate}
-
-
-        </span>
+        </span> */}
       </div>
     </div>
 

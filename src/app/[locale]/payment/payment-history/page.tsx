@@ -135,7 +135,7 @@ const PaymentManager = () => {
             {/* <Breadcrumb pageName="Resident manager" /> */}
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                {t('PAYMENT.title')}
+                {t('ACCOUNTING.title')}
               </h2>
             </div>
             <div className="mx-auto">
@@ -162,8 +162,8 @@ const PaymentManager = () => {
               </CardDataStats>
               <CardDataStats title={t('PAYMENT.card2')} total={`$${paymentDetails.paymentThisMonth}`} rate="">
               </CardDataStats>
-              <CardDataStats title={t('PAYMENT.card3')} total={`$${paymentDetails.totalPendingAmount}`} rate="">
-              </CardDataStats>
+              {/* <CardDataStats title={t('PAYMENT.card3')} total={`$${paymentDetails.totalPendingAmount}`} rate="">
+              </CardDataStats> */}
             </div>
             <div className="mb-4 flex flex-wrap justify-between">
               <div className="flex flex-wrap w-full md:w-auto">

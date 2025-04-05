@@ -67,6 +67,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import ClientWrapper from "./clientWarpper";
 import { routing } from '@/i18n/routing'
+import ClientSessionCheck from "./clientSessionCheck";
 
 
 export default async function RootLayout({
@@ -85,7 +86,10 @@ export default async function RootLayout({
     <html lang={locale}>
       {/* <body> */}
       <NextIntlClientProvider messages={messages}>
-        <ClientWrapper>{children}</ClientWrapper>
+        <ClientWrapper>
+          <ClientSessionCheck />
+          {children}
+        </ClientWrapper>
       </NextIntlClientProvider>
       {/* </body> */}
     </html>
