@@ -95,11 +95,11 @@ const ViewSurvey: React.FC<any> = () => {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
-                        <CardDataStats title={t('SURVEY.card1')} total={surveyData.surveyResponses} rate="">
+                        <CardDataStats title={t('SURVEY.viewModal.card1')} total={surveyData.surveyResponses} rate="">
                         </CardDataStats>
-                        <CardDataStats title={t('SURVEY.card2')} total={`${surveyData.responseRate}%`} rate="">
+                        <CardDataStats title={t('SURVEY.viewModal.card2')} total={`${surveyData.responseRate}%`} rate="">
                         </CardDataStats>
-                        <CardDataStats title={t('SURVEY.card3')} total={surveyData.deadline.split(' ')[0]} rate="">
+                        <CardDataStats title={t('SURVEY.viewModal.card3')} total={surveyData.deadline.split(' ')[0]} rate="">
                         </CardDataStats>
                     </div>
                     <div className="mb-4 flex justify-between">

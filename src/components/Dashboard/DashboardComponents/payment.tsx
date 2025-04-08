@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 const Payment = ({ paymentData = [] }: { paymentData: any[] }) => {
   const t = useTranslations();
   const dispatch = useDispatch();
-    const viewModal = useAppSelector((state) => state.payment.viewModal)
+  const viewModal = useAppSelector((state) => state.payment.viewModal)
 
   const handleViewPayment = (payment: any) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -19,16 +19,20 @@ const Payment = ({ paymentData = [] }: { paymentData: any[] }) => {
     dispatch(toggleViewModal());
   };
 
-    useEffect(() => {
-      if (viewModal) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
-      }
-      return () => {
-        document.body.style.overflow = 'auto';
-      };
-    }, [viewModal]);
+  useEffect(() => {
+    if (viewModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [viewModal]);
+
+  console.log("Payment Data is Here");
+  console.log(paymentData);
+  
 
   return (
     <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
@@ -48,14 +52,8 @@ const Payment = ({ paymentData = [] }: { paymentData: any[] }) => {
               onClick={() => handleViewPayment(payment)}
               className="flex w-full border-t border-[#DDDDDD] items-center gap-5 px-4 py-3 hover:bg-gray-3 dark:hover:bg-meta-4 text-left"
             >
-              <div className="relative h-[35px] w-[35px] rounded-full">
-                <Image
-                  width={32}
-                  height={32}
-                  src={payment.profileImage || "/images/user/dummy.png"}
-                  alt="User"
-                  className="w-full h-full"
-                />
+              <div className="relative h-[35px] w-[35px] rounded-full overflow-hidden">
+                <img src={payment.profileImage || "/images/user/dummy.png"} alt="Profile Image" className="w-full h-full object-cover " />
               </div>
 
               <div className="flex flex-1 items-center justify-between">

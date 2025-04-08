@@ -293,7 +293,10 @@
             "button2": "Exportar"
         },
         "viewModal": {
-            "title": "¿Qué te gustaría mejorar?"
+            "title": "¿Qué te gustaría mejorar?",
+            "card1": "Respuestas",
+            "card2": "Tasa de respuesta",
+            "card3": "Fecha límite"
         },
         "filterButton": "Filtrar",
         "search": "Buscar encuesta"

@@ -293,7 +293,10 @@
             "button2": "Export"
         },
         "viewModal": {
-            "title": "What would you like to improve?"
+            "title": "What would you like to improve?",
+            "card1": "Responses",
+            "card2": "Response rate",
+            "card3": "Deadline"
         },
         "filterButton": "Filter",
         "search": "Search survey"
