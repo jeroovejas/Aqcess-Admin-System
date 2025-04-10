@@ -7,6 +7,7 @@ import { showErrorToast } from "@/lib/toastUtil";
 import { getAccessHistoryData } from "@/lib/api/accessHistory";
 import Loader from "../common/Loader";
 import { useTranslations } from 'next-intl';
+import moment from "moment";
 
 const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }) => {
   const t = useTranslations();
@@ -113,7 +114,9 @@ const AccessTable: React.FC<any> = ({ searchTerm, filterTerm, fromDate, toDate }
                       {record.address}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{record.duration}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{record.dateTime}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {record.dateTime ? moment(record.dateTime).format("YYYY-MM-DD HH:mm") : ""}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">{record.type}</td>
 
                   </tr>

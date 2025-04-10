@@ -68,6 +68,7 @@ import { notFound } from "next/navigation";
 import ClientWrapper from "./clientWarpper";
 import { routing } from '@/i18n/routing'
 import ClientSessionCheck from "./clientSessionCheck";
+import moment from 'moment-timezone';
 
 
 export default async function RootLayout({
@@ -81,6 +82,10 @@ export default async function RootLayout({
     notFound();
   }
   const messages = await getMessages();
+  const timezone = process.env.NEXT_PUBLIC_TIME_ZONE || 'UTC';
+  moment.tz.setDefault(timezone);
+
+  console.log("Timezone:", moment.tz.guess());
 
   return (
     <html lang={locale}>
