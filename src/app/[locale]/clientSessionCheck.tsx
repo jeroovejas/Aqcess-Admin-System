@@ -4,9 +4,8 @@ import { clearToken } from "@/store/Slices/AuthSlice";
 import { useAppDispatch } from "@/store/hooks";
 import { useRouter } from '@/navigation';
 
-// const AUTO_SIGNOUT_TIME = 1 * 60 * 1000; // 2 minutes in milliseconds For Test Purpose
+// const AUTO_SIGNOUT_TIME = 20 * 60 * 1000; // 2 minutes in milliseconds For Test Purpose
 const AUTO_SIGNOUT_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
 
 const ClientSessionCheck = () => {
   const router = useRouter();
@@ -32,9 +31,11 @@ const ClientSessionCheck = () => {
     // Run session check on load
     handleSessionCheck();
 
-    const interval = setInterval(handleSessionCheck, 60000); // Check every 1 minute
+    const interval = setInterval(handleSessionCheck, 60000);
     return () => clearInterval(interval);
   }, [router]);
+
+
 
   return null;
 };

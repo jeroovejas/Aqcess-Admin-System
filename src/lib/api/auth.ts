@@ -186,6 +186,24 @@ export const changePassword = async (body: any): Promise<ApiResponse<any>> => {
     }
 };
 
+export const updateIbanNumber = async (body: any): Promise<ApiResponse<any>> => {
+    const putDataConfig = createPostRequest<any>('/setting/create', body);
+    try {
+        // Perform the API request
+        const response = await axiosInstance(putDataConfig());
+        return {
+            success: true,
+            data: response.data,  //response.data contains our backend API response
+        };
+    } catch (error: any) {
+        const errorResponse = error.response || {};
+        return {
+            success: false,
+            data: errorResponse.data,
+        };
+    }
+};
+
 export const updateProfile = async (body: any): Promise<ApiResponse<any>> => {
     const putDataConfig = createPutRequest<any>('/auth/update-profile', body);
     try {

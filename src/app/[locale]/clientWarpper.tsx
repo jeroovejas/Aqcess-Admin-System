@@ -13,9 +13,17 @@ import { store, persistor } from "@/store/store";
 import { PersistGate } from 'redux-persist/integration/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from "@/navigation";
 
-export default function RootLayout({children, }: Readonly<{ children: React.ReactNode; }>) {
+interface RootLayoutProps {
+    children: React.ReactNode;
+    locale: string;
+}
+
+
+export default function RootLayout({ children, locale }: RootLayoutProps) {
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         setTimeout(() => setLoading(false), 1000);

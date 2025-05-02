@@ -21,6 +21,7 @@ const AccountingManager = () => {
     const accountingDetails = useAppSelector((state) => state.accounting.accountingDetails)
     const viewModal = useAppSelector((state) => state.accounting.viewModal)
     const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
+    const packageId = useAppSelector((state) => state.auth.packageId);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
@@ -42,12 +43,14 @@ const AccountingManager = () => {
     };
 
     useEffect(() => {
-        if (isTokenValid) {
-            setVerified(true);
+        if (!isTokenValid) {
+          router.push('/auth/login');
+        } else if (packageId == 1) {
+          router.push('/dashboard');
         } else {
-            router.push('/auth/login');
+          setVerified(true);
         }
-    }, [isTokenValid, router])
+      }, [isTokenValid, router, packageId])
 
     useEffect(() => {
         if (exportModal || viewModal) {

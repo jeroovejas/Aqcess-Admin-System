@@ -45,8 +45,6 @@ const ResidentTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
     dispatch(toggleStatusModal())
   }
 
-  console.log("Search Term", searchTerm)
-
 
   const getPageNumbers = () => {
     const pages = [];

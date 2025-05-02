@@ -8,7 +8,7 @@ import { closeSurveyApi } from "@/lib/api/survey";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
 
-const CloseSurvey: React.FC<any> = () => { 
+const CloseCommunication: React.FC<any> = () => { 
     const t = useTranslations();
     const closeSurvey = useAppSelector((state) => state.survey.closeSurvey)
     const [loading, setLoading] = useState<boolean>(false);
@@ -81,4 +81,4 @@ const CloseSurvey: React.FC<any> = () => {
     );
 };
 
-export default CloseSurvey;
+export default CloseCommunication;

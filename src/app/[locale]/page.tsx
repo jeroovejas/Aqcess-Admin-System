@@ -56,6 +56,7 @@ const TestimonialsSection = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isMenuOpen1, setIsMenuOpen1] = useState(false)
   const user = useAppSelector((state) => state.auth.userData)
+
   const [verified, setVerified] = useState<boolean | null>(null)
   const [isMonthly, setIsMonthly] = useState(true) // Track if the monthly option is selected
 
@@ -495,9 +496,9 @@ const TestimonialsSection = () => {
                   ))}
                 </div>
 
-                <a href="#" className="bg-black text-white rounded-full py-3 px-6 text-center font-medium mt-8 block">
+                <Link href={`/auth/register?id=1`} className="bg-black text-white w-full rounded-full py-3 px-6 text-center font-medium mt-8 block">
                   Contratar
-                </a>
+                </Link>
               </div>
 
               {/* Plan Premium */}
@@ -542,9 +543,9 @@ const TestimonialsSection = () => {
                   ))}
                 </div>
 
-                <a href="#" className="bg-[#41A4FF] text-white rounded-full py-3 px-6 text-center font-medium mt-8 block">
+                <Link href={`/auth/register?id=2`} className="bg-[#41A4FF] text-white w-full rounded-full py-3 px-6 text-center font-medium mt-8 block">
                   Contratar
-                </a>
+                </Link>
               </div>
 
               {/* Plan Empresa */}
@@ -581,9 +582,9 @@ const TestimonialsSection = () => {
                   ))}
                 </div>
 
-                <a href="#" className="bg-black text-white rounded-full py-3 px-6 text-center font-medium mt-8 block">
+                <Link href={`/auth/register?id=2`} className="bg-black text-white w-full rounded-full py-3 px-6 text-center font-medium mt-8 block">
                   Saber más
-                </a>
+                </Link>
               </div>
             </div>
 

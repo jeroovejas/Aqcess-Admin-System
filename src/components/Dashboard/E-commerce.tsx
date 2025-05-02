@@ -9,7 +9,7 @@ import DefaultLayout from "../Layouts/DefaultLayout";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
-import { setUserData, toggleIsTokenValid, clearToken, clearUser } from "@/store/Slices/AuthSlice";
+import { setUserData, setPackageId, toggleIsTokenValid, clearToken, clearUser } from "@/store/Slices/AuthSlice";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { verifyToken } from "@/lib/api/auth";
 import Loader from "@/components/common/Loader";
@@ -25,13 +25,14 @@ const ECommerce: React.FC = () => {
   const token = useAppSelector((state) => state.auth.token);
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const user = useAppSelector((state) => state.auth.userData);
+  const packageId = useAppSelector((state) => state.auth.packageId);
   const [verified, setVerified] = useState<boolean | null>(false);
   const [loading, setLoading] = useState<boolean | null>(false);
   const [residentCount, setResidentCount] = useState<any>(0);
   const [activeSurveyCount, setActiveSurveyCount] = useState<any>(0);
   const [totalPayments, setTotalPayments] = useState<any>(0);
   const [pendingPayments, setPendingPayments] = useState<any>(0);
-  const [survey, setSurvey] = useState<any>({});
+  const [survey, setSurvey] = useState<any>([]);
   const [currentDate, setCurrentDate] = useState('');
   const [currentDay, setCurrentDay] = useState('');
   const [fromDate, setFromDate] = useState<string>('');
@@ -52,6 +53,10 @@ const ECommerce: React.FC = () => {
         } else {
           setVerified(true);
           dispatch(setUserData(response.data.data))
+          if (response.data.data.subscription) {
+            console.log("hello", response.data.data.subscription.packageId)
+            dispatch(setPackageId(response.data.data.subscription.packageId))
+          }
 
           if (!isTokenValid) {
             dispatch(toggleIsTokenValid())
@@ -140,18 +145,25 @@ const ECommerce: React.FC = () => {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-
-              <CardDataStats title={t('DASHBOARD.card1')} total={`$${totalPayments}`} rate="40%" levelUp>
-              </CardDataStats>
-              <CardDataStats title={t('DASHBOARD.card2')} total={`${pendingPayments}`} rate="40%" levelUp>
-              </CardDataStats>
+              {packageId == 2 &&
+                <>
+                  <CardDataStats title={t('DASHBOARD.card1')} total={`$${totalPayments}`} rate="40%" levelUp>
+                  </CardDataStats>
+                </>
+              }
               <CardDataStats title={t('DASHBOARD.card3')} total={`${residentCount}`} rate="40%" levelUp>
               </CardDataStats>
-              <CardDataStats title={t('DASHBOARD.card4')} total={`${activeSurveyCount}`} rate="40%" levelUp>
-              </CardDataStats>
+              {packageId == 2 &&
+                <>
+                  <CardDataStats title={t('DASHBOARD.card4')} total={`${activeSurveyCount}`} rate="40%" levelUp>
+                  </CardDataStats>
+                  <CardDataStats title={t('DASHBOARD.card2')} total={`${pendingPayments}%`} rate="40%" levelUp>
+                  </CardDataStats>
+                </>
+              }
             </div>
 
-            <ChartOne token={token} />
+            {packageId == 2 && <ChartOne token={token} />}
             {/* <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
               <div className="col-span-12 md:col-span-8">
             <ChartOne />
@@ -162,7 +174,7 @@ const ECommerce: React.FC = () => {
             </div> */}
 
 
-            <div className="w-full my-6"><Survey survey={survey} /></div>
+            {packageId == 2 && <div className="w-full my-6"><Survey surveyData={survey} /></div>}
           </DefaultLayout>
         </>
       ) : null}

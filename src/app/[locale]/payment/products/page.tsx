@@ -25,6 +25,7 @@ const Products = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
+  const packageId = useAppSelector((state) => state.auth.packageId);
   const [verified, setVerified] = useState<boolean | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterTerm, setFilterTerm] = useState<string>('');
@@ -60,15 +61,14 @@ const Products = () => {
   };
 
   useEffect(() => {
-    if (isTokenValid) {
-      setVerified(true);
-    } else {
+    if (!isTokenValid) {
       router.push('/auth/login');
-      // setTimeout(() => {
-      //   showErrorToast("Plz Login First");
-      // }, 2000);
+    } else if (packageId == 1) {
+      router.push('/dashboard');
+    } else {
+      setVerified(true);
     }
-  }, [isTokenValid, router])
+  }, [isTokenValid, router, packageId])
 
   useEffect(() => {
     dispatch(resetProductState())

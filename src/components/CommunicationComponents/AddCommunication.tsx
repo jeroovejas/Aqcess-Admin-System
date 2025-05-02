@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, ChangeEvent, useRef } from "react";
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import { toggleAddModal, toggleIsUpdated } from "@/store/Slices/SurveySlice";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -10,6 +10,9 @@ import { createSurvey } from "@/lib/api/survey";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
+import Select from 'react-select';
+import moment from "moment";
+import { getAllResidentsArray } from "@/lib/api/resident";
 
 
 // Define types for survey form state
@@ -22,6 +25,11 @@ interface SurveyFormState {
         question_choice: 'Multiple Choice';
         options: string[];
     }[];
+    residents: any;
+    file: File | null;
+    fileType: string | null;
+    fileName: string | null;
+    imagePreview?: string | null;
 }
 
 const initialFormState: SurveyFormState = {
@@ -32,20 +40,71 @@ const initialFormState: SurveyFormState = {
         question_title: '',
         question_choice: 'Multiple Choice',
         options: ['']
-    }]
+    }],
+    residents: [],
+    file: null,
+    fileType: null,
+    fileName: null,
+    imagePreview: null,
+}
+interface ResidentOption {
+    label: string;
+    value: number;
 }
 
-const AddSurvey: React.FC = () => { 
+
+// const months = [
+//     "January", "February", "March", "April", "May", "June",
+//     "July", "August", "September", "October", "November", "December"
+// ]
+// const monthOptions = months.map(month => ({
+//     value: month,
+//     label: month,
+// }));
+
+const AddCommunication: React.FC = () => {
     const t = useTranslations();
     const formRef = useRef<HTMLFormElement>(null);
     const [loading1, setLoading1] = useState(false);
     const [loading2, setLoading2] = useState(false);
+    const user = useAppSelector((state) => state.auth.userData);
     const addModal = useAppSelector((state) => state.survey.addModal);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
 
     // Initialize state with default values
     const [formState, setFormState] = useState<SurveyFormState>(initialFormState);
+    const [residents, setResidents] = useState([]);
+
+    const fetchResidents = async () => {
+        try {
+            let params = { token: token, id: user.id }
+            const response = await getAllResidentsArray(params);
+            if (response.success) {
+                const data = response.data.data
+                console.log("residents Array", data)
+                const transformedData = data.map((item: any) => ({
+                    label: item.name,
+                    value: item.id
+                }));
+                setResidents(transformedData)
+            } else {
+                showErrorToast(response.data.message)
+            }
+        } catch (err: any) {
+            console.error('Unexpected error during residents Fetch:', err.message);
+        }
+    }
+
+    useEffect(() => {
+        fetchResidents()
+    }, []);
+
+
+    const selectedResidents = residents.filter((resident: any) =>
+        formState.residents.includes(resident.value)
+    );
+
 
     // Handle input changes for survey title and description
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,6 +114,67 @@ const AddSurvey: React.FC = () => {
             [name]: value
         }));
     };
+
+    const handleResidentChange = (selectedOptions: any) => {
+        const selectedResidents = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
+        setFormState((prevState: any) => ({
+            ...prevState,
+            residents: selectedResidents,
+        }));
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] || null;
+
+        if (file) {
+            const fileType = file.type;  
+            const fileName = file.name; 
+
+            if (fileType === "application/pdf") {
+                // const reader = new FileReader();
+                // reader.onloadend = () => {
+                    setFormState(prev => ({
+                        ...prev,
+                        file,
+                        fileType,
+                        fileName,
+                        imagePreview: null,
+                    }));
+                // }
+                // reader.readAsDataURL(file);
+            } else if (fileType.startsWith("image/")) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setFormState(prev => ({
+                        ...prev,
+                        file,
+                        fileType,
+                        fileName,
+                        imagePreview: reader.result as string, 
+                    }));
+                };
+                reader.readAsDataURL(file);
+            }
+        } else {
+            setFormState(prev => ({
+                ...prev,
+                file: null,
+                fileType: null,
+                fileName: null,
+                imagePreview: null,
+            }));
+        }
+    };
+
+    const deleteImage = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setFormState((prevValues) => ({
+            ...prevValues,
+            file: null,
+            imagePreview: null // Set the image preview URL
+        }));
+    }
 
     // Handle change for question inputs(question title and type)
     const handleQuestionChange = (index: number, e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -110,7 +230,6 @@ const AddSurvey: React.FC = () => {
         });
     };
 
-
     // Remove an option from a question
     const handleRemoveOption = (questionIndex: number, optionIndex: number) => {
         setFormState(prevState => {
@@ -128,42 +247,114 @@ const AddSurvey: React.FC = () => {
         }));
     };
 
+    // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    //     try {
+    //         event.preventDefault();
+    //         setLoading1(true)
+    //         const body = new FormData();
+    //         body.append('title', formState.title === null ? '' : formState.title.toString());
+    //         body.append('description', formState.description === null ? '' : formState.description.toString());
+    //         body.append('deadline', formState.deadline === null ? '' : formState.deadline.toString());
+    //         body.append('questions', JSON.stringify(formState.questions));
+    //         body.append('residents', formState.residents);
+    //         body.append('status', "open");
+    //         body.append('token', token);
+    //         if (formState.file) {
+    //             body.append('attachment', formState.file);
+    //         }
+
+    //         // const body = {
+    //         //     ...formState,
+    //         //     status: "open",
+    //         //     questions: JSON.stringify(formState.questions),
+    //         //     token: token
+    //         // };
+    //         console.log("Data Structure Is Here ============= > ");
+    //         console.log(body);
+
+    //         const response = await createSurvey(body);
+    //         if (response.success) {
+    //             dispatch(toggleAddModal());
+    //             dispatch(toggleIsUpdated());
+    //             showSuccessToast(response.data.message);
+    //             setFormState(initialFormState)
+    //         } else {
+    //             showErrorToast(response.data.message)
+    //         }
+
+    //     } catch (err: any) {
+    //         console.error('Unexpected error during creating survey :', err.message);
+    //     } finally {
+    //         setLoading1(false)
+    //     }
+    // };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
             event.preventDefault();
-            setLoading1(true)
-            const body = {
-                ...formState,
-                status: "open",
-                questions: JSON.stringify(formState.questions),
-                token: token
-            };
+            setLoading1(true);
+            const body = new FormData();
+    
+            // Append all properties of formState to FormData
+            for (const [key, value] of Object.entries(formState)) {
+                if (Array.isArray(value)) {
+                    body.append(key, JSON.stringify(value));
+                } else if (value instanceof File) {
+                    body.append(key, value);
+                } else {
+                    body.append(key, value === null ? '' : value.toString());
+                }
+            }
+    
+            // Append additional properties
+            body.append('status', "open");
+            body.append('token', token);
+    
+            console.log("Data Structure Is Here ============= > ");
+            console.log(body);
+    
             const response = await createSurvey(body);
             if (response.success) {
                 dispatch(toggleAddModal());
                 dispatch(toggleIsUpdated());
                 showSuccessToast(response.data.message);
-                setFormState(initialFormState)
+                setFormState(initialFormState);
             } else {
-                showErrorToast(response.data.message)
+                showErrorToast(response.data.message);
             }
-
+    
         } catch (err: any) {
             console.error('Unexpected error during creating survey :', err.message);
         } finally {
-            setLoading1(false)
+            setLoading1(false);
         }
     };
+
     const handleDraft = async () => {
         if (!formRef.current?.reportValidity()) return;
         setLoading2(true)
         try {
-            const body = {
-                ...formState,
-                status: "draft",
-                questions: JSON.stringify(formState.questions),
-                token: token
-            };
+            // const body = {
+            //     ...formState,
+            //     status: "draft",
+            //     questions: JSON.stringify(formState.questions),
+            //     token: token
+            // };
+            const body = new FormData();
+            for (const [key, value] of Object.entries(formState)) {
+                if (Array.isArray(value)) {
+                    body.append(key, JSON.stringify(value));
+                } else if (value instanceof File) {
+                    body.append(key, value);
+                } else {
+                    body.append(key, value === null ? '' : value.toString());
+                }
+            }
+    
+            // Append additional properties
+            body.append('status', "draft");
+            body.append('token', token);
+
             const response = await createSurvey(body);
             if (response.success) {
                 dispatch(toggleAddModal());
@@ -180,6 +371,7 @@ const AddSurvey: React.FC = () => {
             setLoading2(false)
         }
     };
+
     return (
         <>
             {addModal ? (
@@ -187,14 +379,14 @@ const AddSurvey: React.FC = () => {
                     <form onSubmit={handleSubmit} ref={formRef}>
                         <div className="mb-6 flex flex-col gap-3 sm:flex-row items-start md:items-center justify-between">
                             <div>
-                                <p className="text-black font-bold">Surveys / <span className="text-slate-400">Create new</span></p>
+                                <p className="text-black font-bold">Communication / <span className="text-slate-400">Create new</span></p>
                                 <h2 className="text-4xl font-bold text-black dark:text-white">
-                                {t('SURVEY.button1Modal.title')}
+                                    {t('SURVEY.button1Modal.title')}
                                 </h2>
                             </div>
                             <div className="flex gap-3">
                                 <button onClick={() => dispatch(toggleAddModal())} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
-                                {t('SURVEY.button1Modal.button1')}
+                                    {t('SURVEY.button1Modal.button1')}
                                 </button>
                                 <button onClick={handleDraft} disabled={loading2} type="button" className="text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center   mb-2">
                                     {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('SURVEY.button1Modal.button2')}`}
@@ -215,7 +407,7 @@ const AddSurvey: React.FC = () => {
                                 <div>
                                     <div className="w-full mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="title">
-                                        {t('SURVEY.button1Modal.title1')}
+                                            {t('SURVEY.button1Modal.title1')}
                                         </label>
                                         <input
                                             name="title"
@@ -229,7 +421,7 @@ const AddSurvey: React.FC = () => {
                                     </div>
                                     <div className="w-full mb-8">
                                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                                        {t('SURVEY.button1Modal.title2')}
+                                            {t('SURVEY.button1Modal.title2')}
                                         </label>
                                         <textarea
                                             name="description"
@@ -255,11 +447,116 @@ const AddSurvey: React.FC = () => {
                                             required
                                         />
                                     </div> */}
-                                    <div className="w-1/2 mb-8">
-                                        <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2">
-                                        {t('SURVEY.button1Modal.title3')}
+                                    <div className="flex flex-wrap md:flex-nowrap  gap-5 mb-4">
+                                        <div className="w-1/2 mb-8">
+                                            <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2">
+                                                {t('SURVEY.button1Modal.title3')}
+                                            </label>
+                                            <DatePickerOne onChange={handleDateChange} defaultDate={formState.deadline} />
+                                        </div>
+                                        <div className="w-1/2 mb-8">
+                                            <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor='month'>
+                                                Select Residents
+                                            </label>
+                                            <div className="flex justify-between gap-x-4">
+                                                <Select
+                                                    options={residents}
+                                                    name="residents"
+                                                    value={selectedResidents}
+                                                    styles={{
+                                                        control: (provided: any) => ({
+                                                            ...provided,
+                                                            paddingTop: '6px',
+                                                            paddingBottom: '5px',
+                                                        }),
+                                                    }}
+                                                    className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                    onChange={handleResidentChange} // Update state on selection change
+                                                    placeholder="Select residents"
+                                                    isMulti
+                                                    isClearable
+                                                    // required
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full">
+                                        <label className="block uppercase text-black  tracking-wide text-[14px] font-bold mb-2" htmlFor="file">
+                                            Attachment
                                         </label>
-                                        <DatePickerOne onChange={handleDateChange} defaultDate={formState.deadline} />
+                                        <div className="flex items-center justify-center w-full">
+                                            <label
+                                                htmlFor="file"
+                                                className="flex flex-col items-center justify-center w-full h-75 border-gray-300 border border-[#DDDDDD] rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                            >
+                                                {formState.fileType === "application/pdf" ? (
+                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                        <svg
+                                                            className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 20 16"
+                                                        >
+                                                            <path
+                                                                stroke="currentColor"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                            />
+                                                        </svg>
+                                                        <p className="text-xl text-gray-500 dark:text-gray-400">
+                                                            PDF Selected: {formState.fileName}
+                                                        </p>
+                                                    </div>
+                                                ) : formState.imagePreview ? (
+                                                    <div className="relative w-full h-full">
+                                                        <img
+                                                            src={formState.imagePreview}
+                                                            alt="Preview"
+                                                            className="w-full h-full object-cover rounded-lg"
+                                                        />
+                                                        <button onClick={deleteImage} className="absolute right-2 top-2 bg-[#D0D5DD] rounded-[8px] text-slate-950 p-2">
+                                                            <RiDeleteBin6Line size={15} />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                        <svg
+                                                            className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                            aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 20 16"
+                                                        >
+                                                            <path
+                                                                stroke="currentColor"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth="2"
+                                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                                            />
+                                                        </svg>
+                                                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                            {t('AREA.button1Modal.label5')}
+                                                        </p>
+                                                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                            {t('AREA.button1Modal.label7')}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                                <input
+                                                    id="file"
+                                                    type="file"
+                                                    name="file"
+                                                    className="hidden"
+                                                    onChange={handleFileChange}
+                                                    // required
+                                                />
+                                            </label>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -277,7 +574,7 @@ const AddSurvey: React.FC = () => {
                                         <div className="flex flex-wrap md:flex-nowrap  gap-5 mb-4">
                                             <div className="w-full md:w-3/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`question-${questionIndex}`}>
-                                                {t('SURVEY.button1Modal.title4')} {questionIndex + 1}
+                                                    {t('SURVEY.button1Modal.title4')} {questionIndex + 1}
                                                 </label>
                                                 <input
                                                     name="question_title"
@@ -286,12 +583,12 @@ const AddSurvey: React.FC = () => {
                                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                     type="text"
                                                     placeholder={t('SURVEY.button1Modal.lable4')}
-                                                    required
+                                                // required
                                                 />
                                             </div>
                                             <div className="relative w-full md:w-2/5">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`type-${questionIndex}`}>
-                                                {t('SURVEY.button1Modal.title5')}
+                                                    {t('SURVEY.button1Modal.title5')}
                                                 </label>
                                                 <select
                                                     name="question_choice"
@@ -310,7 +607,7 @@ const AddSurvey: React.FC = () => {
                                         {question.options.map((option, optionIndex) => (
                                             <div key={optionIndex} className="w-full mb-4">
                                                 <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor={`option-${questionIndex}-${optionIndex}`}>
-                                                {t('SURVEY.button1Modal.title6')} {optionIndex + 1}
+                                                    {t('SURVEY.button1Modal.title6')} {optionIndex + 1}
                                                 </label>
                                                 <div className="flex justify-between gap-x-4">
                                                     <input
@@ -319,7 +616,7 @@ const AddSurvey: React.FC = () => {
                                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                         type="text"
                                                         placeholder={t('SURVEY.button1Modal.lable6')}
-                                                        required
+                                                    // required
                                                     />
                                                     <button type="button" onClick={() => handleRemoveOption(questionIndex, optionIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4 py-2 text-center inline-flex items-center  mb-2">
                                                         <RiDeleteBin6Line className="" />
@@ -358,7 +655,7 @@ const AddSurvey: React.FC = () => {
     );
 };
 
-export default AddSurvey;
+export default AddCommunication;
 
 
 

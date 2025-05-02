@@ -14,6 +14,8 @@
         "firstName": "First name",
         "lastName": "Last name",
         "email": "Your email",
+        "communityName": "Enter Community Name",
+        "label5": "Click to upload community logo",
         "password": "Your password",
         "confirmPassword": "Confirm password",
         "check": "I agree with Terms & conditions",
@@ -25,7 +27,7 @@
         "title6": "Stay Connected",
         "title7": "Send important notifications and receive resident’s message",
         "title8": "Gather Resident Feedback",
-        "title9": "Create surveys and receive valuable feedback to improve community living"
+        "title9": "Create Communication and receive valuable feedback to improve community living"
     },
     "FORGOT": {
         "title": "Restore password",
@@ -41,11 +43,11 @@
             "amount": "Amount"
         },
         "title1": "Payments",
-        "available": "No Survey Data Available",
+        "available": "No Communication Data Available",
         "card1": "Total Payments",
-        "card2": "Overdue Payments",
+        "card2": "Average Communication Response Rate",
         "card3": "Total Properties",
-        "card4": "Active Surveys"
+        "card4": "Active Communication"
     },
     "RESIDENT": {
         "title": "Resident manager",
@@ -218,31 +220,36 @@
         "search": "Search security guard by name or id"
     },
     "SURVEY": {
-        "title": "Survey Manager",
-        "card1": "Total surveys",
-        "card2": "Open surveys",
+        "title": "Communication Manager",
+        "card1": "Total Communication",
+        "card2": "Open Communication",
         "card3": "Average response rate",
         "table": {
-            "title": "Your Surveys",
-            "column1": "Survey name",
-            "column2": "Survey opened",
+            "title": "Your Communications",
+            "column1": "Communication name",
+            "column2": "Communication opened",
             "column3": "Deadline",
             "column4": "Responses",
-            "column5": "Status"
+            "column5": "Status",
+            "surveyTitle": "Survey Title",
+            "status": "Status",
+            "responded": "Responded",
+            "assigned": "Assigned",
+            "responseRate": "Response Rate"
         },
-        "info": "Survey Details",
-        "desc": "Add survey title and description. They will be visible to all participants.",
+        "info": "Communication Details",
+        "desc": "Add communication title and description. They will be visible to all participants.",
         "info2": "Questions",
         "desc2": "Add one or more questions, select their type, and define answer options.",
-        "button1": "Add survey",
+        "button1": "Add communication",
         "button1Modal": {
-            "title": "Create new survey",
-            "editTitle": "Edit survey",
+            "title": "Create new communication",
+            "editTitle": "Edit communication",
             "status": "Status",
-            "title1": "Survey Title",
-            "lable1": "Enter survey title",
-            "title2": "Survey Description",
-            "lable2": "Enter survey description",
+            "title1": "Communication Title",
+            "lable1": "Enter communication title",
+            "title2": "Communication Description",
+            "lable2": "Enter communication description",
             "title3": "Deadline",
             "lable3": "Select date & time",
             "title4": "Question ",
@@ -261,8 +268,8 @@
             "button5": "Save Changes"
         },
         "duplicateModal": {
-            "title": "Do you want to Duplicate Survey",
-            "lable": "This will create an exact copy of same survey.",
+            "title": "Do you want to Duplicate Communication",
+            "lable": "This will create an exact copy of same Communication.",
             "button1": "No",
             "button2": "Yes"
         },
@@ -271,23 +278,23 @@
         "surveyOpenModal": {
             "status": "new",
             "status2": "draft",
-            "title": "Open Survey",
-            "title1": "Survey",
+            "title": "Open Communication",
+            "title1": "Communication",
             "lable": "Your resident will be able to leave",
             "lable1": "responses. Please select",
             "lable2": "deadline.",
             "button1": "Cancel",
-            "button2": "Reopen Survey"
+            "button2": "Reopen Communication"
         },
         "surveyCloseModal": {
-            "title": "Do you want to close survey ?",
-            "lable": "This Survey and its contents will not be visible to residents.",
+            "title": "Do you want to close communication ?",
+            "lable": "This Communication and its contents will not be visible to residents.",
             "button1": "Cancel",
-            "button2": "Close Survey"
+            "button2": "Close Communication"
         },
         "exportButton": "Export List",
         "exportModal": {
-            "title": "Export survey response list",
+            "title": "Export communication response list",
             "lable": "Please select the format you would like to use for exporting.",
             "button1": "Cancel",
             "button2": "Export"
@@ -299,7 +306,7 @@
             "card3": "Deadline"
         },
         "filterButton": "Filter",
-        "search": "Search survey"
+        "search": "Search communication"
     },
     "ACCESS": {
         "title": "Access history",
@@ -635,6 +642,9 @@
         "desc": "Update your photo and personal details.",
         "info2": "Password",
         "desc2": "Change your current password",
+        "info3": "Bank Information",
+        "desc3": "Update your Bank Info",
+        "lable8": "Enter Iban Number",
         "title1": "First Name",
         "lable1": "Enter First Name",
         "title2": "Last Name",
@@ -650,7 +660,8 @@
         "lable7": "Enter Confirm Password",
         "button1": "Cancel",
         "button2": "Save ",
-        "button3": "Update Password"
+        "button3": "Update Password",
+        "button4": "Update IBAN"
     },
     "PAYMENTBILLING": {
         "title": "Setting",
@@ -732,7 +743,7 @@
     "SIDEBAR": {
         "lable1": "Dashboard",
         "lable2": "Residents",
-        "lable3": "Survey",
+        "lable3": "Communication",
         "lable4": "Security Guard",
         "lable5": "Finances",
         "lable6": "Income",
@@ -746,7 +757,9 @@
         "lable14": "Places",
         "lable15": "Expenses",
         "lable16": "Accounting",
-        "lable17": "Tracker"
+        "lable17": "Tracker",
+        "lable18": "My Subscriptions",
+        "lable19": "Become Premium"
     },
     "TIMING": {
         "label1": "Day",
@@ -872,5 +885,60 @@
         "October": "October",
         "November": "November",
         "December": "December"
+    },
+    "MySubscription": {
+        "head": "My Subscriptions",
+        "card1": {
+            "head": "FREE",
+            "subHead": "Ideal to start",
+            "feature1": "Mobile App for Guardhouse",
+            "feature2": "Mobile App for Residents",
+            "feature3": "Administrator Portal",
+            "feature4": "Digital access log",
+            "feature5": "QR codes for visitors",
+            "feature6": "Payment of Services",
+            "feature7": "Unlimited users"
+        },
+        "card2": {
+            "head": "PREMIUM",
+            "subHead": "Total management",
+            "feature1": "Mobile App for Guardhouse",
+            "feature2": "Mobile App for Residents",
+            "feature3": "Administrator Portal",
+            "feature4": "Digital access log",
+            "feature5": "QR codes for visitors",
+            "feature6": "Payment of Services",
+            "feature7": "Maintenance Payment",
+            "feature8": "Income and expenditure control",
+            "feature9": "Surveys and communication with residents",
+            "feature10": "Reservation and management of common areas",
+            "feature11": "Financial reports",
+            "feature12": "Unlimited users",
+            "feature13": "Technical support"
+        },
+        "button1": "Upgrade",
+        "button2": "Downgrade",
+        "button3": "Subscribed"
+    },
+    "Subscription": {
+        "title": "Subscriptions",
+        "card1": "Total subscriptions",
+        "card2": "Paid subscriptions",
+        "card3": "Unpaid Subscriptions",
+        "card4": "Total amount",
+        "placeHolder": "Search for subscriptions",
+        "table": {
+            "head": "All Subscriptions",
+            "col1": "User Name",
+            "col2": "Email",
+            "col3": "Subscription Plan",
+            "col4": "Start Date",
+            "col5": "End Date",
+            "view": "view"
+        },
+        "viewModal": {
+            "head": "Subscription Details",
+            "closeButton": "Close"
+        }
     }
 }

@@ -25,6 +25,7 @@ import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "@/components/common/Loader";
 import { IoSearchOutline } from "react-icons/io5";
 import ImportModal from "@/components/ResidentComponents/importModal";
+import { IoIosShareAlt } from "react-icons/io";
 
 
 
@@ -50,6 +51,8 @@ const Residents = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filterTerm, setFilterTerm] = useState<string>('');
   const filterRef = useRef<HTMLDivElement>(null);
+  const [copied, setCopied] = useState(false);
+
 
   const toggleFilterDropdown = () => {
     setIsFilterOpen(!isFilterOpen);
@@ -69,6 +72,16 @@ const Residents = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value); // Update the search term
   };
+
+  const handleCopy = () => {
+    const userId = user.id;
+    const encryptedId = Buffer.from(String(userId)).toString('base64');
+    const selectedLang = JSON.parse(localStorage.getItem("selectedLocale") || 'null');
+    const inviteLink = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${selectedLang.code}/residents/create/${encryptedId}`
+    navigator.clipboard.writeText(inviteLink)
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  }
 
   useEffect(() => {
     if (isTokenValid) {
@@ -128,7 +141,7 @@ const Residents = () => {
 
       console.log("Pet Type Response ===> ");
       console.log(response);
-      
+
 
       if (response.success) {
         let data = response.data.data
@@ -286,11 +299,29 @@ const Residents = () => {
                   </button>
 
                 </div>
+
+                <div className="relative w-full md:w-auto mt-2 mx-2 md:mt-0">
+                  <button
+                    type="button"
+                    onClick={() => handleCopy()}
+                    className="w-full md:w-auto text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center justify-center md:justify-start "
+                  >
+                    <IoIosShareAlt className="mr-2 text-white text-2xl" />
+                    Invite Link
+                  </button>
+                  {copied && (
+                    <span className="absolute -top-10 right-0 -translate-x-1/2 bg-gray-800 text-xs font-bold px-2 py-1 rounded-md shadow-md transition-opacity duration-300">
+                      Copied!
+                      <span className="absolute right-5 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-l-transparent border-r-transparent border-t-4 border-t-gray-800"></span>
+                    </span>
+                  )}
+                </div>
+
                 <div className="w-full md:w-auto mt-2 md:mt-0">
                   <button
                     type="button"
                     onClick={handleAddResident}
-                    className="w-full md:w-auto text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center justify-center md:justify-start "
+                    className="w-full md:w-auto text-white bg-primary-blue font-medium rounded-lg text-sm px-4 py-3 text-center inline-flex items-center justify-center md:justify-start "
                   >
                     <IoIosAdd className="mr-2 text-white text-2xl" />
                     {t('RESIDENT.button3')}

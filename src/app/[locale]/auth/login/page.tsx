@@ -86,7 +86,7 @@ const Login: React.FC = () => {
         //   showSuccessToast("Success ! Welcome back")
         // }, 2000);
       } else {
-        if (response.data.message === 'Verify you email') {
+        if (response.data.message === 'Verify your email') {
           dispatch(toggleEmailModal())
           showErrorToast(response.data.message)
         } else {

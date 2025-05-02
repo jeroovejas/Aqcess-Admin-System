@@ -1,60 +1,63 @@
-"use client"
-import { useState } from "react";
-// import Link from "next/link";
-import { Link, usePathname } from '@/navigation';
-import { FaArrowRight } from "react-icons/fa";
-import { useLocale, useTranslations } from 'next-intl';
+"use client";
 
+import { useTranslations } from 'next-intl';
 
-const Survey: React.FC<any> = ({ survey }) => {
-  const [isDisabled, setIsDisabled] = useState(false);
-    const t = useTranslations();
-
-  // console.log("survey",survey)
-
-  if (!survey || Object.keys(survey).length === 0) {
-    return (
-      <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
-        <h4 className="text-center text-xl font-semibold text-black dark:text-white">
-        {t('DASHBOARD.available')}
-        </h4>
-      </div>
-    );
-  }
-
+const DashboardSurveys: React.FC<{ surveyData: any[] }> = ({ surveyData }) => {
+  const t = useTranslations();
+  console.log("========================")
+  console.log(surveyData)
   return (
+    <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
+      <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
+        {t('SURVEY.table.title')}
+      </h4>
 
-    <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
-      <div className="flex justify-between">
-        <h4 className=" pb-4 text-xl  font-semibold text-black dark:text-white">
-          {survey.title}
-        </h4>
-        <FaArrowRight className="text-black" />
+      <div className="relative overflow-x-auto text-black">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th className="px-6 py-3">{t('SURVEY.table.surveyTitle')}</th>
+              <th className="px-6 py-3">{t('SURVEY.table.assigned')}</th>
+              <th className="px-6 py-3">{t('SURVEY.table.responded')}</th>
+              <th className="px-6 py-3">{t('SURVEY.table.responseRate')}</th>
+              <th className="px-6 py-3">{t('SURVEY.table.status')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {surveyData?.length === 0 ? (
+              <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
+                <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
+                  {t('COMMON.noDataText')}
+                </td>
+              </tr>
+            ) : (
+              surveyData?.map((item, index) => (
+                <tr key={index} className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
+                  <td className="px-6 py-4 whitespace-nowrap font-medium text-black dark:text-white">
+                    {item.survey_title}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.total_assigned}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.total_responded}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.response_rate}%
+                  </td>
+                  <td className={`px-6 py-4 whitespace-nowrap capitalize`}>
+                    <div className={`px-6 py-2 rounded-full  ${item.survey_status == 'open' ? 'bg-green-500 w-fit text-white': 'bg-red text-white'}`}>
+                    {item.survey_status}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
-      <div className="  py-3 border-t border-[#DDDDDD]">
-        <h5 className="pb-4 text-lg font-semibold text-black">
-          {survey.questions[0].questionTitle}
-        </h5>
-        {survey.questions[0].options.map((option: any, key: number) => (
-          <div key={key} className="flex items-center gap-3">
-            <p className="text-black text-[20px] font-[600]">
-              {option.percentage}%
-            </p>
-            <div className="w-full">
-              <p className="text-black text-[14px] font-[600] ">{option.title} ({option.totalResponse})</p>
-              <div className=" bg-gray rounded-full h-2.5 mb-4 dark:bg-gray-700 mt-2">
-                <div className="bg-blue-600 h-2.5 rounded-full dark:bg-blue-500" style={{ width: `${option.percentage}%` }} ></div>
-              </div>
-            </div>
-          </div>
-        ))}
-        {survey.questions.length > 1 ?
-
-          <span className="text-black text-[14px] bg-[#F2F4F7] font-[600] p-2 rounded-2xl">+{survey.questions.length - 1} more question</span> : null}
-      </div>
-      <Link href={isDisabled ? '#' : '/survey'} onClick={() => setIsDisabled(true)} className={`text-black text-[14px] border border-[#DDDDDD] rounded-md px-2 py-1.5 font-bold mt-6 ${isDisabled ? 'cursor-not-allowed opacity-50' : ''}`}>Open Surveys</Link>
-    </div >
+    </div>
   );
 };
 
-export default Survey;
+export default DashboardSurveys;

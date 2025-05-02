@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 // import Link from "next/link";
 import Image from "next/image";
 import { FaCheck } from "react-icons/fa6";
@@ -13,9 +13,14 @@ import { TfiEmail } from "react-icons/tfi";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { RiCommunityFill } from "react-icons/ri";
 import { useLocale, useTranslations } from 'next-intl';
 import { Link, useRouter, usePathname } from '@/navigation';
+import { useSearchParams } from "next/navigation";
 import LanguageDropdown from "@/components/language/language";
+import { getPackageDetail } from "@/lib/api/package";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import StripeModal from '@/components/Stripe/checkoutForm';
 
 
 interface signUpFormState {
@@ -25,7 +30,16 @@ interface signUpFormState {
   password: string;
   confirm_password: string;
   login_type: string;
+  package_id: number
+  community_name: string
+  community_logo: File | null
+}
 
+interface Package {
+  id: number,
+  type: string,
+  price: number,
+  createdAt: string
 }
 
 const Register: React.FC = () => {
@@ -34,11 +48,15 @@ const Register: React.FC = () => {
   const locale = useLocale();
   const t = useTranslations();
   const [isChecked, setIsChecked] = useState(false);
+  const [packageData, setPackageData] = useState<Package | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const [showModal, setShowModal] = useState(false);
   // const [passwordLength, setPasswordLength] = useState<number>(0);
   const router = useRouter();
   const dispatch = useAppDispatch()
@@ -48,8 +66,10 @@ const Register: React.FC = () => {
     email: '',
     password: '',
     confirm_password: '',
-    login_type: 'Email'
-
+    login_type: 'Email',
+    package_id: 1,
+    community_name: '',
+    community_logo: null,
   });
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -61,6 +81,37 @@ const Register: React.FC = () => {
     //   setPasswordLength(value.length);
     // }
   };
+
+  const deleteImage = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setFormState((prevValues) => ({
+      ...prevValues,
+      community_logo: null,
+    }));
+    setImagePreview(null)
+  }
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormState((prevValues) => ({
+          ...prevValues,
+          community_logo: file,
+        }));
+        setImagePreview(reader.result as string)
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setFormState((prevValues) => ({
+        ...prevValues,
+        community_logo: null,
+      }));
+      setImagePreview(null)
+    }
+  }
 
   const validatePassword = (password: any, confirmPassword: any) => {
     // Check for minimum length
@@ -105,9 +156,29 @@ const Register: React.FC = () => {
       setPasswordError(errorMessage)
       return
     }
+    // if (formState.package_id === 2) {
+    //   setShowModal(true)
+    // } else {
+    handleRegister()
+    // }
+  };
+
+  const handleRegister = async () => {
     setLoading(true)
     try {
-      const response = await signUp(formState);
+      const formData = new FormData();
+      formData.append('first_name', formState.first_name);
+      formData.append('last_name', formState.last_name);
+      formData.append('email', formState.email);
+      formData.append('password', formState.password);
+      formData.append('confirm_password', formState.confirm_password);
+      formData.append('login_type', formState.login_type);
+      formData.append('community_name', formState.community_name);
+      formData.append("package_id", String(formState.package_id));
+      if (formState.community_logo) {
+        formData.append('community_logo', formState.community_logo);
+      }
+      const response = await signUp(formData);
       // Check the success property to determine if the request was successful
       if (response.success) {
         const emailResponse = await sendEmail({ email: formState.email });
@@ -138,8 +209,37 @@ const Register: React.FC = () => {
     } finally {
       setLoading(false)
     }
+  }
 
-  };
+  const fetchPackageDetail = async (id: number) => {
+    try {
+      let params = { id: id }
+      const response = await getPackageDetail(params);
+
+      // Check the success property to determine if the request was successful
+      if (response.success) {
+        setPackageData(response.data.data)
+      } else {
+        showErrorToast(response.data.message)
+      }
+    } catch (err: any) {
+      console.error('Unexpected error during security guards Fetch:', err.message);
+    }
+  }
+
+  useEffect(() => {
+    const id = searchParams.get('id');
+    if (id) {
+      setFormState(prevState => ({
+        ...prevState,
+        package_id: parseInt(id as string)
+      }));
+      if (id == '2') {
+        fetchPackageDetail(parseInt(id as string))
+      }
+    }
+
+  }, [searchParams]);
   return (
 
     <div className="rounded-sm min-h-[100vh]  bg-[url('/images/main/aqcess-bg-image.JPG')] bg-center bg-cover bg-no-repeat ">
@@ -194,7 +294,13 @@ const Register: React.FC = () => {
           </div>
         </div>
 
+
+
         <div className="w-full lg:w-1/2">
+          {/* {
+            formState.package_id === 2 && showModal ?
+
+            <StripeModal open={showModal} onClose={() => setShowModal(false)} /> : */}
           <div className="bg-white  mx-10 md:mx-26 lg:mx-10 xl:mx-26  mt-8 md:rounded-md rounded-xl">
             <div className="w-full p-8 md:p-17.5 lg:p-16">
               <h2 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
@@ -311,6 +417,75 @@ const Register: React.FC = () => {
                     </span>
                   </div>
                 </div>
+
+                <div className="mb-4">
+                  <div className="relative">
+                    <input
+                      name="community_name"
+                      value={formState.community_name}
+                      onChange={handleInputChange}
+                      type="text"
+                      placeholder={t('SIGNUP.communityName')}
+                      className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
+                    />
+
+                    <span className="absolute right-4 top-2">
+                      <RiCommunityFill size={24} className="text-[#C4CBD4]" />
+                    </span>
+                  </div>
+                </div>
+
+                <div className="w-full mb-4">
+                  <div className="flex items-center justify-center w-full">
+                    <label
+                      htmlFor="community_logo"
+                      className="flex flex-col items-center justify-center w-full h-40 border-gray-300 border border-stroke rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                    >
+                      {imagePreview ? (
+                        <div className="relative w-full h-full">
+
+                          <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
+                          <button onClick={deleteImage} className="absolute right-2 top-2 bg-[#D0D5DD] rounded-[8px] text-slate-950 p-2">
+                            <RiDeleteBin6Line size={15} />
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <svg
+                            className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
+                          >
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                            />
+                          </svg>
+                          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                            <span className="font-semibold">{t('SIGNUP.label5')}</span> {t('AREA.button1Modal.label6')}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            {t('AREA.button1Modal.label7')}
+                          </p>
+                        </div>
+                      )}
+                      <input
+                        id="community_logo"
+                        type="file"
+                        name="community_logo"
+                        className="hidden"
+                        onChange={handleFileChange}
+                        required
+                      />
+                    </label>
+                  </div>
+                </div>
                 <div className="flex items-center mb-3">
                   <input id="default-checkbox" type="checkbox" value="" checked={isChecked}
                     onChange={handleCheckboxChange} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded outline-none  dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -370,8 +545,12 @@ const Register: React.FC = () => {
               </form>
             </div>
           </div>
+          {/* } */}
         </div>
+
       </div>
+
+
     </div>
   );
 };

@@ -24,6 +24,7 @@ const Expenses = () => {
     const addExpense = useAppSelector((state) => state.expense.addExpense)
     const viewModal = useAppSelector((state) => state.expense.viewModal)
     const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
+    const packageId = useAppSelector((state) => state.auth.packageId);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
     const [verified, setVerified] = useState<boolean | null>(null);
@@ -46,15 +47,14 @@ const Expenses = () => {
     };
 
     useEffect(() => {
-        if (isTokenValid) {
-            setVerified(true);
+        if (!isTokenValid) {
+          router.push('/auth/login');
+        } else if (packageId == 1) {
+          router.push('/dashboard');
         } else {
-            router.push('/auth/login');
-            // setTimeout(() => {
-            //   showErrorToast("Plz Login First");
-            // }, 2000);
+          setVerified(true);
         }
-    }, [isTokenValid, router])
+      }, [isTokenValid, router, packageId])
 
     useEffect(() => {
         if (exportModal || addExpense || viewModal || deleteModal) {

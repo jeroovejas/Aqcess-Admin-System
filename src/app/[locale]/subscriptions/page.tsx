@@ -1,19 +1,34 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoFilterSharp } from "react-icons/io5";
 import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FaChevronRight } from "react-icons/fa";
+import { DateRangePickerElement } from "@/components/DataPicker";
 import SubscriptionTable from "@/components/Tables/subscriptionsTable";
 import { IoSearchOutline } from "react-icons/io5";
+import { useRouter } from "@/navigation";
+import ViewModal from "@/components/Subscription/ViewModal";
+import { resetState } from "@/store/Slices/SubscriptionSlice";
+import { useTranslations } from "next-intl";
 
 
 const Subscriptions = () => {
+      const t = useTranslations();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
+    const token = useAppSelector((state) => state.auth.token)
+    const [verified, setVerified] = useState(false);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [fromDate, setFromDate] = useState<string>('');
+    const [toDate, setToDate] = useState<string>('');
+    const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
+    const viewModal = useAppSelector((state) => state.subscription.viewModal);
+    const subscriptionDetails = useAppSelector((state) => state.subscription.subscriptionDetails)
     const dispatch = useAppDispatch()
+    const router = useRouter();
     const toggleFilterDropdown = () => {
         setIsFilterOpen(!isFilterOpen);
     };
@@ -26,113 +41,83 @@ const Subscriptions = () => {
         setIsStatusOpen(!isStatusOpen);
     };
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value); // Update the search term
+    };
+
+    useEffect(() => {
+        if (isTokenValid) {
+            setVerified(true);
+        } else {
+            router.push('/auth/login');
+            // setTimeout(() => {
+            //     showErrorToast("Plz Login First");
+            // }, 2000);
+        }
+    }, [isTokenValid, router])
+
+    useEffect(() => {
+        dispatch(resetState())
+    }, [router])
+
+    useEffect(() => {
+        if (viewModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [viewModal]);
+
     return (
         <>
-            <DefaultLayout>
-                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <h2 className="text-title-md2 font-bold text-black dark:text-white">
-                        Subscriptions
-                    </h2>
-                    <nav>
-                        <div className="">
-                            <button type="button" className="text-white bg-primary-blue  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                                <IoIosAdd className="mr-2 text-white text-xl" />Create new
-                            </button>
+            {verified ? (
+                <>
+                    <DefaultLayout>
+                        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <h2 className="text-title-md2 font-bold text-black dark:text-white">
+                            {t('Subscription.title')}
+                            </h2>
                         </div>
-                    </nav>
-                </div>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 mb-5">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 mb-5">
 
-                    <CardDataStats title="Total surveys" total="47" rate="">
-                    </CardDataStats>
-                    <CardDataStats title="Open surveys" total="2" rate="">
-                    </CardDataStats>
-                    <CardDataStats title="Average response rate" total="78%" rate="">
-                    </CardDataStats>
-                </div>
-                {/* <div className="mb-4 flex justify-between">
-                    <div className="flex">
-                        <div className="relative">
-                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <IoSearchOutline size={20}/>
-                            </div>
-                            <input type="search" id="default-search" className="block w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder="Search for survey" required />
+                            <CardDataStats title={t('Subscription.card1')} total={`${subscriptionDetails.totalSubscriptions}`} rate="">
+                            </CardDataStats>
+                            <CardDataStats title={t('Subscription.card2')} total={`${subscriptionDetails.paidSubscriptions}`} rate="">
+                            </CardDataStats>
+                            <CardDataStats title={t('Subscription.card3')} total={`${subscriptionDetails.freeSubscriptions}`} rate="">
+                            </CardDataStats>
+                            <CardDataStats title={t('Subscription.card4')} total={`${subscriptionDetails.totalAmount}`} rate="">
+                            </CardDataStats>
                         </div>
-                        <div className="flex items-center">
-                            <button onClick={toggleFilterDropdown} type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-[#f0efef] font-medium rounded-lg text-sm px-6 py-3 ms-4 mb-2 dark:text-white dark:hover:bg-gray-700 flex items-center">
-                                <IoFilterSharp className="mr-2" />Filters
-                            </button>
-                            <div className='w-full'>
-                                <div className="relative inline-block">
-
-
-                                    {isFilterOpen && (
-                                        <div className=" absolute font-bold top-0 right-0 left-[-110px] mt-4 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                                            <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                <li onClick={toggleStatusDropdown}>
-                                                    <a
-                                                        href="#"
-                                                        className="block px-4 py-2 text-[16px]  text-gray-700 hover:bg-[#f0efef]"
-
-                                                    >
-                                                        Status
-                                                    </a>
-                                                    <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
-                                                        <FaChevronRight size={15} />
-                                                    </span>
-                                                </li>
-
-                                            </ul>
-
-                                        </div>
-                                    )}
-
-
+                        <div className="mb-4 flex justify-between">
+                            <div className="flex">
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <IoSearchOutline size={20} />
+                                    </div>
+                                    <input type="search" id="default-search" onChange={handleChange}
+                                        value={searchTerm} className="block w-80 p-3 ps-10 text-sm text-gray-900 border border-gray-200 rounded-lg outline-none" placeholder={t('Subscription.placeHolder')} required />
                                 </div>
-
-                            </div>
-                            <div className='w-full'>
-                                <div className="relative inline-block">
-
-
-                                    {isStatusOpen && (
-                                        <div className=" absolute top-0 font-bold  left-[70px] mt-4 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                                            <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                <li>
-                                                    <a
-                                                        href="#"
-                                                        className="block px-4 py-2 text-[16px]text-gray-700 hover:bg-[#f0efef]"
-                                                        onClick={closeDropdown}
-                                                    >
-                                                        Open
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="#"
-                                                        className="block px-4 py-2 text-[16px] text-gray-700 hover:bg-[#f0efef]"
-                                                        onClick={closeDropdown}
-                                                    >
-                                                        Closed
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-
-                                        </div>
-                                    )}
+                                <div className="text-black md:mt-0 md:ml-3">
+                                    <DateRangePickerElement setFromDate={setFromDate} setToDate={setToDate} />
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                </div> */}
-                <div className="flex flex-col gap-10">
-                    <SubscriptionTable/>
-                </div>
+                        <div className="flex flex-col gap-10">
+                            <SubscriptionTable searchTerm={searchTerm} fromDate={fromDate} toDate={toDate} />
+                        </div>
+                        {(viewModal) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
+                        </div>}
+                        <ViewModal />
 
-            </DefaultLayout>
+                    </DefaultLayout>
 
+                </>
+            ) : null
+            }
         </>
     );
 };

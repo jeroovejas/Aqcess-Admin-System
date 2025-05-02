@@ -25,6 +25,7 @@ const PaymentTracker = () => {
   const addPayment = useAppSelector((state) => state.payment.addPayment)
   const viewModal = useAppSelector((state) => state.payment.viewModal)
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
+  const packageId = useAppSelector((state) => state.auth.packageId);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
@@ -55,12 +56,14 @@ const PaymentTracker = () => {
   };
 
   useEffect(() => {
-    if (isTokenValid) {
-      setVerified(true);
-    } else {
+    if (!isTokenValid) {
       router.push('/auth/login');
+    } else if (packageId == 1) {
+      router.push('/dashboard');
+    } else {
+      setVerified(true);
     }
-  }, [isTokenValid, router])
+  }, [isTokenValid, router, packageId])
 
   useEffect(() => {
     if (exportModal || addPayment || viewModal || paymentStatusModal) {

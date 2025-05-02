@@ -11,7 +11,7 @@ import { parseDefaultDate } from "@/lib/common.modules";
 import { useLocale, useTranslations } from 'next-intl';
 
 
-const ReOpenSurvey: React.FC<any> = () => {
+const ReOpenCommunication: React.FC<any> = () => {
     const t = useTranslations();
     const [deadline, setDeadline] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -110,4 +110,4 @@ const ReOpenSurvey: React.FC<any> = () => {
     );
 };
 
-export default ReOpenSurvey;
+export default ReOpenCommunication;

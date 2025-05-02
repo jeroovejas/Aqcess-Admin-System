@@ -24,6 +24,7 @@ const CommonAreas = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [verified, setVerified] = useState<boolean | null>(null);
     const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
+    const packageId = useAppSelector((state) => state.auth.packageId);
     const addModal = useAppSelector((state) => state.area.addModal)
     const viewModal = useAppSelector((state) => state.area.viewModal)
     const deleteModal = useAppSelector((state) => state.area.deleteModal)
@@ -58,15 +59,14 @@ const CommonAreas = () => {
     }, [deleteModal, statusModal, editModal, bookingModal]);
 
     useEffect(() => {
-        if (isTokenValid) {
-            setVerified(true);
-        } else {
+        if (!isTokenValid) {
             router.push('/auth/login');
-            // setTimeout(() => {
-            //     showErrorToast("Plz Login First");
-            // }, 2000);
+        } else if (packageId == 1) {
+            router.push('/dashboard');
+        } else {
+            setVerified(true);
         }
-    }, [isTokenValid, router])
+    }, [isTokenValid, router, packageId])
 
     useEffect(() => {
         dispatch(resetState())
@@ -139,7 +139,7 @@ const CommonAreas = () => {
                         </div>}
                         <DeleteArea />
                         <StatusModal />
-                        
+
                     </DefaultLayout>
                 </>
             ) : null}

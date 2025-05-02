@@ -91,7 +91,7 @@ export default async function RootLayout({
     <html lang={locale}>
       {/* <body> */}
       <NextIntlClientProvider messages={messages}>
-        <ClientWrapper>
+        <ClientWrapper locale={locale}>
           <ClientSessionCheck />
           {children}
         </ClientWrapper>

@@ -7,26 +7,31 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FaChevronRight } from "react-icons/fa";
-import ReOpenSurvey from "@/components/SurveyComponents/ReopenSurvey";
-import AddSurvey from "@/components/SurveyComponents/AddSurvey";
+// import ReOpenSurvey from "@/components/SurveyComponents/ReopenSurvey";
+// import AddSurvey from "@/components/SurveyComponents/AddSurvey";
 import { toggleAddModal, resetState } from "@/store/Slices/SurveySlice";
-import EditSurvey from "@/components/SurveyComponents/EditSurvey";
-import ViewSurvey from "@/components/SurveyComponents/ViewSurvey";
-import DuplicateModal from "@/components/SurveyComponents/DuplicateModal";
-import CloseSurvey from "@/components/SurveyComponents/CloseSurvey";
+// import EditSurvey from "@/components/SurveyComponents/EditSurvey";
+// import ViewSurvey from "@/components/SurveyComponents/ViewSurvey";
+// import CloseSurvey from "@/components/SurveyComponents/CloseSurvey";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
 import Loader from "@/components/common/Loader";
 import { showErrorToast } from "@/lib/toastUtil";
 import { IoSearchOutline } from "react-icons/io5";
 import { useLocale, useTranslations } from 'next-intl';
+import CloseCommunication from "@/components/CommunicationComponents/CloseCommunication";
+import DuplicateModal from "@/components/CommunicationComponents/DuplicateModal";
+import ViewCommunication from "@/components/CommunicationComponents/ViewCommunication";
+import EditCommunication from "@/components/CommunicationComponents/EditCommunication";
+import AddCommunication from "@/components/CommunicationComponents/AddCommunication";
+import ReOpenCommunication from "@/components/CommunicationComponents/ReopenCommunication";
 
-
-const Surveys = () => {
+const Communication = () => {
   const t = useTranslations();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
+  const packageId = useAppSelector((state) => state.auth.packageId);
   const [verified, setVerified] = useState<boolean | null>(null);
   const reOpenModal = useAppSelector((state) => state.survey.reOpenModal)
   const addModal = useAppSelector((state) => state.survey.addModal)
@@ -60,15 +65,26 @@ const Surveys = () => {
   };
 
   useEffect(() => {
-    if (isTokenValid) {
-      setVerified(true);
-    } else {
+    if (!isTokenValid) {
       router.push('/auth/login');
-      // setTimeout(() => {
-      //   showErrorToast("Plz Login First");
-      // }, 2000);
+    } else if (packageId == 1) {
+      router.push('/dashboard');
+    } else {
+      setVerified(true);
     }
-  }, [isTokenValid, router])
+  }, [isTokenValid, router, packageId])
+
+
+  // useEffect(() => {
+  //   if (isTokenValid) {
+  //     setVerified(true);
+  //   } else {
+  //     router.push('/auth/login');
+  //     // setTimeout(() => {
+  //     //   showErrorToast("Plz Login First");
+  //     // }, 2000);
+  //   }
+  // }, [isTokenValid, router])
 
   useEffect(() => {
     dispatch(resetState())
@@ -103,13 +119,13 @@ const Surveys = () => {
 
 
   if (addModal) {
-    return <AddSurvey />
+    return <AddCommunication />
   }
   if (viewModal) {
-    return <ViewSurvey />
+    return <ViewCommunication />
   }
   if (editModal) {
-    return <EditSurvey />
+    return <EditCommunication />
   }
   if (verified === null) {
     return <Loader />
@@ -121,7 +137,7 @@ const Surveys = () => {
           <DefaultLayout>
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-title-md2 font-bold text-black dark:text-white">
-              {t('SURVEY.title')}
+                {t('SURVEY.title')}
               </h2>
               <nav>
                 <div className="">
@@ -217,9 +233,9 @@ const Surveys = () => {
             </div>
             {(reOpenModal || duplicateModal || closeSurvey) && <div className="absolute top-0 left-0  w-full min-h-[100vh]  h-full bg-black opacity-50">
             </div>}
-            <ReOpenSurvey />
+            <ReOpenCommunication />
             <DuplicateModal />
-            <CloseSurvey />
+            <CloseCommunication />
           </DefaultLayout>
         </>
       ) : null}
@@ -227,4 +243,4 @@ const Surveys = () => {
   );
 };
 
-export default Surveys;
+export default Communication;

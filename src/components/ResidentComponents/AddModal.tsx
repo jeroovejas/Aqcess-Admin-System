@@ -52,6 +52,7 @@ const initialFormData: FormData = {
 const AddModal: React.FC<any> = () => {
     const dispatch = useAppDispatch();
     const t = useTranslations();
+    const user = useAppSelector((state) => state.auth.userData);
     const addModal = useAppSelector((state) => state.resident.addModal);
     const petOptions = useAppSelector((state) => state.resident.PetTypeData);
     const token = useAppSelector((state) => state.auth.token);
@@ -188,7 +189,8 @@ const AddModal: React.FC<any> = () => {
                 phone_number: number,
                 pets: formData.pets.length > 0 ? JSON.stringify(formData.pets) : null,
                 vehicles: formData.vehicles.length > 0 ? JSON.stringify(formData.vehicles) : null,
-                token: token
+                token: token,
+                society_admin_id: user.id
             };
             const response = await createResident(body);
             if (response.success) {

@@ -32,7 +32,7 @@ const SidebarItem = ({ item, pageName, setPageName }: any) => {
           className={`${isItemActive ? "bg-graydark dark:bg-meta-4 " : ""} group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
         >
           {/* ${item.label=='Settings' ? "mt-48 " : ""} */}
-          {/* <item.icon className={`${isItemActive ? "text-blue-500 " : ""}`}/> */}
+          <item.icon className={`${isItemActive ? "text-blue-500 " : ""}`}/>
           {item.label}
           {item.children && (
             <svg

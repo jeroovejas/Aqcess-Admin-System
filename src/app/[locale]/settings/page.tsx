@@ -5,7 +5,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FiUser } from "react-icons/fi";
 import PaymentAndBilling from "@/components/SettingsComponents/PaymentAndBilling";
-import { changePassword, updateProfile } from "@/lib/api/auth";
+import { changePassword, updateIbanNumber, updateProfile } from "@/lib/api/auth";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { setUserData } from "@/store/Slices/AuthSlice";
 // import { useRouter } from 'next/navigation';
@@ -35,6 +35,7 @@ const Settings: React.FC = () => {
   const user = useAppSelector((state) => state.auth.userData);
   const [loading1, setLoading1] = useState<boolean>(false)
   const [loading2, setLoading2] = useState<boolean>(false)
+  const [loading3, setLoading3] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const [verified, setVerified] = useState<boolean | null>(null);
@@ -53,6 +54,9 @@ const Settings: React.FC = () => {
     new_password: '',
     confirm_password: '',
   });
+
+  const [ibanNo, setIbanNo] = useState('');
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -90,6 +94,7 @@ const Settings: React.FC = () => {
       }));
     }
   }
+
   const handleChangeButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -119,10 +124,34 @@ const Settings: React.FC = () => {
 
     } catch (err: any) {
       console.error('Unexpected error during change password :', err.message);
-    }finally{
+    } finally {
       setLoading2(false)
     }
   };
+
+  const handleUpdateBank = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading3(true);
+    try {
+      const body = {
+        iban_no: ibanNo,
+        token: token
+      };
+      const response = await updateIbanNumber(body);
+      if (response.success) {
+        showSuccessToast(response.data.message);
+        setIbanNo(response.data.title);
+      } else {
+        showErrorToast(response.data.message);
+      }
+    } catch (err: any) {
+      console.error('Unexpected error during bank update:', err.message);
+      showErrorToast('Something went wrong.');
+    } finally {
+      setLoading3(false);
+    }
+  };
+
   const handleUpdateProfile = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading1(true)
@@ -147,7 +176,7 @@ const Settings: React.FC = () => {
 
     } catch (err: any) {
       console.error('Unexpected error during profile update :', err.message);
-    }finally{
+    } finally {
       setLoading1(false)
     }
   };
@@ -197,7 +226,7 @@ const Settings: React.FC = () => {
             <div className="mb-3">
 
               <h2 className="text-4xl font-bold text-black dark:text-white">
-              {t('USERPROFILE.title')}
+                {t('USERPROFILE.title')}
               </h2>
             </div>
 
@@ -206,7 +235,7 @@ const Settings: React.FC = () => {
             <div className="mx-auto">
               <div className="w-full bg-slate-200 rounded-2xl mb-4 bo p-1 flex">
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2   flex items-center mr-4">
-                {t('USERPROFILE.tab1')}
+                  {t('USERPROFILE.tab1')}
                 </button>
                 {user.role === 2 ?
                   <div className="mt-1 text-lg font-bold">
@@ -233,7 +262,7 @@ const Settings: React.FC = () => {
                       <div className="w-full md:w-1/2 md:pe-3 ">
 
                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="title">
-                        {t('USERPROFILE.title1')}
+                          {t('USERPROFILE.title1')}
                         </label>
                         <input
                           name="first_name"
@@ -248,7 +277,7 @@ const Settings: React.FC = () => {
                       <div className="w-full md:w-1/2 md:ps-3 pt-6 md:pt-0">
 
                         <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="title">
-                        {t('USERPROFILE.title2')}
+                          {t('USERPROFILE.title2')}
                         </label>
                         <input
                           name="last_name"
@@ -263,7 +292,7 @@ const Settings: React.FC = () => {
                     </div>
                     <div className="w-full mb-8">
                       <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                      {t('USERPROFILE.title3')}
+                        {t('USERPROFILE.title3')}
                       </label>
                       <input
                         name="email"
@@ -276,7 +305,7 @@ const Settings: React.FC = () => {
                     </div>
                     <div className="w-full mb-8">
                       <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                      {t('USERPROFILE.title4')}
+                        {t('USERPROFILE.title4')}
                       </label>
 
                       <div className="w-full flex flex-wrap">
@@ -343,16 +372,17 @@ const Settings: React.FC = () => {
                     </div>
                     <div className="flex gap-x-4 justify-end">
                       <button type="button" className=" text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                      {t('USERPROFILE.button1')}
+                        {t('USERPROFILE.button1')}
                       </button>
                       <button disabled={loading1} type="submit" className={` text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2`}>
-                         {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('USERPROFILE.button2')}`}
+                        {loading1 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('USERPROFILE.button2')}`}
                       </button>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
+
             <div className="flex flex-wrap my-8">
               <div className="w-full md:w-1/4 p-2">
                 <div>
@@ -364,7 +394,7 @@ const Settings: React.FC = () => {
                 <form onSubmit={handleUpdatePassword}>
                   <div className="w-full mb-8">
                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                    {t('USERPROFILE.title5')}
+                      {t('USERPROFILE.title5')}
                     </label>
                     <input
                       name="current_password"
@@ -378,7 +408,7 @@ const Settings: React.FC = () => {
                   </div>
                   <div className="w-full mb-8">
                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                    {t('USERPROFILE.title6')}
+                      {t('USERPROFILE.title6')}
                     </label>
                     <input
                       name="new_password"
@@ -393,7 +423,7 @@ const Settings: React.FC = () => {
                   </div>
                   <div className="w-full mb-8">
                     <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
-                    {t('USERPROFILE.title7')}
+                      {t('USERPROFILE.title7')}
                     </label>
                     <input
                       name="confirm_password"
@@ -407,10 +437,48 @@ const Settings: React.FC = () => {
                   </div>
                   <div className="flex gap-x-4 justify-end">
                     <button type="button" className=" text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
-                    {t('USERPROFILE.button1')}
+                      {t('USERPROFILE.button1')}
                     </button>
                     <button type="submit" disabled={loading2} className=" text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
                       {loading2 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('USERPROFILE.button3')}`}
+                    </button>
+                  </div>
+
+                </form>
+              </div>
+
+            </div>
+
+
+            <div className="flex flex-wrap my-8">
+              <div className="w-full md:w-1/4 p-2">
+                <div>
+                  <p className="text-black font-bold">{t('USERPROFILE.info3')}</p>
+                  <p className="mt-2">{t('USERPROFILE.desc3')}</p>
+                </div>
+              </div>
+              <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
+                <form onSubmit={handleUpdateBank}>
+                  <div className="w-full mb-8">
+                    {/* <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor="description">
+                      {t('USERPROFILE.title5')}
+                    </label> */}
+                    <input
+                      name="iban_no"
+                      value={ibanNo}
+                      onChange={(e) => setIbanNo(e.target.value)}
+                      className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] text-black rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                      type="text"
+                      placeholder={t('USERPROFILE.lable8')}
+                      required
+                    />
+                  </div>
+                  <div className="flex gap-x-4 justify-end">
+                    <button type="button" className=" text-black border-2 border-[#DDDDDD] font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
+                      {t('USERPROFILE.button1')}
+                    </button>
+                    <button type="submit" disabled={loading3} className=" text-white bg-primary-blue border-2  font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center mb-2">
+                      {loading3 ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('USERPROFILE.button4')}`}
                     </button>
                   </div>
 

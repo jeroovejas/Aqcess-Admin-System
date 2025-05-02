@@ -12,7 +12,7 @@ import ExportModal from "./exportModal";
 import { useLocale, useTranslations } from 'next-intl';
 
 
-const ViewSurvey: React.FC<any> = () => { 
+const ViewCommunication: React.FC<any> = () => {
     const t = useTranslations();
     const maxSize = 4;
     const [survey, setSurvey] = useState<any>({});
@@ -65,7 +65,7 @@ const ViewSurvey: React.FC<any> = () => {
                 <DefaultLayout>
                     <div className="mb-6 flex flex-col gap-3 sm:flex-row items-start md:items-center justify-between">
                         <div>
-                            <p className="text-black font-bold">Surveys / <span className="text-slate-400">Survey Results</span></p>
+                            <p className="text-black font-bold">Communication / <span className="text-slate-400">Communication Results</span></p>
                             <h2 className="text-4xl font-bold text-black dark:text-white">
                                 {surveyData.title}
                             </h2>
@@ -89,7 +89,7 @@ const ViewSurvey: React.FC<any> = () => {
                                 }>{t('SURVEY.button1Modal.title4')}</button>
                             </div>
                             <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center mr-4">
-                            {t('SURVEY.button1Modal.button4')}
+                                {t('SURVEY.button1Modal.button4')}
                             </button>
 
                         </div>
@@ -191,61 +191,69 @@ const ViewSurvey: React.FC<any> = () => {
                             <Loader />
                         ) : (
                             survey.questions.length === 0 ? (
-                                <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white mt-[22px] py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
-                                    <p className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
-                                        No Question Found
-                                    </p>
-                                </div>
+                                // <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white mt-[22px] py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
+                                //     <p className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
+                                //         No Question Found
+                                //     </p>
+                                // </div>
+                                ''
                             ) : (
-                                survey.questions.map((question: any, key: number) => {
-                                    return (
-                                        <div key={key} className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white mt-[22px] py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
-                                            <div className="flex justify-between border-b border-[#DDDDDD]">
-                                                <h4 className="pb-4 text-xl font-semibold text-black">
-                                                    {question.questionTitle}
-                                                </h4>
-                                                {/* <div>
-                                                    <p className="text-[#344054] bg-[#F2F4F7] rounded-[16px] px-[16px] py-[4px] font-[600]">
-                                                        {surveyData.surveyResponses} responses
-                                                    </p>
-                                                </div> */}
-                                            </div>
-                                            {question.options.map((option: any, index: number) => {
-                                                return (
-                                                    <div key={index} className="flex items-center gap-3 mt-3">
-                                                        <p className="text-black text-[20px] font-[600]">
-                                                            {option.percentage}%
-                                                        </p>
-                                                        <div className="w-full">
-                                                            <div className="flex justify-between items-center">
-                                                                <p className="text-black text-[14px] font-[600] ">
-                                                                    {option.title} ({option.totalResponse} responses)
-                                                                </p>
-                                                                <div className="flex flex-wrap items-center">
-                                                                    {Array.from({ length: option.totalResponse > maxSize ? maxSize : option.totalResponse }).map((_, imgIndex) => (
-                                                                        <img
-                                                                            key={imgIndex}
-                                                                            src={`/images/surveys/avatar1.png`}
-                                                                            alt={`Image ${imgIndex + 1}`}
-                                                                            className={`w-[40px] h-[40px] rounded-full ${option.totalResponse > 1 ? "mx-[-5px]" : ""}`}
-                                                                        />
-                                                                    ))}
-                                                                    {option.totalResponse - maxSize > 0 && (
-                                                                        <div className="w-[40px] h-[40px] mx-[-5px] rounded-full bg-slate-300 flex items-center justify-center text-blsck font-bold">
-                                                                            +{option.totalResponse - maxSize}
-                                                                        </div>
-                                                                    )}
+                                survey?.questions?.map((question: any, key: number) => {
+                                    if (question.questionTitle) {
+                                        return (
+                                            <div
+                                                key={key}
+                                                className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white mt-[22px] py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4"
+                                            >
+                                                <div className="flex justify-between border-b border-[#DDDDDD]">
+                                                    <h4 className="pb-4 text-xl font-semibold text-black">
+                                                        {question.questionTitle}
+                                                    </h4>
+                                                </div>
+
+                                                {question.options.map((option: any, index: number) => {
+                                                    return (
+                                                        <div key={index} className="flex items-center gap-3 mt-3">
+                                                            <p className="text-black text-[20px] font-[600]">
+                                                                {option.percentage}%
+                                                            </p>
+                                                            <div className="w-full">
+                                                                <div className="flex justify-between items-center">
+                                                                    <p className="text-black text-[14px] font-[600] ">
+                                                                        {option.title} ({option.totalResponse} responses)
+                                                                    </p>
+                                                                    <div className="flex flex-wrap items-center">
+                                                                        {Array.from({
+                                                                            length: option.totalResponse > maxSize ? maxSize : option.totalResponse,
+                                                                        }).map((_, imgIndex) => (
+                                                                            <img
+                                                                                key={imgIndex}
+                                                                                src={`/images/surveys/avatar1.png`}
+                                                                                alt={`Image ${imgIndex + 1}`}
+                                                                                className={`w-[40px] h-[40px] rounded-full ${option.totalResponse > 1 ? "mx-[-5px]" : ""}`}
+                                                                            />
+                                                                        ))}
+                                                                        {option.totalResponse - maxSize > 0 && (
+                                                                            <div className="w-[40px] h-[40px] mx-[-5px] rounded-full bg-slate-300 flex items-center justify-center text-black font-bold">
+                                                                                +{option.totalResponse - maxSize}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="bg-gray rounded-full h-2.5 mb-4 dark:bg-gray-700 mt-2">
+                                                                    <div
+                                                                        className="bg-blue-600 h-2.5 rounded-full dark:bg-blue-500"
+                                                                        style={{ width: `${option.percentage}%` }}
+                                                                    ></div>
                                                                 </div>
                                                             </div>
-                                                            <div className="bg-gray rounded-full h-2.5 mb-4 dark:bg-gray-700 mt-2">
-                                                                <div className="bg-blue-600 h-2.5 rounded-full dark:bg-blue-500" style={{ width: `${option.percentage}%` }}></div>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    );
+                                                    );
+                                                })}
+                                            </div>
+                                        );
+                                    }
+                                    return null; // Return null if there's no questionTitle
                                 })
                             )
                         )
@@ -253,7 +261,7 @@ const ViewSurvey: React.FC<any> = () => {
                     < div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white mt-[22px] py-6 px-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
                         <div className="flex justify-between">
                             <h4 className=" pb-4 text-xl  font-semibold text-black dark:text-white">
-                            {t('SURVEY.viewModal.title')}
+                                {/* {t('SURVEY.viewModal.title')} */} Survey Feedbacks
                             </h4>
                             <div className="">
                                 <p className="text-[#344054] bg-[#F2F4F7] rounded-[16px] px-[16px] py-[4px] font-[600]"> {surveyData.surveyResponses} responses</p>
@@ -262,13 +270,23 @@ const ViewSurvey: React.FC<any> = () => {
                         <div className="  py-3 border-t border-[#DDDDDD]">
                             {surveyData.feedbackArray.map((feedback: any, key: any) => {
                                 return <div key={key} className="flex  gap-3 my-4">
-                                    {feedback.profileImage !== null ?
+                                    {feedback.profileImage !== null ? (
                                         <div className="flex-shrink-0">
-                                            <img src={feedback.profileImage} alt="Profile Image" width={35} height={35} />
-                                        </div> : <div className="flex-shrink-0">
-                                            <img src="/images/user/dummy.png" alt="Profile Image" width={35} height={35} />
-                                        </div>}
-
+                                            <img
+                                                src={feedback.profileImage}
+                                                alt="Profile Image"
+                                                className="w-12 h-12 rounded-full object-cover"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="flex-shrink-0">
+                                            <img
+                                                src="/images/user/dummy.png"
+                                                alt="Profile Image"
+                                                className="w-12 h-12 rounded-full object-cover"
+                                            />
+                                        </div>
+                                    )}
                                     <div className="w-full">
                                         <p className="text-black text-[14px] font-[700] mb-2">{feedback.userName}</p>
                                         <span className="text-black text-[14px] bg-[#F2F4F7] font-[400] rounded-[8px]  p-3 ">{feedback.comment}</span>
@@ -287,4 +305,4 @@ const ViewSurvey: React.FC<any> = () => {
     );
 };
 
-export default ViewSurvey;
+export default ViewCommunication;

@@ -14,6 +14,8 @@
         "firstName": "Nombre",
         "lastName": "Apellido",
         "email": "Tu correo electrónico",
+        "communityName": "Ingrese el nombre de la comunidad",
+        "label5": "Haga clic para cargar el logotipo de la comunidad",
         "password": "Tu contraseña",
         "confirmPassword": "Confirmar contraseña",
         "check": "Acepto los Términos y condiciones",
@@ -25,7 +27,7 @@
         "title6": "Mantente conectado",
         "title7": "Envía notificaciones importantes y recibe mensajes de los residentes",
         "title8": "Recoge opiniones de los residentes",
-        "title9": "Crea encuestas y recibe valiosos comentarios para mejorar la vida comunitaria"
+        "title9": "Crea comunicación y recibe valiosos comentarios para mejorar la vida comunitaria"
     },
     "FORGOT": {
         "title": "Restablecer contraseña",
@@ -41,11 +43,11 @@
             "amount": "Monto"
         },
         "title1": "Pagos",
-        "available": "No hay datos de encuestas disponibles",
+        "available": "No hay datos de comunicación disponibles",
         "card1": "Pagos totales",
-        "card2": "Pagos vencidos",
+        "card2": "Tasa promedio de respuesta de comunicación",
         "card3": "Propiedades totales",
-        "card4": "Encuestas activas"
+        "card4": "Comunicación activas"
     },
     "RESIDENT": {
         "title": "Gestión de residentes",
@@ -218,31 +220,31 @@
         "search": "Buscar guardia de seguridad por nombre o ID"
     },
     "SURVEY": {
-        "title": "Administrador de encuestas",
-        "card1": "Total de encuestas",
-        "card2": "Encuestas abiertas",
+        "title": "Administrador de Comunicación",
+        "card1": "Total de Comunicación",
+        "card2": "Comunicación abiertas",
         "card3": "Tasa de respuesta promedio",
         "table": {
-            "title": "Tus encuestas",
-            "column1": "Nombre de la encuesta",
-            "column2": "Encuesta abierta",
+            "title": "Tus Comunicacións",
+            "column1": "Nombre de la Comunicación",
+            "column2": "Comunicación abierta",
             "column3": "Fecha límite",
             "column4": "Respuestas",
             "column5": "Estado"
         },
-        "info": "Detalles de la encuesta",
-        "desc": "Agrega el título y la descripción de la encuesta. Serán visibles para todos los participantes.",
+        "info": "Detalles de la Comunicación",
+        "desc": "Agrega el título y la descripción de la Comunicación. Serán visibles para todos los participantes.",
         "info2": "Preguntas",
         "desc2": "Agrega una o más preguntas, selecciona su tipo y define opciones de respuesta.",
-        "button1": "Agregar encuesta",
+        "button1": "Agregar comunicación",
         "button1Modal": {
-            "title": "Crear nueva encuesta",
-            "editTitle": "Editar encuesta",
+            "title": "Crear nueva comunicación",
+            "editTitle": "Editar comunicación",
             "status": "Estado",
-            "title1": "Título de la encuesta",
-            "lable1": "Ingresar título de la encuesta",
-            "title2": "Descripción de la encuesta",
-            "lable2": "Ingresar descripción de la encuesta",
+            "title1": "Título de la comunicación",
+            "lable1": "Ingresar título de la comunicación",
+            "title2": "Descripción de la comunicación",
+            "lable2": "Ingresar descripción de la comunicación",
             "title3": "Fecha límite",
             "lable3": "Seleccionar fecha y hora",
             "title4": "Pregunta",
@@ -261,8 +263,8 @@
             "button5": "Guardar cambios"
         },
         "duplicateModal": {
-            "title": "¿Quieres duplicar la encuesta?",
-            "lable": "Esto creará una copia exacta de la misma encuesta.",
+            "title": "¿Quieres duplicar la comunicación?",
+            "lable": "Esto creará una copia exacta de la misma comunicación.",
             "button1": "No",
             "button2": "Sí"
         },
@@ -271,23 +273,23 @@
         "surveyOpenModal": {
             "status": "nueva",
             "status2": "borrador",
-            "title": "Abrir encuesta",
-            "title1": "Encuesta",
+            "title": "Abrir comunicación",
+            "title1": "Comunicación",
             "lable": "Tus residentes podrán dejar",
             "lable1": "respuestas. Por favor selecciona",
             "lable2": "fecha límite.",
             "button1": "Cancelar",
-            "button2": "Reabrir encuesta"
+            "button2": "Reabrir comunicación"
         },
         "surveyCloseModal": {
-            "title": "¿Quieres cerrar la encuesta?",
-            "lable": "Esta encuesta y su contenido no serán visibles para los residentes.",
+            "title": "¿Quieres cerrar la comunicación?",
+            "lable": "Esta comunicación y su contenido no serán visibles para los residentes.",
             "button1": "Cancelar",
-            "button2": "Cerrar encuesta"
+            "button2": "Cerrar comunicación"
         },
         "exportButton": "Exportar lista",
         "exportModal": {
-            "title": "Exportar lista de respuestas de la encuesta",
+            "title": "Exportar lista de respuestas de la comunicación",
             "lable": "Selecciona el formato para exportar.",
             "button1": "Cancelar",
             "button2": "Exportar"
@@ -299,7 +301,7 @@
             "card3": "Fecha límite"
         },
         "filterButton": "Filtrar",
-        "search": "Buscar encuesta"
+        "search": "Buscar comunicación"
     },
     "ACCESS": {
         "title": "Historial de acceso",
@@ -635,6 +637,9 @@
         "desc": "Actualiza tu foto y detalles personales.",
         "info2": "Contraseña",
         "desc2": "Cambia tu contraseña actual",
+        "info3": "Información bancaria",
+        "desc3": "Actualiza tu información bancaria",
+        "lable8": "Ingrese el número Iban",
         "title1": "Nombre",
         "lable1": "Introduce tu nombre",
         "title2": "Apellido",
@@ -650,7 +655,8 @@
         "lable7": "Introduce tu contraseña de confirmación",
         "button1": "Cancelar",
         "button2": "Guardar",
-        "button3": "Actualizar Contraseña"
+        "button3": "Actualizar Contraseña",
+        "button4": "Actualizar IBAN"
     },
     "PAYMENTBILLING": {
         "title": "Configuración",
@@ -732,7 +738,7 @@
     "SIDEBAR": {
         "lable1": "Tablero",
         "lable2": "Residentes",
-        "lable3": "Encuesta",
+        "lable3": "Comunicación",
         "lable4": "Guardia de Seguridad",
         "lable5": "Finanzas",
         "lable6": "Ingresos",
@@ -746,7 +752,9 @@
         "lable14": "Lugares",
         "lable15": "Gastos",
         "lable16": "Contabilidad",
-        "lable17": "Rastreadora"
+        "lable17": "Rastreadora",
+        "lable18": "Mis suscripciones",
+        "lable19": "Conviértete en Premium"
     },
     "TIMING": {
         "label1": "Día",
@@ -859,7 +867,7 @@
         "english": "Inglés",
         "spanish": "Español"
     },
-    "MONTHNAME":{
+    "MONTHNAME": {
         "January": "Enero",
         "February": "Febrero",
         "March": "Marzo",
@@ -872,5 +880,60 @@
         "October": "Octubre",
         "November": "Noviembre",
         "December": "Diciembre"
-      }      
+    },
+    "MySubscription": {
+        "head": "Mis suscripciones",
+        "card1": {
+            "head": "GRATIS",
+            "subHead": "Ideal para iniciar",
+            "feature1": "App Móvil para Caseta de vigilancia",
+            "feature2": "App Móvil para Residentes",
+            "feature3": "Portal de Administrador",
+            "feature4": "Bitácora digital de accesos",
+            "feature5": "Códigos QR para visitantes",
+            "feature6": "Pago de Servicios",
+            "feature7": "Usuarios ilimitados"
+        },
+        "card2": {
+            "head": "DE PRIMERA CALIDAD",
+            "subHead": "Gestión total",
+            "feature1": "App Móvil para Caseta de vigilancia",
+            "feature2": "App Móvil para Residentes",
+            "feature3": "Portal de Administrador",
+            "feature4": "Bitácora digital de accesos",
+            "feature5": "Códigos QR para visitantes",
+            "feature6": "Pago de Servicios",
+            "feature7": "UPago de Mantenimiento",
+            "feature8": "Control de ingresos y egresos",
+            "feature9": "Encuestas y comunicación con residentes",
+            "feature10": "Reserva y gestión de áreas comunes",
+            "feature11": "Reportes financieros",
+            "feature12": "Usuarios ilimitados",
+            "feature13": "Soporte técnico"
+        },
+        "button1": "Mejora",
+        "button2": "Degradar",
+        "button3": "Suscrita"
+    },
+    "Subscription": {
+        "title": "Suscripciones",
+        "card1": "Suscripciones totales",
+        "card2": "Suscripciones pagas",
+        "card3": "Suscripciones no pagadas",
+        "card4": "Monto total",
+        "placeHolder": "Buscar suscripciones",
+        "table": {
+            "head": "Todas las suscripciones",
+            "col1": "Nombre de usuario",
+            "col2": "Correo electrónico",
+            "col3": "Plan de suscripción",
+            "col4": "Fecha de inicio",
+            "col5": "Fecha de finalización",
+             "view": "vista"
+        },
+        "viewModal": {
+            "head": "Detalles de suscripción",
+            "closeButton": "Cerca"
+        }
+    }
 }

@@ -68,7 +68,7 @@ const ViewAdmin = () => {
                     <DefaultLayout>
                         <div className="mb-6 flex flex-wrap justify-between mx-4">
                             <h2 className="text-title-md2 font-semibold text-black dark:text-white">
-                            {t('USERMANAGEMENT.viewPage.title')}
+                                {t('USERMANAGEMENT.viewPage.title')}
                             </h2>
 
                             <div className="">

@@ -21,6 +21,13 @@ import { LiaFileInvoiceSolid } from "react-icons/lia";
 import { clearToken, clearUser, toggleIsTokenValid } from "@/store/Slices/AuthSlice";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { useTranslations } from 'next-intl';
+import { MdOutlineSubscriptions } from "react-icons/md";
+import { BsBank } from "react-icons/bs";
+import { AiOutlineDollar } from "react-icons/ai";
+import { BsFillExplicitFill } from "react-icons/bs";
+import { GrMoney } from "react-icons/gr";
+import { RiProductHuntLine } from "react-icons/ri";
+import { BsStars } from "react-icons/bs";
 
 
 interface SidebarProps {
@@ -31,6 +38,7 @@ interface SidebarProps {
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const t = useTranslations();
+  const packageId = useAppSelector((state) => state.auth.packageId);
 
   const menuGroups = [
     {
@@ -62,7 +70,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             FaRegQuestionCircle
           ),
           label: `${t('SIDEBAR.lable3')}`,
-          route: "/survey",
+          route: "/communication",
         },
         {
           icon: (
@@ -71,17 +79,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           label: `${t('SIDEBAR.lable5')}`,
           route: "#",
           children: [
-            { label: `${t('SIDEBAR.lable16')}`, route: "/payment/accounting" },
-            { label: `${t('SIDEBAR.lable6')}`, route: "/payment/payment-history" },
-            { label: `${t('SIDEBAR.lable15')}`, route: "/payment/expenses" },
-            { label: `${t('SIDEBAR.lable17')}`, route: "/payment/payment-tracker" },
-            { label: `${t('SIDEBAR.lable7')}`, route: "/payment/products" },
+            { label: `${t('SIDEBAR.lable16')}`, icon: (BsBank), route: "/payment/accounting" },
+            { label: `${t('SIDEBAR.lable6')}`, icon: (AiOutlineDollar), route: "/payment/payment-history" },
+            { label: `${t('SIDEBAR.lable15')}`, icon: (BsFillExplicitFill), route: "/payment/expenses" },
+            { label: `${t('SIDEBAR.lable17')}`, icon: (GrMoney), route: "/payment/payment-tracker" },
+            { label: `${t('SIDEBAR.lable7')}`, icon: (RiProductHuntLine), route: "/payment/products" },
           ],
         },
         {
-          icon: (
-            MdDeck
-          ),
+          icon: (MdDeck),
           label: `${t('SIDEBAR.lable8')}`,
           route: "/common-areas",
         },
@@ -101,7 +107,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         },
         {
           icon: (
-            MdSubscriptions
+            MdOutlineSubscriptions
           ),
           label: `${t('SIDEBAR.lable12')}`,
           route: "/subscriptions",
@@ -119,6 +125,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           ),
           label: `${t('SIDEBAR.lable14')}`,
           route: "/places",
+        },
+        {
+          icon: (
+            MdOutlineSubscriptions
+          ),
+          label: `${t('SIDEBAR.lable18')}`,
+          route: "/my-subscriptions",
         },
       ],
     },
@@ -146,11 +159,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const getFilteredMenuItems = () => {
     if (user.role === 1) {
-      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable14')}`].includes(item.label));
+      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable14')}`,`${t('SIDEBAR.lable12')}`].includes(item.label));
       // return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable12')}`, `${t('SIDEBAR.lable13')}`, `${t('SIDEBAR.lable14')}`].includes(item.label));
     } else if (user.role === 2) {
-      // Return only the "Super Six" items
-      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable1')}`, `${t('SIDEBAR.lable2')}`, `${t('SIDEBAR.lable4')}`, `${t('SIDEBAR.lable3')}`, `${t('SIDEBAR.lable5')}`, `${t('SIDEBAR.lable8')}`, `${t('SIDEBAR.lable9')}`].includes(item.label));
+
+      if (packageId == 1) {
+        return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable1')}`, `${t('SIDEBAR.lable2')}`, `${t('SIDEBAR.lable4')}`, `${t('SIDEBAR.lable9')}`, `${t('SIDEBAR.lable18')}`].includes(item.label));
+      } else if (packageId == 2) {
+        return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable1')}`, `${t('SIDEBAR.lable2')}`, `${t('SIDEBAR.lable4')}`, `${t('SIDEBAR.lable3')}`, `${t('SIDEBAR.lable5')}`, `${t('SIDEBAR.lable8')}`, `${t('SIDEBAR.lable9')}`, `${t('SIDEBAR.lable18')}`].includes(item.label));
+      } else {
+        return [];
+      }
+
     }
     return []; // Default case
   };
@@ -225,14 +245,24 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </div>
           </div>
           <div className="">
-            <Link
-              href="/settings"
-              className={` group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark mx-3`}
-            >
-              <IoSettingsOutline className={``} />
-              {t('SIDEBAR.lable10')}
+            <div className="relative">
+              {packageId == 1 && user.role == 2 && <Link
+                href="/my-subscriptions"
+                className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out bg-blue-700 mx-3`}
+              >
+              <BsStars className={``} />
+              {t('SIDEBAR.lable19')}
+              </Link>}
 
-            </Link>
+              <Link
+                href="/settings"
+                className={` group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark mx-3`}
+              >
+                <IoSettingsOutline className={``} />
+                {t('SIDEBAR.lable10')}
+
+              </Link>
+            </div>
 
             <div className="flex items-center   mx-3 my-2 py-2">
               <Link className=" inline-block" href="/settings">

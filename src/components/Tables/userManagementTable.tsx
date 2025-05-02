@@ -97,7 +97,7 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold   text-black dark:text-white">
-      {t('USERMANAGEMENT.table.title')}
+        {t('USERMANAGEMENT.table.title')}
       </h4>
       {loading ? (
         <Loader />
@@ -107,20 +107,20 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                {t('USERMANAGEMENT.table.col1')}
+                  {t('USERMANAGEMENT.table.col1')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('USERMANAGEMENT.table.col2')}
+                  {t('USERMANAGEMENT.table.col2')}
                 </th>
                 <th scope="col" className="px-6 py-3 flex items-center space-x-2">
-                {t('USERMANAGEMENT.table.col3')}
+                  {t('USERMANAGEMENT.table.col3')}
                   {/* <FaArrowDown className="ml-2 mt-1" /> */}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('USERMANAGEMENT.table.col4')}
+                  {t('USERMANAGEMENT.table.col4')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('USERMANAGEMENT.table.col5')}
+                  {t('USERMANAGEMENT.table.col5')}
                 </th>
                 <th>
                 </th>
@@ -130,7 +130,7 @@ const UserManagementTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
               {admins.length === 0 ? (
                 <tr className="bg-white border-b border-slate-300 dark:bg-gray-800 dark:border-gray-700">
                   <td colSpan={6} className="px-6 py-4 text-center font-bold text-gray-500 dark:text-gray-400">
-                  {t('COMMON.noDataText')}
+                    {t('COMMON.noDataText')}
                   </td>
                 </tr>
               ) : (

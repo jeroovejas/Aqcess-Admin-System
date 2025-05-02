@@ -12,6 +12,7 @@ import userManagementReducer from "./Slices/UserManagementSlice"
 import authReducer from "./Slices/AuthSlice"
 import securityGuardReducer from "./Slices/SecurityGuardSlice"
 import expenseReducer from "./Slices/ExpenseSlice"
+import subscriptionReducer from "./Slices/SubscriptionSlice"
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from './storage'
 
@@ -22,6 +23,7 @@ const persistConfig = {
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
+    subscription: subscriptionReducer,
     resident: residentReducer,
     payment: paymentReducer,
     accounting: AccountingReducer,
