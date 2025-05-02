@@ -20,7 +20,6 @@ import { useSearchParams } from "next/navigation";
 import LanguageDropdown from "@/components/language/language";
 import { getPackageDetail } from "@/lib/api/package";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import StripeModal from '@/components/Stripe/checkoutForm';
 
 
 interface signUpFormState {
@@ -297,10 +296,6 @@ const Register: React.FC = () => {
 
 
         <div className="w-full lg:w-1/2">
-          {/* {
-            formState.package_id === 2 && showModal ?
-
-            <StripeModal open={showModal} onClose={() => setShowModal(false)} /> : */}
           <div className="bg-white  mx-10 md:mx-26 lg:mx-10 xl:mx-26  mt-8 md:rounded-md rounded-xl">
             <div className="w-full p-8 md:p-17.5 lg:p-16">
               <h2 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
