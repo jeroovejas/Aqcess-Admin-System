@@ -23,17 +23,8 @@ const Subscriptions = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
     const dispatch = useAppDispatch()
-    const toggleFilterDropdown = () => {
-        setIsFilterOpen(!isFilterOpen);
-    };
 
-    const closeDropdown = () => {
-        setIsFilterOpen(false);
-        setIsStatusOpen(false);
-    }
-    const toggleStatusDropdown = () => {
-        setIsStatusOpen(!isStatusOpen);
-    };
+ 
 
     useEffect(() => {
         if (isTokenValid) {
@@ -59,7 +50,7 @@ const Subscriptions = () => {
                         </div>
                         {/* <div className="flex flex-col lg:flex-row gap-6 justify-center items-center lg:items-end mt-6 md:mt-12"> */}
                         <div className="flex flex-col md:flex-row gap-6 justify-center items-center md:items-stretch mt-6 md:mt-12">
-                        {/* <div className="flex flex-wrap gap-6 justify-center items-center mt-6 md:mt-12"> */}
+                            {/* <div className="flex flex-wrap gap-6 justify-center items-center mt-6 md:mt-12"> */}
 
 
                             <PricingCard

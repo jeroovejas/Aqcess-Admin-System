@@ -80,8 +80,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           route: "#",
           children: [
             { label: `${t('SIDEBAR.lable16')}`, icon: (BsBank), route: "/payment/accounting" },
-            { label: `${t('SIDEBAR.lable6')}`, icon: (AiOutlineDollar), route: "/payment/payment-history" },
-            { label: `${t('SIDEBAR.lable15')}`, icon: (BsFillExplicitFill), route: "/payment/expenses" },
+            // { label: `${t('SIDEBAR.lable6')}`, icon: (AiOutlineDollar), route: "/payment/payment-history" },
+            // { label: `${t('SIDEBAR.lable15')}`, icon: (BsFillExplicitFill), route: "/payment/expenses" },
             { label: `${t('SIDEBAR.lable17')}`, icon: (GrMoney), route: "/payment/payment-tracker" },
             { label: `${t('SIDEBAR.lable7')}`, icon: (RiProductHuntLine), route: "/payment/products" },
           ],

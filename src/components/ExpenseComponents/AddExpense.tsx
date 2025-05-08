@@ -10,7 +10,7 @@ import { useTranslations } from 'next-intl';
 import { createExpense } from "@/lib/api/expense";
 
 
-interface FormData {
+interface ExpenseFormData {
     amount: number | null
     desc: string
     file: File | null;
@@ -18,7 +18,7 @@ interface FormData {
 }
 
 
-const initialFormData: FormData = {
+const initialExpenseFormData: ExpenseFormData = {
     amount: null,
     desc: '',
     file: null,
@@ -32,10 +32,10 @@ const AddExpense: React.FC<any> = () => {
     const token = useAppSelector((state) => state.auth.token);
     const user = useAppSelector((state) => state.auth.userData);
     const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState<FormData>(initialFormData);
+    const [formData, setFormData] = useState<ExpenseFormData>(initialExpenseFormData);
 
     // Handle input change
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const handleExpenseChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prevData => ({
             ...prevData,
@@ -44,7 +44,7 @@ const AddExpense: React.FC<any> = () => {
 
     };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleExpenseFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null;
         if (file) {
             const reader = new FileReader();
@@ -65,7 +65,7 @@ const AddExpense: React.FC<any> = () => {
         }
     }
 
-    const deleteImage = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const deleteExpenseImage = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         event.stopPropagation();
         setFormData((prevValues) => ({
@@ -75,14 +75,12 @@ const AddExpense: React.FC<any> = () => {
         }));
     }
 
-
-
-    const handleCancel = async () => {
+    const handleExpenseCancel = async () => {
         dispatch(toggleAddExpense());
-        setFormData(initialFormData);
+        setFormData(initialExpenseFormData);
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleExpenseSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true)
         try {
@@ -99,7 +97,7 @@ const AddExpense: React.FC<any> = () => {
                 dispatch(toggleIsUpdated())
                 dispatch(toggleAddExpense());
                 showSuccessToast(response.data.message);
-                setFormData(initialFormData);
+                setFormData(initialExpenseFormData);
             } else {
                 showErrorToast(response.data.message);
             }
@@ -110,7 +108,6 @@ const AddExpense: React.FC<any> = () => {
         }
 
     };
-
 
     return (
         <>
@@ -124,7 +121,7 @@ const AddExpense: React.FC<any> = () => {
                             x
                         </button>
                     </div>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleExpenseSubmit}>
                         <div className="w-full my-6">
 
                             <div className="relative">
@@ -136,7 +133,7 @@ const AddExpense: React.FC<any> = () => {
                                     name="amount"
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                     type="number"
-                                    onChange={handleChange}
+                                    onChange={handleExpenseChange}
                                     placeholder={t('PAYMENT.paymentModal.placeHolder3')}
                                     value={formData.amount || ''}
                                     required
@@ -152,7 +149,7 @@ const AddExpense: React.FC<any> = () => {
                                     name="desc"
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                     type="text"
-                                    onChange={handleChange}
+                                    onChange={handleExpenseChange}
                                     placeholder={t('PAYMENT.paymentModal.placeHolder4')}
                                     value={formData.desc}
                                 />
@@ -171,7 +168,7 @@ const AddExpense: React.FC<any> = () => {
                                             <div className="relative w-full h-full">
 
                                                 <img src={formData.imagePreview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
-                                                <button onClick={deleteImage} className="absolute right-2 top-2 bg-[#D0D5DD] rounded-[8px] text-slate-950 p-2">
+                                                <button onClick={deleteExpenseImage} className="absolute right-2 top-2 bg-[#D0D5DD] rounded-[8px] text-slate-950 p-2">
                                                     <RiDeleteBin6Line size={15} />
                                                 </button>
                                             </div>
@@ -205,7 +202,7 @@ const AddExpense: React.FC<any> = () => {
                                             type="file"
                                             name="file"
                                             className="hidden"
-                                            onChange={handleFileChange}
+                                            onChange={handleExpenseFileChange}
                                         />
                                     </label>
                                 </div>
@@ -223,7 +220,7 @@ const AddExpense: React.FC<any> = () => {
                             <button
                                 className=" border rounded-lg border-[#DDDDDD] background-transparent font-medium  px-6 py-3 text-sm outline-none  mr-1 mb-1"
                                 type="button"
-                                onClick={handleCancel}
+                                onClick={handleExpenseCancel}
                             >
                                 {t('PAYMENT.paymentModal.button1')}
                             </button>

@@ -108,12 +108,12 @@ const Expenses = () => {
                                 <div className="text-sm font-semibold ms-3 my-2 me-3">
                                     <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
                                 </div>
-                                <div className="text-sm font-semibold my-2 me-3">
+                                {/* <div className="text-sm font-semibold my-2 me-3">
                                     <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
-                                </div>
-                                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
+                                </div> */}
+                                {/* <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
                                     {t('PAYMENT.tab3')}
-                                </button>
+                                </button> */}
                                 <div className="text-sm font-semibold my-2 me-3">
                                     <Link href="/payment/payment-tracker">{t('PAYMENT.tab5')}</Link>
                                 </div>

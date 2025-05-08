@@ -1,8 +1,13 @@
 "use client";
 import { Check } from "lucide-react";
 import Link from "next/link";
-import { useAppSelector } from "@/store/hooks";
-import { useTranslations } from "next-intl";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
+import { downGradeSubscription } from "@/lib/api/subscription";
+import { showSuccessToast, showErrorToast } from "@/lib/toastUtil";
+import { setPackageId } from "@/store/Slices/AuthSlice";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface PricingCardProps {
     cardId: number;
@@ -13,9 +18,52 @@ interface PricingCardProps {
 }
 
 const PricingCard = ({ cardId, title, price, subtitle, features }: PricingCardProps) => {
+    const locale = useLocale();
+    const dispatch = useAppDispatch()
     const t = useTranslations();
     const packageId = useAppSelector((state) => state.auth.packageId);
+    const user = useAppSelector((state) => state.auth.userData);
+    const token = useAppSelector((state) => state.auth.token);
+    const [loading, setLoading] = useState(false);
     const isSelected = packageId === cardId;
+
+    const handleUpgrade = async () => {
+        try {
+            setLoading(true)
+            const res = await fetch(`/${locale}/api/create-subscription`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: user.email }),
+            });
+
+            const data = await res.json();
+            window.location.href = data.url;
+        } catch (err: any) {
+            console.error('Unexpected error during subscription up grade:', err.message);
+        } finally {
+            setLoading(false)
+        }
+    }
+    const handleDowngrade = async () => {
+        setLoading(true)
+        try {
+            const body = { token: token };
+            const response = await downGradeSubscription(body);
+            if (response.success) {
+                if (response.data.data.subscription) {
+                    dispatch(setPackageId(response.data.data.subscription.packageId))
+                }
+                showSuccessToast(response.data.message);
+            } else {
+                showErrorToast(response.data.message)
+            }
+
+        } catch (err: any) {
+            console.error('Unexpected error during subscription down grade:', err.message);
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <div
@@ -57,7 +105,8 @@ const PricingCard = ({ cardId, title, price, subtitle, features }: PricingCardPr
             </div>
 
             <button
-                disabled={isSelected}
+                onClick={cardId === 1 ? handleDowngrade : handleUpgrade}
+                disabled={isSelected || loading}
                 className={`w-full rounded-full py-3 px-6 text-center font-medium mt-8 block 
           ${isSelected ? "bg-white text-black opacity-50 cursor-not-allowed" : "bg-black text-white "}`}
             >
@@ -65,6 +114,13 @@ const PricingCard = ({ cardId, title, price, subtitle, features }: PricingCardPr
                 {!isSelected
                     ? (cardId === 1 ? t('MySubscription.button2') : t('MySubscription.button1'))
                     : t('MySubscription.button3')}
+                {/* {
+                    !isSelected
+                        ? (cardId === 1
+                            ? (loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : t('MySubscription.button2'))
+                            : t('MySubscription.button1'))
+                        : t('MySubscription.button3')
+                } */}
             </button>
         </div>
     );

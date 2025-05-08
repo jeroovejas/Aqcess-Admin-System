@@ -3,15 +3,19 @@ import { useState, useEffect, useRef } from "react";
 import AccountingTable from "@/components/Tables/accountingTable";
 import { IoFilterSharp } from "react-icons/io5";
 import { TfiExport } from "react-icons/tfi";
+import { IoIosAdd } from "react-icons/io";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import CardDataStats from "@/components/CardDataStats";
 import ExportModal from "@/components/AccountingComponents/ExportModal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Loader from "@/components/common/Loader";
+import AddPayment from "@/components/PaymentComponents/AddPaymentExpense";
 import { toggleExportModal, resetAccountingState } from "@/store/Slices/AccountingSlice";
+import { toggleAddPayment } from "@/store/Slices/PaymentSlice";
 import { Link, useRouter } from '@/navigation';
 import { IoSearchOutline } from "react-icons/io5";
 import { useTranslations } from 'next-intl';
+import PaymentStatusModal from "@/components/PaymentComponents/PaymentStatusModal";
 import ViewModal from "@/components/AccountingComponents/ViewModal";
 import SearchFilterModal from "@/components/AccountingComponents/filterMOdal";
 
@@ -19,8 +23,10 @@ const AccountingManager = () => {
     const t = useTranslations();
     const exportModal = useAppSelector((state) => state.accounting.exportModal)
     const accountingDetails = useAppSelector((state) => state.accounting.accountingDetails)
+    const paymentStatusModal = useAppSelector((state) => state.payment.paymentStatusModal)
     const viewModal = useAppSelector((state) => state.accounting.viewModal)
     const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
+    const addPayment = useAppSelector((state) => state.payment.addPayment);
     const packageId = useAppSelector((state) => state.auth.packageId);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,18 +48,26 @@ const AccountingManager = () => {
         setSearchTerm(event.target.value);
     };
 
-    useEffect(() => {
-        if (!isTokenValid) {
-          router.push('/auth/login');
-        } else if (packageId == 1) {
-          router.push('/dashboard');
-        } else {
-          setVerified(true);
-        }
-      }, [isTokenValid, router, packageId])
+    const handleAddPayment = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        dispatch(toggleAddPayment())
+    };
 
     useEffect(() => {
-        if (exportModal || viewModal) {
+        if (!isTokenValid) {
+            router.push('/auth/login');
+        } else if (packageId == 1) {
+            router.push('/dashboard');
+        } else {
+            setVerified(true);
+        }
+    }, [isTokenValid, router, packageId])
+
+    useEffect(() => {
+        if (exportModal || viewModal || addPayment || paymentStatusModal) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
@@ -61,7 +75,7 @@ const AccountingManager = () => {
         return () => {
             document.body.style.overflow = 'auto';
         };
-    }, [exportModal, viewModal]);
+    }, [exportModal, viewModal, addPayment, paymentStatusModal]);
 
     const handleClickOutside = (event: MouseEvent) => {
         if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
@@ -103,12 +117,12 @@ const AccountingManager = () => {
                                 <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
                                     {t('PAYMENT.tab4')}
                                 </button>
-                                <div className="text-sm font-semibold my-2 me-3">
+                                {/* <div className="text-sm font-semibold my-2 me-3">
                                     <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
-                                </div>
-                                <div className="text-sm font-semibold my-2 me-3">
+                                </div> */}
+                                {/* <div className="text-sm font-semibold my-2 me-3">
                                     <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
-                                </div>
+                                </div> */}
                                 <div className="text-sm font-semibold my-2 me-3">
                                     <Link href="/payment/payment-tracker">{t('PAYMENT.tab5')}</Link>
                                 </div>
@@ -153,15 +167,27 @@ const AccountingManager = () => {
                                         {t('ACCOUNTING.button1')}
                                     </button>
                                 </div>
+                                <div className="w-full mr-3 md:w-auto mt-2 md:mt-0">
+                                    <button
+                                        type="button"
+                                        onClick={handleAddPayment}
+                                        className="w-full justify-center text-white bg-primary-blue font-medium rounded-lg text-sm px-6 py-3 text-center inline-flex items-center"
+                                    >
+                                        <IoIosAdd className="mr-2 text-white text-xl" />
+                                        {t('PAYMENT.button2')}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div className="flex flex-col gap-10">
                             <AccountingTable filterTerm={filterTerm} searchTerm={searchTerm} />
                         </div>
-                        {(exportModal || viewModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
+                        {(exportModal || viewModal || addPayment || paymentStatusModal) && <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50">
                         </div>}
                         <ExportModal filterTerm={filterTerm} searchTerm={searchTerm} />
                         <ViewModal />
+                        <AddPayment />
+                        <PaymentStatusModal />
                     </DefaultLayout>
                 </>
             ) : null}

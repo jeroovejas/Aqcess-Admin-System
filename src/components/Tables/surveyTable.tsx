@@ -12,9 +12,10 @@ import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
 import { toTitleCase } from "@/lib/common.modules";
 import { useLocale, useTranslations } from 'next-intl';
+import { Link, useRouter } from '@/navigation';
 
 
-const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => { 
+const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
   const t = useTranslations();
   const limit = 10;
   const PAGE_RANGE = 5;
@@ -115,7 +116,7 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark  xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold   text-black dark:text-white">
-      {t('SURVEY.table.title')}
+        {t('SURVEY.table.title')}
       </h4>
       {loading ? (
         <Loader />
@@ -125,19 +126,19 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
             <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                {t('SURVEY.table.column1')}
+                  {t('SURVEY.table.column1')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('SURVEY.table.column2')}
+                  {t('SURVEY.table.column2')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('SURVEY.table.column3')}
+                  {t('SURVEY.table.column3')}
                 </th>
                 <th scope="col" className="px-6 py-3">
-                {t('SURVEY.table.column4')}
+                  {t('SURVEY.table.column4')}
                 </th>
                 <th scope="col" className="px-6 py-3 flex items-center space-x-2">
-                {t('SURVEY.table.column5')}
+                  {t('SURVEY.table.column5')}
                   <FaArrowDown className="ml-2 mt-1" />
                 </th>
                 <th>
@@ -185,7 +186,14 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]" onClick={() => handleDuplicateSurvey(survey)}>Duplicate</li>
                         {survey.status === 'open' ?
                           <li onClick={() => handleCloseSurvey(survey)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">Close Survey</li>
-                          : <li onClick={() => handleReOpenSurvey(survey)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">{survey.status === "draft" ? "Open Survey" : "Reopen Survey"}</li>}
+                          : <li onClick={() => handleReOpenSurvey(survey)} className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">{survey.status === "draft" ? "Open Survey" : "Reopen Survey"}</li>
+                        }
+                        {survey.pdfUrl &&
+                          <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
+                            <Link href={survey.pdfUrl} download target="_blank" rel="noopener noreferrer">
+                              {t('PAYMENT.table.option3')}
+                            </Link>
+                          </li>}
                       </ul>
                     </td>
                     <td>

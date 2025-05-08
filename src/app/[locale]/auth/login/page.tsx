@@ -74,6 +74,13 @@ const Login: React.FC = () => {
 
       // Check the success property to determine if the request was successful
       if (response.success) {
+        const subscriptionData = {
+          userId: response.data.data.subscription?.userId,
+          packageId: response.data.data.subscription?.packageId,
+          startDate: response.data.data.subscription?.startDate,
+          endDate: response.data.data.subscription?.endDate,
+        }
+        localStorage.setItem("subscriptionData", JSON.stringify(subscriptionData));
         localStorage.setItem("loginTime", Date.now().toString());
         let token = "Bearer " + response.data.accessToken;
         dispatch(setToken(token))

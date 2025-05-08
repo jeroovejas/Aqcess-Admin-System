@@ -1,11 +1,12 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
 import { FaRegArrowAltCircleUp } from "react-icons/fa";
-import { togglePaymentStatusModal, toggleIsUpdated } from "@/store/Slices/PaymentSlice"
+import { togglePaymentStatusModal } from "@/store/Slices/PaymentSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useLocale, useTranslations } from 'next-intl';
 import { updatePaymentStatus } from "@/lib/api/payment";
 import { showSuccessToast, showErrorToast } from "@/lib/toastUtil";
+import { toggleIsUpdated } from "@/store/Slices/AccountingSlice";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const PaymentStatusModal: React.FC<any> = () => {

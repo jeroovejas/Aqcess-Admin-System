@@ -5,9 +5,11 @@ import { FaArrowRight } from "react-icons/fa6";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { getAllAccounting } from "@/lib/api/payment";
+import { toggleIsUpdated } from "@/store/Slices/AccountingSlice";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
 import { setAccountingDetails, setAccountingData, toggleViewModal } from "@/store/Slices/AccountingSlice";
+import { togglePaymentStatusModal, setPaymentData } from "@/store/Slices/PaymentSlice";
 import { useTranslations } from 'next-intl';
 import { toTitleCase } from "@/lib/common.modules";
 import moment from "moment";
@@ -90,6 +92,12 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
     }
   }
 
+  const handlePaymentStatusChange = (payment: any) => {
+    dispatch(setPaymentData(payment))
+    dispatch(togglePaymentStatusModal())
+  }
+
+
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
@@ -162,8 +170,8 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {payment.createdAt ? moment(payment.createdAt).format('DD-MM-YYYY HH:mm') : "N/A"}
                     </td>
-                    <td className="px-6 py-4  font-bold whitespace-nowrap">
-                      <span className={` p-2 rounded-2xl ${payment.status == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.status == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
+                    <td onClick={() => handlePaymentStatusChange(payment)} className="px-6 py-4  font-bold whitespace-nowrap">
+                      <span  className={` p-2 rounded-2xl ${payment.status == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.status == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
                         {payment.status ? toTitleCase(payment.status) : "N/A"}
                       </span>
                     </td>

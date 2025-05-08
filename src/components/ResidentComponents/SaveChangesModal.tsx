@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useEffect,useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { CiWarning } from "react-icons/ci";
 import { toggleSaveModal, toggleIsUpdated } from "@/store/Slices/ResidentSlice"
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -8,9 +8,9 @@ import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
 
-const SaveChangesModal: React.FC<any> = () => { 
-      const t = useTranslations();
-    
+const SaveChangesModal: React.FC<any> = () => {
+    const t = useTranslations();
+
     const saveModal = useAppSelector((state) => state.resident.saveModal)
     const resident = useAppSelector((state) => state.resident.residentData);
     const token = useAppSelector((state) => state.auth.token);
@@ -24,7 +24,7 @@ const SaveChangesModal: React.FC<any> = () => {
                 ...resident,
                 pets: resident.pets.length > 0 ? JSON.stringify(resident.pets) : null,
                 vehicles: resident.vehicles.length > 0 ? JSON.stringify(resident.vehicles) : null,
-                token: token 
+                token: token
             };
             console.log(body)
             const response = await editResident(body);
@@ -39,9 +39,9 @@ const SaveChangesModal: React.FC<any> = () => {
 
         } catch (err: any) {
             console.error('Unexpected error during edit resident:', err.message);
-        }finally {
+        } finally {
             setLoading(false)
-          }
+        }
     };
 
 
@@ -75,8 +75,8 @@ const SaveChangesModal: React.FC<any> = () => {
                                         onClick={handleEdit}
                                         disabled={loading}
                                     >
-                                         {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('RESIDENT.changesModal.button2')}`}
-                                       
+                                        {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : `${t('RESIDENT.changesModal.button2')}`}
+
                                     </button>
                                 </div>
                             </div>

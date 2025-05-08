@@ -10,10 +10,10 @@ import ExportModal from "@/components/PaymentComponents/ExportModal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleExportModal, resetPaymentState, toggleAddPayment } from "@/store/Slices/PaymentSlice";
 import Loader from "@/components/common/Loader";
-import { Link, useRouter } from '@/navigation';
+import { Link, useRouter } from '@/navigation'; 
 import { IoSearchOutline } from "react-icons/io5";
 import { useTranslations } from 'next-intl';
-import AddPayment from "@/components/PaymentComponents/AddPayment";
+import AddPayment from "@/components/PaymentComponents/AddPaymentExpense";
 import ViewModal from "@/components/PaymentComponents/ViewModal";
 import PaymentStatusModal from "@/components/PaymentComponents/PaymentStatusModal";
 import SearchFilterModal from "@/components/PaymentComponents/filterMOdal";
@@ -23,7 +23,7 @@ const PaymentManager = () => {
   const exportModal = useAppSelector((state) => state.payment.exportModal)
   const paymentStatusModal = useAppSelector((state) => state.payment.paymentStatusModal)
   const paymentDetails = useAppSelector((state) => state.payment.paymentDetails)
-  const addPayment = useAppSelector((state) => state.payment.addPayment)
+  const addPayment = useAppSelector((state) => state.payment.addPayment);
   const viewModal = useAppSelector((state) => state.payment.viewModal)
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
   const packageId = useAppSelector((state) => state.auth.packageId);
@@ -143,12 +143,12 @@ const PaymentManager = () => {
                 <div className="text-sm font-semibold ms-3 my-2 me-3">
                   <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
                 </div>
-                <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
+                {/* <button type="button" className="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-semibold rounded-lg text-sm px-6 py-2 dark:text-white dark:hover:bg-gray-700 flex items-center me-3">
                   {t('PAYMENT.tab1')}
                 </button>
                 <div className="text-sm font-semibold my-2 me-3">
                   <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
-                </div>
+                </div> */}
                 <div className="text-sm font-semibold my-2 me-3">
                   <Link href="/payment/payment-tracker">{t('PAYMENT.tab5')}</Link>
                 </div>

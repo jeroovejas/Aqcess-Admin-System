@@ -119,12 +119,12 @@ const Products = () => {
                 <div className="text-sm font-semibold ms-3 my-2 me-3">
                   <Link href="/payment/accounting">{t('PAYMENT.tab4')}</Link>
                 </div>
-                <div className="text-sm font-semibold my-2 me-3">
+                {/* <div className="text-sm font-semibold my-2 me-3">
                   <Link href="/payment/payment-history">{t('PAYMENT.tab1')}</Link>
                 </div>
                 <div className="text-sm font-semibold my-2 me-3">
                   <Link href="/payment/expenses">{t('PAYMENT.tab3')}</Link>
-                </div>
+                </div> */}
                 <div className="text-sm font-semibold my-2 me-3">
                   <Link href="/payment/payment-tracker">{t('PAYMENT.tab5')}</Link>
                 </div>
