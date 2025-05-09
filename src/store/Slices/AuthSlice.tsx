@@ -2,10 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface AuthState {
     token: string;
     userData: any;
-    isTokenValid: boolean,
-    isFilter: boolean,
-    emailModal: boolean
-    packageId: number
+    isTokenValid: boolean;
+    isFilter: boolean;
+    emailModal: boolean;
+    packageId: number;
+    subscriptionData: any;
 }
 // Define the initial state
 const initialState: AuthState = {
@@ -14,7 +15,8 @@ const initialState: AuthState = {
     isTokenValid: false,
     isFilter: false,
     emailModal: false,
-    packageId: 1
+    packageId: 1,
+    subscriptionData: {}
 };
 
 export const authSlice = createSlice({
@@ -26,6 +28,9 @@ export const authSlice = createSlice({
         },
         setPackageId: (state, action: PayloadAction<number>) => {
             state.packageId = action.payload;
+        },
+        setSubscriptionData: (state, action: PayloadAction<any>) => {
+            state.subscriptionData = { ...action.payload };
         },
         clearToken: (state) => {
             state.token = '';
@@ -48,5 +53,5 @@ export const authSlice = createSlice({
 
     },
 });
-export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid, toggleIsFilter, toggleEmailModal,setPackageId } = authSlice.actions;
+export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid, toggleIsFilter, toggleEmailModal, setPackageId, setSubscriptionData } = authSlice.actions;
 export default authSlice.reducer;

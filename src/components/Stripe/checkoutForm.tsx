@@ -1,131 +1,168 @@
-'use client';
 
-import { useEffect, useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import {
-  Elements,
-  PaymentElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+// "use client"
 
-// Load Stripe public key
-const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
-if (!stripePublicKey) {
-  console.warn('Stripe public key is not defined in environment variables.');
-}
-const stripePromise = loadStripe(stripePublicKey!);
+// import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js"
+// import { useState, useEffect } from "react"
+// import { toggleAddMethodModal, toggleIsUpdated } from "@/store/Slices/SettingSlice";
+// import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
-// Subscription form component
-const SubscribeForm = ({ onClose }: { onClose: () => void }) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!stripe || !elements) return;
+// export default function SaveCardForm() {
+//   const stripe = useStripe()
+//   const elements = useElements()
+//   const [loading, setLoading] = useState(false)
+//   // const [cards, setCards] = useState<any[]>([])
+//   const user = useAppSelector((state) => state.auth.userData)
+//   // const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
+//   const customerId = user?.subscription?.customerId
+//     const dispatch = useAppDispatch();
 
-    setIsLoading(true);
-    setErrorMessage(null);
 
-    const result = await stripe.confirmPayment({
-      elements,
+//   // const fetchCards = async () => {
+//   //   try {
+//   //     const res = await fetch("/en/api/list-cards", {
+//   //       method: "POST",
+//   //       headers: { "Content-Type": "application/json" },
+//   //       body: JSON.stringify({ customerId }),
+//   //     })
+
+//   //     if (!res.ok) {
+//   //       const errorData = await res.json()
+//   //       console.error("Error fetching cards:", errorData.error || res.statusText)
+//   //       throw new Error(errorData.error || "Failed to fetch cards")
+//   //     }
+
+//   //     const data = await res.json()
+//   //     console.log("Fetched cards:", data)
+//   //     setCards(data.cards || [])
+//   //   } catch (error: any) {
+//   //     console.error("fetchCards error:", error.message)
+//   //     alert("Unable to fetch saved cards. Please try again later.")
+//   //   }
+//   // }
+
+//   // useEffect(() => {
+//   //   if (customerId) {
+//   //     fetchCards()
+//   //   }
+//   // }, [customerId])
+
+
+//   // const handleCardSelect = (cardId: string) => {
+//   //   setSelectedCardId(cardId)
+//   // }
+
+//   const handleSubmit = async () => {
+//     setLoading(true)
+
+//     const result = await stripe?.confirmSetup({
+//       elements: elements!,
+//       confirmParams: {
+//         return_url: window.location.href,
+//       },
+//       redirect: "if_required",
+//     })
+
+//     if (result?.error) {
+//       alert(result.error.message)
+//     } else {
+//       dispatch(toggleAddMethodModal())
+//       alert("Card saved successfully")
+//     }
+
+//     setLoading(false)
+//   }
+
+//   return (
+//     <div>
+//       <PaymentElement />
+//       <button
+//         onClick={handleSubmit}
+//         disabled={!stripe || loading}
+//         className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg"
+//       >
+//         {loading ? "Saving..." : "Save Card"}
+//       </button>
+
+//       {/* Display Saved Cards */}
+//       {/* {cards.length > 0 && (
+//         <div className="pt-6 border-t mt-6">
+//           <h3 className="text-md font-medium mb-3">Saved Cards</h3>
+//           <ul className="space-y-2">
+//             {cards.map((card) => {
+//               const isSelected = selectedCardId === card.id
+//               return (
+//                 <li
+//                   key={card.id}
+//                   onClick={() => handleCardSelect(card.id)}
+//                   className={`p-3 rounded-lg border cursor-pointer transition 
+//           ${isSelected ? "border-blue-600 bg-blue-50" : "border-gray-300 bg-white"}`}
+//                 >
+//                   <div className="text-sm text-gray-800 font-medium">
+//                     **** **** **** {card.card.last4}
+//                   </div>
+//                   <div className="text-xs text-gray-500">
+//                     {card.card.brand.toUpperCase()} · Expires {card.card.exp_month}/{card.card.exp_year}
+//                   </div>
+//                 </li>
+//               )
+//             })}
+//           </ul>
+
+//         </div>
+//       )} */}
+//     </div>
+//   )
+// }
+
+
+"use client"
+
+import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js"
+import { useState, useEffect } from "react"
+import { toggleAddMethodModal, toggleIsUpdated } from "@/store/Slices/SettingSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+
+
+export default function SaveCardForm() {
+  const stripe = useStripe()
+  const elements = useElements()
+  const [loading, setLoading] = useState(false)
+  const user = useAppSelector((state) => state.auth.userData)
+  const customerId = user?.subscription?.customerId
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = async () => {
+    setLoading(true)
+
+    const result = await stripe?.confirmSetup({
+      elements: elements!,
       confirmParams: {
         return_url: window.location.href,
       },
-      redirect: 'if_required',
-    });
+      redirect: "if_required",
+    })
 
-    if (result.error) {
-      setErrorMessage(result.error.message ?? 'An unknown error occurred.');
+    if (result?.error) {
+      alert(result.error.message)
+    } else {
+      dispatch(toggleAddMethodModal())
+      alert("Card saved successfully")
     }
 
-    setIsLoading(false);
-  };
+    setLoading(false)
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-lg w-full max-w-md">
+    <div>
       <PaymentElement />
-      {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
-      <div className="flex justify-end mt-4 gap-2">
-        <button
-          type="button"
-          onClick={onClose}
-          className="bg-gray-300 text-black px-4 py-2 rounded"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          disabled={!stripe || isLoading}
-          className="bg-green-600 text-white px-4 py-2 rounded"
-        >
-          {isLoading ? 'Processing...' : 'Subscribe'}
-        </button>
-      </div>
-    </form>
-  );
-};
-
-// Modal wrapper with subscription logic
-const StripeModal = ({
-  open,
-  onClose,
-  email,
-}: {
-  open: boolean;
-  onClose: () => void;
-  email: string;
-}) => {
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!open) return;
-
-    const createSubscription = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch('/en/api/create-subscription', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-        });
-
-        const data = await res.json();
-        console.log("===============");
-        console.log(data);
-        
-        window.location.href = data.url;
-        // const data = await res.json();
-
-        if (!res.ok || !data.clientSecret) {
-          console.error('Failed to create subscription:', data);
-          return;
-        }
-
-        setClientSecret(data.clientSecret);
-      } catch (err) {
-        console.error('Subscription request failed:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    createSubscription();
-  }, [open, email]);
-
-  if (!open || loading || !clientSecret) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
-        <SubscribeForm onClose={onClose} />
-      </Elements>
+      <button
+        onClick={handleSubmit}
+        disabled={!stripe || loading}
+        className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg"
+      >
+        {loading ? "Saving..." : "Save Card"}
+      </button>
     </div>
-  );
-};
-
-export default StripeModal;
+  )
+}

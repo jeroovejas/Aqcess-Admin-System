@@ -85,8 +85,6 @@ export default async function RootLayout({
   const timezone = process.env.NEXT_PUBLIC_TIME_ZONE || 'UTC';
   moment.tz.setDefault(timezone);
 
-  console.log("Timezone:", moment.tz.guess());
-
   return (
     <html lang={locale}>
       {/* <body> */}

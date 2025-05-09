@@ -9,7 +9,7 @@ import DefaultLayout from "../Layouts/DefaultLayout";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 // import { useRouter } from 'next/navigation';
 import { Link, usePathname, useRouter } from '@/navigation';
-import { setUserData, setPackageId, toggleIsTokenValid, clearToken, clearUser } from "@/store/Slices/AuthSlice";
+import { setUserData, setPackageId, toggleIsTokenValid, clearToken, clearUser, setSubscriptionData } from "@/store/Slices/AuthSlice";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { verifyToken } from "@/lib/api/auth";
 import Loader from "@/components/common/Loader";
@@ -53,11 +53,6 @@ const ECommerce: React.FC = () => {
         } else {
           setVerified(true);
           dispatch(setUserData(response.data.data))
-          if (response.data.data.subscription) {
-            console.log("hello", response.data.data.subscription.packageId)
-            dispatch(setPackageId(response.data.data.subscription.packageId))
-          }
-
           if (!isTokenValid) {
             dispatch(toggleIsTokenValid())
             showSuccessToast(`Welcome  ${response.data.data.firstName} ${response.data.data.lastName}`)
@@ -77,7 +72,6 @@ const ECommerce: React.FC = () => {
 
   useEffect(() => {
     const date = new Date();
-
     const optionsDate: any = { year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = date.toLocaleDateString(undefined, optionsDate);
     setCurrentDate(formattedDate);

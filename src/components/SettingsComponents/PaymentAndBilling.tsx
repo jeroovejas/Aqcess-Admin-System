@@ -12,73 +12,29 @@ import { getAllCards } from "@/lib/api/payment";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
 import { useLocale, useTranslations } from 'next-intl';
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
+import SaveCardForm from "@/components/Stripe/checkoutForm"
 
-
-// Define types for survey form state
-
-const paymentData: any[] = [
-    {
-        invoice: "Premium Plan-May 2024",
-        Amount: "$19",
-        Date: "May 19,2024",
-        Status: "Paid",
-    },
-    {
-        invoice: "Premium Plan-April 2024",
-        Amount: "$19",
-        Date: "Apr 19,2024",
-        Status: "Paid",
-    },
-    {
-        invoice: "Premium Plan-March 2024",
-        Amount: "$19",
-        Date: "Feb 19,2024",
-        Status: "Paid",
-    },
-    {
-        invoice: "Premium Plan-February 2024",
-        Amount: "$19",
-        Date: "Sep 19,2024",
-        Status: "Paid",
-    },
-    {
-        invoice: "Premium Plan-January 2024",
-        Amount: "$19",
-        Date: "Aug 19,2024",
-        Status: "Paid",
-    },
-    {
-        invoice: "Premium Plan-May 2024",
-        Amount: "$19",
-        Date: "May 19,2024",
-        Status: "Paid",
-    },
-    {
-        invoice: "Premium Plan-January 2024",
-        Amount: "$19",
-        Date: "Aug 19,2024",
-        Status: "Paid",
-    },
-    {
-        invoice: "Premium Plan-May 2024",
-        Amount: "$19",
-        Date: "May 19,2024",
-        Status: "Paid",
-    },
-
-];
+const stripePromise = loadStripe("pk_test_51Lx8GyC2tGzLi2V6scY52DyDdyBQvZTyw24ZWtfr7UR41KTPJoIKe4eLvAPWB0otYKjQ92zGcMzMElEBtFQ4hfdZ00715aO4sq")
 
 const PaymentAndBilling: React.FC = () => {
-      const t = useTranslations();
-    
+    const t = useTranslations();
+
     const billingModal = useAppSelector((state) => state.setting.billingModal)
     const deleteModal = useAppSelector((state) => state.setting.deleteModal)
     const addMethod = useAppSelector((state) => state.setting.addMethod)
     const editMethod = useAppSelector((state) => state.setting.editMethod)
     const isUpdated = useAppSelector((state) => state.setting.isUpdated)
     const token = useAppSelector((state) => state.auth.token);
+    const [paymentData, setPaymentData] = useState<any[]>([]);
     const [cards, setCards] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [clientSecret, setClientSecret] = useState("")
+    const [showPaymentElement, setShowPaymentElement] = useState(false)
+    const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
+    const user = useAppSelector((state) => state.auth.userData)
+    const customerId = user?.subscription?.customerId
 
     const dispatch = useAppDispatch()
 
@@ -103,24 +59,69 @@ const PaymentAndBilling: React.FC = () => {
         });
     }, [isUpdated])
 
+    useEffect(() => {
+        if (!customerId) return
+
+        const fetchClientSecret = async () => {
+            const res = await fetch("/en/api/create-setup-intent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ customerId }),
+            })
+
+            const data = await res.json()
+            setClientSecret(data.clientSecret)
+        }
+
+        fetchClientSecret()
+    }, [customerId])
+
+    const appearance = {
+        theme: "stripe" as const,
+    }
+
+    const options = {
+        clientSecret,
+        appearance,
+    }
+
+    const handleCardSelect = (cardId: string) => {
+        setSelectedCardId(cardId)
+    }
+
+
     const fetchCards = async () => {
         try {
+            const res = await fetch("/en/api/list-cards", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ customerId }),
+            })
 
-            let params = { token: token }
-            const response = await getAllCards(params);
-
-            // Check the success property to determine if the request was successful
-            if (response.success) {
-                setCards(response.data.data);
-            } else {
-                showErrorToast(response.data.message)
+            if (!res.ok) {
+                const errorData = await res.json()
+                console.error("Error fetching cards:", errorData.error || res.statusText)
+                throw new Error(errorData.error || "Failed to fetch cards")
             }
-        } catch (err: any) {
-            console.error('Unexpected error during cards Fetch:', err.message);
+
+            const data = await res.json()
+            console.log("Fetched cards:", data)
+            setCards(data.cards || [])
+        } catch (error: any) {
+            console.error("fetchCards error:", error.message)
+            alert("Unable to fetch saved cards. Please try again later.")
         }
     }
 
+    useEffect(() => {
+        if (customerId) {
+            fetchCards()
+        }
+    }, [customerId])
+
+
     const handleAddMethod = () => {
+        // setShowPaymentElement(!showPaymentElement)
         window.scrollTo({
             top: 0,
             behavior: 'smooth' // For a smooth scrolling effect
@@ -152,7 +153,7 @@ const PaymentAndBilling: React.FC = () => {
                         <div className="mb-3 flex flex-col gap-3 sm:flex-row items-center justify-between">
                             <div>
                                 <h2 className="text-4xl font-bold text-black dark:text-white">
-                                {t('PAYMENTBILLING.title')}
+                                    {t('PAYMENTBILLING.title')}
                                 </h2>
                             </div>
                         </div>
@@ -162,7 +163,7 @@ const PaymentAndBilling: React.FC = () => {
                                     <button onClick={() => dispatch(toggleBillingModal())}  >{t('PAYMENTBILLING.tab1')}</button>
                                 </div>
                                 <button type="button" className="text-gray-900 bg-white ml-2 border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-6 py-2  flex items-center mr-4">
-                                {t('PAYMENTBILLING.tab2')}
+                                    {t('PAYMENTBILLING.tab2')}
                                 </button>
                             </div>
                         </div>
@@ -171,7 +172,7 @@ const PaymentAndBilling: React.FC = () => {
                                 <h2 className="text-lg font-bold pt-2">{t('PAYMENTBILLING.info')}</h2>
                                 <p className="pt-1">{t('PAYMENTBILLING.desc')}</p>
                             </div>
-                            <div className="w-full md:w-3/4 bg-white border border-slate-200 rounded-md px-4 py-3">
+                            {/* <div className="w-full md:w-3/4 bg-white border border-slate-200 rounded-md px-4 py-3">
                                 {cards.map((card, index) => (
                                     <div key={index} className="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 bg-white border border-slate-200 px-2 py-2 rounded-md">
                                         <div className="flex items-center mb-4 md:mb-0">
@@ -195,6 +196,39 @@ const PaymentAndBilling: React.FC = () => {
                                     <FaPlus className="mt-3" />
                                     <button onClick={handleAddMethod} className="text-base font-bold pt-3 pl-2">{t('PAYMENTBILLING.addButton')}</button>
                                 </div>
+                            </div> */}
+                            <div className="w-full md:w-3/4 bg-white border border-slate-200 rounded-md px-4 py-3">
+                                {cards.length > 0 && (
+                                    <div className="mt-6">
+                                        <h1 className="text-xl font-bold mb-3 text-black">Saved Cards</h1>
+                                        <ul className="space-y-2">
+                                            {cards.map((card) => {
+                                                const isSelected = selectedCardId === card.id
+                                                return (
+                                                    <li
+                                                        key={card.id}
+                                                        onClick={() => handleCardSelect(card.id)}
+                                                        className={`p-3 rounded-lg border cursor-pointer transition 
+          ${isSelected ? "border-blue-600 bg-blue-50" : "border-gray-300 bg-white"}`}
+                                                    >
+                                                        <div className="text-lg text-gray-800 font-medium">
+                                                            **** **** **** {card.card.last4}
+                                                        </div>
+                                                        <div className="text-md text-gray-500">
+                                                            <span className="text-lg font-extrabold text-[#1E2A86]">{card.card.brand.toUpperCase()}</span> · Expires {card.card.exp_month}/{card.card.exp_year}
+                                                        </div>
+                                                    </li>
+                                                )
+                                            })}
+                                        </ul>
+
+                                    </div>
+                                )}
+                                <div className="flex items-center mt-4">
+                                    <FaPlus className="mt-3" />
+                                    <button onClick={handleAddMethod} className="text-base font-bold pt-3 pl-2">{t('PAYMENTBILLING.addButton')}</button>
+                                </div>
+
                             </div>
 
                         </div>
@@ -208,16 +242,16 @@ const PaymentAndBilling: React.FC = () => {
                                     <thead className="text-base border border-slate-300 bg-slate-200 text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                         <tr>
                                             <th scope="col" className="px-6 py-3">
-                                            {t('PAYMENTBILLING.table.column1')}
+                                                {t('PAYMENTBILLING.table.column1')}
                                             </th>
                                             <th scope="col" className="pl-16 py-3">
-                                            {t('PAYMENTBILLING.table.column2')}
+                                                {t('PAYMENTBILLING.table.column2')}
                                             </th>
                                             <th scope="col" className="px-6 py-3">
-                                            {t('PAYMENTBILLING.table.column3')}
+                                                {t('PAYMENTBILLING.table.column3')}
                                             </th>
                                             <th scope="col" className="px-6 py-3">
-                                            {t('PAYMENTBILLING.table.column4')}
+                                                {t('PAYMENTBILLING.table.column4')}
                                             </th>
                                             <th>
 

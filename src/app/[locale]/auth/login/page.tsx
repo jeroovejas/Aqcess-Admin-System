@@ -6,7 +6,7 @@ import { signIn } from "@/lib/api/auth";
 // import { useRouter } from 'next/navigation';
 import { showErrorToast } from "@/lib/toastUtil";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setToken, toggleEmailModal } from "@/store/Slices/AuthSlice";
+import { setPackageId, setSubscriptionData, setToken, toggleEmailModal } from "@/store/Slices/AuthSlice";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { TfiEmail } from "react-icons/tfi";
@@ -74,16 +74,19 @@ const Login: React.FC = () => {
 
       // Check the success property to determine if the request was successful
       if (response.success) {
-        const subscriptionData = {
-          userId: response.data.data.subscription?.userId,
-          packageId: response.data.data.subscription?.packageId,
-          startDate: response.data.data.subscription?.startDate,
-          endDate: response.data.data.subscription?.endDate,
-        }
-        localStorage.setItem("subscriptionData", JSON.stringify(subscriptionData));
         localStorage.setItem("loginTime", Date.now().toString());
         let token = "Bearer " + response.data.accessToken;
         dispatch(setToken(token))
+        if (response.data.data.subscription) {
+          const subscriptionData = {
+            userId: response.data.data.subscription?.userId,
+            packageId: response.data.data.subscription?.packageId,
+            startDate: response.data.data.subscription?.startDate,
+            endDate: response.data.data.subscription?.endDate,
+          }
+          dispatch(setSubscriptionData(subscriptionData))
+          dispatch(setPackageId(response.data.data.subscription.packageId))
+        }
         if (response.data.data.role === 1) {
           router.push('/user-management');
         } else {
