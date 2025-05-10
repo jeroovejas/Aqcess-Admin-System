@@ -665,7 +665,7 @@
         "info": "Método de pago",
         "desc": "Selecciona y actualiza tu método de pago.",
         "info2": "Historial de facturación",
-        "desc2": "Revisa y descarga facturas recientes",
+        "desc2": "Historial de reseñas y suscripciones",
         "addTitle": "Crear Método de Pago",
         "editTitle": "Editar Método de Pago",
         "addButton": "Crear nuevo Método de Pago",
@@ -703,11 +703,12 @@
             "button2": "Eliminar"
         },
         "table": {
-            "title": "Facturas recientes",
-            "column1": "Factura",
-            "column2": "Monto",
-            "column3": "Fecha",
-            "column4": "Estado"
+            "title": "Recent invoices",
+            "column1": "Suscripción",
+            "column2": "Cantidad",
+            "column3": "Fecha de inicio",
+            "column4": "Fecha de finalización",
+            "column5": "Estado"
         }
     },
     "COMMON": {

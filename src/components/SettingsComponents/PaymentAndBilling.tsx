@@ -15,6 +15,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import SaveCardForm from "@/components/Stripe/checkoutForm"
+import { getUserSubscriptions } from "@/lib/api/subscription";
+import moment from "moment";
 
 const stripePromise = loadStripe("pk_test_51Lx8GyC2tGzLi2V6scY52DyDdyBQvZTyw24ZWtfr7UR41KTPJoIKe4eLvAPWB0otYKjQ92zGcMzMElEBtFQ4hfdZ00715aO4sq")
 
@@ -33,6 +35,8 @@ const PaymentAndBilling: React.FC = () => {
     const [clientSecret, setClientSecret] = useState("")
     const [showPaymentElement, setShowPaymentElement] = useState(false)
     const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
+    const [subscriptions, setSubscriptions] = useState<any[]>([]);
+
     const user = useAppSelector((state) => state.auth.userData)
     const customerId = user?.subscription?.customerId
 
@@ -113,10 +117,27 @@ const PaymentAndBilling: React.FC = () => {
         }
     }
 
+    const fetchSubscriptions = async () => {
+        try {
+            let params = { token: token }
+            const response = await getUserSubscriptions(params);
+
+            // Check the success property to determine if the request was successful
+            if (response.success) {
+                setSubscriptions(response.data.data);
+            } else {
+                showErrorToast(response.data.message)
+            }
+        } catch (err: any) {
+            console.error('Unexpected error during Subscriptions Fetch:', err.message);
+        }
+    }
+
     useEffect(() => {
         if (customerId) {
             fetchCards()
         }
+        fetchSubscriptions()
     }, [customerId])
 
 
@@ -208,30 +229,35 @@ const PaymentAndBilling: React.FC = () => {
                                                     <li
                                                         key={card.id}
                                                         onClick={() => handleCardSelect(card.id)}
-                                                        className={`p-3 rounded-lg border cursor-pointer transition 
-          ${isSelected ? "border-blue-600 bg-blue-50" : "border-gray-300 bg-white"}`}
-                                                    >
+                                                        className={`p-3 rounded-lg border cursor-pointer transition ${isSelected ? "border-blue-600 bg-blue-50" : "border-gray-300 bg-white"}`}>
                                                         <div className="text-lg text-gray-800 font-medium">
                                                             **** **** **** {card.card.last4}
                                                         </div>
-                                                        <div className="text-md text-gray-500">
-                                                            <span className="text-lg font-extrabold text-[#1E2A86]">{card.card.brand.toUpperCase()}</span> · Expires {card.card.exp_month}/{card.card.exp_year}
+                                                        <div className="flex justify-start items-center text-md text-gray-500">
+                                                            {
+                                                                card.card.brand == "visa" ?
+                                                                    <img src="/images/settings/method1.png" className="w-10" />
+                                                                    :
+                                                                    card.card.brand == "mastercard" ?
+                                                                        <img src="/images/settings/method2.png" className="w-10" />
+                                                                        :
+                                                                        <span className="text-lg font-extrabold text-[#1E2A86]">{card.card.brand.toUpperCase()}</span>
+                                                            }
+                                                            · Expires {card.card.exp_month}/{card.card.exp_year}
                                                         </div>
                                                     </li>
                                                 )
                                             })}
                                         </ul>
-
                                     </div>
                                 )}
                                 <div className="flex items-center mt-4">
                                     <FaPlus className="mt-3" />
                                     <button onClick={handleAddMethod} className="text-base font-bold pt-3 pl-2">{t('PAYMENTBILLING.addButton')}</button>
                                 </div>
-
                             </div>
-
                         </div>
+                        
                         <div className="flex flex-col md:flex-row mt-8">
                             <div className="w-full md:w-1/2 mb-4 md:mb-0">
                                 <h2 className="text-lg font-bold pt-2">{t('PAYMENTBILLING.info2')}</h2>
@@ -253,39 +279,38 @@ const PaymentAndBilling: React.FC = () => {
                                             <th scope="col" className="px-6 py-3">
                                                 {t('PAYMENTBILLING.table.column4')}
                                             </th>
-                                            <th>
-
-
-                                            </th>
-                                            <th>
-
+                                            <th scope="col" className="px-6 py-3">
+                                                {t('PAYMENTBILLING.table.column5')}
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {paymentData.map((payment, key) => (
+                                        {subscriptions.map((payment, key) => (
                                             <tr key={key} className="bg-white border-b border-b-slate-300 dark:bg-gray-800 dark:border-gray-700">
                                                 <td className="pl-6 py-4 font-bold whitespace-nowrap">
-                                                    {payment.invoice}
+                                                    {payment.package.type}
                                                 </td>
+
                                                 <td className="pl-16 py-4 whitespace-nowrap">
-                                                    {payment.Amount}
+                                                    ${payment.price}
                                                 </td>
+
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    {payment.Date}
+                                                    {payment.start_date ? moment(payment.start_date).format("D MMM HH:mm") : 'N/A'}
                                                 </td>
-                                                <td className={`px-6 py-4 flex items-center whitespace-nowrap font-bold ${payment.Status == 'Paid' ? 'text-meta-3' : 'text-meta-1'}`}>
-                                                    <div className="flex items-center">
-                                                        {payment.Status}
+
+                                                <td className={`px-6 py-4 whitespace-nowrap`}>
+                                                    {payment.end_date ? moment(payment.end_date).format("D MMM HH:mm") : 'N/A'}
+                                                </td>
+
+                                                <td className={`px-6 py-4 flex items-center whitespace-nowrap font-bold `}>
+                                                    <div className={`flex px-4 rounded-full py-1 items-center ${payment.status == "active" ? "bg-green-500 text-white" : "bg-red text-white"}`}>
+                                                        {payment.status}
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <MdOutlineFileDownload className="text-black mt-4 text-xl" />
                                                 </td>
                                             </tr>
                                         )
                                         )}
-
                                     </tbody>
                                 </table>
                             </div>

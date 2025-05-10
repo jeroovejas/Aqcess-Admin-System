@@ -12,6 +12,7 @@ import Loader from "@/components/common/Loader";
 import { Check } from "lucide-react"
 import PricingCard from "@/components/MySubscriptionsComponents/card";
 import { useTranslations } from "next-intl";
+import ModalButton from "@/components/Subscription/ModalButton";
 
 
 const Subscriptions = () => {
@@ -22,9 +23,6 @@ const Subscriptions = () => {
     const [verified, setVerified] = useState<boolean | null>(null);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
-    const dispatch = useAppDispatch()
-
- 
 
     useEffect(() => {
         if (isTokenValid) {

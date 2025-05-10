@@ -1,44 +1,64 @@
-"use client"
-import { useEffect, useState } from "react"
-import { useAppSelector } from "@/store/hooks"
+"use client";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "@/store/hooks";
 
-interface ModalButtonProps {
-  isOpen: boolean
-  onClose: () => void
-  onSelectCard: (card: any) => void
+interface Card {
+  id: string;
+  card: {
+    last4: string;
+    brand: string;
+    exp_month: number;
+    exp_year: number;
+  };
 }
 
-const ModalButtoned = ({ isOpen, onClose, onSelectCard }: ModalButtonProps) => {
-  const [cards, setCards] = useState<any[]>([])
-  const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
-  const user = useAppSelector((state) => state.auth.userData)
-  const customerId = user?.subscription?.customerId
+interface ModalButtonProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelectCard: (card: Card) => void;
+}
+
+const ModalButton = ({ isOpen, onClose, onSelectCard }: ModalButtonProps) => {
+  const [cards, setCards] = useState<Card[]>([]);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const user = useAppSelector((state) => state.auth.userData);
+  const customerId = user?.subscription?.customerId;
 
   const fetchCards = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/en/api/list-cards", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ customerId }),
-      })
+      });
 
-      const data = await res.json()
-      setCards(data.cards || [])
+      if (!res.ok) {
+        throw new Error("Failed to fetch cards");
+      }
+
+      const data = await res.json();
+      setCards(data.cards || []);
     } catch (err) {
-      console.error("Failed to fetch cards")
+      console.error("Failed to fetch cards:", err);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    if (isOpen && customerId) fetchCards()
-  }, [isOpen, customerId])
+    if (isOpen && customerId) {
+      fetchCards();
+    }
+  }, [isOpen, customerId]);
 
-  const handleCardClick = (card: any) => {
-    setSelectedCardId(card.id)
-    onSelectCard(card)
-  }
+  const handleCardClick = (card: Card) => {
+    setSelectedCardId(card.id);
+    onSelectCard(card);
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div
@@ -51,13 +71,15 @@ const ModalButtoned = ({ isOpen, onClose, onSelectCard }: ModalButtonProps) => {
       >
         <h2 className="text-lg font-semibold mb-4">Select a Card</h2>
 
-        {cards.length > 0 ? (
+        {loading ? (
+          <p className="text-gray-500">Loading cards...</p>
+        ) : cards.length > 0 ? (
           <ul className="space-y-3">
             {cards.map((card) => (
               <li
                 key={card.id}
                 onClick={() => handleCardClick(card)}
-                className={`p-3 rounded-lg border cursor-pointer ${
+                className={`p-3 rounded-lg border cursor-pointer hover:border-blue-600 hover:bg-blue-100 ${
                   selectedCardId === card.id
                     ? "border-blue-600 bg-blue-50"
                     : "border-gray-300"
@@ -78,13 +100,13 @@ const ModalButtoned = ({ isOpen, onClose, onSelectCard }: ModalButtonProps) => {
 
         <button
           onClick={onClose}
-          className="mt-6 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+          className="mt-6 px-4 py-2 bg-graydark text-white rounded hover:bg-gray-700"
         >
           Close
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ModalButtoned
+export default ModalButton;

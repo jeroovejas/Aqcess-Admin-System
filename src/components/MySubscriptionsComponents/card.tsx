@@ -8,6 +8,7 @@ import { downGradeSubscription } from "@/lib/api/subscription";
 import { showSuccessToast, showErrorToast } from "@/lib/toastUtil";
 import { setPackageId } from "@/store/Slices/AuthSlice";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import ModalButton from "../Subscription/ModalButton";
 
 interface PricingCardProps {
     cardId: number;
@@ -26,6 +27,19 @@ const PricingCard = ({ cardId, title, price, subtitle, features }: PricingCardPr
     const token = useAppSelector((state) => state.auth.token);
     const [loading, setLoading] = useState(false);
     const isSelected = packageId === cardId;
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [selectedCard, setSelectedCard] = useState<any>(null)
+
+    const handleCardSelect = (card: any) => {
+        setSelectedCard(card)
+        setIsModalOpen(false)
+        if (cardId === 1) {
+            handleDowngrade();
+        } else {
+            handleUpgrade();
+        }
+    }
+
 
     const handleUpgrade = async () => {
         try {
@@ -66,63 +80,68 @@ const PricingCard = ({ cardId, title, price, subtitle, features }: PricingCardPr
     }
 
     return (
-        <div
-            className={`rounded-xl p-6 w-full md:w-[48%] xl:w-1/3 flex flex-col justify-between 
+            <div
+                className={`rounded-xl p-6 w-full md:w-[48%] xl:w-1/3 flex flex-col justify-between 
     ${isSelected ? "bg-black text-white border border-black" : "bg-white text-black"}`}
-        >
-            <div>
-                <div className="text-left">
-                    <div
-                        className={`rounded-full px-4 py-1 text-sm font-medium self-start mb-4 inline-block 
+            >
+                <div>
+                    <div className="text-left">
+                        <div
+                            className={`rounded-full px-4 py-1 text-sm font-medium self-start mb-4 inline-block 
             ${isSelected ? "bg-white text-black border border-white" : "bg-white text-black border border-black"}`}
-                    >
-                        {title}
+                        >
+                            {title}
+                        </div>
+
+                        <h3 className={`text-3xl font-bold mb-1 ${isSelected ? "text-white" : "text-black"}`}>
+                            {price}<span className="text-lg font-bold">/mes</span>
+                        </h3>
+
+                        <p className={`text-sm mb-2 ${isSelected ? "text-white" : "text-black"}`}>
+                            {subtitle}
+                        </p>
                     </div>
 
-                    <h3 className={`text-3xl font-bold mb-1 ${isSelected ? "text-white" : "text-black"}`}>
-                        {price}<span className="text-lg font-bold">/mes</span>
-                    </h3>
+                    <hr className={`mb-6 ${isSelected ? "border-white" : "border-slate-700"}`} />
 
-                    <p className={`text-sm mb-2 ${isSelected ? "text-white" : "text-black"}`}>
-                        {subtitle}
-                    </p>
-                </div>
-
-                <hr className={`mb-6 ${isSelected ? "border-white" : "border-slate-700"}`} />
-
-                <div className="space-y-2 text-left">
-                    {features.map((feature, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                            <div className={`rounded-full border p-0.5 flex-shrink-0 
+                    <div className="space-y-2 text-left">
+                        {features.map((feature, index) => (
+                            <div key={index} className="flex items-center gap-2">
+                                <div className={`rounded-full border p-0.5 flex-shrink-0 
               ${isSelected ? "border-white" : "border-black"}`}>
-                                <Check className={isSelected ? "text-white" : "text-black"} size={10} />
+                                    <Check className={isSelected ? "text-white" : "text-black"} size={10} />
+                                </div>
+                                <span className={isSelected ? "text-white" : "text-black"}>{t(feature)}</span>
                             </div>
-                            <span className={isSelected ? "text-white" : "text-black"}>{t(feature)}</span>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
                 </div>
 
-            </div>
-
-            <button
-                onClick={cardId === 1 ? handleDowngrade : handleUpgrade}
-                disabled={isSelected || loading}
-                className={`w-full rounded-full py-3 px-6 text-center font-medium mt-8 block 
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    disabled={isSelected || loading}
+                    className={`w-full rounded-full py-3 px-6 text-center font-medium mt-8 block 
           ${isSelected ? "bg-white text-black opacity-50 cursor-not-allowed" : "bg-black text-white "}`}
-            >
-                {/* {cardId == 1 ? `${t('MySubscription.button1')}` : `${t('MySubscription.button2')}`} */}
-                {!isSelected
-                    ? (cardId === 1 ? t('MySubscription.button2') : t('MySubscription.button1'))
-                    : t('MySubscription.button3')}
-                {/* {
+                >
+                    {/* {cardId == 1 ? `${t('MySubscription.button1')}` : `${t('MySubscription.button2')}`} */}
+                    {!isSelected
+                        ? (cardId === 1 ? t('MySubscription.button2') : t('MySubscription.button1'))
+                        : t('MySubscription.button3')}
+                    {/* {
                     !isSelected
                         ? (cardId === 1
                             ? (loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : t('MySubscription.button2'))
                             : t('MySubscription.button1'))
                         : t('MySubscription.button3')
                 } */}
-            </button>
-        </div>
+                </button>
+                            <ModalButton
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSelectCard={handleCardSelect}
+            />
+            </div>
     );
 };
 

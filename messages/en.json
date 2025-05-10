@@ -670,7 +670,7 @@
         "info": "Payment method",
         "desc": "Select and update your payment method.",
         "info2": "Billing history",
-        "desc2": "Review and download recent invoices",
+        "desc2": "Review and subscription history",
         "addTitle": "Create Payment Method",
         "editTitle": "Edit Payment Method",
         "addButton": "Create new Payment Method",
@@ -709,10 +709,11 @@
         },
         "table": {
             "title": "Recent invoices",
-            "column1": "Invoice",
+            "column1": "Subscription",
             "column2": "Amount",
-            "column3": "Date",
-            "column4": "Status"
+            "column3": "Start Date",
+            "column4": "End Date",
+            "column5": "Status"
         }
     },
     "COMMON": {
