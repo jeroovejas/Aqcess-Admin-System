@@ -59,8 +59,8 @@ const SendEmailModal: React.FC<any> = ({ email }) => {
 
                                 <MdVerifiedUser size={75} className="mb-6 " />
 
-                                <h3 className="text-xl font-semibold mt-8">verify Email</h3>
-                                <p className="font-[500] mt-2 mb-6">Click to send verify email link</p>
+                                <h3 className="text-xl font-semibold mt-8">Verify Email</h3>
+                                <p className="font-[500] mt-2 mb-6">Click to send email verification link</p>
 
 
                                 <button

@@ -63,7 +63,8 @@ const EditCommunication: React.FC = () => {
 
     console.log("formState===========");
     console.log(formState);
-    
+    console.log(surveyData);
+
     const fetchResidents = async () => {
         try {
             let params = { token: token, id: user.id }
@@ -413,13 +414,25 @@ const EditCommunication: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="w-full">
-                                        <div>
-                                            <label className="block uppercase text-black  tracking-wide text-[14px] font-bold mb-2" htmlFor="file">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <label
+                                                className="block uppercase text-black tracking-wide text-[14px] font-bold"
+                                                htmlFor="file"
+                                            >
                                                 Attachment
                                             </label>
-                                            {/* <Link href={survey.pdfUrl} download target="_blank" rel="noopener noreferrer">
-                                                <FaDownload />
-                                            </Link> */}
+
+                                            {surveyData.pdfUrl && (
+                                                <Link
+                                                    href={surveyData.pdfUrl}
+                                                    download
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-black hover:text-blue-800"
+                                                >
+                                                    <FaDownload className="text-xl mr-4" />
+                                                </Link>
+                                            )}
                                         </div>
                                         <div className="flex items-center justify-center w-full">
                                             <label
