@@ -346,7 +346,8 @@
             "column7": "Tipo",
             "option1": "Ver",
             "option2": "Actualizar estado",
-            "option3": "Descargar factura"
+            "option3": "Descargar factura",
+            "option4": "Descargar PDF"
         },
         "button1": "Exportar lista",
         "button2": "Agregar pago",

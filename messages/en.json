@@ -351,7 +351,8 @@
             "column7": "Type",
             "option1": "View",
             "option2": "Update status",
-            "option3": "Dowload invoice"
+            "option3": "Dowload invoice",
+            "option4": "Dowload PDF"
         },
         "button1": "Export list",
         "button2": "Add payment",

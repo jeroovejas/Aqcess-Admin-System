@@ -191,7 +191,7 @@ const SurveyTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
                         {survey.pdfUrl &&
                           <li className="px-8 py-2 font-semibold cursor-pointer hover:bg-[#f0efef]">
                             <Link href={survey.pdfUrl} download target="_blank" rel="noopener noreferrer">
-                              {t('PAYMENT.table.option3')}
+                              {t('PAYMENT.table.option4')}
                             </Link>
                           </li>}
                       </ul>

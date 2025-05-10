@@ -12,6 +12,8 @@ import { parseDefaultDate } from "@/lib/common.modules";
 import { useLocale, useTranslations } from 'next-intl';
 import Select from 'react-select';
 import { getAllResidentsArray } from "@/lib/api/resident";
+import { FaDownload } from "react-icons/fa";
+import { Link, useRouter } from '@/navigation';
 
 
 // Define types for survey form state
@@ -59,6 +61,9 @@ const EditCommunication: React.FC = () => {
     );
     const [residents, setResidents] = useState<any>([]);
 
+    console.log("formState===========");
+    console.log(formState);
+    
     const fetchResidents = async () => {
         try {
             let params = { token: token, id: user.id }
@@ -337,10 +342,10 @@ const EditCommunication: React.FC = () => {
 
                         <div className="flex flex-wrap">
                             <div className="w-full md:w-1/4 p-2">
-                                <div>
+                                {/* <div>
                                     <p className="text-black font-bold">{t('SURVEY.info')}</p>
                                     <p className="mt-2">{t('SURVEY.desc')}</p>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="w-full md:w-3/4 bg-white p-8 rounded-xl">
                                 <div>
@@ -389,7 +394,7 @@ const EditCommunication: React.FC = () => {
                                                     name="month"
                                                     value={residents.filter((option: any) =>
                                                         formState.residents.includes(option.value)
-                                                      )}
+                                                    )}
                                                     styles={{
                                                         control: (provided: any) => ({
                                                             ...provided,
@@ -408,9 +413,14 @@ const EditCommunication: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="w-full">
-                                        <label className="block uppercase text-black  tracking-wide text-[14px] font-bold mb-2" htmlFor="file">
-                                            Attachment
-                                        </label>
+                                        <div>
+                                            <label className="block uppercase text-black  tracking-wide text-[14px] font-bold mb-2" htmlFor="file">
+                                                Attachment
+                                            </label>
+                                            {/* <Link href={survey.pdfUrl} download target="_blank" rel="noopener noreferrer">
+                                                <FaDownload />
+                                            </Link> */}
+                                        </div>
                                         <div className="flex items-center justify-center w-full">
                                             <label
                                                 htmlFor="file"
