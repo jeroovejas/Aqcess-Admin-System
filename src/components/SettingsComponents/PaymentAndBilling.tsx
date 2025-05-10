@@ -257,7 +257,7 @@ const PaymentAndBilling: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className="flex flex-col md:flex-row mt-8">
                             <div className="w-full md:w-1/2 mb-4 md:mb-0">
                                 <h2 className="text-lg font-bold pt-2">{t('PAYMENTBILLING.info2')}</h2>
