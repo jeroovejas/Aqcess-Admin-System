@@ -4,8 +4,6 @@ import { useTranslations } from 'next-intl';
 
 const DashboardSurveys: React.FC<{ surveyData: any[] }> = ({ surveyData }) => {
   const t = useTranslations();
-  console.log("========================")
-  console.log(surveyData)
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">
@@ -43,7 +41,7 @@ const DashboardSurveys: React.FC<{ surveyData: any[] }> = ({ surveyData }) => {
                     {item.total_responded}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.response_rate}%
+                    {item.response_rate || 0}%
                   </td>
                   <td className={`px-6 py-4 whitespace-nowrap capitalize`}>
                     <div className={`px-6 py-2 rounded-full  ${item.survey_status == 'open' ? 'bg-green-500 w-fit text-white': 'bg-red text-white'}`}>

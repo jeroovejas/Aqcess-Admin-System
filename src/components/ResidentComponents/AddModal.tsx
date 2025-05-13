@@ -315,7 +315,7 @@ const AddModal: React.FC<any> = () => {
                                 <PhoneInput
                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-xl py-3 px-4 mb-3 leading-tight focus:outline-none focus:ring-0 focus:shadow-none focus:bg-white focus:border-none"
                                     international
-                                    defaultCountry="PK"  // You can set the default country
+                                    defaultCountry="MX"  // You can set the default country
                                     value={number}
                                     onChange={handleNumberChange}
                                     placeholder={t('RESIDENT.button3Modal.lable4')}

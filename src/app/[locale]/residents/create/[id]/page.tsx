@@ -165,7 +165,7 @@ const CreateResident = ({ params }: { params: { id: string } }) => {
                                     <div className="w-full relative">
                                         <PhoneInput
                                             international
-                                            defaultCountry="PK"
+                                            defaultCountry="MX"
                                             value={formState.phone_number}
                                             onChange={handlePhoneChange}
                                             placeholder={t("RESIDENT.button3Modal.lable4")}

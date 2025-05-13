@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, usePathname, useRouter } from '@/navigation';
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
@@ -39,6 +39,7 @@ interface SidebarProps {
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const t = useTranslations();
   const packageId = useAppSelector((state) => state.auth.packageId);
+  const [activePackage, setActivePackage] = useState(1)
 
   const menuGroups = [
     {
@@ -138,6 +139,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   ];
 
+  useEffect(() => {
+    setActivePackage(packageId);
+
+  }, [packageId]);
+
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.userData);
   const isTokenValid = useAppSelector((state) => state.auth.isTokenValid);
@@ -159,13 +165,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const getFilteredMenuItems = () => {
     if (user.role === 1) {
-      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable14')}`,`${t('SIDEBAR.lable12')}`].includes(item.label));
+      return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable14')}`, `${t('SIDEBAR.lable12')}`].includes(item.label));
       // return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable11')}`, `${t('SIDEBAR.lable12')}`, `${t('SIDEBAR.lable13')}`, `${t('SIDEBAR.lable14')}`].includes(item.label));
     } else if (user.role === 2) {
 
-      if (packageId == 1) {
+      if (activePackage == 1) {
         return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable1')}`, `${t('SIDEBAR.lable2')}`, `${t('SIDEBAR.lable4')}`, `${t('SIDEBAR.lable9')}`, `${t('SIDEBAR.lable18')}`].includes(item.label));
-      } else if (packageId == 2) {
+      } else if (activePackage != 1) {
         return menuGroups[0].menuItems.filter(item => [`${t('SIDEBAR.lable1')}`, `${t('SIDEBAR.lable2')}`, `${t('SIDEBAR.lable4')}`, `${t('SIDEBAR.lable3')}`, `${t('SIDEBAR.lable5')}`, `${t('SIDEBAR.lable8')}`, `${t('SIDEBAR.lable9')}`, `${t('SIDEBAR.lable18')}`].includes(item.label));
       } else {
         return [];
@@ -246,12 +252,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           </div>
           <div className="">
             <div className="relative">
-              {packageId == 1 && user.role == 2 && <Link
+              {activePackage == 1 && user.role == 2 && <Link
                 href="/my-subscriptions"
                 className={`group relative flex items-center gap-2.5 rounded-md px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out bg-blue-700 mx-3`}
               >
-              <BsStars className={``} />
-              {t('SIDEBAR.lable19')}
+                <BsStars className={``} />
+                {t('SIDEBAR.lable19')}
               </Link>}
 
               <Link

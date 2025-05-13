@@ -47,7 +47,8 @@
         "card1": "Pagos totales",
         "card2": "Tasa promedio de respuesta de comunicación",
         "card3": "Propiedades totales",
-        "card4": "Comunicación activas"
+        "card4": "Comunicación activas",
+        "chartTitle": "Pagos por mes"
     },
     "RESIDENT": {
         "title": "Gestión de residentes",
@@ -230,7 +231,12 @@
             "column2": "Comunicación abierta",
             "column3": "Fecha límite",
             "column4": "Respuestas",
-            "column5": "Estado"
+            "column5": "Estado",
+            "surveyTitle": "Título de la encuesta",
+            "status": "Estado",
+            "responded": "Respondida",
+            "assigned": "Asignado",
+            "responseRate": "Tasa de respuesta"
         },
         "info": "Detalles de la Comunicación",
         "desc": "Agrega el título y la descripción de la Comunicación. Serán visibles para todos los participantes.",
@@ -523,6 +529,8 @@
         "button3": "Cerrar",
         "table": {
             "title": "Toda la contabilidad",
+            "tab1": "Agregar pago",
+            "tab2": "Agregar gastos",
             "column1": "Transacción",
             "column2": "N.º de factura",
             "column3": "Residente",
@@ -669,7 +677,7 @@
         "desc2": "Historial de reseñas y suscripciones",
         "addTitle": "Crear Método de Pago",
         "editTitle": "Editar Método de Pago",
-        "addButton": "Crear nuevo Método de Pago",
+        "addButton": "Crear un nuevo método de pago",
         "editButton": "Editar",
         "deleteButton": "Eliminar",
         "title1": "Nombre en la tarjeta",
@@ -931,11 +939,16 @@
             "col3": "Plan de suscripción",
             "col4": "Fecha de inicio",
             "col5": "Fecha de finalización",
-             "view": "vista"
+            "view": "vista"
         },
         "viewModal": {
             "head": "Detalles de suscripción",
             "closeButton": "Cerca"
         }
+    },
+    "VERIFYLINK": {
+        "title": "Verificar correo electrónico",
+        "desc": "Haga clic para enviar el enlace de verificación por correo electrónico",
+        "button": "Enviar correo electrónico"
     }
 }

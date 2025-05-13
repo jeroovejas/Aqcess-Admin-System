@@ -13,6 +13,7 @@ import { Link, usePathname, useRouter } from '@/navigation';
 import Loader from "@/components/common/Loader";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useLocale, useTranslations } from 'next-intl';
+import { useSearchParams } from "next/navigation";
 
 interface SettingsFormState {
   first_name: string;
@@ -41,6 +42,10 @@ const Settings: React.FC = () => {
   const [verified, setVerified] = useState<boolean | null>(null);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const modal = searchParams.get('modal'); // will be "true" or null
+
+  const isModalOpen = modal === 'true';
 
   const [formState, setFormState] = useState<SettingsFormState>({
     first_name: '',
@@ -195,7 +200,11 @@ const Settings: React.FC = () => {
   console.log(user)
 
   useEffect(() => {
-    dispatch(resetState())
+    dispatch(resetState());
+
+    if (isModalOpen) {
+      dispatch(toggleBillingModal())
+    }
   }, [router])
 
   useEffect(() => {
@@ -207,9 +216,7 @@ const Settings: React.FC = () => {
       //   showErrorToast("Plz Login First");
       // }, 2000);
     }
-  }, [isTokenValid, router])
-
-
+  }, [isTokenValid, router]);
 
   if (billingModal) {
     return <PaymentAndBilling />
@@ -241,7 +248,6 @@ const Settings: React.FC = () => {
                   <div className="mt-1 text-lg font-bold">
                     <button onClick={() => {
                       dispatch(toggleBillingModal())
-
                     }
                     }>{t('USERPROFILE.tab2')}</button>
                   </div> : null}

@@ -93,10 +93,11 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   }
 
   const handlePaymentStatusChange = (payment: any) => {
-    dispatch(setPaymentData(payment))
-    dispatch(togglePaymentStatusModal())
+    if(payment.status != 'pending'){
+      dispatch(setPaymentData(payment))
+      dispatch(togglePaymentStatusModal())
+    }
   }
-
 
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
@@ -170,7 +171,7 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {payment.createdAt ? moment(payment.createdAt).format('DD-MM-YYYY HH:mm') : "N/A"}
                     </td>
-                    <td onClick={() => handlePaymentStatusChange(payment)} className="px-6 py-4  font-bold whitespace-nowrap">
+                    <td onClick={() => handlePaymentStatusChange(payment)} className="px-6 py-4 font-bold cursor-pointer whitespace-nowrap">
                       <span  className={` p-2 rounded-2xl ${payment.status == 'approved' ? 'text-meta-3 bg-[#ECFDED]' : payment.status == 'rejected' ? 'text-meta-1 bg-[#FEF3F2]' : 'bg-[#F2F4F7] text-[#344054]'}`}>
                         {payment.status ? toTitleCase(payment.status) : "N/A"}
                       </span>

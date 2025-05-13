@@ -565,7 +565,7 @@ const EditCommunication: React.FC = () => {
                                                         onChange={(e) => handleOptionChange(questionIndex, optionIndex, e)}
                                                         className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                         type="text"
-                                                        placeholder={t('SURVEY.lable6')}
+                                                        placeholder={t('SURVEY.button1Modal.lable6')}
                                                     // required
                                                     />
                                                     <button type="button" onClick={() => handleRemoveOption(questionIndex, optionIndex)} className="text-black  border  border-[#DDDDDD] font-medium rounded-lg text-[16px] px-4 py-2 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mb-2">

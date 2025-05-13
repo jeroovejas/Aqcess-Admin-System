@@ -47,7 +47,8 @@
         "card1": "Total Payments",
         "card2": "Average Communication Response Rate",
         "card3": "Total Properties",
-        "card4": "Active Communication"
+        "card4": "Active Communication",
+        "chartTitle": "Payments by Month"
     },
     "RESIDENT": {
         "title": "Resident manager",
@@ -528,6 +529,8 @@
         "button3": "Close",
         "table": {
             "title": "All Accounting",
+            "tab1": "Add Payment",
+            "tab2": "Add Expense",
             "column1": "Transaction",
             "column2": "Invoice No.",
             "column3": "Resident",
@@ -674,7 +677,7 @@
         "desc2": "Review and subscription history",
         "addTitle": "Create Payment Method",
         "editTitle": "Edit Payment Method",
-        "addButton": "Create new Payment Method",
+        "addButton": "Create new payment method",
         "editButton": "Edit",
         "deleteButton": "Delete",
         "title1": "Name on card",
@@ -942,5 +945,10 @@
             "head": "Subscription Details",
             "closeButton": "Close"
         }
+    },
+    "VERIFYLINK": {
+        "title": "Verify Email",
+        "desc": "Click to send email verification link",
+        "button": "Send Email"
     }
 }

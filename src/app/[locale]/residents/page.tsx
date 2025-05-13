@@ -74,7 +74,7 @@ const Residents = () => {
   };
 
   const handleCopy = () => {
-    const userId = user.id;
+    const userId = user.id; 
     const encryptedId = Buffer.from(String(userId)).toString('base64');
     const selectedLang = JSON.parse(localStorage.getItem("selectedLocale") || 'null');
     const inviteLink = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${selectedLang.code}/residents/create/${encryptedId}`

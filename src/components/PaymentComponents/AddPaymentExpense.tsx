@@ -307,7 +307,7 @@ const AddPaymentExpense: React.FC<any> = () => {
                                 }`}
                         >
                             <FaCircleDollarToSlot />
-                            Add Payment
+                            {t('ACCOUNTING.table.tab1')}
                         </button>
                         <button
                             onClick={() => setSelectedType('expense')}
@@ -315,7 +315,7 @@ const AddPaymentExpense: React.FC<any> = () => {
                                 }`}
                         >
                             <SiExpensify />
-                            Add Expense
+                            {t('ACCOUNTING.table.tab2')}
                         </button>
                     </div>
                     {selectedType === 'payment' ? (

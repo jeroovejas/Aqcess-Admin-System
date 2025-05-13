@@ -6,6 +6,7 @@ interface AuthState {
     isFilter: boolean;
     emailModal: boolean;
     packageId: number;
+    currentPackageId:number;
     subscriptionData: any;
 }
 // Define the initial state
@@ -16,6 +17,7 @@ const initialState: AuthState = {
     isFilter: false,
     emailModal: false,
     packageId: 1,
+    currentPackageId: 1,
     subscriptionData: {}
 };
 
@@ -28,6 +30,9 @@ export const authSlice = createSlice({
         },
         setPackageId: (state, action: PayloadAction<number>) => {
             state.packageId = action.payload;
+        },
+        setCurrentPackageId: (state, action: PayloadAction<number>) => {
+            state.currentPackageId = action.payload;
         },
         setSubscriptionData: (state, action: PayloadAction<any>) => {
             state.subscriptionData = { ...action.payload };
@@ -53,5 +58,5 @@ export const authSlice = createSlice({
 
     },
 });
-export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid, toggleIsFilter, toggleEmailModal, setPackageId, setSubscriptionData } = authSlice.actions;
+export const { setToken, clearToken, setUserData, clearUser, toggleIsTokenValid,setCurrentPackageId, toggleIsFilter, toggleEmailModal, setPackageId, setSubscriptionData } = authSlice.actions;
 export default authSlice.reducer;

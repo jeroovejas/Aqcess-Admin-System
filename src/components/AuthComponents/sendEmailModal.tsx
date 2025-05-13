@@ -5,8 +5,13 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { sendEmail } from "@/lib/api/auth";
+import { useLocale, useTranslations } from 'next-intl';
 import { MdVerifiedUser } from "react-icons/md";
+import { HiOutlineMail } from "react-icons/hi";
+
 const SendEmailModal: React.FC<any> = ({ email }) => {
+    const t = useTranslations();
+
     const emailModal = useAppSelector((state) => state.auth.emailModal)
     const modalRef = useRef<HTMLDivElement>(null);
     const dispatch = useAppDispatch()
@@ -59,18 +64,24 @@ const SendEmailModal: React.FC<any> = ({ email }) => {
 
                                 <MdVerifiedUser size={75} className="mb-6 " />
 
-                                <h3 className="text-xl font-semibold mt-8">Verify Email</h3>
-                                <p className="font-[500] mt-2 mb-6">Click to send email verification link</p>
+                                <h3 className="text-xl font-semibold mt-8">{t('VERIFYLINK.title')}</h3>
+                                <p className="font-[500] mt-2 mb-6">{t('VERIFYLINK.desc')}</p>
 
 
                                 <button
-                                    className="text-white w-full flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-semibold  text-base px-6 py-3  outline-none  mr-1 mb-1"
+                                    className="text-white w-full flex items-center justify-center cursor-pointer rounded-lg bg-primary-blue font-semibold text-base px-6 py-3 outline-none mr-1 mb-1"
                                     type="button"
                                     disabled={loading}
                                     onClick={handleSendEmail}
                                 >
-                                    {loading ? <AiOutlineLoading3Quarters className="animate-spin mr-2" /> : "Send Email"}
-
+                                    {loading ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin mr-2" />
+                                    ) : (
+                                        <>
+                                            <HiOutlineMail className="text-xl mr-2" />
+                                            {t("VERIFYLINK.button")}
+                                        </>
+                                    )}
                                 </button>
                             </div>
                         </div>

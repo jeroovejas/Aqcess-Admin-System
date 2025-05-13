@@ -122,6 +122,7 @@ import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js"
 import { useState, useEffect } from "react"
 import { toggleAddMethodModal, toggleIsUpdated } from "@/store/Slices/SettingSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { showErrorToast, showSuccessToast } from "@/lib/toastUtil";
 
 
 export default function SaveCardForm() {
@@ -144,10 +145,10 @@ export default function SaveCardForm() {
     })
 
     if (result?.error) {
-      alert(result.error.message)
+      showErrorToast(result.error.message as string)
     } else {
       dispatch(toggleAddMethodModal())
-      alert("Card saved successfully")
+      showSuccessToast("Card saved successfully");
     }
 
     setLoading(false)

@@ -21,6 +21,7 @@ import LanguageDropdown from "@/components/language/language";
 import { getPackageDetail } from "@/lib/api/package";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import StripeModal from "@/components/Stripe/checkoutForm";
+import { Ellipsis } from "lucide-react";
 
 
 interface signUpFormState {
@@ -58,7 +59,8 @@ const Register: React.FC = () => {
   const searchParams = useSearchParams();
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const premiumPackageId = searchParams.get('id');
   const [formState, setFormState] = useState<signUpFormState>({
     first_name: '',
     last_name: '',
@@ -177,15 +179,28 @@ const Register: React.FC = () => {
         const emailResponse = await sendEmail({ email: formState.email });
         if (emailResponse.success) {
           dispatch(setUserData(response.data.data));
-          if (formState.package_id === 2) {
-            const res = await fetch(`/${locale}/api/create-subscription`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email: formState.email }),
-            });
 
-            const data = await res.json();
-            window.location.href = data.url;
+          if (premiumPackageId) {
+            console.log("Premium Package Id not found");
+
+            const base64Id = decodeURIComponent(premiumPackageId);
+            const packageId = Buffer.from(base64Id, 'base64').toString('utf-8');
+            console.log("Decode The packageId");
+            console.log(packageId);
+            
+            if (parseInt(packageId) != 1) {
+            console.log("Invalid Package Id");
+
+              const res = await fetch(`/${locale}/api/create-subscription`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: formState.email }),
+              });
+              const data = await res.json();
+              window.location.href = data.url;
+            } else {
+              router.push('/auth/verify-email');
+            }
           } else {
             router.push('/auth/verify-email');
           }
