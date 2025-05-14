@@ -181,20 +181,14 @@ const Register: React.FC = () => {
           dispatch(setUserData(response.data.data));
 
           if (premiumPackageId) {
-            console.log("Premium Package Id not found");
-
             const base64Id = decodeURIComponent(premiumPackageId);
             const packageId = Buffer.from(base64Id, 'base64').toString('utf-8');
-            console.log("Decode The packageId");
-            console.log(packageId);
-            
+            const customerId = response.data.data.subscription.customerId;
             if (parseInt(packageId) != 1) {
-            console.log("Invalid Package Id");
-
               const res = await fetch(`/${locale}/api/create-subscription`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: formState.email }),
+                body: JSON.stringify({ email: formState.email, customerId: customerId }),
               });
               const data = await res.json();
               window.location.href = data.url;

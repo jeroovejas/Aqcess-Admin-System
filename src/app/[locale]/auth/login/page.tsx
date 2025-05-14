@@ -80,7 +80,10 @@ const Login: React.FC = () => {
         if (response.data.data.subscription) {
           const subscriptionData = {
             userId: response.data.data.subscription?.userId,
+            subscriptionId: response.data.data.subscription?.stripeSubscription,
+            autoPayment: response.data.data.subscription?.autoPayment,
             packageId: response.data.data.subscription?.packageId,
+            status: response.data.data.subscription?.status,
             startDate: response.data.data.subscription?.startDate,
             endDate: response.data.data.subscription?.endDate,
           }

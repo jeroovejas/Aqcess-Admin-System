@@ -148,6 +148,7 @@ export default function SaveCardForm() {
       showErrorToast(result.error.message as string)
     } else {
       dispatch(toggleAddMethodModal())
+      dispatch(toggleIsUpdated())
       showSuccessToast("Card saved successfully");
     }
 

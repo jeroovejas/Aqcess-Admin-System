@@ -15,6 +15,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import SaveCardForm from "@/components/Stripe/checkoutForm"
+import { FaCheck } from "react-icons/fa6";
 import { getUserSubscriptions } from "@/lib/api/subscription";
 import moment from "moment";
 
@@ -29,11 +30,9 @@ const PaymentAndBilling: React.FC = () => {
     const editMethod = useAppSelector((state) => state.setting.editMethod)
     const isUpdated = useAppSelector((state) => state.setting.isUpdated)
     const token = useAppSelector((state) => state.auth.token);
-    const [paymentData, setPaymentData] = useState<any[]>([]);
     const [cards, setCards] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [clientSecret, setClientSecret] = useState("")
-    const [showPaymentElement, setShowPaymentElement] = useState(false)
     const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
     const [subscriptions, setSubscriptions] = useState<any[]>([]);
 
@@ -138,7 +137,7 @@ const PaymentAndBilling: React.FC = () => {
             fetchCards()
         }
         fetchSubscriptions()
-    }, [customerId])
+    }, [customerId, isUpdated])
 
 
     const handleAddMethod = () => {
@@ -230,8 +229,13 @@ const PaymentAndBilling: React.FC = () => {
                                                         key={card.id}
                                                         onClick={() => handleCardSelect(card.id)}
                                                         className={`p-3 rounded-lg border cursor-pointer transition ${isSelected ? "border-blue-600 bg-blue-50" : "border-gray-300 bg-white"}`}>
-                                                        <div className="text-lg text-gray-800 font-medium">
-                                                            **** **** **** {card.card.last4}
+                                                        <div className="flex justify-between items-center">
+                                                            <div className="text-lg text-gray-800 font-medium">
+                                                                **** **** **** {card.card.last4}
+                                                            </div>
+                                                            <div className={`flex z-99 items-center justify-center w-8 h-8 rounded-full ${isSelected ? "bg-green-500" : "bg-slate-300"}`}>
+                                                                <FaCheck className={`text-white ${isSelected ? "text-green-600" : "text-blue-600"}`} />
+                                                            </div>
                                                         </div>
                                                         <div className="flex justify-start items-center text-md text-gray-500">
                                                             {

@@ -11,13 +11,17 @@ const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!, {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { email } = body;
-    const customer = await stripe.customers.create({ email });
+    const { email, customerId } = body;
+    let customer: any;
+
+    if (!customerId) {
+      customer = await stripe.customers.create({ email });
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
-      customer: customer.id,
+      customer: customerId ? customerId : customer.id,
       line_items: [
         {
           price: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!,

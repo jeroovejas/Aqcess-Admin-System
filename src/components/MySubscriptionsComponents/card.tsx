@@ -9,7 +9,7 @@ import {
   upGradeSubscription,
 } from "@/lib/api/subscription";
 import { showSuccessToast, showErrorToast } from "@/lib/toastUtil";
-import { setCurrentPackageId, setPackageId } from "@/store/Slices/AuthSlice";
+import { setCurrentPackageId, setPackageId, setSubscriptionData } from "@/store/Slices/AuthSlice";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import ModalButton from "../Subscription/ModalButton";
 
@@ -74,6 +74,16 @@ const PricingCard = ({
 
       if (response.success) {
         if (response.data.data.subscription) {
+          const subscriptionData = {
+            userId: response.data.data.subscription?.userId,
+            subscriptionId: response.data.data.subscription?.stripeSubscription,
+            autoPayment: response.data.data.subscription?.autoPayment,
+            packageId: response.data.data.subscription?.packageId,
+            status: response.data.data.subscription?.status,
+            startDate: response.data.data.subscription?.startDate,
+            endDate: response.data.data.subscription?.endDate,
+          }
+          dispatch(setSubscriptionData(subscriptionData))
           dispatch(setPackageId(response.data.data.subscription.package_id));
         }
         showSuccessToast(response.data.message);
@@ -95,6 +105,16 @@ const PricingCard = ({
 
       if (response.success) {
         if (response.data.data.subscription) {
+          const subscriptionData = {
+            userId: response.data.data.subscription?.userId,
+            subscriptionId: response.data.data.subscription?.stripeSubscription,
+            autoPayment: response.data.data.subscription?.autoPayment,
+            packageId: response.data.data.subscription?.packageId,
+            status: response.data.data.subscription?.status,
+            startDate: response.data.data.subscription?.startDate,
+            endDate: response.data.data.subscription?.endDate,
+          }
+          dispatch(setSubscriptionData(subscriptionData))
           dispatch(setPackageId(response.data.data.subscription.package_id));
         }
         showSuccessToast(response.data.message);
@@ -115,9 +135,9 @@ const PricingCard = ({
 
       if (response.success) {
         if (response.data.data) {
-            console.log("Current Id =========== > ");
-            console.log(response.data.data.currentPackage.package_id);
-            
+          console.log("Current Id =========== > ");
+          console.log(response.data.data.currentPackage.package_id);
+
           dispatch(
             setCurrentPackageId(response.data.data.currentPackage.package_id)
           );
@@ -133,39 +153,35 @@ const PricingCard = ({
 
   useEffect(() => {
     fetchActiveSubscription();
-  },[packageId]);
+  }, [packageId]);
 
   return (
     <div
-      className={`rounded-xl p-6 w-full md:w-[48%] xl:w-1/3 flex flex-col justify-between ${
-        isSelected
+      className={`rounded-xl p-6 w-full md:w-[48%] xl:w-1/3 flex flex-col justify-between ${isSelected
           ? "bg-black text-white border border-black"
           : "bg-white text-black"
-      }`}
+        }`}
     >
       <div>
         <div className="text-left">
           <div
-            className={`rounded-full px-4 py-1 text-sm font-medium self-start mb-4 inline-block ${
-              isSelected
+            className={`rounded-full px-4 py-1 text-sm font-medium self-start mb-4 inline-block ${isSelected
                 ? "bg-white text-black border border-white"
                 : "bg-white text-black border border-black"
-            }`}
+              }`}
           >
             {title}
           </div>
           <h3
-            className={`text-3xl font-bold mb-1 ${
-              isSelected ? "text-white" : "text-black"
-            }`}
+            className={`text-3xl font-bold mb-1 ${isSelected ? "text-white" : "text-black"
+              }`}
           >
             {price}
             <span className="text-lg font-bold">/mes</span>
           </h3>
           <p
-            className={`text-sm mb-2 ${
-              isSelected ? "text-white" : "text-black"
-            }`}
+            className={`text-sm mb-2 ${isSelected ? "text-white" : "text-black"
+              }`}
           >
             {subtitle}
           </p>
@@ -175,9 +191,8 @@ const PricingCard = ({
           {features.map((feature, index) => (
             <div key={index} className="flex items-center gap-2">
               <div
-                className={`rounded-full border p-0.5 flex-shrink-0 ${
-                  isSelected ? "border-white" : "border-black"
-                }`}
+                className={`rounded-full border p-0.5 flex-shrink-0 ${isSelected ? "border-white" : "border-black"
+                  }`}
               >
                 <Check
                   className={isSelected ? "text-white" : "text-black"}
@@ -196,11 +211,10 @@ const PricingCard = ({
       <button
         onClick={() => (cardId == 2 ? setIsModalOpen(true) : handleCardSelect(null))}
         disabled={isSelected || loading}
-        className={`w-full rounded-full py-3 px-6 text-center font-medium mt-8 block ${
-          isSelected
+        className={`w-full rounded-full py-3 px-6 text-center font-medium mt-8 block ${isSelected
             ? "bg-white text-black opacity-50 cursor-not-allowed"
             : "bg-black text-white"
-        }`}
+          }`}
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">
