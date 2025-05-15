@@ -13,8 +13,6 @@ const VerifyEmail: React.FC = () => {
   const user = useAppSelector((state) => state.auth.userData);
   const [redirect, setRedirect] = useState(false);
 
-
-  console.log("userData", user)
   const handleRedirect = () => {
     setRedirect(true)
     router.push('/auth/login')

@@ -47,8 +47,6 @@ const PaymentStatusModal: React.FC<any> = () => {
 
     };
 
-
-    console.log("status", status)
     return (
         <>
             {paymentStatusModal ? (

@@ -14,20 +14,20 @@
         "firstName": "Nombre",
         "lastName": "Apellido",
         "email": "Tu correo electrónico",
-        "communityName": "Ingrese el nombre de la comunidad",
+        "communityName": "Ingresa elnombre delresidencial ocondominio.",
         "label5": "Haga clic para cargar el logotipo de la comunidad",
         "password": "Tu contraseña",
         "confirmPassword": "Confirmar contraseña",
         "check": "Acepto los Términos y condiciones",
-        "title1": "Únete a nuestra comunidad",
+        "title1": "Bienvenido a Aqcess – Tu App Inteligente para la Gestión de Comunidades",
         "title2": "Aplicación de gestión",
-        "title3": "¡Simplifica la gestión de pagos y mantente conectado con tus residentes!",
-        "title4": "Gestión de pagos sin esfuerzo",
-        "title5": "Administra tarifas y rastrea pagos en un solo lugar",
-        "title6": "Mantente conectado",
-        "title7": "Envía notificaciones importantes y recibe mensajes de los residentes",
-        "title8": "Recoge opiniones de los residentes",
-        "title9": "Crea comunicación y recibe valiosos comentarios para mejorar la vida comunitaria"
+        "title3": "Simplifica la vida residencial con control de acceso y gestión de amenidades en un solo lugar.",
+        "title4": "Gestión de Pagos sin Complicaciones",
+        "title5": "Administra cuotas y lleva el control de los pagos de manera fácil y centralizada.",
+        "title6": "Accesos Inteligentes con Códigos QR",
+        "title7": "Genera y gestiona códigos QR seguros para visitantes y  residentes—sin confusiones en la entrada.",
+        "title8": "Reserva de Áreas Comunes",
+        "title9": "Permite que los residentes reserven amenidades compartidas como gimnasios, salones o espacios para eventos de forma rápida y sencilla."
     },
     "FORGOT": {
         "title": "Restablecer contraseña",
@@ -47,13 +47,13 @@
         "card1": "Pagos totales",
         "card2": "Tasa promedio de respuesta de comunicación",
         "card3": "Propiedades totales",
-        "card4": "Comunicación activas",
+        "card4": "Comunicaciones activas",
         "chartTitle": "Pagos por mes"
     },
     "RESIDENT": {
         "title": "Gestión de residentes",
         "card1": "Propiedades totales",
-        "card2": "Propiedades activos",
+        "card2": "Propiedades activas",
         "card3": "Residentes con pagos vencidos",
         "table": {
             "title": "Tus residentes",
@@ -221,18 +221,18 @@
         "search": "Buscar guardia de seguridad por nombre o ID"
     },
     "SURVEY": {
-        "title": "Administrador de Comunicación",
-        "card1": "Total de Comunicación",
-        "card2": "Comunicación abiertas",
+        "title": "Comunicación",
+        "card1": "Total de comunicados",
+        "card2": "Aperturas",
         "card3": "Tasa de respuesta promedio",
         "table": {
-            "title": "Tus Comunicacións",
-            "column1": "Nombre de la Comunicación",
-            "column2": "Comunicación abierta",
+            "title": "Comunicados",
+            "column1": "Título",
+            "column2": "Aperturas",
             "column3": "Fecha límite",
             "column4": "Respuestas",
             "column5": "Estado",
-            "surveyTitle": "Título de la encuesta",
+            "surveyTitle": "Título",
             "status": "Estado",
             "responded": "Respondida",
             "assigned": "Asignado",
@@ -259,6 +259,8 @@
             "lable5": "Seleccionar tipo de pregunta",
             "title6": "Opción",
             "lable6": "Ingresar opción",
+            "title7": "Seleccionar Residentes",
+            "title8": "Archivos Adjuntos",
             "addButton": "Agregar opción",
             "addButton2": "Agregar pregunta",
             "deleteButton": "Eliminar pregunta",
@@ -448,6 +450,8 @@
             "button2": "Sí"
         },
         "filterButton": "Filtrar",
+        "typeMonthly": "Mantenimiento",
+        "typeOpen": "Pago único",
         "search": "Buscar producto"
     },
     "EXPENSE": {
@@ -488,9 +492,9 @@
     },
     "PAYMENTTRACKER": {
         "title": "Seguimiento de Pagos",
-        "card1": "Monto Esperado a la Fecha",
-        "card2": "Total Pagado a la Fecha",
-        "card3": "Atrasado a la Fecha",
+        "card1": "Importe Previsto",
+        "card2": "Pagos realizados",
+        "card3": "Monto vencido",
         "card4": "Tasa de Cobro",
         "tab1": "Este Mes",
         "tab2": "Año Hasta la Fecha",
@@ -520,15 +524,15 @@
     },
     "ACCOUNTING": {
         "title": "Finanzas",
-        "card1": "Pagos de facturas totales",
-        "card2": "Monto total de gastos",
+        "card1": "Total de Ingresos",
+        "card2": "Total de Egresos",
         "card3": "Balance",
         "search": "Buscar contabilidad",
         "button1": "Exportar lista",
         "button2": "Filtrar",
         "button3": "Cerrar",
         "table": {
-            "title": "Toda la contabilidad",
+            "title": "Movimientos",
             "tab1": "Agregar pago",
             "tab2": "Agregar gastos",
             "column1": "Transacción",
@@ -578,7 +582,7 @@
         "card3": "Reservado para el próximo día",
         "card4": "Reservado para los próximos 7 días",
         "table": {
-            "title": "Tus Áreas Comunes",
+            "title": "Amenidades",
             "column1": "Nombre del Área",
             "column2": "Fecha y Hora",
             "column3": "Ocupación",
@@ -752,8 +756,8 @@
         "lable4": "Guardia de Seguridad",
         "lable5": "Finanzas",
         "lable6": "Ingresos",
-        "lable7": "Elementos de Facturación",
-        "lable8": "Áreas Comunes",
+        "lable7": "Conceptos",
+        "lable8": "Amenidades",
         "lable9": "Historial de Acceso",
         "lable10": "Configuraciones",
         "lable11": "Gestión de Usuarios",
@@ -762,7 +766,7 @@
         "lable14": "Lugares",
         "lable15": "Gastos",
         "lable16": "Contabilidad",
-        "lable17": "Rastreadora",
+        "lable17": "Control",
         "lable18": "Mis suscripciones",
         "lable19": "Conviértete en Premium"
     },
@@ -905,7 +909,7 @@
             "feature7": "Usuarios ilimitados"
         },
         "card2": {
-            "head": "DE PRIMERA CALIDAD",
+            "head": "PREMIUM",
             "subHead": "Gestión total",
             "feature1": "App Móvil para Caseta de vigilancia",
             "feature2": "App Móvil para Residentes",
@@ -921,8 +925,8 @@
             "feature12": "Usuarios ilimitados",
             "feature13": "Soporte técnico"
         },
-        "button1": "Mejora",
-        "button2": "Degradar",
+        "button1": "Mejorar Plan",
+        "button2": "Reducir Plan",
         "button3": "Suscrita"
     },
     "Subscription": {

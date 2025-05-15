@@ -105,12 +105,12 @@ const CommonAreas = () => {
 
                             <CardDataStats title={t('AREA.card1')} total={`${areaDetails.totalActiveBookings}`} rate="">
                             </CardDataStats>
-                            <CardDataStats title={t('AREA.card2')} total={`${areaDetails.uniqueBookers}`} rate="">
+                            {/* <CardDataStats title={t('AREA.card2')} total={`${areaDetails.uniqueBookers}`} rate="">
                             </CardDataStats>
                             <CardDataStats title={t('AREA.card3')} total={`${areaDetails.percentageBookedForNextDay}%`} rate="">
                             </CardDataStats>
                             <CardDataStats title={t('AREA.card4')} total={`${areaDetails.percentageBookedForNext7Days}%`} rate="">
-                            </CardDataStats>
+                            </CardDataStats> */}
 
                         </div>
                         <div className="mb-4 flex flex-wrap justify-between">

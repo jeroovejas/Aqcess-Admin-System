@@ -39,8 +39,6 @@ const AccountingManager = () => {
     const dispatch = useAppDispatch();
 
     const handleFiltersSubmit = (newFilters: any) => {
-        console.log("Here is Filter Data");
-        console.log(newFilters);
         setFilterTerm(newFilters)
     };
 

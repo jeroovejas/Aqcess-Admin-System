@@ -259,6 +259,8 @@
             "lable5": "Select question type",
             "title6": "Option",
             "lable6": "Enter option",
+            "title7": "Select Residents",
+            "title8": "Attachment",
             "addButton": "Add Option",
             "addButton2": "Add Question",
             "deleteButton": "Delete Question",
@@ -448,6 +450,8 @@
             "button2": "Yes"
         },
         "filterButton": "Filter",
+        "typeMonthly": "Monthly",
+        "typeOpen": "Open Market",
         "search": "Search for product"
     },
     "EXPENSE": {
@@ -667,7 +671,7 @@
         "button3": "Update Password",
         "button4": "Update IBAN"
     },
-    "PAYMENTBILLING": {
+    "PAYMENTBILLING": { 
         "title": "Setting",
         "tab1": "User Profile",
         "tab2": "Payment And Billing",

@@ -33,7 +33,6 @@
 //   //     }
 
 //   //     const data = await res.json()
-//   //     console.log("Fetched cards:", data)
 //   //     setCards(data.cards || [])
 //   //   } catch (error: any) {
 //   //     console.error("fetchCards error:", error.message)

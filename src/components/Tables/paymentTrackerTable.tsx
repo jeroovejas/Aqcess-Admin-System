@@ -101,8 +101,6 @@ const PaymentTrackerTable: React.FC<any> = ({ filterTerm, searchTerm, selectedMo
 
   /** 📌 Extract Unique Months */
   const uniqueMonths = Array.from(new Set(payments.map((p) => p.month)));
-  console.log(payments);
-  // console.log(uniqueMonths);
 
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">

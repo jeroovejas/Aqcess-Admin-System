@@ -179,7 +179,6 @@ const AddPlace: React.FC = () => {
                 return rest;
             })));
             formData.append('token', token);
-            // console.log(formData);
             const response = await createPlace(formData);
             if (response.success) {
                 dispatch(toggleAddModal());

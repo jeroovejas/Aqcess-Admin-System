@@ -82,7 +82,6 @@ const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
 
       // Check the success property to determine if the request was successful
       if (response.success) {
-        console.log(response.data.data)
         setPayments(response.data.data.allPayments);
         setTotalPages(response.data.data.pagination.totalPages)
         dispatch(setPaymentDetails({
@@ -98,7 +97,6 @@ const PaymentTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
     }
   }
 
-  console.log("payments", payments)
   return (
     <div className="rounded-xl text-[14px] border border-stroke bg-white pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:pb-1">
       <h4 className="mb-6 pl-6 text-xl font-semibold text-black dark:text-white">

@@ -57,8 +57,6 @@ const ViewCommunication: React.FC<any> = () => {
         }
     }
 
-    // console.log("survey",survey)
-    // console.log("surveyData",surveyData)
     return (
         <>
             {viewModal ? (

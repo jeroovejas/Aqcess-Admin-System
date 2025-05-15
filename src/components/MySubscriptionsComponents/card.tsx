@@ -85,6 +85,7 @@ const PricingCard = ({
           }
           dispatch(setSubscriptionData(subscriptionData))
           dispatch(setPackageId(response.data.data.subscription.package_id));
+          fetchActiveSubscription();
         }
         showSuccessToast(response.data.message);
       } else {
@@ -116,6 +117,7 @@ const PricingCard = ({
           }
           dispatch(setSubscriptionData(subscriptionData))
           dispatch(setPackageId(response.data.data.subscription.package_id));
+          fetchActiveSubscription();
         }
         showSuccessToast(response.data.message);
       } else {
@@ -135,9 +137,16 @@ const PricingCard = ({
 
       if (response.success) {
         if (response.data.data) {
-          console.log("Current Id =========== > ");
-          console.log(response.data.data.currentPackage.package_id);
-
+            const subscriptionData = {
+            userId: response.data.data.activePackage?.user_id,
+            subscriptionId: response.data.data.activePackage?.stripe_subscription,
+            autoPayment: response.data.data.activePackage?.auto_payment,
+            packageId: response.data.data.activePackage?.package_id,
+            status: response.data.data.activePackage?.status,
+            startDate: response.data.data.activePackage?.start_date,
+            endDate: response.data.data.activePackage?.end_date,
+          }
+          dispatch(setSubscriptionData(subscriptionData))
           dispatch(
             setCurrentPackageId(response.data.data.currentPackage.package_id)
           );

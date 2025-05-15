@@ -70,7 +70,7 @@ const Subscriptions = () => {
                             <PricingCard
                                 cardId={2}
                                 title={t('MySubscription.card2.head')}
-                                price={'$10'}
+                                price={'$3500'}
                                 subtitle={t('MySubscription.card2.subHead')}
                                 features={[
                                     'MySubscription.card1.feature1',

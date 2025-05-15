@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ message: "Payment method update successfully" });
+    return NextResponse.json({ status:true, message: "Payment method update successfully" });
   } catch (error: any) {
     console.error(error);
     return NextResponse.json({ error: error.message }, { status: 500 });

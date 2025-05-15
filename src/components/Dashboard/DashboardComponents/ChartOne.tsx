@@ -223,7 +223,7 @@ const ChartOne: React.FC<{ token: string }> = ({ token }) => {
     dataLabels: { enabled: false },
     stroke: { show: true, width: 2, colors: ["transparent"] },
     xaxis: { categories: months },
-    yaxis: { title: { text: "USD ($)" } },
+    yaxis: { title: { text: "MXN" } },
     fill: { opacity: 1 },
     legend: { position: "top", horizontalAlign: "center" },
     responsive: [{ breakpoint: 1024, options: { chart: { height: 300 }, legend: { position: "bottom" } } }],

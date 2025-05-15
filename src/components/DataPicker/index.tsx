@@ -62,14 +62,12 @@ export const DateRangePickerElement: React.FC<any> = ({ setToDate, setFromDate }
 
     // React.useEffect(() => {
     //     if (dateRange) {
-    //         console.log("Dates", dateRange)
     //         const fromDate: any = dateRange.from?.toLocaleDateString()
     //         const toDate: any = dateRange.to?.toLocaleDateString()
     //         const [fromDay, fromMonth, fromYear] = fromDate.split('/');
     //         const [toDay, toMonth, toYear] = toDate.split('/');
     //         const formattedFromDate = `${fromYear}-${fromMonth.padStart(2, '0')}-${fromDay.padStart(2, '0')}`;
     //         const formattedToDate = `${toYear}-${toMonth.padStart(2, '0')}-${toDay.padStart(2, '0')}`;
-    //         // console.log("changed", formattedDate)
     //         // setFromDate(fromDate?.replace(/\//g, '-'))
     //         setFromDate(formattedFromDate)
     //         setToDate(formattedToDate)

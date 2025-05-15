@@ -45,8 +45,6 @@ const PaymentTracker = () => {
   const router = useRouter();
 
   const handleFiltersSubmit = (newFilters: any) => {
-    console.log("Here is Tracker Filter Data");
-    console.log(newFilters);
     setFilterTerm(newFilters)
     setFilters(newFilters);
   };
@@ -103,8 +101,6 @@ const PaymentTracker = () => {
   if (verified === null) {
     return <Loader />
   }
-
-  console.log("selected",selected)
 
   return (
     <>

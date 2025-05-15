@@ -168,7 +168,6 @@ const AddArea: React.FC = () => {
             })));
             formData.append('token', token);
             const response = await createCommonArea(formData);
-            console.log(response)
             if (response.success) {
                 dispatch(toggleAddModal());
                 dispatch(toggleIsUpdated());

@@ -40,8 +40,6 @@ const ECommerce: React.FC = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      console.log(token);
-
       const response = await verifyToken({ token: token });
       if (response.success) {
         if (response.data.data.role === 3) {
@@ -99,7 +97,6 @@ const ECommerce: React.FC = () => {
         fromDate: fromDate
       }
       const response = await getDashboardData(params);
-      console.log(response)
 
       // Check the success property to determine if the request was successful
       if (response.success) {
@@ -120,8 +117,6 @@ const ECommerce: React.FC = () => {
     return <Loader />
   }
 
-  // console.log("toDate",toDate)
-  // console.log("fromDate",fromDate)
   return (
     <>
       {(verified && !loading) ? (

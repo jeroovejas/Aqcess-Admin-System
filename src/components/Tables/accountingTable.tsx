@@ -76,7 +76,6 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
 
       // Check the success property to determine if the request was successful
       if (response.success) {
-        console.log(response.data.data)
         setAccounting(response.data.data.allAccounting);
         setTotalPages(response.data.data.pagination.totalPages)
         dispatch(setAccountingDetails({

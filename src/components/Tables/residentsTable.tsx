@@ -88,7 +88,6 @@ const ResidentTable: React.FC<any> = ({ searchTerm, filterTerm }) => {
 
       // Check the success property to determine if the request was successful
       if (response.success) {
-        console.log(response.data.data.allResidents)
         setResidents(response.data.data.allResidents);
         setTotalPages(response.data.data.pagination.totalPages)
         dispatch(setResidentDetails({

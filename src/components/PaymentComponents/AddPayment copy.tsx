@@ -69,7 +69,6 @@ const AddPayment: React.FC<any> = () => {
             // const productMonth = selectedProduct?.productDetails?.map((item:any)=> item.month);
             setProductMonths(selectedProduct?.productDetails);
             setProductYear(selectedProduct?.productDetails[0]?.year);
-            console.log(selectedProduct);
             setProductType(selectedProduct.type);
             setFormData(prevData => ({
                 ...prevData,
@@ -161,7 +160,6 @@ const AddPayment: React.FC<any> = () => {
             const response = await getAllResidentsArray(params);
             if (response.success) {
                 const data = response.data.data
-                console.log("residents Array", data)
                 const transformedData = data.map((item: any) => ({
                     label: `${item.name} - ${item.propertyNumber}`,
                     value: item.id

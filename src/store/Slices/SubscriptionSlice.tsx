@@ -13,6 +13,7 @@ interface ResidentState {
     viewModal: boolean,
     isUpdated: boolean,
     subscriptionData: any,
+    defaultCardId:any,
     subscriptionDetails: SubscriptionDetails;
 }
 
@@ -21,6 +22,7 @@ const initialState: ResidentState = {
     viewModal: false,
     isUpdated: false,
     subscriptionData: {},
+    defaultCardId: '',
     subscriptionDetails: {
         totalSubscriptions: 0,
         freeSubscriptions: 0,
@@ -43,6 +45,9 @@ export const subscriptionSlice = createSlice({
         setSubscriptionData: (state, action: PayloadAction<any>) => {
             state.subscriptionData = { ...action.payload };
         },
+        setDefaultCard: (state, action: PayloadAction<any>) => {
+            state.defaultCardId = { ...action.payload };
+        },
         setSubscriptionDetails: (state, action: PayloadAction<Partial<SubscriptionDetails>>) => {
             state.subscriptionDetails = { ...state.subscriptionDetails, ...action.payload };
         },
@@ -53,5 +58,5 @@ export const subscriptionSlice = createSlice({
     },
 })
 
-export const { setSubscriptionDetails, toggleViewModal, toggleIsUpdated, setSubscriptionData, resetState } = subscriptionSlice.actions
+export const { setSubscriptionDetails, toggleViewModal, toggleIsUpdated, setDefaultCard, setSubscriptionData, resetState } = subscriptionSlice.actions
 export default subscriptionSlice.reducer

@@ -76,7 +76,6 @@ const AssignModal: React.FC<any> = () => {
             let params = { token: token }
             const response = await getAllSocietyAdminsIdAndName(params);
             if (response.success) {
-                console.log(response);
                 setAdmins(response.data.data);
             } else {
                 showErrorToast(response.data.message)

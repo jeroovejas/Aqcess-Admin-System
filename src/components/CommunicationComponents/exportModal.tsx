@@ -25,7 +25,6 @@ const ExportModal: React.FC<any> = () => {
         try {
             let params = { token: token, id: surveyId }
             const response = await exportSurveyResponse(params);
-            console.log("response", response)
             if (response.success) {
                 const csvData = convertToCSV(response.data);
                 const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });

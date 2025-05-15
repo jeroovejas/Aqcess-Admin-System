@@ -8,12 +8,8 @@ const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!, {
 
 export async function POST(req: NextRequest) {
     try {
-        console.log("============");
-        
         const body = await req.json();
         const { amount } = body;
-        console.log(amount);
-
         const paymentIntent = await stripe.paymentIntents.create({
             amount,
             currency: 'usd',
@@ -22,8 +18,6 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ clientSecret: paymentIntent.client_secret });
     } catch (error: any) {
-        console.log(error);
-
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

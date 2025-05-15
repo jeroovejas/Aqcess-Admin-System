@@ -61,17 +61,12 @@ const EditCommunication: React.FC = () => {
     );
     const [residents, setResidents] = useState<any>([]);
 
-    console.log("formState===========");
-    console.log(formState);
-    console.log(surveyData);
-
     const fetchResidents = async () => {
         try {
             let params = { token: token, id: user.id }
             const response = await getAllResidentsArray(params);
             if (response.success) {
                 const data = response.data.data
-                console.log("residents Array", data)
                 const transformedData = data.map((item: any) => ({
                     label: item.name,
                     value: item.id
@@ -387,7 +382,7 @@ const EditCommunication: React.FC = () => {
                                         </div>
                                         <div className="w-1/2 mb-8">
                                             <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor='month'>
-                                                Select Residents
+                                                {t('SURVEY.button1Modal.title7')}
                                             </label>
                                             <div className="flex justify-between gap-x-4">
                                                 <Select
@@ -405,7 +400,7 @@ const EditCommunication: React.FC = () => {
                                                     }}
                                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black mb-3 leading-tight focus:outline-none focus:bg-white"
                                                     onChange={handleResidentChange} // Update state on selection change
-                                                    placeholder="Select residents"
+                                                    placeholder={`${t('SURVEY.button1Modal.title7')}`}
                                                     isMulti
                                                     isClearable
                                                 // required
@@ -419,7 +414,7 @@ const EditCommunication: React.FC = () => {
                                                 className="block uppercase text-black tracking-wide text-[14px] font-bold"
                                                 htmlFor="file"
                                             >
-                                                Attachment
+                                                {t('SURVEY.button1Modal.title8')}
                                             </label>
 
                                             {surveyData.pdfUrl && (

@@ -67,7 +67,6 @@ const ReOpenCommunication: React.FC<any> = () => {
         }
     }
 
-    console.log("surveyData", surveyData)
     return (
         <>
             {reOpenModal ? (

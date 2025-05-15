@@ -82,7 +82,6 @@ const AddCommunication: React.FC = () => {
             const response = await getAllResidentsArray(params);
             if (response.success) {
                 const data = response.data.data
-                console.log("residents Array", data)
                 const transformedData = data.map((item: any) => ({
                     label: item.name,
                     value: item.id
@@ -269,8 +268,6 @@ const AddCommunication: React.FC = () => {
     //         //     questions: JSON.stringify(formState.questions),
     //         //     token: token
     //         // };
-    //         console.log("Data Structure Is Here ============= > ");
-    //         console.log(body);
 
     //         const response = await createSurvey(body);
     //         if (response.success) {
@@ -309,9 +306,6 @@ const AddCommunication: React.FC = () => {
             // Append additional properties
             body.append('status', "open");
             body.append('token', token);
-    
-            console.log("Data Structure Is Here ============= > ");
-            console.log(body);
     
             const response = await createSurvey(body);
             if (response.success) {
@@ -456,7 +450,7 @@ const AddCommunication: React.FC = () => {
                                         </div>
                                         <div className="w-1/2 mb-8">
                                             <label className="block uppercase tracking-wide text-black text-[14px] font-[600] mb-2" htmlFor='month'>
-                                                Select Residents
+                                                {t('SURVEY.button1Modal.title7')}
                                             </label>
                                             <div className="flex justify-between gap-x-4">
                                                 <Select
@@ -472,7 +466,7 @@ const AddCommunication: React.FC = () => {
                                                     }}
                                                     className="appearance-none block w-full bg-gray-200 border border-[#DDDDDD] rounded-lg text-black mb-3 leading-tight focus:outline-none focus:bg-white"
                                                     onChange={handleResidentChange} // Update state on selection change
-                                                    placeholder="Select residents"
+                                                    placeholder={`${t('SURVEY.button1Modal.title7')}`}
                                                     isMulti
                                                     isClearable
                                                     // required
@@ -482,7 +476,7 @@ const AddCommunication: React.FC = () => {
                                     </div>
                                     <div className="w-full">
                                         <label className="block uppercase text-black  tracking-wide text-[14px] font-bold mb-2" htmlFor="file">
-                                            Attachment
+                                            {t('SURVEY.button1Modal.title8')}
                                         </label>
                                         <div className="flex items-center justify-center w-full">
                                             <label

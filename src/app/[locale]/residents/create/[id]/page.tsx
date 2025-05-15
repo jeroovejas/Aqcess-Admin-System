@@ -39,8 +39,6 @@ const CreateResident = ({ params }: { params: { id: string } }) => {
     const rawId = params.id as string; 
     const base64Id = decodeURIComponent(rawId); 
     const userId = Buffer.from(base64Id, 'base64').toString('utf-8');
-    console.log('Decoded ID:', userId);
-
 
     const [formState, setFormState] = useState<FormState>({
         first_name: "",

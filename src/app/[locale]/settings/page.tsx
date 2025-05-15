@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect, ChangeEvent, useRef } from "react";
-import { toggleBillingModal, resetState } from "@/store/Slices/SettingSlice";
+import { toggleBillingModal, resetState, toggleAddMethodModal } from "@/store/Slices/SettingSlice";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FiUser } from "react-icons/fi";
@@ -43,7 +43,7 @@ const Settings: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const modal = searchParams.get('modal'); // will be "true" or null
+  const modal = searchParams.get('modal');
 
   const isModalOpen = modal === 'true';
 
@@ -197,13 +197,11 @@ const Settings: React.FC = () => {
     }));
   }, [user])
 
-  console.log(user)
-
   useEffect(() => {
     dispatch(resetState());
 
     if (isModalOpen) {
-      dispatch(toggleBillingModal())
+      dispatch(toggleBillingModal());
     }
   }, [router])
 

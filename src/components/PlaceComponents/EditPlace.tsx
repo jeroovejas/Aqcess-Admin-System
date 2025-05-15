@@ -222,8 +222,6 @@ const EditPlace: React.FC = () => {
         }
     }, [placeData]);
     
-
-    // console.log(formState)
     return (
         <>
             {editModal ? (

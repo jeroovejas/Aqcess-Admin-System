@@ -76,7 +76,6 @@ const ViewDetails = () => {
             console.error('Unexpected error during area Fetch:', err.message);
         }
     }
-    // console.log(area)
     return (
         <>
             {loading ? (

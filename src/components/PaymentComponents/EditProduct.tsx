@@ -79,7 +79,6 @@ const EditProduct: React.FC<any> = () => {
         product_id: productData.id,
       }
       const response = await editProductData(body)
-      console.log(response)
       if (response.success) {
         dispatch(toggleEditProduct())
         dispatch(toggleIsUpdated())
@@ -106,7 +105,6 @@ const EditProduct: React.FC<any> = () => {
         token: token,
       }
       const response = await editProductData(body)
-      console.log(response)
       if (response.success) {
         dispatch(toggleEditProduct())
         dispatch(toggleIsUpdated())

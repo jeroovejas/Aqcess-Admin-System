@@ -1,29 +1,23 @@
 "use client"
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { toggleBillingModal, toggleAddMethodModal, toggleEditMethodModal, setCardData, toggleDeleteModal } from "@/store/Slices/SettingSlice";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { FaPlus } from "react-icons/fa6";
-import { MdOutlineFileDownload } from "react-icons/md";
 import AddMethodModal from "./AddMethodModal";
 import EditMethodModal from "./EditMethodModal";
 import DeleteModal from "./DeleteModal";
-import { getAllCards } from "@/lib/api/payment";
 import { showErrorToast } from "@/lib/toastUtil";
 import Loader from "../common/Loader";
-import { useLocale, useTranslations } from 'next-intl';
-import { Elements } from "@stripe/react-stripe-js"
-import { loadStripe } from "@stripe/stripe-js"
-import SaveCardForm from "@/components/Stripe/checkoutForm"
+import { useTranslations } from 'next-intl';
 import { FaCheck } from "react-icons/fa6";
+import Swal from 'sweetalert2'
 import { getUserSubscriptions } from "@/lib/api/subscription";
 import moment from "moment";
-
-const stripePromise = loadStripe("pk_test_51Lx8GyC2tGzLi2V6scY52DyDdyBQvZTyw24ZWtfr7UR41KTPJoIKe4eLvAPWB0otYKjQ92zGcMzMElEBtFQ4hfdZ00715aO4sq")
+import { useSearchParams } from "next/navigation";
 
 const PaymentAndBilling: React.FC = () => {
     const t = useTranslations();
-
     const billingModal = useAppSelector((state) => state.setting.billingModal)
     const deleteModal = useAppSelector((state) => state.setting.deleteModal)
     const addMethod = useAppSelector((state) => state.setting.addMethod)
@@ -34,25 +28,22 @@ const PaymentAndBilling: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [clientSecret, setClientSecret] = useState("")
     const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
+    const [defaultCardId, setDefaultCardId] = useState<string | null>(null)
     const [subscriptions, setSubscriptions] = useState<any[]>([]);
-
-    const user = useAppSelector((state) => state.auth.userData)
-    const customerId = user?.subscription?.customerId
-
     const dispatch = useAppDispatch()
+    const user = useAppSelector((state) => state.auth.userData)
+    const customerId = user?.subscription?.customerId;
+    const searchParams = useSearchParams();
+    const modal = searchParams.get('modal');
+    const isModalOpen = modal === 'true';
 
     const handleEdit = (card: any) => {
         window.scrollTo({
             top: 0,
-            behavior: 'smooth' // For a smooth scrolling effect
+            behavior: 'smooth'
         })
         dispatch(setCardData(card))
         dispatch(toggleEditMethodModal())
-    }
-
-    const handleDelete = (card: any) => {
-        dispatch(setCardData(card))
-        dispatch(toggleDeleteModal())
     }
 
     useEffect(() => {
@@ -63,7 +54,7 @@ const PaymentAndBilling: React.FC = () => {
     }, [isUpdated])
 
     useEffect(() => {
-        if (!customerId) return
+        if (!customerId) return;
 
         const fetchClientSecret = async () => {
             const res = await fetch("/en/api/create-setup-intent", {
@@ -73,25 +64,52 @@ const PaymentAndBilling: React.FC = () => {
             })
 
             const data = await res.json()
-            setClientSecret(data.clientSecret)
+            setClientSecret(data.clientSecret);
+            // if (isModalOpen) {
+            //     dispatch(toggleAddMethodModal())
+            // }
         }
 
         fetchClientSecret()
     }, [customerId])
 
-    const appearance = {
-        theme: "stripe" as const,
-    }
-
-    const options = {
-        clientSecret,
-        appearance,
-    }
-
     const handleCardSelect = (cardId: string) => {
         setSelectedCardId(cardId)
-    }
-
+        // Swal.fire({
+        //     title: "Are you sure?",
+        //     text: "You want to set this card for default payments!",
+        //     icon: "warning",
+        //     showCancelButton: true,
+        //     confirmButtonColor: "#3085d6",
+        //     cancelButtonColor: "#d33",
+        //     confirmButtonText: "Yes, update it!"
+        // }).then(async (result) => {
+        //     if (result.isConfirmed) {
+        //         try {
+        //             const res = await fetch("/en/api/update-payment-method", {
+        //                 method: "POST",
+        //                 headers: { "Content-Type": "application/json" },
+        //                 body: JSON.stringify({ customerId, newPaymentMethodId: cardId }),
+        //             });
+        //             if (!res.ok) {
+        //                 const errorData = await res.json();
+        //                 throw new Error(errorData.error || "Failed to update payment method");
+        //             }
+        //             setDefaultCardId(cardId);
+        //             Swal.fire({
+        //                 title: "Update Card!",
+        //                 text: "Your default payment card has been updated.",
+        //                 icon: "success"
+        //             });
+        //         } catch (error: any) {
+        //             console.error("Error updating payment method:", error.message);
+        //             showErrorToast("Unable to update payment method. Please try again later.");
+        //         }
+        //     } else {
+        //         setDefaultCardId('');
+        //     }
+        // });
+    };
 
     const fetchCards = async () => {
         try {
@@ -108,7 +126,6 @@ const PaymentAndBilling: React.FC = () => {
             }
 
             const data = await res.json()
-            console.log("Fetched cards:", data)
             setCards(data.cards || [])
         } catch (error: any) {
             console.error("fetchCards error:", error.message)
@@ -139,12 +156,10 @@ const PaymentAndBilling: React.FC = () => {
         fetchSubscriptions()
     }, [customerId, isUpdated])
 
-
     const handleAddMethod = () => {
-        // setShowPaymentElement(!showPaymentElement)
         window.scrollTo({
             top: 0,
-            behavior: 'smooth' // For a smooth scrolling effect
+            behavior: 'smooth'
         });
         dispatch(toggleAddMethodModal())
     };
@@ -163,8 +178,6 @@ const PaymentAndBilling: React.FC = () => {
     return (
         <>
             {billingModal ? (
-
-
                 loading ? (
                     <Loader />
                 ) : (
@@ -192,38 +205,14 @@ const PaymentAndBilling: React.FC = () => {
                                 <h2 className="text-lg font-bold pt-2">{t('PAYMENTBILLING.info')}</h2>
                                 <p className="pt-1">{t('PAYMENTBILLING.desc')}</p>
                             </div>
-                            {/* <div className="w-full md:w-3/4 bg-white border border-slate-200 rounded-md px-4 py-3">
-                                {cards.map((card, index) => (
-                                    <div key={index} className="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 bg-white border border-slate-200 px-2 py-2 rounded-md">
-                                        <div className="flex items-center mb-4 md:mb-0">
-                                            <input id="default-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 mt-1" />
-                                            <div className=" w-20 text-center  ml-2">
-                                                <p className="text-[#1E2A86] font-extrabold italic text-[24px]">{card.cardType}</p>
-
-                                            </div>
-                                            <div className="ml-2">
-                                                <h2 className="text-lg font-bold pt-1 pl-2">{card.cardNumber}</h2>
-                                                <p className="text-base pl-2">Expiry {card.expiryMonth}/{card.expiryYear}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-col md:flex-row md:items-center w-full md:w-auto">
-                                            <button onClick={() => handleDelete(card)} className="w-full md:w-auto text-black border border-slate-300 hover:text-white hover:bg-[#1E2A86] font-medium rounded-lg text-sm px-5 py-2.5 mr-0 md:mr-2 mb-2 md:mb-0">{t('PAYMENTBILLING.deleteButton')}</button>
-                                            <button onClick={() => handleEdit(card)} className="w-full md:w-auto text-black border border-slate-300 hover:text-white hover:bg-[#1E2A86] font-medium rounded-lg text-sm px-5 py-2.5">{t('PAYMENTBILLING.editButton')}</button>
-                                        </div>
-                                    </div>
-                                ))}
-                                <div className="flex items-center mt-4">
-                                    <FaPlus className="mt-3" />
-                                    <button onClick={handleAddMethod} className="text-base font-bold pt-3 pl-2">{t('PAYMENTBILLING.addButton')}</button>
-                                </div>
-                            </div> */}
                             <div className="w-full md:w-3/4 bg-white border border-slate-200 rounded-md px-4 py-3">
                                 {cards.length > 0 && (
                                     <div className="mt-6">
                                         <h1 className="text-xl font-bold mb-3 text-black">Saved Cards</h1>
                                         <ul className="space-y-2">
                                             {cards.map((card) => {
-                                                const isSelected = selectedCardId === card.id
+                                                const isSelected = selectedCardId === card.id;
+                                                const isDefaultCardId = defaultCardId === card.id;
                                                 return (
                                                     <li
                                                         key={card.id}
@@ -233,9 +222,9 @@ const PaymentAndBilling: React.FC = () => {
                                                             <div className="text-lg text-gray-800 font-medium">
                                                                 **** **** **** {card.card.last4}
                                                             </div>
-                                                            <div className={`flex z-99 items-center justify-center w-8 h-8 rounded-full ${isSelected ? "bg-green-500" : "bg-slate-300"}`}>
-                                                                <FaCheck className={`text-white ${isSelected ? "text-green-600" : "text-blue-600"}`} />
-                                                            </div>
+                                                            {/* <div className={`flex z-99 items-center justify-center w-8 h-8 rounded-full ${isSelected ? "bg-green-500" : "bg-slate-300"}`}>
+                                                                <FaCheck className={`text-white ${isDefaultCardId ? "text-green-600" : "text-blue-600"}`} />
+                                                            </div> */}
                                                         </div>
                                                         <div className="flex justify-start items-center text-md text-gray-500">
                                                             {
@@ -335,7 +324,3 @@ const PaymentAndBilling: React.FC = () => {
 };
 
 export default PaymentAndBilling;
-
-
-
-

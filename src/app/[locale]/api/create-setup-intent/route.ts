@@ -11,8 +11,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         
         const body = await req.json();
         const { customerId } = body;
-        console.log(customerId);
-
         const setupIntent = await stripe.setupIntents.create({
           customer: customerId,
         });
@@ -20,8 +18,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         return NextResponse.json({ clientSecret: setupIntent.client_secret }, { status: 200 });
     
     } catch (error: any) {
-        console.log(error);
-
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

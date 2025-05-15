@@ -21,7 +21,6 @@ const DeleteModal: React.FC<any> = () => {
                 dispatch(toggleIsUpdated())
                 dispatch(toggleDeleteModal())
                 showSuccessToast(response.data.message);
-                console.log(response.data.data)
             } else {
                 showErrorToast(response.data.message)
             }
@@ -30,8 +29,6 @@ const DeleteModal: React.FC<any> = () => {
             console.error('Unexpected error during deleting society admin:', err.message);
         }
     };
-
-
 
     return (
         <>

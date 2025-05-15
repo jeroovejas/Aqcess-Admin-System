@@ -89,9 +89,6 @@ const ExportModal: React.FC<any> = ({ filterTerm , searchTerm}) => {
         return csvRows.join("\n");
     };
 
-
-    console.log(exportModal);
-
     return (
         <>
             {exportModal ? (

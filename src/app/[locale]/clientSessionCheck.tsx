@@ -22,27 +22,30 @@ const ClientSessionCheck = () => {
       const loginTime = localStorage.getItem("loginTime");
       const now = new Date();
       const endDate = new Date(subscriptionData.endDate);
-      console.log("token", token)
-      console.log("===== Subscription Data ======")
-      console.log(subscriptionData)
 
       if (loginTime && Date.now() - parseInt(loginTime, 10) > AUTO_SIGNOUT_TIME) {
         handleSignOut();
       }
 
+      console.log(token);
+      console.log(subscriptionData);
+      console.log(packageId);
+      console.log(endDate);
+      console.log(now);
+      console.log(subscriptionData.autoPayment);
+      console.log(subscriptionData.status);
+      
+
       if (token && packageId !== 1 && endDate < now && subscriptionData.autoPayment == false && subscriptionData.status == 'active') {
-        console.log("Date is gone")
         cronJob().finally(() => {
-          console.log("hello cron Job")
         });
       }
     };
 
     const cronJob = async () => {
-console.log("==== Cron Job Run");
-console.log(subscriptionData.subscriptionId);
-
       try {
+        console.log(subscriptionData.subscriptionId);
+        
         let params = { token: token, sub_id: subscriptionData.subscriptionId }
         const response = await subscriptionCronJob(params);
         if (response.success) {

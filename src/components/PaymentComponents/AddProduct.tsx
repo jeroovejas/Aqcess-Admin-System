@@ -23,11 +23,6 @@ const years = [
     moment().add(2, 'year').year()
 ];
 
-const types = [
-    { label: 'Monthly', value: 'monthly' },
-    { label: 'Open Market', value: 'open market' }
-]
-
 interface Product {
     title: string;
     description: string;
@@ -55,6 +50,11 @@ const AddProduct: React.FC<any> = () => {
     const addProduct = useAppSelector((state) => state.payment.addProduct);
     const token = useAppSelector((state) => state.auth.token);
     const dispatch = useAppDispatch();
+
+    const types = [
+        { label: `${t('PRODUCT.typeMonthly')}`, value: 'monthly' },
+        { label: `${t('PRODUCT.typeOpen')}`, value: 'open market' }
+    ]
 
     // State for all form inputs in a single object
     const [formState, setFormState] = useState<Product>(initialState);
@@ -89,7 +89,6 @@ const AddProduct: React.FC<any> = () => {
                 token: token
             };
             const response = await createProduct(body);
-            console.log(response)
             if (response.success) {
                 dispatch(toggleAddProduct());
                 dispatch(toggleIsUpdated());
@@ -116,7 +115,6 @@ const AddProduct: React.FC<any> = () => {
                 token: token
             };
             const response = await createProduct(body);
-            console.log(response)
             if (response.success) {
                 dispatch(toggleAddProduct());
                 dispatch(toggleIsUpdated());

@@ -20,7 +20,6 @@ const DatePickerOne: React.FC<any> = ({ defaultDate, onChange }) => {
 
 
   useEffect(() => {
-    // console.log(initialDate)
     const picker = flatpickr(datePickerRef.current!, {
       onReady: () => {
         const calendarContainer = document.querySelector('.flatpickr-calendar') as HTMLElement;

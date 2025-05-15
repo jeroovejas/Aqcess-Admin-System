@@ -30,9 +30,6 @@ const Payment = ({ paymentData = [] }: { paymentData: any[] }) => {
     };
   }, [viewModal]);
 
-  console.log("Payment Data is Here");
-  console.log(paymentData);
-  
 
   return (
     <div className="col-span-12 rounded-2xl border border-[#DDDDDD] bg-white pt-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
