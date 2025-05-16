@@ -111,12 +111,12 @@ const ViewModal: React.FC<any> = () => {
                                     <p className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable7')}</p>
                                     <div className="flex justify-between w-2/3  pe-4">
                                         <p className='font-medium'>{resident.resident.overduePayments}</p>
-                                        <p className=''><PiGreaterThan size={15} /></p>
+                                        {/* <p className=''><PiGreaterThan size={15} /></p> */}
                                     </div>
                                 </div>
                                 <div className="flex py-4 border-b-[3px] border-slate-100 ">
                                     <div className='font-bold w-1/3'>{t('RESIDENT.viewModal.lable6')}</div>
-                                    <div className='font-medium w-2/3 '>{truncateText(resident.resident.internalNotes, 100)}</div>
+                                    <div className='font-medium w-2/3 '>{resident?.resident?.internalNotes ? truncateText(resident.resident.internalNotes, 100): 'N/A'}</div>
 
                                 </div>
                             </div>
@@ -125,11 +125,11 @@ const ViewModal: React.FC<any> = () => {
 
 
                                 <button
-                                    className="text-white  rounded-lg bg-primary-blue font-medium text-sm px-6 py-3   outline-none  mr-2 mb-1"
+                                    className="border rounded-lg border-[#DDDDDD]  background-transparent font-medium  px-6 text-sm py-3  outline-none  ml-2 mb-1"
                                     type="button"
                                     onClick={() => dispatch(toggleViewModal())}
                                 >
-                                    {t('RESIDENT.viewModal.button1')}
+                                    {t('RESIDENT.button3Modal.button1')}
                                 </button>
                                 <button
                                     className=" border rounded-lg border-[#DDDDDD]  background-transparent font-medium  px-6 text-sm py-3  outline-none  ml-2 mb-1"

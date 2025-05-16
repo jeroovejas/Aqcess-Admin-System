@@ -496,7 +496,7 @@ const TestimonialsSection = () => {
                   ))}
                 </div>
 
-                <Link href={`/auth/register?id=1`} className="bg-black text-white w-full rounded-full py-3 px-6 text-center font-medium mt-8 block">
+                <Link href={`/auth/register?id=${Buffer.from(String(1)).toString('base64')}`} className="bg-black text-white w-full rounded-full py-3 px-6 text-center font-medium mt-8 block">
                   Contratar
                 </Link>
               </div>

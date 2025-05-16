@@ -179,22 +179,23 @@ const Register: React.FC = () => {
         const emailResponse = await sendEmail({ email: formState.email });
         if (emailResponse.success) {
           dispatch(setUserData(response.data.data));
+          console.log("=================")
+          console.log(premiumPackageId)
+          const base64Id = premiumPackageId ? decodeURIComponent(premiumPackageId) : null;
+          const packageId = base64Id ? Buffer.from(base64Id, 'base64').toString('utf-8') : null;
+          console.log(packageId)
 
-          if (premiumPackageId) {
-            const base64Id = decodeURIComponent(premiumPackageId);
-            const packageId = Buffer.from(base64Id, 'base64').toString('utf-8');
+          if (packageId && parseInt(packageId) != 1) {
+          console.log("======== True IS Premium")
+
             const customerId = response.data.data.subscription.customerId;
-            if (parseInt(packageId) != 1) {
-              const res = await fetch(`/${locale}/api/create-subscription`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: formState.email, customerId: customerId }),
-              });
-              const data = await res.json();
-              window.location.href = data.url;
-            } else {
-              router.push('/auth/verify-email');
-            }
+            const res = await fetch(`/${locale}/api/create-subscription`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: formState.email, customerId: customerId }),
+            });
+            const data = await res.json();
+            window.location.href = data.url;
           } else {
             router.push('/auth/verify-email');
           }
