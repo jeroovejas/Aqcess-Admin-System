@@ -14,7 +14,7 @@ import { useTranslations } from 'next-intl';
 import { toTitleCase } from "@/lib/common.modules";
 import moment from "moment";
 import Link from "next/link";
-
+ 
 const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   const t = useTranslations();
   const limit = 10;
@@ -92,7 +92,7 @@ const AccountingTable: React.FC<any> = ({ filterTerm, searchTerm }) => {
   }
 
   const handlePaymentStatusChange = (payment: any) => {
-    if(payment.status != 'pending'){
+    if(payment.status == 'pending'){
       dispatch(setPaymentData(payment))
       dispatch(togglePaymentStatusModal())
     }
